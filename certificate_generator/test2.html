@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Generator</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js">
+    </script>
+    <script src = "https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js">
+    </script>
+</head>
+<body>
+    <div class="certificate">
+        <div class="main_body">
+            <img src="template.png" alt=""> 
+            <h1 class="user_fullname" id="user_fullname">Harold James Castillo</h1>
+            <h1 class="event_title" id="event_title">UI/UX Design Workshop</h1>
+        </div>
+        <div class="footer">
+            <img src="footer.png" alt="">
+        <div id="qrcode" class="qrcode_img"></div>
+    </div>
+
+    <script>
+        // A function to convert the required div to image
+        function doCapture() {
+            window.scrollTo(0, 0);
+        
+            html2canvas(document.getElementById("capture")).then(function (canvas) {
+        
+                // Create an AJAX object
+                var ajax = new XMLHttpRequest();
+        
+                // Setting method, server file name, and asynchronous
+                ajax.open("POST", "save-capture.php", true);
+        
+                // Setting headers for POST method
+                ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        
+                // Sending image data to server
+                ajax.send("image=" + canvas.toDataURL("image/jpeg", 0.9));
+        
+                // Receiving response from server
+                // This function will be called multiple times
+                ajax.onreadystatechange = function () {
+        
+                    // Check when the requested is completed
+                    if (this.readyState == 4 && this.status == 200) {
+        
+                        // Displaying response from server
+                        console.log(this.responseText);
+                    }
+                };
+            });
+        }
+        
+    </script>
+     
+    <button onclick="doCapture();">Capture</button>
+
+</body>
+</html>
