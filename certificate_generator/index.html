@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Generator</title>
+</head>
+<body>
+    <!-- Place all certificate information here -->
+    <h1>Certificate Info</h1>
+    <ul>
+        <li>Certification Type: <input type="text" id="cert_type"></li>
+        <li>Name: <input type="text" id="user_name"></li>
+        <li>Role: <input type="text" id="user_role"></li>
+        <li>Event: <input type="text" id="event_name"></li>
+        <li>Date:  <input type="date" id="event_date"></li>
+        <button id="btn_generate">Generate</button>
+        <a href="#" id="btn_download"><button id="btn_download">Download</button></a>
+    </ul>
+    
+    <!-- Canvas that will show the certificate -->
+    <canvas id="canvas" height="350px" width="600px">
+        <h1>Certificate</h1>
+    </canvas>
+    <script src="script.js"></script>
+</body>
+</html>
