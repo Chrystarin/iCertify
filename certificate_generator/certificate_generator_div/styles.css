@@ -13,7 +13,7 @@
     height: 85%;
 }
 
-.main_body .user_fullname{
+.main_body .user_name{
     position: relative;
     size: 100px;
     z-index: 1;
@@ -21,6 +21,16 @@
     top: -50%;
     color:darkcyan;
     font-size: 20px;
+}
+
+.main_body .user_role{
+    position: relative;
+    size: 100px;
+    z-index: 1;
+    text-align: center;
+    top: -45%;
+    color:darkcyan;
+    font-size: 15px;
 }
 
 .main_body .event_title{
@@ -33,16 +43,27 @@
     font-size: 15px;
 }
 
+.main_body .event_date{
+    position: relative;
+    size: 100px;
+    z-index: 1;
+    text-align: center;
+    top: -45%;
+    color:darkcyan;
+    font-size: 15px;
+}
+
+
 .footer { 
     position: relative;
     height: 15%;
 }
 
-.footer .qrcode_img{
+.footer .qrcode canvas{
     position: absolute;
     z-index: 1;
     top: 10%;
     left: 88%;
     height: 60px;
-    width: 60px;s
+    width: 60px;
 }

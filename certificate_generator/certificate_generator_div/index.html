@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Certificate Generator</title>
+    <link rel="stylesheet" href="styles.css">
+
+  </head>
+
+<!-- <body onload = "autoClick();"> -->
+<body>
+
+    <!-- Place all certificate information here -->
+    <h1>Certificate Info</h1>
+    <ul>
+        <li>Name: <input type="text" id="user_name_input"></li>
+        <li>Role: <input type="text" id="user_role_input"></li>
+        <li>Event: <input type="text" id="event_name_input"></li>
+        <li>Date:  <input type="date" id="event_date_input"></li>
+        <li>QR Content: <input type="text" id="qrcode_input"/></li>
+        <button id="btn_generate">Generate</button>
+        <a id="download"><button id="btn_download">Download</button></a>
+    </ul>
+
+    <!-- Output of the certificate goes here -->
+    <div class="certificate" id="certificateContent">
+        <div class="main_body">
+            <img src="template.png" alt=""> 
+            <h1 class="user_name" id="user_name">Harold James Castillo</h1>
+            <h1 class="user_role" id="user_role">Speaker</h1>
+            <h1 class="event_title" id="event_title">UI/UX Design Workshop</h1>
+            <h1 class="event_date" id="event_date">2022-10-25</h1>
+        </div>
+        <div class="footer">
+            <img src="footer.png" alt="">
+            <div id="qrcode" class="qrcode"></div> 
+        </div>
+    </div> 
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/0.17.0/jquery-qrcode.min.js"></script>
+  <script type="text/javascript" src="script.js"></script>
+  </body>
+</html>
