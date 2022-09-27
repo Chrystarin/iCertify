@@ -1,4 +1,4 @@
-
+$colorBg: #f9f8f8;
 
 .header {
     overflow: hidden;
@@ -43,7 +43,7 @@
   }
 
 body{
-    background-color: #f9f8f8;
+    background-color: $colorBg;
 }
 
 .home-block{
@@ -135,7 +135,7 @@ body{
 }
 
 .btn_block_signup:hover{
-    background-color: #f9f8f8;
+    background-color: $colorBg;
     color: #707070
 }
 
