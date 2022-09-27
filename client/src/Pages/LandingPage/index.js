@@ -1,4 +1,4 @@
-import './../../Assets/Styles/styles.css';
+import './../../Assets/Styles/styles.scss';
 import IconWordmarkImg from './../../Assets/Images/brand/icon_wordmark.png'
 import IconWalletImg from './../../Assets/Images/icons/wallet.png'
 import ImagePlaceHolder from './../../Assets/Images/placeholder/placeholder.png'
