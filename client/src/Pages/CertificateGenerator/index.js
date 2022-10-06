@@ -11,14 +11,24 @@ import downloadjs from 'downloadjs';
 import html2canvas from 'html2canvas';
 import exportAsImage from '../../Services/Actions/exportAsImage';
 import { useRef, useState } from "react"
+import QRCode from 'react-qr-code';
 
 function CertificateGenerator(){
     const exportRef = useRef();
 
+    // Values for Certificate Info
     const [name, setName] = useState('');
     const [role, setRole] = useState('');
     const [event, setEvent] = useState('');
     const [date, setDate] = useState('');
+
+    // Values for QR Code
+    const [value, setQRValue] = useState('');
+    const [back, setQRBack] = useState('#FFFFFF');
+    const [fore, setQRFore] = useState('#000000');
+    const [size, setQRSize] = useState(60);
+
+
 
     return(
         <div className="CertificateGenerator">
@@ -28,7 +38,7 @@ function CertificateGenerator(){
                 <li>Role: <input type="text" id="user_role_input" onChange={e => setRole(e.target.value)}/></li>
                 <li>Event: <input type="text" id="event_title_input" onChange={e => setEvent(e.target.value)}/></li>
                 <li>Date:  <input type="date" id="event_date_input" onChange={e => setDate(e.target.value)}/></li>
-                <li>QR Content: <input type="text" id="qrcode_input"/></li>
+                <li>QR Content: <input type="text" id="qrcode_input" onChange={e => setQRValue(e.target.value)}/></li>
                 <button id="btn_download" onClick={() => exportAsImage(exportRef.current, "Certificate")}>Download</button>
             </ul>
 
@@ -43,12 +53,20 @@ function CertificateGenerator(){
                 </div>
                 <div className="footer">
                     <img src={certificateFooterTemplate} alt="certificate footer"/>
-                    <div id="qrcode" className="qrcode"></div> 
+                    <div id="qrcode" className="qrcode">
+                        {value && (
+                            <QRCode
+                                title="ILoveHarold"
+                                value={value}
+                                bgColor={back}
+                                fgColor={fore}
+                                size={size === '' ? 0 : size}
+                                className="qrcode"
+                                id="qrcode"
+                            />
+                        )}
+                    </div> 
                 </div>
-
-                <button onClick={() => exportAsImage(exportRef.current, "Certificate")}>
-                    Download
-                </button>
             </div> 
         </div>
     );

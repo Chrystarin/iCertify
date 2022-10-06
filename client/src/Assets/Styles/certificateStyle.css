@@ -68,11 +68,9 @@
     height: 15%;
 }
 
-.footer .qrcode canvas{
+.footer .qrcode{
     position: absolute;
     z-index: 1;
     top: 10%;
-    left: 88%;
-    height: 60px;
-    width: 60px;
+    left: 85%;
 }
