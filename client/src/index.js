@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import CertificateGenerator from './Pages/CertificateGenerator';
+import CertificateGenerator from './Components/CertificateGenerator';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
