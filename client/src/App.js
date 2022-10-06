@@ -1,25 +1,25 @@
-import React from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate, Link } from "react-router-dom";
+import logo from './logo.svg';
+import './App.css';
 
-import CertificateGenerator from './Pages/CertificateGenerator'
-import Error404 from './Pages/Error404'
+function App() {
+  return (
+    <div className="App">
+      <header className="App-header">
+        <img src={logo} className="App-logo" alt="logo" />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <a
+          className="App-link"
+          href="https://reactjs.org"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  );
+}
 
-const App = () => (
-//   <BrowserRouter>
-//     <Switch>
-//       <Redirect exact from="/" to="/Certificate/Create" />
-//       <Route path="/Certificate/Create" element={CertificateGenerator} />
-//       <Route path="*" element={Error404} />
-//     </Switch>
-//   </BrowserRouter>
-
-    // <Router>
-    //     <Routes>
-    //         <Route path="/certificate/create" element={<CertificateGenerator />} />
-    //         <Route path="/" element={<Navigate replace to="/certificate/create" />} />
-    //         <Route path="*" element={<Error404/>} />
-    //     </Routes>
-    // </Router>
-)
-
-export default App
+export default App;

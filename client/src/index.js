@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import CertificateGenerator from './Pages/CertificateGenerator';
 import reportWebVitals from './reportWebVitals';
-import Routes from './Routes'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
