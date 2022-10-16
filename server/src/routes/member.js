@@ -1,7 +1,13 @@
-const express = require('express');
+import express from 'express';
+
+import { udpateProfile, loginMember } from '../controllers/memberController.js';
+
 const router = express.Router();
-const { getMember } = require('../controllers/memberController')
 
-router.post('/members', getMember)
+router.post('/login', loginMember);
 
-module.exports = router;
+router.patch('/:walletAddress/update/profile', udpateProfile);
+router.patch('/:walletAddress/update/membership', udpateProfile);
+router.patch('/:walletAddress/update/credentials', udpateProfile);
+
+export default router;

@@ -1,23 +1,34 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+import mongoose, { Schema } from 'mongoose';
 
 const accountantSchema = new Schema({
     member: {
         type: Schema.Types.ObjectId,
-        ref: 'Member'
+        ref: 'Member',
+        required: true,
+        unique: true
     },
-    fund: String,
+    fund: {
+        type: Decimal128,
+        default: 0
+    },
     date: {
-        start: String,
-        end: String
+        start: {
+            type: String,
+            required: true
+        },
+        end: {
+            type: String,
+            required: true
+        }
     },
-    isActive: Boolean,
+    isActive: {
+        type: Boolean,
+        default: true
+    },
     transactions: [{
         type: Schema.Types.ObjectId,
         ref: 'Transaction'
     }]
 });
 
-const Accountant = mongoose.model('Accountant', accountantSchema);
-
-module.exports = Accountant;
+export default mongoose.model('Accountant', accountantSchema);

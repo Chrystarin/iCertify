@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+import mongoose, { Schema } from 'mongoose';
+import generateNonce from '../tools/generateNonce.js';
 
 const memberSchema = new Schema({
     walletAddress: {
@@ -7,42 +7,50 @@ const memberSchema = new Schema({
         unique: true,
         required: true
     },
-    profile: {
-        isPremium: Boolean,
-        name: {
-            firstName: String,
-            middleInitial: String,
-            lastName: String,
-            extension: String
+    isPremium: {
+        type: Boolean,
+        default: false
+    },
+    name: {
+        firstName: String,
+        middleName: String,
+        lastName: String,
+        extension: String
+    },
+    about: String,
+    occupation: String,
+    contact: {
+        mobile: String,
+        telephone: String
+    },
+    location: {
+        barangay: String,
+        municipality: String,
+        country: String
+    },
+    credentials: {
+        nonce: {
+            type: Number,
+            default: generateNonce()
         },
-        about: String,
-        occupation: String,
-        contact: {
-            mobile: String,
-            telephone: String
+        email: {
+            type: String,
+            unique: true
         },
-        email: String,
-        location: {
-            houseNumber: String,
-            streetName: String,
-            barangay: String,
-            municipality: String
-        }
+        password: String
+
     },
-    joinedEvents: {
-        type: Schema.Types.ObjectId,
-        ref: 'Event'
-    },
-    interestedEvents: {
-        type: Schema.Types.ObjectId,
-        ref: 'Event'
-    },
-    ownedDocuments: {
+    joinedEvents: [{
+        event: {
+            type: Schema.Types.ObjectId,
+            ref: 'Event'
+        },
+        role: String
+    }],
+    ownedDocuments: [{
         type: Schema.Types.ObjectId,
         ref: 'Document'
-    }
+    }]
 });
 
-const Member = mongoose.model('Member', memberSchema);
-
-module.exports = Member;
+export default mongoose.model('Member', memberSchema);

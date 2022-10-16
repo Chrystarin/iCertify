@@ -1,18 +1,20 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+import mongoose, { Schema } from 'mongoose';
 
 const requestSchema = new Schema({
     requestType: {
         type: String,
-        default: ['event', 'document', 'volunteer']
+        enum: ['event', 'document', 'volunteer'],
+        required: true
     },
     requestor: {
         type: Schema.Types.ObjectId,
-        ref: 'Member'
+        ref: 'Member',
+        required: true
     },
     event: {
         type: Schema.Types.ObjectId,
-        ref: 'Event'
+        ref: 'Event',
+        required: true
     },
     date: {
         requested: String,
@@ -21,6 +23,4 @@ const requestSchema = new Schema({
     status: String
 });
 
-const Request = mongoose.model('Request', requestSchema);
-
-module.exports = Request;
+export default mongoose.model('Request', requestSchema);

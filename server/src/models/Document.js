@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+import mongoose, { Schema } from 'mongoose';
 
 const documentSchema = new Schema({
     documentId: {
@@ -13,21 +12,34 @@ const documentSchema = new Schema({
         required: true
     },
     details: {
-        title: String,
-        description: String,
-        txnHash: String,
-        dataReceived: String
+        title: {
+            type: String,
+            required: true
+        },
+        description: {
+            type: String,
+            required: true
+        },
+        txnHash: {
+            type: String,
+            unique: true,
+            required: true
+        },
+        dateReceived: {
+            type: String,
+            required: true
+        }
     },
     owner: {
         type: Schema.Types.ObjectId,
-        ref: 'Member'
+        ref: 'Member',
+        required: true
     },
     event: {
         type: Schema.Types.ObjectId,
-        ref: 'Event'
+        ref: 'Event',
+        required: true
     }
 });
 
-const Document = mongoose.model('Document', documentSchema);
-
-module.exports = Document;
+export default mongoose.model('Document', documentSchema);

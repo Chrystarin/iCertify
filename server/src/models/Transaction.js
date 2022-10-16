@@ -1,24 +1,34 @@
-const mongoose = require('mongoose');
-const { Schema } = mongoose;
+import mongoose, { Schema } from 'mongoose';
 
 const transactionSchema = new Schema({
-    hash: String,
+    hash: {
+        type: String,
+        unique: true,
+        required: true,
+    },
     event: {
         type: Schema.Types.ObjectId,
-        ref: 'Event'
+        ref: 'Event',
+        required: true
     },
     sender: {
         type: Schema.Types.ObjectId,
-        ref: 'Accountant'
+        ref: 'Accountant',
+        required: true
     },
     receiver: {
         type: Schema.Types.ObjectId,
-        ref: 'Member'
+        ref: 'Member',
+        required: true
     },
-    date: String,
-    fee: String,
+    date: {
+        type: String,
+        required: true
+    },
+    fee: {
+        type: Decimal128,
+        required: true
+    },
 });
 
-const Transaction = mongoose.model('Transaction', transactionSchema);
-
-module.exports = Transaction;
+export default mongoose.model('Transaction', transactionSchema);

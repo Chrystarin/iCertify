@@ -1,102 +1,109 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const { Schema } =  mongoose;
+import dotenv from 'dotenv';
+import express from 'express';
+import mongoose from 'mongoose';
+
+// Route imports
+// import eventRoute from './src/routes/event.js';
+import memberRoute from './src/routes/member.js';
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/test', { useUnifiedTopology: true, useNewUrlParser: true })
-    .then(() => console.log('Connected to database'))
-    .catch(err => console.log(err));
-
-const memberSchema = new Schema({
-    walletAddress: {
-        type: String,
-        unique: true,
-        requried: true
-    },
-    profile: {
-        name: String
-    },
-    eventsJoined: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Event'
-    }]
-});
-const Member = mongoose.model('Member', memberSchema);
-
-const eventSchema = new Schema({
-    eventId: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    info: {
-        name: String
-    },
-    participants: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Member'
-    }]
-});
-const Event = mongoose.model('Event', eventSchema);
-
-// const member1 = new Member({
-//     walletAddress: '0x8B72721DE2E85CC7634801D09448b99dcB66d354',
-//     profile: {
-//         name: 'Member 1'
-//     }
-// });
-// member1.save(err => {
-//     if (err) {
-//         console.log('Member failed save');
-//         return;
-//     };
-//     console.log('Member saved');
-// });
-
-// const event1 = new Event({
-//     eventId: 'event1',
-//     info: {
-//         name: 'Event 1'
-//     }
-// });
-// event1.save(err => {
-//     if (err) {
-//         console.log('Event failed save');
-//         return;
-//     };
-//     console.log('Event saved');
-// });
-
-
-const testRun = async() => {
-    const member1 = await Member.findOne({ profile: {name: 'Member 1'} }).populate('eventsJoined');
-    const event1 = await Event.findOne({ walletAddress: '0x8B72721DE2E85CC7634801D09448b99dcB66d354' }).populate('participants');
-
-    console.log(member1);
-    // console.log(event1);
-
-    // add participant to event
-    // await Event.findOneAndUpdate(
-    //     { eventId: 'event1' },
-    //     { $push: { participants: member1._id } },
-    // );
-
-    // add event to member's joined event
-    // await Member.findOneAndUpdate(
-    //     { walletAddress: '0x8B72721DE2E85CC7634801D09448b99dcB66d354' },
-    //     { $push: { eventsJoined: event1._id } }
-    // );
-}
-testRun();
-
 // Routes
-app.use('/login', require('./src/routes/login'));
+// app.use('/api/events', eventRoute);
+// app.use('/api/members', memberRoute);
 
-// Run local server
-app.listen(process.env.PORT || 3000, err => {
-    if(err) return console.log('Error', err);
-    console.log(`Listening on port ${ process.env.PORT }`);
-});
+/* TEST */
+
+import Member from './src/models/Member.js';
+import Event from './src/models/Event.js';
+import { nanoid } from 'nanoid';
+import generateNonce from './src/tools/generateNonce.js';
+
+const test = async () => {
+    // // Create members
+    // const member1 = await Member.create({ walletAddress: '0x8B72721DE2E85CC7634801D09448b99dcB66d354' });
+    // const member2 = await Member.create({ walletAddress: '0xF432061cf7E60129b8D822b1a2037Ca4ace0872C' });
+    // const member3 = await Member.create({ walletAddress: '0xe99eAe462cd1F2a22f8c3403623B66ec8aAE8904' });
+    // const member4 = await Member.create({ walletAddress: '0x53Ce82317C57eF4cFa2b2e27361eb2F07C0BA626' });
+    // const member5 = await Member.create({ walletAddress: '0xE99568000e344a00D4046AF50Bd314f6aE6d1C01' });
+    // const member6 = await Member.create({ walletAddress: '0x04a48d09d2658eF7F024C9972E26BEd7dB02A706' });
+    
+    // // Create events
+    // const event1 = await Event.create({ eventId: nanoid(8) });
+    // const event2 = await Event.create({ eventId: nanoid(8) });
+    // const event3 = await Event.create({ eventId: nanoid(8) });
+    // const event4 = await Event.create({ eventId: nanoid(8) });
+
+    // // Event 1
+    // await Event.findByIdAndUpdate(event1._id, { $push: { participants: { role: 'Organizer', member: member1._id } } });
+    // await Event.findByIdAndUpdate(event1._id, { $push: { participants: { role: 'Watcher', member: member2._id } } });
+    // await Event.findByIdAndUpdate(event1._id, { $push: { participants: { role: 'Listener', member: member3._id } } });
+
+    // // Event 2
+    // await Event.findByIdAndUpdate(event2._id, { $push: { participants: { role: 'Organizer', member: member3._id } } });
+    // await Event.findByIdAndUpdate(event2._id, { $push: { participants: { role: 'Watcher', member: member4._id } } });
+    // await Event.findByIdAndUpdate(event2._id, { $push: { participants: { role: 'Listener', member: member5._id } } });
+
+    // // Event 3
+    // await Event.findByIdAndUpdate(event3._id, { $push: { participants: { role: 'Organizer', member: member5._id } } });
+    // await Event.findByIdAndUpdate(event3._id, { $push: { participants: { role: 'Watcher', member: member6._id } } });
+    // await Event.findByIdAndUpdate(event3._id, { $push: { participants: { role: 'Listener', member: member1._id } } });
+
+    // // Event 4
+    // await Event.findByIdAndUpdate(event4._id, { $push: { participants: { role: 'Organizer', member: member2._id } } });
+    // await Event.findByIdAndUpdate(event4._id, { $push: { participants: { role: 'Watcher', member: member4._id } } });
+    // await Event.findByIdAndUpdate(event4._id, { $push: { participants: { role: 'Listener', member: member6._id } } });
+
+    // // Member 1
+    // await Member.findByIdAndUpdate(member1._id, { $push: { joinedEvents: { role: 'Organizer', event: event1._id } } });
+    // await Member.findByIdAndUpdate(member1._id, { $push: { joinedEvents: { role: 'Listener', event: event3._id } } });
+
+    // // Member 2
+    // await Member.findByIdAndUpdate(member2._id, { $push: { joinedEvents: { role: 'Watcher', event: event1._id } } });
+    // await Member.findByIdAndUpdate(member2._id, { $push: { joinedEvents: { role: 'Organizer', event: event4._id } } });
+
+    // // Member 3
+    // await Member.findByIdAndUpdate(member3._id, { $push: { joinedEvents: { role: 'Organizer', event: event2._id } } });
+    // await Member.findByIdAndUpdate(member3._id, { $push: { joinedEvents: { role: 'Listener', event: event1._id } } });
+
+    // // Member 4
+    // await Member.findByIdAndUpdate(member4._id, { $push: { joinedEvents: { role: 'Watcher', event: event2._id } } });
+    // await Member.findByIdAndUpdate(member4._id, { $push: { joinedEvents: { role: 'Watcher', event: event4._id } } });
+
+    // // Member 5
+    // await Member.findByIdAndUpdate(member5._id, { $push: { joinedEvents: { role: 'Organizer', event: event3._id } } });
+    // await Member.findByIdAndUpdate(member5._id, { $push: { joinedEvents: { role: 'Listener', event: event2._id } } });
+
+    // // Member 6
+    // await Member.findByIdAndUpdate(member6._id, { $push: { joinedEvents: { role: 'Watcher', event: event3._id } } });
+    // await Member.findByIdAndUpdate(member6._id, { $push: { joinedEvents: { role: 'Listener', event: event4._id } } });
+
+    // const member = await Member
+    //     .findOne()
+    //     .populate({ path: 'joinedEvents.event', select: 'eventId' })
+    //     .select('walletAddress joinedEvents')
+    //     .exec()
+
+    // console.log(member);
+    // console.log(generateNonce(5));
+}
+
+// test();
+
+/* TEST */
+
+// Connect to database
+mongoose
+    .connect(process.env.TEST_MONGO)
+    .then(() => {
+        // Run server
+        app.listen(process.env.PORT, err => {
+            if(err) return console.log('Error', err);
+            console.log('Connected to database\nListening on port', process.env.PORT);
+        });
+    })
+    .catch(error => console.log(error.message));
+
