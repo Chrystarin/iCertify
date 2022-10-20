@@ -8,28 +8,15 @@ const eventSchema = new Schema({
     },
     type: {
         type: String,
-        enum: ['online', 'onsite'],
-        // required: true,
+        enum: ['online', 'onsite']
     },
-    title: {
-        type: String,
-        // required: true
-    },
-    description: {
-        type: String,
-        // required: true
-    },
+    title: String,
+    description: String,
     link: String,
     location: String,
     date: {
-        start: {
-            type: String,
-            // required: true
-        },
-        end: {
-            type: String,
-            // required: true
-        }
+        start: String,
+        end: String
     },
     canClaimDocument: {
         type: Boolean,
@@ -51,6 +38,10 @@ const eventSchema = new Schema({
             ref: 'Member'
         },
         role: String
+    }],
+    requests: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Request'
     }]
 });
 

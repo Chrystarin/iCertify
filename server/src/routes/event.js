@@ -1,22 +1,26 @@
 import express from 'express';
 import {
-    all,
-    create,
-    update,
-    details,
-    participants,
-    join
+    createEvent,
+    joinEvent,
+    getAllEvents,
+    getEvent,
+    getParticipants,
+    updateEvent,
+    updateStatus,
+    setClaiming
 } from '../controllers/eventController.js';
 
 const router = express.Router();
 
-router.get('/all', all);
-router.get('/:eventId', details);
-router.get('/:eventId/participants', participants);
+router.get('/', getAllEvents);
+router.get(':eventId', getEvent);
+router.get('/:eventId/participants', getParticipants);
 
-router.post('/create', create);
-router.post('/:eventId/join', join);
+router.post('/create', createEvent);
+router.post('/:eventId/join', joinEvent);
 
-router.patch('/update', update);
+router.patch('/:eventId', updateEvent);
+router.patch('/:eventId/status', updateStatus);
+router.patch('/:eventId/claiming', setClaiming);
 
 export default router;

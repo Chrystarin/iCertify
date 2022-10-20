@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import generateNonce from '../tools/generateNonce.js';
+import { generateNonce } from '../tools.js';
 
 const memberSchema = new Schema({
     walletAddress: {
@@ -50,6 +50,10 @@ const memberSchema = new Schema({
     ownedDocuments: [{
         type: Schema.Types.ObjectId,
         ref: 'Document'
+    }],
+    requests: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Request'
     }]
 });
 
