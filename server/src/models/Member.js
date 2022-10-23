@@ -1,5 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import { generateNonce } from '../tools.js';
+const { ObjectId } = Schema.Types;
 
 const memberSchema = new Schema({
     walletAddress: {
@@ -42,17 +43,17 @@ const memberSchema = new Schema({
     },
     joinedEvents: [{
         event: {
-            type: Schema.Types.ObjectId,
+            type: ObjectId,
             ref: 'Event'
         },
         role: String
     }],
     ownedDocuments: [{
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Document'
     }],
     requests: [{
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Request'
     }]
 });

@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+const { ObjectId, Decimal128 } = Schema.Types;
 
 const transactionSchema = new Schema({
     hash: {
@@ -7,17 +8,17 @@ const transactionSchema = new Schema({
         required: true,
     },
     event: {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Event',
         required: true
     },
     sender: {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Accountant',
         required: true
     },
     receiver: {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Member',
         required: true
     },

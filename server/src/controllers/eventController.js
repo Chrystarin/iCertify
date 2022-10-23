@@ -1,36 +1,114 @@
 import { nanoid } from 'nanoid';
+import { InvalidRequestBodyError, NotFoundError } from '../errors.js';
 import Event from '../models/Event.js';
+import Member from '../models/Member.js';
+import { filterBody } from '../tools.js';
 
-const createEvent = async (req, res) => {
-    
+const eventDetails = 'type title description link location date caniClaimDocument status isAcceptingVolunteer tags';
+const constantDetails = ['_id', '__v', 'eventId', 'participants', 'requests'];
+
+const createEvent = async (req, res, next) => {
+    try {
+        const body = filterBody(constantDetails, req.body);
+
+        const event = await Event.create({
+            eventId: nanoid(8),
+            ...body
+        });
+
+        res.status(201).json({ message: 'Event created', eventId: event.eventId });
+    } catch (error) {
+        next(error);
+    }
 }
 
-const joinEvent = async (req, res) => {
+const joinEvent = async (req, res, next) => {
+    const { eventId } = req.params;
 
+    try {
+        const { walletAddress, role } = req.body;
+        if(!(walletAddress && role)) throw new InvalidRequestBodyError();
+
+        const event = await Event.findOne({ eventId }).exec();
+        if(!event) throw new NotFoundError('Event');
+
+        const member = await Member.findOne({ walletAddress }).exec();
+        if(!member) throw new NotFoundError('Member');
+
+        event.participants.push({ member: member._id, role });
+        member.joinedEvents.push({ event: event._id, role });
+
+        await event.save();
+        await member.save();
+
+        res.status(200).json({ message: 'Successfully joined to event' });
+    } catch (error) {
+        next(error);
+    }
 }
 
-const getAllEvents = async (req, res) => {
-    
+const getAllEvents = async (req, res, next) => {
+    try {
+        const events = await Event
+            .find()
+            .select(constantDetails.reduce(el => {  }, ''))
+            .exec();
+
+        res.status(200).json(events);
+    } catch (error) {
+        next(error);
+    }
 }
 
-const getEvent = async (req, res) => {
+const getEvent = async (req, res, next) => {
+    const { eventId } = req.params;
 
+    try {
+        const event = await Event
+            .findOne({ eventId })
+            .select('-_id ' + eventDetails)
+            .exec();
+        if(!event) throw new NotFoundError('Event');
+
+        res.status(200).json(event);
+    } catch (error) {
+        next(error);
+    }
 }
 
-const getParticipants = async (req, res) => {
+const getParticipants = async (req, res, next) => {
+    const { eventId } = req.params;
 
+    try {
+        const event = await Event
+            .findOne({ eventId })
+            .select('-participants._id')
+            .populate('participants.member', '-_id walletAddress name')
+            .exec();
+        if(!event) throw new NotFoundError('Event');
+
+        res.status(200).json(event.participants);
+    } catch (error) {
+        next(error);
+    }
 }
 
-const updateEvent = async (req, res) => {
+const updateEvent = async (req, res, next) => {
+    const { eventId } = req.params;
 
-}
+    try {
+        const event = await Event.findOne({ eventId }).exec();
+        if(!event) throw new NotFoundError('Event');
 
-const updateStatus = async (req, res) => {
+        const body = filterBody(constantDetails, req.body);
 
-}
+        Object.assign(event, body);
+        await event.save();
 
-const setClaiming = async (req, res) => {
-
+        res.sendStatus(204);
+    } catch (error) {
+        next(error)
+    }
 }
 
 export {
@@ -39,7 +117,5 @@ export {
     getAllEvents,
     getEvent,
     getParticipants,
-    updateEvent,
-    updateStatus,
-    setClaiming
+    updateEvent
 }

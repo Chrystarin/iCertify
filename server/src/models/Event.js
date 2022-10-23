@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+const { ObjectId } = Schema.Types;
 
 const eventSchema = new Schema({
     eventId: {
@@ -8,15 +9,34 @@ const eventSchema = new Schema({
     },
     type: {
         type: String,
+        required: true,
         enum: ['online', 'onsite']
     },
-    title: String,
-    description: String,
-    link: String,
-    location: String,
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    link: {
+        type: String,
+        required: true
+    },
+    location: {
+        type: String,
+        required: true
+    },
     date: {
-        start: String,
-        end: String
+        start: {
+            type: String,
+            required: true
+        },
+        end: {
+            type: String,
+            required: true
+        }
     },
     canClaimDocument: {
         type: Boolean,
@@ -34,13 +54,13 @@ const eventSchema = new Schema({
     tags: [String],
     participants: [{
         member: {
-            type: Schema.Types.ObjectId,
+            type: ObjectId,
             ref: 'Member'
         },
         role: String
     }],
     requests: [{
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Request'
     }]
 });

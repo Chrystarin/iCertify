@@ -3,6 +3,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
+import { NotFoundError } from './src/errors.js';
+
 // Route imports
 import eventRoute from './src/routes/event.js';
 import memberRoute from './src/routes/member.js';
@@ -24,7 +26,11 @@ app.use('/api/documents', documentRoute);
 app.use('/api/accountants', accountantRoute);
 app.use('/api/requests', requestRoute);
 app.use('/api/transactions', transactionRoute);
-app.use((req, res) => res.status(404).json({ error: 'Page not found.' }));
+
+app.use((req, res, next) => next(new NotFoundError()));
+app.use((err, req, res, next) => {
+    res.status(err.status || 500).json({ error: err.message });
+});
 
 // Connect to database
 mongoose

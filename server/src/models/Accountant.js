@@ -1,8 +1,9 @@
 import mongoose, { Schema } from 'mongoose';
+const { ObjectId, Decimal128 } = Schema.Types;
 
 const accountantSchema = new Schema({
     member: {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Member',
         required: true,
         unique: true
@@ -23,7 +24,7 @@ const accountantSchema = new Schema({
         default: true
     },
     transactions: [{
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Transaction'
     }]
 });

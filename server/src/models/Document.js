@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+const { ObjectId } = Schema.Types;
 
 const documentSchema = new Schema({
     documentId: {
@@ -31,12 +32,12 @@ const documentSchema = new Schema({
         }
     },
     owner: {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Member',
         required: true
     },
     event: {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Event',
         required: true
     }

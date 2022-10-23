@@ -5,7 +5,6 @@ import {
     getAllMembers,
     getMember,
     updateMember,
-    setPremium,
     getJoinedEvents,
     getDocuments,
     getRequests
@@ -23,6 +22,5 @@ router.get('/:walletAddress/requests', getRequests);
 router.post('/login', loginMember);
 
 router.patch('/:walletAddress', updateMember);
-router.patch('/:walletAddress/premium', setPremium)
 
 export default router;

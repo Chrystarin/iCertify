@@ -1,4 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
+const { ObjectId } = Schema.Types;
 
 const requestSchema = new Schema({
     requestType: {
@@ -7,12 +8,12 @@ const requestSchema = new Schema({
         required: true
     },
     requestor: {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Member',
         required: true
     },
     event: {
-        type: Schema.Types.ObjectId,
+        type: ObjectId,
         ref: 'Event',
         required: true
     },
