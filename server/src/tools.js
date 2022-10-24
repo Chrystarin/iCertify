@@ -6,7 +6,7 @@ const generateNonce = () => Math.floor(Math.random() * 1e8);
 
 const filterBody = (constantProps, requestBody) => {
     return Object.keys(requestBody).reduce((body, key) => {
-        if(constantProps.includes(key) && true)
+        if(!constantProps.includes(key))
             body[key] = requestBody[key]
         return body;
     }, {})

@@ -12,24 +12,22 @@ const documentSchema = new Schema({
         unique: true,
         required: true
     },
-    details: {
-        title: {
-            type: String,
-            required: true
-        },
-        description: {
-            type: String,
-            required: true
-        },
-        txnHash: {
-            type: String,
-            unique: true,
-            required: true
-        },
-        dateReceived: {
-            type: String,
-            required: true
-        }
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    },
+    txnHash: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    dateReceived: {
+        type: String,
+        required: true
     },
     owner: {
         type: ObjectId,

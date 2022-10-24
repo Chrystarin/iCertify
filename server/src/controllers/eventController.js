@@ -1,21 +1,22 @@
 import { nanoid } from 'nanoid';
+import { InvalidRequestBodyError, NotFoundError } from '../errors.js';
 import Event from '../models/Event.js';
 import Member from '../models/Member.js';
-import { InvalidRequestBodyError, NotFoundError } from '../errors.js';
 import { filterBody } from '../tools.js';
 
 const constantDetails = ['_id', '__v', 'participants', 'requests'];
 
 const createEvent = async (req, res, next) => {
     try {
-        const body = filterBody(['eventId', ...constantDetails], req.body);
-
         const event = await Event.create({
             eventId: nanoid(8),
-            ...body
+            ...filterBody(
+                ['eventId', ...constantDetails],
+                req.body
+            )
         });
 
-        res.status(201).json({ message: 'Event created', eventId: event.eventId });
+        res.status(204);
     } catch (error) {
         next(error);
     }
@@ -26,7 +27,11 @@ const joinEvent = async (req, res, next) => {
 
     try {
         const { walletAddress, role } = req.body;
-        if(!(walletAddress && role)) throw new InvalidRequestBodyError();
+        if(!(  walletAddress
+            && role
+            && typeof walletAddress === 'string'
+            && typeof role === 'string'
+        )) throw new InvalidRequestBodyError();
 
         const event = await Event.findOne({ eventId }).exec();
         if(!event) throw new NotFoundError('Event');
@@ -65,10 +70,7 @@ const getEvent = async (req, res, next) => {
     try {
         const event = await Event
             .findOne({ eventId })
-            .select('-' + 
-                constantDetails
-                    .filter(element => element !== 'eventId')
-                    .join(' -'))
+            .select('-' + constantDetails.join(' -'))
             .exec();
         if(!event) throw new NotFoundError('Event');
 
@@ -102,9 +104,13 @@ const updateEvent = async (req, res, next) => {
         const event = await Event.findOne({ eventId }).exec();
         if(!event) throw new NotFoundError('Event');
 
-        const body = filterBody(['eventId', ...constantDetails], req.body);
-
-        Object.assign(event, body);
+        Object.assign(
+            event,
+            ...filterBody(
+                ['eventId', ...constantDetails],
+                req.body
+            )
+        );
         await event.save();
 
         res.sendStatus(204);

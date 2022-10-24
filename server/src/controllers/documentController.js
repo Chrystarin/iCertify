@@ -5,7 +5,7 @@ import Member from '../models/Member.js';
 import { InvalidRequestBodyError, NotFoundError } from '../errors.js';
 import { filterBody } from '../tools.js';
 
-const saveDocument = async (req, res, error) => {
+const saveDocument = async (req, res, next) => {
     const { walletAddress, eventId, documentDetails } = req.body;
 
     try {
