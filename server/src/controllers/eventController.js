@@ -1,15 +1,14 @@
 import { nanoid } from 'nanoid';
-import { InvalidRequestBodyError, NotFoundError } from '../errors.js';
 import Event from '../models/Event.js';
 import Member from '../models/Member.js';
+import { InvalidRequestBodyError, NotFoundError } from '../errors.js';
 import { filterBody } from '../tools.js';
 
-const eventDetails = 'type title description link location date caniClaimDocument status isAcceptingVolunteer tags';
-const constantDetails = ['_id', '__v', 'eventId', 'participants', 'requests'];
+const constantDetails = ['_id', '__v', 'participants', 'requests'];
 
 const createEvent = async (req, res, next) => {
     try {
-        const body = filterBody(constantDetails, req.body);
+        const body = filterBody(['eventId', ...constantDetails], req.body);
 
         const event = await Event.create({
             eventId: nanoid(8),
@@ -51,7 +50,7 @@ const getAllEvents = async (req, res, next) => {
     try {
         const events = await Event
             .find()
-            .select(constantDetails.reduce(el => {  }, ''))
+            .select('-' + constantDetails.join(' -'))
             .exec();
 
         res.status(200).json(events);
@@ -66,7 +65,10 @@ const getEvent = async (req, res, next) => {
     try {
         const event = await Event
             .findOne({ eventId })
-            .select('-_id ' + eventDetails)
+            .select('-' + 
+                constantDetails
+                    .filter(element => element !== 'eventId')
+                    .join(' -'))
             .exec();
         if(!event) throw new NotFoundError('Event');
 
@@ -100,7 +102,7 @@ const updateEvent = async (req, res, next) => {
         const event = await Event.findOne({ eventId }).exec();
         if(!event) throw new NotFoundError('Event');
 
-        const body = filterBody(constantDetails, req.body);
+        const body = filterBody(['eventId', ...constantDetails], req.body);
 
         Object.assign(event, body);
         await event.save();

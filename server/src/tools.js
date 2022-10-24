@@ -4,12 +4,12 @@ const createToken = ids => jwt.sign(ids, process.env.JWT_SECRET, { expiresIn: '1
 
 const generateNonce = () => Math.floor(Math.random() * 1e8);
 
-const filterBody = (properties, requestBody) => {
+const filterBody = (constantProps, requestBody) => {
     return Object.keys(requestBody).reduce((body, key) => {
-        if(new Set(properties).has(key) && true)
+        if(constantProps.includes(key) && true)
             body[key] = requestBody[key]
         return body;
-    })
+    }, {})
 }
 
 export {

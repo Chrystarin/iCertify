@@ -4,14 +4,11 @@ import { ethers } from 'ethers'
 import { createToken, filterBody, generateNonce } from '../tools.js';
 import { InvalidRequestBodyError, NotFoundError, UnauthorizedError } from '../errors.js';
 
-const memberDetails = 'isPremium name about occupation contact location';
+const constantDetails = ['_id', '__v', 'credentials', 'joinedEvents', 'ownedDocuments', 'requests'];
 
 const loginMember = async (req, res, next) => {
     try {
-        const { type, credentials } = filterBody(
-            ['type', 'credentials'],
-            req.body
-        );
+        const { type, credentials } = req.body;
 
         if(!(   type
              && credentials
@@ -88,7 +85,7 @@ const getAllMembers = async (req, res, next) => {
     try {
         const members = await Member
             .find()
-            .select('-_id walletAddress ' + memberDetails)
+            .select('-' + constantDetails.join(' -'))
             .exec();
 
         res.status(200).json(members);
@@ -103,7 +100,7 @@ const getMember = async (req, res, next) => {
     try {
         const member = await Member
             .findOne({ walletAddress })
-            .select('-_id ' + memberDetails)
+            .select('-' + constantDetails.join(' -'))
             .exec();
         if(!member) throw new NotFoundError('Member');
 
@@ -122,10 +119,7 @@ const updateMember = async (req, res, next) => {
             .exec();
         if(!member) throw new NotFoundError('Member');
 
-        const body = filterBody(
-            memberDetails.split(' '),
-            req.body
-        );
+        const body = filterBody(constantDetails, req.body);
 
         Object.assign(member, body);
         await member.save();

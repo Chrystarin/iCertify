@@ -2,9 +2,28 @@ import mongoose, { Schema } from 'mongoose';
 const { ObjectId } = Schema.Types;
 
 const requestSchema = new Schema({
+    requestId: {
+        type: String,
+        unique: true,
+        required: true
+    },
     requestType: {
         type: String,
         enum: ['event', 'document', 'volunteer'],
+        required: true
+    },
+    date: {
+        requested: {
+            type: required,
+            required: true
+        },
+        completed: {
+            type: required,
+            required: true
+        }
+    },
+    status: {
+        type: String,
         required: true
     },
     requestor: {
@@ -16,12 +35,7 @@ const requestSchema = new Schema({
         type: ObjectId,
         ref: 'Event',
         required: true
-    },
-    date: {
-        requested: String,
-        completed: String
-    },
-    status: String
+    }
 });
 
 export default mongoose.model('Request', requestSchema);
