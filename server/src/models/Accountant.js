@@ -15,7 +15,7 @@ const accountantSchema = new Schema({
     date: {
         start: {
             type: String,
-            required: true
+            default: Date.now()
         },
         end: String
     },
