@@ -8,7 +8,7 @@ const documentSchema = new Schema({
         required: true
     },
     code: {
-        type: String,
+        type: Number,
         unique: true,
         required: true
     },

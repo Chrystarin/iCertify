@@ -27,7 +27,7 @@ app.use('/api/accountants', accountantRoute);
 app.use('/api/requests', requestRoute);
 app.use('/api/transactions', transactionRoute);
 
-app.use((req, res, next) => next(new NotFoundError()));
+app.use((req, res, next) => next(new NotFoundError('Route')));
 app.use((err, req, res, next) => {
     res.status(err.status || 500).json({ error: err.message });
 });

@@ -26,7 +26,8 @@ const memberSchema = new Schema({
     },
     location: {
         barangay: String,
-        municipality: String,
+        city: String,
+        province: String,
         country: String
     },
     credentials: {

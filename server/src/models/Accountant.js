@@ -9,7 +9,7 @@ const accountantSchema = new Schema({
         unique: true
     },
     fund: {
-        type: Decimal128,
+        type: Number,
         default: 0
     },
     date: {

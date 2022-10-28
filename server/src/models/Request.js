@@ -15,12 +15,9 @@ const requestSchema = new Schema({
     date: {
         requested: {
             type: String,
-            required: true
+            default: Date.now()
         },
-        completed: {
-            type: String,
-            required: true
-        }
+        completed: String
     },
     status: {
         type: String,

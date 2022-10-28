@@ -25,9 +25,11 @@ const saveDocument = async (req, res, next) => {
 
         const document = await Document.create({
             documentId: nanoid(8),
+            owner: member._id,
+            event: event._id,
             ...filterBody(
-                ['_id', '__V', 'documentId', 'owner', 'event'],
-                req.body
+                new Set(['code', 'title', 'description', 'txnHash', 'dateReceived']),
+                documentDetails
             )
         });
 
@@ -47,12 +49,12 @@ const getDocument = async (req, res, next) => {
         const document = await Document
             .findOne({ documentId })
             .select('-_id -__v')
-            .populate('owner', 'walletAddress')
-            .populate('event', 'eventId title')
+            .populate('owner', '-_id walletAddress name')
+            .populate('event', '-_id eventId title')
             .exec();
         if(!document) throw new NotFoundError('Document');
 
-        res.send(200).json(document);
+        res.status(200).json(document);
     } catch (error) {
         next(error);
     }

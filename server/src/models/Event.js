@@ -9,8 +9,12 @@ const eventSchema = new Schema({
     },
     type: {
         type: String,
+        enum: {
+            values: ['online', 'onsite'],
+            message: 'Invalid event type'
+        },
+        default: 'online',
         required: true,
-        enum: ['online', 'onsite']
     },
     title: {
         type: String,
@@ -44,7 +48,10 @@ const eventSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['draft', 'active', 'inactive'],
+        enum: {
+            values: ['draft', 'active', 'inactive'],
+            message: 'Invalid status'
+        },
         default: 'draft'
     },
     isAcceptingVolunteer: {
@@ -55,7 +62,8 @@ const eventSchema = new Schema({
     participants: [{
         member: {
             type: ObjectId,
-            ref: 'Member'
+            ref: 'Member',
+            unique: true
         },
         role: String
     }],

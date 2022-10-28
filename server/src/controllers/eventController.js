@@ -4,19 +4,26 @@ import Event from '../models/Event.js';
 import Member from '../models/Member.js';
 import { filterBody } from '../tools.js';
 
-const constantDetails = ['_id', '__v', 'participants', 'requests'];
+const eventAcceptedEntries = new Set([
+    'type',
+    'title',
+    'description',
+    'link',
+    'location',
+    'date',
+    'status',
+    'isAcceptingVolunteer',
+    'tags'
+]);
 
 const createEvent = async (req, res, next) => {
     try {
-        const event = await Event.create({
+        await Event.create({
             eventId: nanoid(8),
-            ...filterBody(
-                ['eventId', ...constantDetails],
-                req.body
-            )
+            ...filterBody(eventAcceptedEntries, requestBody)
         });
 
-        res.status(204);
+        res.sendStatus(204);
     } catch (error) {
         next(error);
     }
@@ -24,9 +31,9 @@ const createEvent = async (req, res, next) => {
 
 const joinEvent = async (req, res, next) => {
     const { eventId } = req.params;
+    const { walletAddress, role } = req.body;
 
     try {
-        const { walletAddress, role } = req.body;
         if(!(  walletAddress
             && role
             && typeof walletAddress === 'string'
@@ -55,7 +62,7 @@ const getAllEvents = async (req, res, next) => {
     try {
         const events = await Event
             .find()
-            .select('-' + constantDetails.join(' -'))
+            .select('-_id -__v -participants -requests')
             .exec();
 
         res.status(200).json(events);
@@ -70,7 +77,7 @@ const getEvent = async (req, res, next) => {
     try {
         const event = await Event
             .findOne({ eventId })
-            .select('-' + constantDetails.join(' -'))
+            .select('-_id -__v -participants -requests')
             .exec();
         if(!event) throw new NotFoundError('Event');
 
@@ -104,13 +111,7 @@ const updateEvent = async (req, res, next) => {
         const event = await Event.findOne({ eventId }).exec();
         if(!event) throw new NotFoundError('Event');
 
-        Object.assign(
-            event,
-            ...filterBody(
-                ['eventId', ...constantDetails],
-                req.body
-            )
-        );
+        Object.assign(event, filterBody(eventAcceptedEntries, req.body));
         await event.save();
 
         res.sendStatus(204);

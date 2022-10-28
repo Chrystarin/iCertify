@@ -24,12 +24,12 @@ const transactionSchema = new Schema({
     },
     date: {
         type: String,
-        required: true
+        default: Date.now()
     },
     fee: {
         type: Decimal128,
         required: true
-    },
+    }
 });
 
 export default mongoose.model('Transaction', transactionSchema);

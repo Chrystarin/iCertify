@@ -1,7 +1,6 @@
 import Accountant from '../models/Accountant.js';
 import Member from '../models/Member.js';
 import { InvalidRequestBodyError, NotFoundError } from '../errors.js';
-import { filterBody } from '../tools.js';
 
 const registerAccountant = async (req, res, next) => {
     const { walletAddress } = req.body;
@@ -27,10 +26,10 @@ const getAllAccountants = async (req, res, next) => {
         const allAccountants = await Accountant
             .find()
             .select('-_id -__v -transactions')
-            .populate('member', 'walletAddress name')
+            .populate('member', '-_id walletAddress name')
             .exec();
 
-        res.send(200).json(allAccountants);
+        res.status(200).json(allAccountants);
     } catch (error) {
         next(error);
     }
@@ -40,14 +39,10 @@ const getAccountant = async (req, res, next) => {
     const { walletAddress } = req.params;
 
     try {
-        if(!(  walletAddress
-            && typeof walletAddress === 'string'
-        )) throw new InvalidRequestBodyError();
-
         const accountant = await Accountant
             .findOne({ walletAddress })
             .select('-_id -__v -transactions')
-            .populate('member', 'walletAddress name')
+            .populate('member', '-_id walletAddress name')
             .exec();
         if(!accountant) throw new NotFoundError('Accountant');
 
@@ -58,15 +53,59 @@ const getAccountant = async (req, res, next) => {
 }
 
 const getTransactions = async (req, res, next) => {
+    const { walletAddress } = req.params
     
+    try {
+        const accountant = await Accountant
+            .findOne({ walletAddress })
+            .populate('transactions', 'hash date')
+            .exec();
+        if(!accountant) throw new NotFoundError('Accountant');
+
+        res.status(200).json(accountant.transactions);
+    } catch (error) {
+        next(error);
+    }
 }
 
 const addFunds = async (req, res, next) => {
+    const { walletAddress } = req.params;
+    const { amount } = req.body;
 
+    try {
+        if(!(  amount
+            && typeof amount === 'number'
+        )) throw new InvalidRequestBodyError();
+
+        const member = await Member.findOne({ walletAddress }).exec();
+        if(!member) throw new NotFoundError('Member');
+
+        const accountant = await Accountant.findOne({ member: member._id }).exec();
+        if(!accountant) throw new NotFoundError('Accountant');
+
+        accountant.fund += amount;
+        await accountant.save();
+
+        res.sendStatus(204);
+    } catch (error) {
+        next(error)
+    }
 }
 
 const dismissAccountant = async (req, res, next) => {
+    const { walletAddress } = req.params;
 
+    try {
+        const accountant = await Accountant.findOne({ walletAddress }).exec();
+        if(!accountant) throw new NotFoundError('Accountant');
+
+        accountant.isActive = false;
+        await accountant.save();
+
+        res.sendStatus(204);
+    } catch (error) {
+        next(error)
+    }
 }
 
 export {

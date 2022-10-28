@@ -4,7 +4,14 @@ import { ethers } from 'ethers'
 import { createToken, filterBody, generateNonce } from '../tools.js';
 import { InvalidRequestBodyError, NotFoundError, UnauthorizedError } from '../errors.js';
 
-const constantDetails = ['_id', '__v', 'credentials', 'joinedEvents', 'ownedDocuments', 'requests'];
+const memberAcceptedEntries = new Set([
+    'isPremium',
+    'name',
+    'about',
+    'occupation',
+    'contact',
+    'location'
+]);
 
 const loginMember = async (req, res, next) => {
     try {
@@ -20,45 +27,31 @@ const loginMember = async (req, res, next) => {
 
         if(!(credentials[0] && credentials[1])) throw new UnauthorizedError('Invalid fields');
 
-        // Login type: email
         if(type == 'email') {
             const [email, password] = credentials;
 
-            // Find if there is an existing member with the given email
             const member = await Member.findOne({ credentials: { email } }).exec();
-
-            // Member is not registered yet, throw error
             if(!member) throw new NotFoundError('Member');
 
-            // Match password
             const isMatch = bcrypt.compare(password, member.credentials.password);
             if(!isMatch) throw new UnauthorizedError('Incorrect credentials');
             
-            // Create jwt token
             const token = createToken(member._id);
 
             res.status(200).json({ email, token });
         }
 
-        // Login type: metamask
         if(type == 'metamask') {
             const [walletAddress, signature] = credentials;
-
-            // Find if there is an existing member with the given wallet address
-            //      If there is, get that member
-            //      Otherwise, register new member
             const member = await Member.findOne({ walletAddress }).exec() ||
                            await Member.create({ walletAddress });
 
-            // Get the signer address of the signature with the message
             const signerAddress = await ethers.utils.verifyMessage('Nonce: ' + member.credentials.nonce, signature, 'asdf')
             if(signerAddress !== walletAddress) throw new UnauthorizedError('Invalid signer');
 
-            // Update the nonce
             member.credentials.nonce = generateNonce();
             await member.save()
 
-            // Create jwt token
             const token = createToken({ _id: member._id, walletAddress });
 
             res.status(200).json({ walletAddress, token });
@@ -85,7 +78,7 @@ const getAllMembers = async (req, res, next) => {
     try {
         const members = await Member
             .find()
-            .select('-' + constantDetails.join(' -'))
+            .select(Array.from(memberAcceptedEntries).join(' '))
             .exec();
 
         res.status(200).json(members);
@@ -100,7 +93,7 @@ const getMember = async (req, res, next) => {
     try {
         const member = await Member
             .findOne({ walletAddress })
-            .select('-' + constantDetails.join(' -'))
+            .select(Array.from(memberAcceptedEntries).join(' '))
             .exec();
         if(!member) throw new NotFoundError('Member');
 
@@ -114,14 +107,10 @@ const updateMember = async (req, res, next) => {
     const { walletAddress } = req.params;
 
     try {
-        const member = await Member
-            .findOne({ walletAddress })
-            .exec();
+        const member = await Member.findOne({ walletAddress }).exec();
         if(!member) throw new NotFoundError('Member');
 
-        const body = filterBody(constantDetails, req.body);
-
-        Object.assign(member, body);
+        Object.assign(member, filterBody(memberAcceptedEntries, req.body));
         await member.save();
 
         res.sendStatus(204);
@@ -171,7 +160,7 @@ const getRequests = async (req, res, next) => {
         const member = await Member
             .findOne({ walletAddress })
             .select('-requests._id')
-            .populate('requests')
+            .populate('requests', '-_id -__v -requestor -event')
             .exec();
         if(!member) throw new NotFoundError('Member');
 
