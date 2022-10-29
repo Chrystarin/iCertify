@@ -2,207 +2,78 @@ import './../../Assets/Styles/styles.scss';
 import IconWordmarkImg from './../../Assets/Images/brand/icon_wordmark.png'
 import IconWalletImg from './../../Assets/Images/icons/wallet.png'
 import ImagePlaceHolder from './../../Assets/Images/placeholder/placeholder.png'
-import BrandFooter from './../../Assets/Images/brand/icertify_footer.png'
+
 
 
 function LandingPage() {
   return (
-    <div className="LandingPage">
-        <body>
-            <div class="header">
-                <a href="#default" ><img src={IconWordmarkImg} class="logo"/></a>
-                <div class="header-right">
-                    <a href="#about">About</a>
-                    <a href="#blog">Blog</a>  
-                    <a href="#faq">FAQ's</a>
-                    <a href="" id="myBtn" class="btn_login">Login</a>
-                    <a href="#wallet"><img src={IconWalletImg} class="btn_wallet"/></a>
-                </div>
+    <div id="LandingPage">
+        <div id="MainSection_Container">
+            <div id="MainSection_Media_Base">
+                <img src={ImagePlaceHolder} alt=""/>
             </div>
-
-            <div id="myModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <p>Some text in the Modal..</p>
-                </div>
-            </div>
-
-            <div class="home-content">
-                <div class="home-block">
-                    <div class="left-block">
-                        <img src = {ImagePlaceHolder} class="image"/>
-                    </div>
-                    
-                    <div class="right-block">
-                        <h1>Claim your NFT Certificate!</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida feugiat purus, 
-                            eget molestie ex condimentum sit amet. Ut suscipit lacus eu mauris posuere, vitae aliquam 
-                            ligula viverra. Maecenas facilisis convallis urna. Aliquam erat volutpat. Pellentesque 
-                            fringilla velit odio, vitae pulvinar massa porta ac. Sed luctus tortor sed magna placerat, 
-                            at elementum nibh vestibulum. Pellentesque pulvinar orci at est ornare suscipit. Aliquam 
-                            sodales turpis arcu, in imperdiet mi imperdiet et. Nam eleifend urna vitae eros ornare, 
-                            fermentum efficitur nulla fermentum. Interdum et malesuada fames ac ante ipsum primis in 
-                            faucibus.</p>
-                        <button class="btn_block_login">Log In</button>
-                        <button class="btn_block_signup">Sign Up</button>
-                    </div>
-                </div>
-
-                <h1 class="title">What is iCertify?</h1>
-                
-
-                <div class="home-block">
-                    <div class="left-block">
-                        <h2>Lorem Ipsum</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida feugiat purus, 
-                            eget molestie ex condimentum sit amet. Ut suscipit lacus eu mauris posuere, vitae aliquam 
-                            ligula viverra. Maecenas facilisis convallis urna. Aliquam erat volutpat. Pellentesque 
-                            fringilla velit odio, vitae pulvinar massa porta ac. Sed luctus tortor sed magna placerat, 
-                            at elementum nibh vestibulum. Pellentesque pulvinar orci at est ornare suscipit. Aliquam 
-                            sodales turpis arcu, in imperdiet mi imperdiet et. Nam eleifend urna vitae eros ornare, 
-                            fermentum efficitur nulla fermentum. Interdum et malesuada fames ac ante ipsum primis in 
-                            faucibus.
-                        </p>
-                    </div>
-                    <div class="right-block">
-                        <img src = {ImagePlaceHolder} class="image"/>
-                    </div>
-                </div>  
-
-                <div class="home-block">
-                    <div class="left-block">
-                        <img src = {ImagePlaceHolder} class="image"/>
-                        
-                    </div>
-                    <div class="right-block">
-                        <h2>Lorem Ipsum</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida feugiat purus, 
-                            eget molestie ex condimentum sit amet. Ut suscipit lacus eu mauris posuere, vitae aliquam 
-                            ligula viverra. Maecenas facilisis convallis urna. Aliquam erat volutpat. Pellentesque 
-                            fringilla velit odio, vitae pulvinar massa porta ac. Sed luctus tortor sed magna placerat, 
-                            at elementum nibh vestibulum. Pellentesque pulvinar orci at est ornare suscipit. Aliquam 
-                            sodales turpis arcu, in imperdiet mi imperdiet et. Nam eleifend urna vitae eros ornare, 
-                            fermentum efficitur nulla fermentum. Interdum et malesuada fames ac ante ipsum primis in 
-                            faucibus.
-                        </p>    
-                    </div>
-                </div>  
-
-                <div class="home-block">
-                    <div class="left-block">
-                        <h2>Lorem Ipsum</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida feugiat purus, 
-                            eget molestie ex condimentum sit amet. Ut suscipit lacus eu mauris posuere, vitae aliquam 
-                            ligula viverra. Maecenas facilisis convallis urna. Aliquam erat volutpat. Pellentesque 
-                            fringilla velit odio, vitae pulvinar massa porta ac. Sed luctus tortor sed magna placerat, 
-                            at elementum nibh vestibulum. Pellentesque pulvinar orci at est ornare suscipit. Aliquam 
-                            sodales turpis arcu, in imperdiet mi imperdiet et. Nam eleifend urna vitae eros ornare, 
-                            fermentum efficitur nulla fermentum. Interdum et malesuada fames ac ante ipsum primis in 
-                            faucibus.
-                        </p>
-                    </div>
-                    <div class="right-block">
-                        <img src = {ImagePlaceHolder} class="image"/>
-                    </div>
-                </div>  
-
-                <h1 class="title">Frequently Asked Questions</h1>
-
+            <div id="MainSection_Content_Base">
+                <h1>Lorem Ipsum</h1>
+                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sed a, doloremque laudantium accusantium facilis, mollitia obcaecati perspiciatis officia, quam magni dolor asperiores possimus quis odio qui delectus ea quaerat quos at. Perspiciatis quod, delectus rerum libero tempore quas fugit quis vitae obcaecati earum iste facere, quisquam amet inventore deleniti voluptas</p>
                 <div>
-                    <button type="button" class="faq_collapsible"><h2>What is the purpose of iCertify?</h2></button>
-                    <div class="faq_content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida feugiat purus, 
-                            eget molestie ex condimentum sit amet. Ut suscipit lacus eu mauris posuere, vitae aliquam 
-                            ligula viverra. Maecenas facilisis convallis urna. Aliquam erat volutpat. Pellentesque 
-                            fringilla velit odio, vitae pulvinar massa porta ac. Sed luctus tortor sed magna placerat, 
-                            at elementum nibh vestibulum. Pellentesque pulvinar orci at est ornare suscipit. Aliquam 
-                            sodales turpis arcu, in imperdiet mi imperdiet et. Nam eleifend urna vitae eros ornare, 
-                            fermentum efficitur nulla fermentum. Interdum et malesuada fames ac ante ipsum primis in 
-                            faucibus.
-                        </p>
-                    </div>
-
-                    <button type="button" class="faq_collapsible"><h2>Who develop iCertify?</h2></button>
-                    <div class="faq_content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida feugiat purus, 
-                            eget molestie ex condimentum sit amet. Ut suscipit lacus eu mauris posuere, vitae aliquam 
-                            ligula viverra. Maecenas facilisis convallis urna. Aliquam erat volutpat. Pellentesque 
-                            fringilla velit odio, vitae pulvinar massa porta ac. Sed luctus tortor sed magna placerat, 
-                            at elementum nibh vestibulum. Pellentesque pulvinar orci at est ornare suscipit. Aliquam 
-                            sodales turpis arcu, in imperdiet mi imperdiet et. Nam eleifend urna vitae eros ornare, 
-                            fermentum efficitur nulla fermentum. Interdum et malesuada fames ac ante ipsum primis in 
-                            faucibus.
-                        </p>
-                    </div>
-
-                    <button type="button" class="faq_collapsible"><h2>What are the things you can do with iCertify?</h2></button>
-                    <div class="faq_content">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida feugiat purus, 
-                            eget molestie ex condimentum sit amet. Ut suscipit lacus eu mauris posuere, vitae aliquam 
-                            ligula viverra. Maecenas facilisis convallis urna. Aliquam erat volutpat. Pellentesque 
-                            fringilla velit odio, vitae pulvinar massa porta ac. Sed luctus tortor sed magna placerat, 
-                            at elementum nibh vestibulum. Pellentesque pulvinar orci at est ornare suscipit. Aliquam 
-                            sodales turpis arcu, in imperdiet mi imperdiet et. Nam eleifend urna vitae eros ornare, 
-                            fermentum efficitur nulla fermentum. Interdum et malesuada fames ac ante ipsum primis in 
-                            faucibus.
-                        </p>
-                    </div>
-                </div>
-
-
-            </div>
-
-
-        </body>
-
-
-        <footer>
-
-            <div class="footer_parent">
-                <div class="brand">
-                    <img src={BrandFooter}/>
-                    <br/>Follow us through newsletter!
-                    <br/>@2022 iCertify - Bicol IT
-                </div>
-                <div class="menu">
-                    <h2>Menu</h2>
-                    <ul>
-                        <h3>
-                        <li>About</li>
-                        <li>Blog</li>
-                        <li>FAQ's</li>
-                        <li>Login</li>
-                        <li>Signup</li>
-                    </h3>
-                    </ul>
-                </div>
-                <div class="learnMore">
-                    <h2>Learn More</h2>
-                    <ul>
-                        <h3>
-                            <li>Blockchain</li>
-                            <li>Bicol IT</li>
-                            <li>Blog</li>
-                            <li>Certificate</li>
-                            <li>Developers</li>
-                        </h3>
-                    </ul>
-                </div>
-                <div class="contact">
-                    <h2>Contact Us!</h2>
-                    <ul>
-                        <h3>
-                        <li>About</li>
-                        <li>Blog</li>
-                        <li>FAQ's</li>
-                        <li>Login</li>
-                        <li>Signup</li>
-                    </h3>
-                    </ul>
+                    <input type="button" value="Login"/>
                 </div>
             </div>
-
-        </footer>
+        </div>
+        <div id="Container_Section1" class="Sections">
+            <div class="Container_Title_Sections">
+                <h3>What is iCertify</h3>
+                <h5>Integrating NFT and Blockchain Technology for Academic Credential Authenticity</h5>
+            </div>
+            <div id="Container_Content_Section1">
+                <div class="Wrapper_Text_Section1">
+                    <div>
+                        <h3>Lorem Ipsum</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus, harum optio. Totam doloribus inventore rerum, at ab delectus quo non cum, obcaecati ratione voluptatibus nesciunt odit? Exercitationem officia odio libero nostrum autem fugit iste quisquam quaerat, minus asperiores et non culpa cupiditate aliquid in nisi repellat adipisci impedit optio! Praesentium illo error assumenda non dolor alias ex vel architecto iste.</p>
+                    </div>    
+                </div>
+                <div class="Wrapper_Text_Section1">
+                    <div>
+                        <h3>Lorem Ipsum</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus, harum optio. Totam doloribus inventore rerum, at ab delectus quo non cum, obcaecati ratione voluptatibus nesciunt odit? Exercitationem officia odio libero nostrum autem fugit iste quisquam quaerat, minus asperiores et non culpa cupiditate aliquid in nisi repellat adipisci impedit optio! Praesentium illo error assumenda non dolor alias ex vel architecto iste.</p>
+                    </div>    
+                </div>
+                <div class="Wrapper_Text_Section1">
+                    <div>
+                        <h3>Lorem Ipsum</h3>
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus, harum optio. Totam doloribus inventore rerum, at ab delectus quo non cum, obcaecati ratione voluptatibus nesciunt odit? Exercitationem officia odio libero nostrum autem fugit iste quisquam quaerat, minus asperiores et non culpa cupiditate aliquid in nisi repellat adipisci impedit optio! Praesentium illo error assumenda non dolor alias ex vel architecto iste.</p>
+                    </div>    
+                </div>
+                <div><img src={ImagePlaceHolder} alt=""/></div>
+                <div><img src={ImagePlaceHolder} alt=""/></div>
+                <div><img src={ImagePlaceHolder} alt=""/></div>
+            </div>
+            
+        </div>
+        <div id="Container_Section2" class="Sections">
+            <div class="Container_Title_Sections">
+                <h3>OUR TEAM</h3>
+                <h5>Integrating NFT and Blockchain Technology for Academic Credential Authenticity</h5>
+            </div>
+            <div id="Container_Content_Section2">
+                <div>
+                    <img src={ImagePlaceHolder} alt=""/>
+                    <h4>Dianne Chrystalin Brandez</h4>
+                    <h5>LEADER</h5>
+                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quas quae doloremque provident eos. Temporibus assumenda veritatis itaque? Mollitia, possimus quisquam!</p>
+                </div>
+                <div>div2</div>
+                <div>div3</div>
+            </div>
+        </div>
+        <div id="Container_Section3" class="Sections">
+            <div class="Container_Title_Sections">
+                <h3>Frequently Ask Question</h3>
+            </div>
+            <div id="Container_Content_Section3">
+                
+            </div>
+        </div>
     </div>
   );
 }

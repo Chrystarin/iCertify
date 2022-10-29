@@ -1,357 +1,126 @@
-$colorBg: #f9f8f8;
+$Color:rgb(231, 231, 231);
+$WidthResolution : 1346px;
 
-.header {
-    overflow: hidden;
-    padding: 10px 10px;
-  }
-
-  .header a {
-    float: left;
-    color: black;
-    text-align: center;
-    padding: 12px;
-    text-decoration: none;
-    font-size: 18px;
-    line-height: 25px;
-    border-radius: 4px;
-    margin-left: 15px;
-    vertical-align: middle;
-  }
-    .header img.logo {
-    height: 50px;
-  }
-  
-  .header a:hover {
-    background-color: #ddd;
-    color: black;
-  }
-  
-  .header a.btn_login{
-    border: 1px solid black;
-    color: black;
-    cursor: pointer;
-  }
-  
-  .header-right {
-    float: right;
-  }
-
-  .header img.btn_wallet{
-    width: 25px;
-    height: auto;
-
-  }
-
-body{
-    background-color: $colorBg;
-}
-
-.home-block{
-    display: flex;
-    justify-content: center;   
-    margin: 25px; 
-}
-
-.home-block  img.image{
-    width: 75%;
-    height: auto;
-    
-}
-
-.home-content h1{
-    color:#707070;
-}
-
-.home-content h2{
-    color:#707070;
-}
-
-.home-content h1.title{
-    text-align: center;
-}
-
-.home-content p{
-    color: #707070;
-    text-align: justify;
-    text-justify: inter-word;
-    line-height: 30px;
-}
-
-.left-block {
-    width: 40%;
-    float:left;
-    padding: 20px;
-    margin: 20px;
-
-    justify-content: right;   
-}
-
-.right-block{
-    width: 40%;
-    float: right;
-    padding: 20px;
-    margin: 20px;
-
-    justify-content: left;   
-}
-
-.btn_block_login{
-    border: 2px solid #707070;
-    color: #707070;
-    cursor: pointer;
-    border-radius: 12px;
-
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-    text-decoration: none;
-    font-size: 18px;
-    line-height: 15px;
-    margin-right: 25px;
-}
-
-.btn_block_login:hover{
-    background-color: #707070;
-    color: white
-}
-
-.btn_block_signup{
-    border: 2px solid #707070;
-    background-color: #707070;
-    color: white;
-    cursor: pointer;
-    border-radius: 12px;
-
-    text-align: center;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 30px;
-    padding-right: 30px;
-    text-decoration: none;
-    font-size: 18px;
-    line-height: 15px;
-}
-
-.btn_block_signup:hover{
-    background-color: $colorBg;
-    color: #707070
-}
-
-
-
-
-
-
-
-
-
-/* FAQ COLLAPSIBLE */
-
-/* Style the button that is used to open and close the collapsible content */
-.faq_collapsible {
-  background-color: #eee;
-  color: #444;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-}
-
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active, .faq_collapsible:hover {
-  background-color: #ccc;
-}
-
-/* Style the collapsible content. Note: hidden by default */
-.faq_content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  background-color: #f1f1f1;
-}
-
-
-/* FOOTER STYLES */
-footer{
-  background-color: #2c2c2d;
-  padding: 20px 10px;
-}
-
-footer h2{
-  color: white;
-}
-
-footer h3{
-  color: #707070;
-}
-
-footer li{
-  list-style: none
-}
-.footer_parent {
-  display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  /* grid-template-rows: repeat(5, 1fr); */
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  margin-left: 25px;
-  margin-right: 25px;
-  
-  }
-  
-  .brand { 
-    grid-area: 1 / 1 / 2 / 5; 
-    text-align: center;}
-  .menu { 
-    grid-area: 1 / 5 / 2 / 6; 
-  }
-
-  .learnMore { grid-area: 1 / 6 / 2 / 7; }
-  .contact { grid-area: 1 / 7 / 2 / 9; }
-
-
-
-
-
-
-
-
-
-
-
-  /* The Modal (background) */
-.modal {
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Sit on top */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
-
-/* Modal Content/Box */
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto; /* 15% from the top and centered */
-  padding: 20px;
-  border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
-}
-
-/* The Close Button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-
-/* The side navigation menu */
-.sidenav {
-  height: 100%; /* 100% Full-height */
-  width: 5%; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
-  top: 0; /* Stay at the top */
-  left: 0;
-  background-color: white; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 10px; /* Place content 60px from the top */
-  border: 1px solid white;
-  border-radius: 12px;
-}
-
-/* The navigation menu links */
-.sidenav a {
-  padding: 5px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
-
-/* When you mouse over the navigation links, change their color */
-.sidenav a:hover {
-  color: #f1f1f1;
-}
-
-/* Position and style the close button (top right corner) */
-.sidenav .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
-}
-
-.sidenav img{
-  height: 5%;
-}
-
-.sidenav li{
-  list-style: none;
-  margin: 5px;
-  padding: 10px;
-  display: block;
-}
-
-.sidenav ul {
+*{
   padding: 0;
-  list-style-type: none;
-  
+  margin: 0;
+  box-sizing: border-box;
+}
+h1,h2,h3,h4,h5,h6,p,span{
+  font-family:Tahoma, sans-serif;
+}
+p{
+  text-align: justify;
+  line-height: 30px;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-.main {
-  transition: margin-left .5s;
-  padding: 20px;
-  margin-left: 5%;
-}
 
+#LandingPage{
+  width: $WidthResolution;
+  height: auto;
+  margin: auto;
 
-.topnav input[type=text] {
-  width: 20%;
-  padding: 12px 24px;
-  background-color: transparent;
-  font-size: 14px;
-  line-height: 18px;
-  color: #575756;
-  background-color: transparent;
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-size: 18px 18px;
-  background-position: 95% center;
-  border-radius: 50px;
-  border: 1px solid #575756;
-  backface-visibility: hidden;
-  transform-style: preserve-3d;
-}
+  #MainSection_Container{
+    width: 100%;
+    height: auto;
+    display: grid;
+    padding-top: 7em;
+    grid-template-columns: 1fr 1fr;
+    background-color: $Color;
+    
+    #MainSection_Media_Base{
 
-   @media screen and (max-width: 500px) {
-    .header a {
-      float: none;
-      display: block;
-      text-align: left;
+      img{
+        margin: auto;
+        width: 80%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
     }
-    .header-right {
-      float: none;
+    #MainSection_Content_Base{
+      h1,p{
+        margin: 25px auto auto;
+        width: 90%;
+      }
+      
     }
   }
+  .Sections{
+    width: 100%;
+    height: auto;
+    padding-top: 100px;
+    
+    .Container_Title_Sections{
+      h3{
+        margin-bottom: 15px;
+      }
+      h5{
+        margin-bottom: 30px;
+      }
+      h3,h5{
+        text-align: center;
+      }
+    }
+  }
+  #Container_Section1{
+    padding-bottom: 300px;
+    background-color: $Color;
+    #Container_Content_Section1{
+      margin-top: 70px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      grid-column-gap: 10px;
+      grid-row-gap: 120px;
+    }
+    div:nth-child(1) { grid-area: 1 / 1 / 2 / 2; }
+    div:nth-child(2) { grid-area: 2 / 2 / 3 / 3; }
+    div:nth-child(3){ grid-area: 3 / 1 / 4 / 2; }
+    div:nth-child(4) { grid-area: 1 / 2 / 2 / 3; }
+    div:nth-child(5) { grid-area: 2 / 1 / 3 / 2; }
+    div:nth-child(6) { grid-area: 3 / 2 / 4 / 3; }
+
+    div{
+      img{
+        width: 70%;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    .Wrapper_Text_Section1{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1.5em 2em;
+      h3{
+        margin-bottom: 20px;
+      }
+    }
+  }
+  #Container_Section2{
+    #Container_Content_Section2{
+      width: 94%;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-column-gap: 20px;
+      padding: 0 3%;
+      div{
+        background-color: red;
+        padding: 1.8em 1em;
+        border-radius: 10px;
+        text-align: center;
+        img{
+          width: 60%;
+        }
+        h4,h5,p{
+          margin-top: 10px;
+        }
+      }
+    }
+  }
+
+  
+  
+}
