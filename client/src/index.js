@@ -1,19 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+// import App from './App';
 
 
-
+import Header from './Components/Header/Header'
 import LandingPage from './Pages/LandingPage'
+import Footer from './Components/Footer/Footer'
+import Modal from './Components/Modal/Modal'
+
 import reportWebVitals from './reportWebVitals';
-import Navigation from './Components/Navigation';
+;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <>
-    <Navigation />
-    <LandingPage />
+    <Header />
+    <LandingPage/>
+    <Footer/>
+    {/* <Modal/> */}
   </>
 );
 

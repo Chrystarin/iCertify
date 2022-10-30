@@ -1,0 +1,40 @@
+$Width : 100vw;
+$maxwdth : calc(1920px - 10%);
+
+// Color 
+$accent : #017CC9;
+
+
+*{
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+}
+h1{
+    font-size: 56px;
+}
+h2{
+    font-size: 45px;
+}
+h3{
+    font-size: 35px;
+}
+h4{
+    font-size: 27px;
+}
+h5{
+    font-size: 21px;
+}
+h6{
+    font-size: 16px;
+}
+
+.BodyText1{
+    font-size: 20px;
+}
+.BodyText2{
+    font-size: 17px;
+}
+.BodyText3{
+    font-size: 15px;
+}
