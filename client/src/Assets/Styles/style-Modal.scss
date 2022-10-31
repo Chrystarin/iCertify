@@ -1,0 +1,31 @@
+$Width : 100vw;
+$Maxwidth1 : 1920px;
+
+// Color 
+$accent : #017CC9;
+$dark1 : #203546;
+$dark2 : #11232F;
+$light1 : #4DA9DA;
+$light2 : #EFFAFC;
+
+
+#Modal{
+   
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    background-color: rgba($color: #000000, $alpha: .5);
+    #Container_Modal{
+        background-color: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        width: 800px;
+        height: 600px;
+        border-radius: 8px;
+    }
+}

@@ -1,21 +1,16 @@
-// import React, {useState} from 'react'
+import React from 'react';
 
-// export const Modal = () => {
-//     const [modal,setModal] = useState(true);
-//     const toggleModal = () => {
-//       setModal(!modal);
-//     }
-//   return (
-//     <>
-//         <button onclick="toggle modal">
-//         click me
-//         </button>
+import  './../../Assets/Styles/style-Modal.scss';
 
-//         <div className="modal">
-//             <div className="overlay">
 
-//             </div>
-//         </div>
-//     </>
-//   )
-// }
+
+export default function Modal({open,onClose}) {
+  if (!open) return null
+  return (
+    <div id='Modal' >
+        <div id="Container_Modal">
+            <button onClick={onClose}>close</button>
+        </div>
+    </div>
+  )
+}
