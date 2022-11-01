@@ -5,6 +5,9 @@ import React,{useState} from 'react'
 import WordMark from './../../Assets/Images/brand/Whitehorizontal.png'
 
 import Modal from '../Modal/Modal.js';
+
+import ModalLogin from '../ModalLogin';
+
 export default function Header() {
     const [isOpen , setIsOpen] = useState(false); 
   return (
@@ -18,7 +21,7 @@ export default function Header() {
                     <li><a href="#About">About</a></li>
                     <li><a href="#LearnMore">Learn More!</a></li>
                     <li><a href="#Login" onClick={() => setIsOpen(true)}>Login</a></li>
-                    <Modal open={isOpen} onClose={() => setIsOpen(false)}/>
+                    <ModalLogin open={isOpen} onClose={() => setIsOpen(false)}/>
                     <li><a href="about.asp" id="GetStarted"> Get Started</a></li>
                 </ul>
             </nav>
