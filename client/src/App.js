@@ -1,19 +1,22 @@
 
 import React from 'react';
 
-import Header from './Components/Header/Header';
-import LandingPage from './Pages/LandingPage';
-import Footer from './Components/Footer/Footer';
-import Modal from './Components/Modal/Modal';
+import Home from './Pages/Home';
+import Dashboard from './Pages/Dashboard';
+import Event from './Pages/Event';
+import EventList from './Pages/EventList';
+import Error404 from './Pages/Error404';
+
+import {Route, Routes} from 'react-router-dom';
 
 function App() {
-  return (
-    <>
-        <Header/>
-        <LandingPage/>
-        <Footer/>
-    </>
-  )
+  return <Routes>
+    <Route path="/" element={<Home/>}/>
+    <Route path="/dashboard" element={<Dashboard/>}/>
+    <Route path="/events" element={<EventList/>}/>
+    <Route path="/events/:id" element={<Event/>}/>
+    <Route path="*" element={<Error404/>}/>
+  </Routes>
 }
 
 export default App;
