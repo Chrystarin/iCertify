@@ -2,13 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import LandingPage from './Pages/LandingPage'
+import LandingPage from './Pages/LandingPage';
 import reportWebVitals from './reportWebVitals';
+import TestPage from './Components/Signup';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <LandingPage />
+    <TestPage />
   </React.StrictMode>
 );
 
