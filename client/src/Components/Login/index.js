@@ -5,7 +5,7 @@ import UserIcon from './../../Assets/Images/icons/user.png';
 import MetamaskIcon from './../../Assets/Images/icons/fox.png';
 import LockIcon from './../../Assets/Images/icons/lock.png';
 
-export default class index extends Component {
+export default class Login extends Component {
   render() {
     return (
       <div class="container">
