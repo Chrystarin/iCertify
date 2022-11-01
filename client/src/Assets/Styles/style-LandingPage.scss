@@ -12,6 +12,7 @@ $light2 : #EFFAFC;
     padding: 0%;
     margin: 0%;
     box-sizing: border-box;
+    font-family: sans-serif;
 }
 h1{
     font-size: 56px;
@@ -57,7 +58,6 @@ h6{
 }
  
 #LandingPage{ 
-    width: $Width;
     #Container_LandingPage{
         max-width: $Maxwidth1;
         margin: auto;
@@ -70,11 +70,15 @@ h6{
     grid-template-columns: 1fr 1fr; 
     grid-template-rows: 1fr; 
     gap: 0px 50px;
-    padding: 1em 2em;
+    padding: 14em 2em 15em;
     background-color: $dark1;
 
     #Container_Img_Main{
-        height: 850px;
+        position: relative;
+        img{
+            width: 80%;
+            border-radius: 8px;
+        }
     }
     #Container_Content_Main{
         position: relative;
@@ -102,7 +106,6 @@ h6{
                 float: right;
             }
         }
-
     }
 }
 
@@ -122,6 +125,7 @@ h6{
 }
 
 #Container_Section1{
+    
     background-color: $dark1;
     position: relative;
     color: white;
@@ -184,6 +188,8 @@ h6{
             h5{
                 text-align: justify;
                 width: 100%;
+                line-height: 35px;
+                width: 90%;
             }
         }
     }
