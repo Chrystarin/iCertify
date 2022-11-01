@@ -44,11 +44,6 @@ export default function ModalLogin({open,onClose}) {
                 
         </div>
       </div>
-    // <div id='Modal' >
-    //     <div id="Container_Modal">
-    //         <button onClick={onClose}>close</button>
-    //     </div>
-    // </div>
     
   )
 }
