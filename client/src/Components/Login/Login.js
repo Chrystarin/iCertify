@@ -1,5 +1,3 @@
-
-
 import  './../../Assets/Styles/style-Modal.scss';
 
 import React, { Component } from 'react';
@@ -9,8 +7,6 @@ import UserIcon from './../../Assets/Images/icons/user.png';
 import MetamaskIcon from './../../Assets/Images/icons/fox.png';
 import LockIcon from './../../Assets/Images/icons/lock.png';
 import CloseIcon from './../../Assets/Images/icons/close.png';
-
-
 
 export default function ModalLogin({open,onClose}) {
   if (!open) return null
