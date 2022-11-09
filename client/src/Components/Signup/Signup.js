@@ -13,15 +13,10 @@ import TextField from '@mui/material/TextField';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 
 export default function ModalSignup({open,onClose}) {
-
-    const [step1, setStep1] = useState(true);
-    const [step2, setStep2] = useState(false);
-    const [step3, setStep3] = useState(false);
-    const [step4, setStep4] = useState(false);
-
-    const [step, setStep] = useState([true,false,false,false]);
-
+    
     const navigate = useNavigate();
+    const [step, setStep] = useState([true,false,false,false]);
+    
 
     const nextStep = (state) =>{
         const newStep = step.slice();
