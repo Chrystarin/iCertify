@@ -1,6 +1,6 @@
 
 
-import  './../../Assets/Styles/style-Modal.scss';
+import  './../../Assets/Styles/Components/style-Modal.scss';
 
 import React, { Component } from 'react';
 import './../../Assets/Styles/style-login-signup.scss';

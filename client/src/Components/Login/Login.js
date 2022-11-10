@@ -1,10 +1,6 @@
-<<<<<<< Updated upstream:client/src/Components/Login/Login.js
-import  './../../Assets/Styles/style-Modal.scss';
-=======
-
 
 import  './../../Assets/Styles/Components/style-Modal.scss';
->>>>>>> Stashed changes:client/src/Components/ModalLogin/index.js
+
 
 import React, { Component } from 'react';
 import './../../Assets/Styles/Components/style-login-signup.scss';
