@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+<<<<<<< Updated upstream
     "test": "echo \"Error: no test specified\" && exit 1"
+=======
+    "start": "nodemon index.js",
+    "test": "nodemon test.js",
+    "dev": "nodemon index.js"
+>>>>>>> Stashed changes
   },
   "keywords": [],
   "author": "",
