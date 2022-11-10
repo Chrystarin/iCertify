@@ -1,4 +1,4 @@
-import './../../Assets/Styles/style-Navigation.scss';
+import './../../Assets/Styles/Components/style-Navigation.scss';
 
 import React,{useState} from 'react'
 import WordMark from './../../Assets/Images/brand/Whitehorizontal.png'

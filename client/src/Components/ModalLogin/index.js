@@ -1,18 +1,16 @@
-<<<<<<< Updated upstream:client/src/Components/Login/Login.js
+
+
 import  './../../Assets/Styles/style-Modal.scss';
-=======
-
-
-import  './../../Assets/Styles/Components/style-Modal.scss';
->>>>>>> Stashed changes:client/src/Components/ModalLogin/index.js
 
 import React, { Component } from 'react';
-import './../../Assets/Styles/Components/style-login-signup.scss';
+import './../../Assets/Styles/style-login-signup.scss';
 import Pattern from './../../Assets/Images/Resources/pattern.png';
 import UserIcon from './../../Assets/Images/icons/user.png';
 import MetamaskIcon from './../../Assets/Images/icons/fox.png';
 import LockIcon from './../../Assets/Images/icons/lock.png';
 import CloseIcon from './../../Assets/Images/icons/close.png';
+
+
 
 export default function ModalLogin({open,onClose}) {
   if (!open) return null

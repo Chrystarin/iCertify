@@ -2,7 +2,7 @@
 import React from 'react';
 
 import Home from './Pages/Home';
-import Dashboard from './Pages/Dashboard';
+import Dashboard from './Pages/Dashboard/Dashboard(User)';
 import Event from './Pages/Event';
 import EventList from './Pages/EventList';
 import Error404 from './Pages/Error404';

@@ -1,15 +1,8 @@
 $Width : 100vw;
 $Maxwidth1 : 1920px;
 
-// Color 
-$accent : #017CC9;
-$dark1 : #203546;
-$dark2 : #11232F;
-$light1 : #4DA9DA;
-$light2 : #EFFAFC;
-
 footer{
-    background-color: $dark1;
+    background-color: var(--dark1);
     width: 100%;
 
     #wrapper_Footer{
@@ -36,7 +29,7 @@ footer{
                 }
                 button{
                     
-                    background-color: $accent;
+                    background-color: var(--accent);
                     height: 30px;
                     border: none;
                     padding:0 1em;

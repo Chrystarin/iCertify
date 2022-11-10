@@ -1,6 +1,6 @@
 import React from 'react';
 
-import  './../../Assets/Styles/style-Modal.scss';
+import  './../../Assets/Styles/Components/style-Modal.scss';
 
 
 

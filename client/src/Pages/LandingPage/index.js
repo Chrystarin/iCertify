@@ -1,4 +1,4 @@
-import './../../Assets/Styles/style-LandingPage.scss';
+import './../../Assets/Styles/Page/style-LandingPage.scss';
 // import IconWordmarkImg from './../../Assets/Images/brand/icon_wordmark.png'
 // import IconWalletImg from './../../Assets/Images/icons/wallet.png'
 import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg';
