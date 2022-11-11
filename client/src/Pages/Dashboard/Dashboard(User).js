@@ -51,7 +51,7 @@ function Dashboard() {
           <section>
             <h4 className='SectionTitle'>Upcoming Events</h4>
             <div id='Holder_EventCard'>
-              <div id='Wrapper_EventCard'>
+              <div id='Wrapper_EventCard' style={{display: 'flex' , gap: '10px'}}>
                 <EventCard/>
                 <EventCard/>
               </div>
@@ -60,9 +60,6 @@ function Dashboard() {
               </div>
             </div>
           </section>
-
-
-
         </div>
       </div>
     </div>
