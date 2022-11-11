@@ -3,7 +3,7 @@ import express from 'express';
 import { ethers } from 'ethers';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { generateNonce } from './src/tools.js'
+import { generateNonce, ipfsClient } from './src/tools.js'
 
 dotenv.config();
 
@@ -47,7 +47,7 @@ app.post('/login', async (req, res) => {
     const { nonce } = users.filter(u => u.address == address)[0];
     // console.log(users.filter(u => u.address == address));
 
-    const signerAddress = await ethers.utils.verifyMessage('Nonce: ' + nonce, signature);
+    const signerAddress = ethers.utils.verifyMessage('Nonce: ' + nonce, signature);
 
     if(signerAddress == address) {
         users.find(u => u.address == address).nonce = generateNonce();
@@ -59,83 +59,181 @@ app.post('/login', async (req, res) => {
 
 import Member from './src/models/Member.js';
 import Event from './src/models/Event.js';
-import { nanoid } from 'nanoid';
-// import { generateNonce } from './src/tools.js';
+import { customAlphabet, nanoid } from 'nanoid';
+import mongoose from 'mongoose';
+const randomAddress = customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz', 40);
+
+const occupations = ['Drafter', 'Farmer', 'Speech-Language Pathologist', 'HR Specialist', 'Firefighter', 'Chemist', 'Recreation & Fitness Worker', 'Landscaper & Groundskeeper', 'High School Teacher', 'Hairdresser'];
 
 const test = async () => {
-    // Create members
-    const member1 = await Member.create({ walletAddress: '0x8B72721DE2E85CC7634801D09448b99dcB66d354' });
-    const member2 = await Member.create({ walletAddress: '0xF432061cf7E60129b8D822b1a2037Ca4ace0872C' });
-    const member3 = await Member.create({ walletAddress: '0xe99eAe462cd1F2a22f8c3403623B66ec8aAE8904' });
-    const member4 = await Member.create({ walletAddress: '0x53Ce82317C57eF4cFa2b2e27361eb2F07C0BA626' });
-    const member5 = await Member.create({ walletAddress: '0xE99568000e344a00D4046AF50Bd314f6aE6d1C01' });
-    const member6 = await Member.create({ walletAddress: '0x04a48d09d2658eF7F024C9972E26BEd7dB02A706' });
+    let members = [];
+    let events = [];
+    let accountants = [];
+    let documents = [];
+    let requests = [];
+    let transactions = [];
+
+    // Create 50 members
+    let name;
+    while(members.length < 10) {
+        name = generateName()
+        members.push(
+            await Member.create({
+                walletAddress: '0x'+randomAddress(),
+                isPremium: rand(),
+                name,
+                about: loremDescription(rand(50, 70)),
+                occupation: rand(occupations)
+            })
+        )
+    }
+
+    // Create 30 events
+    while(events.length < 10) {
+        events.push(
+            await Event.create({
+                eventId: nanoid(8),
+                type: rand(['online', 'onsite']),
+                title: loremTitle(rand(3, 7)),
+                description: loremDescription(rand(30, 50)),
+                link: 'https://bit.ly/' + nanoid(6),
+                date: {
+                    start: new Date(Date.now() + Math.random() * (1e+10)).getTime(),
+                    end: new Date(Date.now() + Math.random() * (1e+10) * 2).getTime()
+                },
+                tags: generateTags(rand(4, 8))
+            })
+        )
+    }
+
+    // Assign participants to events
+    var participants;
+    for(var event of events) {
+        participants = new Set()
+        
+        for(var i = 0; i < rand(4, 7); i++) {
+            participants.add({
+                mid: rand(members.filter(m => !participants.has(m._id)))._id,
+                role: rand(['Organizer', 'Speaker', 'Guest', 'Volunteer', 'Participant'])
+            })
+        }
+
+        participants.forEach(({mid, role}) => {
+            event.participants.push({
+                member: mid,
+                role
+            });
+
+            members
+                .find(m => m._id === mid)
+                .joinedEvents.push({
+                    event: event._id,
+                    role
+                });
+        })
+    }
+
+    members.forEach(async (m) => await m.save())
+    events.forEach(async (e) => await e.save())
+}
+test();
+
+import { readFileSync } from 'fs';
+import { Buffer } from 'buffer';
+import { create } from 'ipfs-http-client';
+const ipfsTest = async () => {
+    // console.log(auth);
+    const auth = 'Basic ' + Buffer.from('2Gwp7Bjzsk2g7lH97Rskh0MenoA:542eafe1b88b83c6f8fba3bfd4ca026b').toString('base64')
+    const client = create({
+        host: 'ipfs.infura.io',
+        port: 5001,
+        protocol: 'https',
+        headers: {
+            authorization: 'Basic ' + Buffer.from(process.env.INFURA_IPFS_ID + ':' + process.env.INFURA_IPFS_SECRET).toString('base64')
+            // authorization: 'Basic ' + (INFURA_IPFS_ID + ':' + INFURA_IPFS_SECRET).toString('base64')
+        }
+    });
+
+    // console.log(ipfsClient)
     
-    // Create events
-    const event1 = await Event.create({ eventId: nanoid(8) });
-    const event2 = await Event.create({ eventId: nanoid(8) });
-    const event3 = await Event.create({ eventId: nanoid(8) });
-    const event4 = await Event.create({ eventId: nanoid(8) });
+    try {
+        const sampleTextBuffer = readFileSync('addresses.txt');
+        const jsonBuffer = JSON.stringify(sampleTextBuffer)
+        console.log(jsonBuffer)
+        console.log(JSON.parse(jsonBuffer))
+        // console.log(Buffer.from(JSON.parse(jsonBuffer)));
+        console.log({sampleTextBuffer})
+        // const data = await ipfsClient.add(readFileSync('addresses.txt'));
+        // console.log(data);
+    } catch (error) {
+        console.log(error);
+    }
+    // console.log(auth);
+    // // console.log(Buffer.from(auth, 'base64'));
 
-    // Event 1
-    await Event.findByIdAndUpdate(event1._id, { $push: { participants: { role: 'Organizer', member: member1._id } } });
-    await Event.findByIdAndUpdate(event1._id, { $push: { participants: { role: 'Watcher', member: member2._id } } });
-    await Event.findByIdAndUpdate(event1._id, { $push: { participants: { role: 'Listener', member: member3._id } } });
+    // try {
+    //     await ipfsClient.add(readFileSync('addresses.txt'));
+    // } catch (error) {
+    //     console.log(error.name, error.message);
+    // }
+}
+// ipfsTest();
 
-    // Event 2
-    await Event.findByIdAndUpdate(event2._id, { $push: { participants: { role: 'Organizer', member: member3._id } } });
-    await Event.findByIdAndUpdate(event2._id, { $push: { participants: { role: 'Watcher', member: member4._id } } });
-    await Event.findByIdAndUpdate(event2._id, { $push: { participants: { role: 'Listener', member: member5._id } } });
+function generateName() {
+    const firstNames = ['Vivienne', 'Rhiann', 'Benedict', 'Alexa', 'Layan', 'Aiysha', 'Alia', 'Harlee', 'Nicole', 'Aiden'];
+    const lastNames = ['Ball', 'Martinez', 'Small', 'Carroll', 'Rubio', 'Savage', 'Knapp', 'Robson', 'Mcdaniel', 'Redman'];
+    const extensions = ['Sr.', 'Jr.', 'II', 'III', 'IV', 'V'];
 
-    // Event 3
-    await Event.findByIdAndUpdate(event3._id, { $push: { participants: { role: 'Organizer', member: member5._id } } });
-    await Event.findByIdAndUpdate(event3._id, { $push: { participants: { role: 'Watcher', member: member6._id } } });
-    await Event.findByIdAndUpdate(event3._id, { $push: { participants: { role: 'Listener', member: member1._id } } });
-
-    // Event 4
-    await Event.findByIdAndUpdate(event4._id, { $push: { participants: { role: 'Organizer', member: member2._id } } });
-    await Event.findByIdAndUpdate(event4._id, { $push: { participants: { role: 'Watcher', member: member4._id } } });
-    await Event.findByIdAndUpdate(event4._id, { $push: { participants: { role: 'Listener', member: member6._id } } });
-
-    // Member 1
-    await Member.findByIdAndUpdate(member1._id, { $push: { joinedEvents: { role: 'Organizer', event: event1._id } } });
-    await Member.findByIdAndUpdate(member1._id, { $push: { joinedEvents: { role: 'Listener', event: event3._id } } });
-
-    // Member 2
-    await Member.findByIdAndUpdate(member2._id, { $push: { joinedEvents: { role: 'Watcher', event: event1._id } } });
-    await Member.findByIdAndUpdate(member2._id, { $push: { joinedEvents: { role: 'Organizer', event: event4._id } } });
-
-    // Member 3
-    await Member.findByIdAndUpdate(member3._id, { $push: { joinedEvents: { role: 'Organizer', event: event2._id } } });
-    await Member.findByIdAndUpdate(member3._id, { $push: { joinedEvents: { role: 'Listener', event: event1._id } } });
-
-    // Member 4
-    await Member.findByIdAndUpdate(member4._id, { $push: { joinedEvents: { role: 'Watcher', event: event2._id } } });
-    await Member.findByIdAndUpdate(member4._id, { $push: { joinedEvents: { role: 'Watcher', event: event4._id } } });
-
-    // Member 5
-    await Member.findByIdAndUpdate(member5._id, { $push: { joinedEvents: { role: 'Organizer', event: event3._id } } });
-    await Member.findByIdAndUpdate(member5._id, { $push: { joinedEvents: { role: 'Listener', event: event2._id } } });
-
-    // Member 6
-    await Member.findByIdAndUpdate(member6._id, { $push: { joinedEvents: { role: 'Watcher', event: event3._id } } });
-    await Member.findByIdAndUpdate(member6._id, { $push: { joinedEvents: { role: 'Listener', event: event4._id } } });
-
-    // const member = await Member
-    //     .findOne()
-    //     .populate({ path: 'joinedEvents.event', select: 'eventId' })
-    //     .select('walletAddress joinedEvents')
-    //     .exec()
-
-    // console.log(member);
-    // console.log(generateNonce(5));
+    var name = {};
+    name.firstName = rand(firstNames);
+    name.lastName = rand(lastNames);
+    if(rand())
+        name.middleName = rand(lastNames.filter(ln => ln !== name.lastName));
+    if(rand())
+        name.extension = rand(extensions);
+    return name;
 }
 
-// test();
+function generateTags(n) {
+    const tags = ['elevator', 'measurement', 'conversation', 'version', 'people', 'woman', 'king', 'classroom', 'education', 'speaker', 'income', 'city', 'proposal', 'software', 'freedom', 'power', 'height', 'climate', 'fact', 'nation'];
+    let currentTags = new Set();
+    while(currentTags.size < n) {
+        currentTags.add(rand(tags.filter(t => !currentTags.has(t))))
+    }
+    return Array.from(currentTags);
+}
+
+function rand(min, max) {
+    if(!min && !max) return Math.random() > 0.5;
+
+    if(min instanceof Array) return min[rand(min.length)];
+
+    return Math.floor(Math.random() * (max ? (max - min + 1) : min)) + (max ? min : 0);
+}
+
+function loremDescription(n) {
+    var part = rand(500 - n);
+    return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel sem ac massa condimentum fringilla in ut mi. Suspendisse dapibus maximus fermentum. Vestibulum ac fringilla neque, sed vehicula ipsum. Duis elementum tempus tempus. Phasellus sit amet rutrum urna, nec sodales eros. Nulla id dictum magna. In quis nulla fringilla, dignissim est a, vehicula nunc. Nam semper tristique dapibus. Maecenas hendrerit diam a rutrum dignissim. Nulla sapien leo, mollis id facilisis at, ultrices ut odio. Vivamus viverra vestibulum quam, sed ullamcorper ipsum tincidunt sit amet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.'
+        .substring(part, part + n);
+}
+
+function loremTitle(n) {
+    var part = rand(97 - n);
+    return 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vel sem ac massa condimentum fringilla in ut mi. Suspendisse dapibus maximus fermentum. Vestibulum ac fringilla neque, sed vehicula ipsum. Duis elementum tempus tempus. Phasellus sit amet rutrum urna, nec sodales eros. Nulla id dictum magna. In quis nulla fringilla, dignissim est a, vehicula nunc. Nam semper tristique dapibus. Maecenas hendrerit diam a rutrum dignissim. Nulla sapien leo, mollis id facilisis at, ultrices ut odio. Vivamus viverra vestibulum quam, sed ullamcorper ipsum tincidunt sit amet. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.'
+        .match(/\w+/g)
+        .map(w => w[0].toUpperCase() + w.substring(1))
+        .slice(part, part + n)
+        .join(' ');
+}
 
 // Run server
-app.listen(3125, err => {
-    if(err) return console.log('Error', err);
-    console.log('Listening on port', 3125);
-});
-
+// mongoose
+//     .connect(process.env.TEST_MONGO)
+//     .then(() => {
+        // Run server
+        app.listen(3125, err => {
+            if(err) return console.log('Error', err);
+            console.log('Connected to database\nListening on port', 3125);
+        });
+    // })
+    // .catch(error => console.log(error.message));

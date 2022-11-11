@@ -5,6 +5,7 @@ import { createToken, filterBody, generateNonce } from '../tools.js';
 import { InvalidRequestBodyError, NotFoundError, UnauthorizedError } from '../errors.js';
 
 const memberAcceptedEntries = new Set([
+    'walletAddress',
     'isPremium',
     'name',
     'about',
@@ -36,17 +37,20 @@ const loginMember = async (req, res, next) => {
             const isMatch = bcrypt.compare(password, member.credentials.password);
             if(!isMatch) throw new UnauthorizedError('Incorrect credentials');
             
-            const token = createToken(member._id);
+            const token = createToken({_id: member._id, walletAddress: member.walletAddress});
 
             res.status(200).json({ email, token });
         }
-
+        /**
+         * type: metamask
+         * credentials: [walletAddress, signature]
+         */
         if(type == 'metamask') {
             const [walletAddress, signature] = credentials;
             const member = await Member.findOne({ walletAddress }).exec() ||
                            await Member.create({ walletAddress });
 
-            const signerAddress = await ethers.utils.verifyMessage('Nonce: ' + member.credentials.nonce, signature, 'asdf')
+            const signerAddress = ethers.utils.verifyMessage('Nonce: ' + member.credentials.nonce, signature);
             if(signerAddress !== walletAddress) throw new UnauthorizedError('Invalid signer');
 
             member.credentials.nonce = generateNonce();
@@ -66,9 +70,7 @@ const getNonce = async (req, res, next) => {
 
     try {
         const member = await Member.findOne({ walletAddress }).exec();
-        if(!member) throw new NotFoundError('Member');
-
-        res.status(200).json({ nonce: member.credentials.nonce });
+        res.status(200).json({ nonce: member?.credentials.nonce ?? generateNonce() });
     } catch(error) {
         next(error)
     }
@@ -126,7 +128,7 @@ const getJoinedEvents = async (req, res, next) => {
         const member = await Member
             .findOne({ walletAddress })
             .select('-joinedEvents._id')
-            .populate('joinedEvents.event', '-_id eventId canClaimDocument status')
+            .populate('joinedEvents.event', '-_id eventId title')
             .exec();
         if(!member) throw new NotFoundError('Member');
 

@@ -1,4 +1,4 @@
-import { InvalidRequestBodyError, NotFoundError } from '../errors.js';
+import { InvalidRequestBodyError, NotFoundError, UnauthorizedError } from '../errors.js';
 import Accountant from '../models/Accountant.js';
 import Event from '../models/Event.js';
 import Member from '../models/Member.js';
@@ -25,17 +25,8 @@ const saveTransaction = async (req, res, next) => {
         const findMember = await Member.findOne({ walletAddress: senderAddress }).exec();
         if(!findMember) throw new NotFoundError('Member');
 
-        console.log(findMember.walletAddress);
-        console.log(findMember._id);
-
         const sender = await Accountant.findOne({ member: findMember._id }).exec();
-        if(!sender) {
-            const error = new Error('Not accountant');
-            error.status = 401;
-            throw error;
-        }
-
-        console.log(sender)
+        if(!sender) throw new UnauthorizedError('Not accountant');
 
         const receiver = await Member.findOne({ walletAddress: receiverAddress }).exec();
         if(!receiver) throw new NotFoundError('Member');
@@ -86,7 +77,7 @@ const getTransaction = async (req, res, next) => {
 
     try {
         const transaction = await Transaction
-            .find()
+            .findOne({ hash })
             .select('-_id -__v')
             .populate('event', '-_id eventId title')
             .populate({
