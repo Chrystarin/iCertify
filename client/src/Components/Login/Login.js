@@ -1,8 +1,9 @@
-import  './../../Assets/Styles/style-Modal.scss';
 import {useEffect, useState} from 'react';
 import React, { Component } from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
-import './../../Assets/Styles/style-login-signup.scss';
+
+import  './../../Assets/Styles/Components/style-Modal.scss';
+import './../../Assets/Styles/Components/style-login-signup.scss';
 import Pattern from './../../Assets/Images/Resources/pattern.png';
 import UserIcon from './../../Assets/Images/icons/user.png';
 import MetamaskIcon from './../../Assets/Images/icons/fox.png';

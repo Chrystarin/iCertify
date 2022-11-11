@@ -3,8 +3,6 @@ import './../../Assets/Styles/Page/style-LandingPage.scss';
 // import IconWalletImg from './../../Assets/Images/icons/wallet.png'
 import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg';
 
-
-
 function LandingPage() {
  return(
     <div id='LandingPage'>
