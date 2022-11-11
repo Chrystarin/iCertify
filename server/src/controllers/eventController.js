@@ -20,7 +20,7 @@ const createEvent = async (req, res, next) => {
     try {
         await Event.create({
             eventId: nanoid(8),
-            ...filterBody(eventAcceptedEntries, requestBody)
+            ...filterBody(eventAcceptedEntries, req.body)
         });
 
         res.sendStatus(204);

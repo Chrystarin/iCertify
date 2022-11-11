@@ -23,11 +23,11 @@ const transactionSchema = new Schema({
         required: true
     },
     date: {
-        type: String,
+        type: Number,
         default: Date.now()
     },
     fee: {
-        type: Decimal128,
+        type: Number,
         required: true
     }
 });

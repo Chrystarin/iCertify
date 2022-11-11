@@ -9,17 +9,22 @@ import {
     getDocuments,
     getRequests
 } from '../controllers/memberController.js';
+import authUser from '../middlewares/authUser.js';
 
 const router = express.Router();
 
+router.post('/login', loginMember);
+
+router.get('/:walletAddress/nonce', getNonce);
+
+// Authentication
+router.use(authUser);
+
 router.get('/', getAllMembers);
 router.get('/:walletAddress', getMember);
-router.get('/:walletAddress/nonce', getNonce);
 router.get('/:walletAddress/events', getJoinedEvents);
 router.get('/:walletAddress/documents', getDocuments);
 router.get('/:walletAddress/requests', getRequests);
-
-router.post('/login', loginMember);
 
 router.patch('/:walletAddress', updateMember);
 

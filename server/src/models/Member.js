@@ -6,7 +6,9 @@ const memberSchema = new Schema({
     walletAddress: {
         type: String,
         unique: true,
-        required: true
+        index: true,
+        required: true,
+        lowercase: true,
     },
     isPremium: {
         type: Boolean,
@@ -37,7 +39,9 @@ const memberSchema = new Schema({
         },
         email: {
             type: String,
-            unique: true
+            unique: true,
+            index: true,
+            sparse: true
         },
         password: String
 
@@ -47,7 +51,11 @@ const memberSchema = new Schema({
             type: ObjectId,
             ref: 'Event'
         },
-        role: String
+        role: {
+            type: String,
+            enum: ['Organizer', 'Speaker', 'Guest', 'Volunteer', 'Participant'],
+            default: 'Participant'
+        }
     }],
     ownedDocuments: [{
         type: ObjectId,

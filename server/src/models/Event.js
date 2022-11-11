@@ -28,17 +28,14 @@ const eventSchema = new Schema({
         type: String,
         required: true
     },
-    location: {
-        type: String,
-        required: true
-    },
+    location: String,
     date: {
         start: {
-            type: String,
+            type: Number,
             required: true
         },
         end: {
-            type: String,
+            type: Number,
             required: true
         }
     },
@@ -48,10 +45,7 @@ const eventSchema = new Schema({
     },
     status: {
         type: String,
-        enum: {
-            values: ['draft', 'active', 'inactive'],
-            message: 'Invalid status'
-        },
+        enum: ['draft', 'active', 'inactive'],
         default: 'draft'
     },
     isAcceptingVolunteer: {
@@ -62,10 +56,13 @@ const eventSchema = new Schema({
     participants: [{
         member: {
             type: ObjectId,
-            ref: 'Member',
-            unique: true
+            ref: 'Member'
         },
-        role: String
+        role: {
+            type: String,
+            enum: ['Organizer', 'Speaker', 'Guest', 'Volunteer', 'Participant'],
+            default: 'Participant'
+        }
     }],
     requests: [{
         type: ObjectId,
