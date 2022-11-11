@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import Logo from './../../Assets/Images/brand/icon.png';
+import './../../Assets/Styles/Components/style-DashboardNavigation.scss';
 
 export class DashboardNavigation extends PureComponent {
   render() {
