@@ -28,6 +28,11 @@ export default function ModalLogin({open,onClose}) {
           });
           setWalletAddress(accounts[0]);
           console.log(accounts[0]);
+          // const provider = new ethers.providers.Web3Provider(window.ethereum);
+          // const signer = provider.getSigner();
+          // const signature = await signer.signMessage('Nonce: ' + nonce);
+          
+          // console.log(signature)
           return navigate('/dashboard')
         } catch (err) {
           console.error(err.message);
