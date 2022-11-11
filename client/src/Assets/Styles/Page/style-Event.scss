@@ -1,0 +1,45 @@
+#Events{
+    #Navigatoin_Event{
+        button{
+            background: none;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 400;
+            margin-right: 30px;
+            font-size: 15px;
+        }
+        .Selected{
+            padding: .5em 1em;
+            background-color: var(--accent);
+            font-weight: 700;
+            color: white;
+        }
+    }
+    .container {  display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 0px 0px;
+        grid-auto-flow: row;
+        gap: 5px;
+        grid-template-areas:
+          "Container_Event_SlideShow Container_Advertisement"
+          "Container_UpcomingEvents Container_UpcomingEvents";
+    }
+    .Container_Event_SlideShow { 
+        grid-area: Container_Event_SlideShow; 
+        background-color: blue;
+    }
+      
+    .Container_Advertisement { 
+        grid-area: Container_Advertisement; 
+        background-color: red;
+    }
+      
+      .Container_UpcomingEvents { 
+        grid-area: Container_UpcomingEvents; 
+        background-color: green;
+    }
+      
+      
+}
