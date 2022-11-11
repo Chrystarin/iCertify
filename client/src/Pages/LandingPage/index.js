@@ -1,4 +1,4 @@
-import './../../Assets/Styles/style-LandingPage.scss';
+import './../../Assets/Styles/Page/style-LandingPage.scss';
 // import IconWordmarkImg from './../../Assets/Images/brand/icon_wordmark.png'
 // import IconWalletImg from './../../Assets/Images/icons/wallet.png'
 import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg';
@@ -12,7 +12,7 @@ function LandingPage() {
           <div id="Main">
             <div id="Container_Img_Main">
               <div>
-                {/* Put the main image */}
+                <img src={ImagePlaceHolder} alt="" />
               </div>
             </div>
             <div id="Container_Content_Main">
@@ -80,7 +80,7 @@ function LandingPage() {
             <section id="Container_Section3">
               <div className="Container_Title_Section">
                 <h3>Frequently Ask Questions</h3>
-                <p></p>
+                <p>Integrating NFT and Blockchain Technology for Academic Credentials Authenticity</p>
               </div>
 
               <div className="Container_Content_Section">

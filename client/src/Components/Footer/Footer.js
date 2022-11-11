@@ -1,10 +1,9 @@
-import './../../Assets/Styles/style-Footer.scss';
+import './../../Assets/Styles/Components/style-Footer.scss';
 import icertify_footer from './../../Assets/Images/brand/icertify_footer.png';
 import facebookicon from './../../Assets/Images/icons/SocialMedia/facebook.png';
 import emailicon from './../../Assets/Images/icons/SocialMedia/email.png';
 import instagramicon from './../../Assets/Images/icons/SocialMedia/instagram.png';
-// import IconWalletImg from './../../Assets/Images/icons/wallet.png'
-// import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg'
+
 
 
 

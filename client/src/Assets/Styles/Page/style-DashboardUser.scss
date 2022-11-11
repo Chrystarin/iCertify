@@ -1,0 +1,79 @@
+$Width : 100vw;
+$Maxwidth1 : 1920px;
+
+#DashboardHolder{
+    width: $Width;
+    height: 100vh;
+    max-width: $Maxwidth1;
+    margin: auto;
+    display: grid;
+    grid-template-columns: .04fr 1fr;
+}
+
+#Holder_Content{
+    background-color: var(--light2);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding: 1em 1em 0;
+    
+    #Content{
+      padding-top: 50px;
+      #Alert{
+        ul{
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(2,1fr);
+            gap: 25px;
+            li{
+                background-color: var(--accent);
+                border-radius: 10px;
+                display: grid;
+                grid-template-columns: repeat(1fr); 
+                color: white; 
+                position: relative;
+                a{
+                    padding: .7em 1em;
+                    color: white;    
+                    text-decoration: none;
+                      
+                }
+                .Close{
+                    position: absolute;
+                    cursor: pointer;
+                    top: 50%;
+                    right: 1em;
+                    transform: translate(0,-50%);
+                }
+            }
+        }
+      }
+
+      section{
+        margin-top: 40px;
+        h4{
+            position: relative;
+            margin-bottom: 30px;
+        }
+        h4::after{
+            content: "";
+            margin-left: 15px;
+            position: absolute;
+            top: 50%;
+            transform: translate(0,-50%);
+            width: 35px;
+            height: 5px;
+            border-radius: 100px;
+            background-color: black;
+        }
+      }
+
+
+      
+      #Holder_EventCard{
+        #Wrapper_EventCard{
+            display: flex;
+            gap: 10px;
+        }
+      }
+    }
+}

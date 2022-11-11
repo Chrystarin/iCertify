@@ -1,11 +1,18 @@
 $Width : 100vw;
 $maxwdth : calc(1920px - 10%);
 
-// Color 
-$accent : #017CC9;
+:root {
+    // Color to set up "var(--accent)"
+    --accent: #017CC9;
+    --dark1: #203546; 
+    --dark2: #11232F; 
+    --light1: #4DA9DA; 
+    --light2: #EFFAFC; 
 
+}
 
 *{
+    font-family: sans-serif;
     padding: 0%;
     margin: 0%;
     box-sizing: border-box;
