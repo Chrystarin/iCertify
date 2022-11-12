@@ -59,6 +59,8 @@ function Panel_Events(props){
 
       fetchEvents()
   }, [])
+  
+  if(!events) return <div>loading...</div>
 
   if(props.open === "FeaturedEvents"){
     return (
@@ -72,9 +74,10 @@ function Panel_Events(props){
               </div>
           </div>
           <div id='Container_Upcoming_FeaturedEvents'>
-            {events.map((event) => 
-              <EventCard title={event.title} eventId={event.eventId}/>
+            {events.length > 0 && events.map((event) => 
+              <EventCard title={event.title} key={event.eventId}/>
             )}
+
           </div>
       </div>
     );
