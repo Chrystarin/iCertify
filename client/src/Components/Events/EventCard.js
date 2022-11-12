@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg';
-import './../../Assets/Styles/Components/style-EventCard.scss'
+import './../../Assets/Styles/Components/style-EventCard.scss';
 
 const EventCard = (props) => {
 
@@ -27,14 +27,14 @@ const EventCard = (props) => {
                 <h6 className="EventTitle">{`Title:${title}`} and </h6>
                 {/* Add class DateDue if the date if near on happening */}
                 <p className='Date BodyText3'>Today</p>
-                <div className='Container_Participants'>
+                {/* <div className='Container_Participants'>
                     <div className='Wrapper_Participants'>
                         <img src={ImagePlaceHolder} alt=""/>
                         <img src={ImagePlaceHolder} alt=""/>
                         <img src={ImagePlaceHolder} alt=""/>
                     </div>
                     <p>+<span>400</span> Participating</p>
-                </div>
+                </div> */}
             </div>
         </a>
     </div>

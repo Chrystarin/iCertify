@@ -44,3 +44,16 @@ h6{
 .BodyText3{
     font-size: 15px;
 }
+
+.active{
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition: var(500ms) ease;
+}
+.inactive{
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+    transition: var(500ms) ease;
+}
