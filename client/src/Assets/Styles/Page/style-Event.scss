@@ -1,5 +1,5 @@
 #Events{
-    #Navigatoin_Event{
+    .Navigation_Event{
         button{
             background: none;
             border: none;
@@ -15,31 +15,42 @@
             font-weight: 700;
             color: white;
         }
-    }
-    .container {  display: grid;
-        grid-template-columns: 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-        gap: 0px 0px;
-        grid-auto-flow: row;
-        gap: 5px;
-        grid-template-areas:
-          "Container_Event_SlideShow Container_Advertisement"
-          "Container_UpcomingEvents Container_UpcomingEvents";
-    }
-    .Container_Event_SlideShow { 
-        grid-area: Container_Event_SlideShow; 
-        background-color: blue;
-    }
-      
-    .Container_Advertisement { 
-        grid-area: Container_Advertisement; 
-        background-color: red;
-    }
-      
-      .Container_UpcomingEvents { 
-        grid-area: Container_UpcomingEvents; 
-        background-color: green;
-    }
-      
-      
+    }    
 }
+
+#Panel_Events{
+    margin-top: 20px;
+    width: 100%;
+
+
+    #Container_FeaturedEvents{
+
+        #Container_Ads_FeaturedEvents{
+            display: grid;
+            grid-template-columns: 1fr .3fr;
+            gap: 25px;
+            #Slider_FeaturedEvents{
+                overflow: hidden;
+                border-radius: 10px;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            #Ads_FeaturedEvents{
+                background-color: gray;
+            }
+        }
+        #Container_Upcoming_FeaturedEvents{
+            margin-top: 25px;
+            display: flex;
+            gap: 15px;
+        }
+    }
+    #Container_JoinedEvents{
+        background-color: yellow;
+    }
+    #Container_ManageEvents{
+        background-color: brown;
+    }
+} 
