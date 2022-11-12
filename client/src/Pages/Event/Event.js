@@ -14,23 +14,8 @@ import ImagePosterSample from './../../Assets/Images/placeholder/PosterSample.jp
 
 function Event() {
 
-  const [events, setEvents] = useState(null)
-
-  const {id} = useParams()
   const [isOpenPanel_Events , setIsOpenPanel_Events] = useState("FeaturedEvents"); 
 
-  useEffect(() => {
-      const fetchEvents = async () => {
-          const response  = await fetch('http://localhost:5000/api/events')
-          const json = await response.json()
-
-          if(response.ok){
-              setEvents(json)
-          }
-      }
-
-      fetchEvents()
-  }, [])
 
   return (
     <div id='DashboardHolder'>
@@ -47,24 +32,11 @@ function Event() {
               <button id="JoinedEvents" onClick={() => setIsOpenPanel_Events("JoinedEvents")}>Joined Events</button>
               <button id="ManageEvents" onClick={() => setIsOpenPanel_Events("ManageEvents")}>Manage Events</button>
             </div>
-<<<<<<< HEAD
-            <div class="container">
-              <div class="Container_Event_SlideShow">Container_Event_SlideShow</div>
-              <div class="Container_Advertisement">Container_Advertisement</div>
-              <div class="Container_UpcomingEvents">
-              {events.map((event) => 
-                    <EventCard title={event.title} eventId={event.eventId}/>
-                )}
+
+              <div id='Panel_Events'>
+                <Panel_Events open={isOpenPanel_Events}/>
               </div>
-              <div>
-                
-              </div>
-=======
-            
-            <div id='Panel_Events'>
-              <Panel_Events open={isOpenPanel_Events}/>
->>>>>>> develop-frontend
-            </div>
+
           </section>
         </div>
       </div>
@@ -73,6 +45,21 @@ function Event() {
 }
 
 function Panel_Events(props){
+  const [events, setEvents] = useState(null)
+
+  useEffect(() => {
+      const fetchEvents = async () => {
+          const response  = await fetch('http://localhost:5000/api/events')
+          const json = await response.json()
+
+          if(response.ok){
+              setEvents(json)
+          }
+      }
+
+      fetchEvents()
+  }, [])
+
   if(props.open === "FeaturedEvents"){
     return (
       <div id='Container_FeaturedEvents'>
@@ -85,10 +72,9 @@ function Panel_Events(props){
               </div>
           </div>
           <div id='Container_Upcoming_FeaturedEvents'>
-              <EventCard/>
-              <EventCard/>
-              <EventCard/>
-              <EventCard/>
+            {events.map((event) => 
+              <EventCard title={event.title} eventId={event.eventId}/>
+            )}
           </div>
       </div>
     );
