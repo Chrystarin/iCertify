@@ -12,8 +12,8 @@ app.use(express.json());
 
 
 
-// const __dirname = path.dirname('./metamaskConnect.html');
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const __dirname = path.dirname('./metamaskConnect.html');
+// const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 let users = [
     {

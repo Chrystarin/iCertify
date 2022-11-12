@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import {useParams} from 'react-router-dom';
 
 import './../../Assets/Styles/Page/style-DashboardUser.scss';
@@ -11,9 +11,21 @@ import EventCard from '../../Components/Events/EventCard.js';
 
 function Event() {
 
-  //Use this id to pull event info from database
-  const {id} = useParams()
-  
+  const [events, setEvents] = useState(null)
+
+  useEffect(() => {
+      const fetchEvents = async () => {
+          const response  = await fetch('http://localhost:5000/api/events')
+          const json = await response.json()
+
+          if(response.ok){
+              setEvents(json)
+          }
+      }
+
+      fetchEvents()
+  }, [])
+
   return (
     <div id='DashboardHolder'>
       <div id="Navigation">
@@ -22,7 +34,6 @@ function Event() {
       <div id="Holder_Content">
         <HeaderNavigation/>
         <div id="Content">
-
           <section id='Events'>
             <h4>Events</h4>
             <div id="Navigatoin_Event">
@@ -33,7 +44,14 @@ function Event() {
             <div class="container">
               <div class="Container_Event_SlideShow">Container_Event_SlideShow</div>
               <div class="Container_Advertisement">Container_Advertisement</div>
-              <div class="Container_UpcomingEvents">Container_UpcomingEvents</div>
+              <div class="Container_UpcomingEvents">
+              {events.map((event) => 
+                    <EventCard title={event.title} eventId={event.eventId}/>
+                )}
+              </div>
+              <div>
+                
+              </div>
             </div>
           </section>
         </div>

@@ -2,6 +2,8 @@ import {useEffect, useState} from 'react';
 import React, { Component } from 'react';
 import {Routes, Route, useNavigate} from 'react-router-dom';
 
+import {ethers} from 'ethers';
+
 import  './../../Assets/Styles/Components/style-Modal.scss';
 import './../../Assets/Styles/Components/style-login-signup.scss';
 import Pattern from './../../Assets/Images/Resources/pattern.png';
@@ -23,16 +25,37 @@ export default function ModalLogin({open,onClose}) {
       if (typeof window != "undefined" && typeof window.ethereum != "undefined") {
         try {
           /* MetaMask is installed */
-          const accounts = await window.ethereum.request({
-            method: "eth_requestAccounts",
+          // const accounts = await window.ethereum.request({
+          //   method: "eth_requestAccounts",
+          // });
+
+          await window.ethereum.request({ method: 'eth_requestAccounts' });
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+
+          console.log("Signer:" + signer);
+
+          alert("Signer:" + signer);
+
+          // Get address of signer
+          const address = await signer.getAddress();
+
+          // Get nonce of address
+          const nonceResponse = await fetch(`http://localhost:5000/api/members/${address}/nonce`);
+          const { nonce } = await nonceResponse.json();
+
+          // Sign the message
+          const signature = await signer.signMessage('Nonce: ' + nonce);
+
+          // Login with the address and signature
+          const loginResponse = await fetch('http://localhost:5000/api/members/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ type: 'metamask', credentials: [address, signature] })
           });
-          setWalletAddress(accounts[0]);
-          console.log(accounts[0]);
-          // const provider = new ethers.providers.Web3Provider(window.ethereum);
-          // const signer = provider.getSigner();
-          // const signature = await signer.signMessage('Nonce: ' + nonce);
-          
-          // console.log(signature)
+
+          console.log(await loginResponse.json());
+        
           return navigate('/dashboard')
         } catch (err) {
           console.error(err.message);
@@ -52,7 +75,7 @@ export default function ModalLogin({open,onClose}) {
           if (accounts.length > 0) {
             setWalletAddress(accounts[0]);
             console.log(accounts[0]);
-            return navigate('/dashboard')
+            // return navigate('/dashboard')
           } else {
             console.log("Connect to MetaMask using the Connect button");
           }
@@ -69,7 +92,7 @@ export default function ModalLogin({open,onClose}) {
         window.ethereum.on("accountsChanged", (accounts) => {
           setWalletAddress(accounts[0]);
           console.log(accounts[0]);
-          return navigate('/dashboard')
+          // return navigate('/dashboard')
         });
       } else {
         /* MetaMask is not installed */

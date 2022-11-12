@@ -3,7 +3,9 @@ import React from 'react';
 import Home from './Pages/Home';
 import Dashboard from './Pages/Dashboard/Dashboard(User)';
 import Event from './Pages/Event/Event';
+import EventCreate from './Pages/Event/EventCreate.js';
 import EventList from './Pages/Event/EventList.js';
+import EventView from './Pages/Event/EventView.js';
 import Error404 from './Pages/Error404';
 import Login from './Components/Login/Login';
 
@@ -15,7 +17,8 @@ function App() {
     <Route path="/" element={<Home/>}/>
     <Route path="/dashboard" element={<Dashboard/>}/>
     <Route path="/events" element={<Event/>}/>
-    <Route path="/events/:id" element={<Event/>}/>
+    <Route path="/events/create" element={<EventCreate/>}/>
+    <Route path="/events/:id" element={<EventView/>}/>
     <Route path="*" element={<Error404/>}/>
   </Routes>
 
