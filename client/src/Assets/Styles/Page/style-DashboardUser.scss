@@ -2,12 +2,15 @@ $Width : 100vw;
 $Maxwidth1 : 1920px;
 
 #DashboardHolder{
-    width: $Width;
-    height: 100vh;
-    max-width: $Maxwidth1;
     margin: auto;
+    max-width: 1900px;
+    height: 100vh;
     display: grid;
-    grid-template-columns: .04fr 1fr;
+    grid-template-columns: 4% 96%;
+    #Navigation{
+        max-width:76px;
+
+    }
 }
 
 #Holder_Content{

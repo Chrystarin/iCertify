@@ -15,6 +15,17 @@
             font-weight: 700;
             color: white;
         }
+        span{
+            padding: .5em 0;
+            display: inline-block;
+            color: gray;
+            background-color: gray;
+            height: 100%;
+            width: 3px;
+            margin-right: 30px;
+            border-radius: 25px;
+            opacity: .2;
+        }
     }    
 }
 
@@ -38,17 +49,41 @@
                 }
             }
             #Ads_FeaturedEvents{
+                overflow: hidden;
+                border-radius: 10px;
                 background-color: gray;
             }
         }
         #Container_Upcoming_FeaturedEvents{
-            margin-top: 25px;
-            display: flex;
-            gap: 15px;
+            margin-top: 25px; 
+            h5{
+                margin-bottom: 20px;
+            }
+            #Wrapper_Upcoming_FeaturedEvents{
+                display: grid;
+                grid-template-columns: repeat(7,1fr);
+                gap: 15px;
+            }
         }
+        
     }
     #Container_JoinedEvents{
-        background-color: yellow;
+        
+        .EventPerMonths{
+            padding: 1.5em 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.11);
+            position: relative;
+            span{
+                padding: 1em;
+                background-color: var(--light2);
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translate(0,-50%);
+                font-weight: 500;
+            }   
+        }
+        
     }
     #Container_ManageEvents{
         background-color: brown;

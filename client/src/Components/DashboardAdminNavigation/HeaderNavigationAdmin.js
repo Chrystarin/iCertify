@@ -4,8 +4,8 @@ import './../../Assets/Styles/Components/style-HeaderNavigation.scss'
 import PicNotification from './../../Assets/Images/brand/icon.png';
 
 function HeaderNavigation(props) {
-  const [openHeaderNavigationDropdown, setopenHeaderNavigationDropdown] = useState("");
-  // const [openNotif, setOpenNotif] = useState(true);
+  const [openProfile, setOpenProfile] = useState(false);
+  const [openNotif, setOpenNotif] = useState(true);
   
   return (
     <div id="header_Content">
@@ -15,8 +15,8 @@ function HeaderNavigation(props) {
           </div>
           <div id='Navigation_Content'> 
               <div id="NotificatonHolder">
-                <svg id="Icon_Notification" src={PicLogo} alt="" onClick={()=>{setopenHeaderNavigationDropdown("Notification")}} data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 32.92"><path d="M29.05,22.7c-.83-1.06-2.42-3.64-2.42-3.64s-1.78-3.55-1.85-5.52a29.71,29.71,0,0,0-.42-3.78C23.08,4.69,18.08,3,18.08,3A3.31,3.31,0,0,0,15-.16,3.31,3.31,0,0,0,11.92,3s-5,1.67-6.28,6.74a29.71,29.71,0,0,0-.42,3.78c-.07,2-1.85,5.52-1.85,5.52S1.78,21.64,1,22.7s-2.09,3,1.17,4.8a34.39,34.39,0,0,0,9.12,1.18s2.45.11,3.76,0c1.31.11,3.76,0,3.76,0a34.39,34.39,0,0,0,9.12-1.18C31.14,25.72,29.89,23.76,29.05,22.7Z" transform="translate(0 0.16)"/><path d="M15,32.76A4.09,4.09,0,0,0,19,30h-7.9A4.09,4.09,0,0,0,15,32.76Z" transform="translate(0 0.16)"/></svg>
-                <div id="DropDown_Notification" className={(openHeaderNavigationDropdown ==="Notification")? "active":"inactive"}>
+                <svg id="Icon_Notification" src={PicLogo} alt="" onClick={()=>{setOpenNotif(!openNotif)}} data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 32.92"><path d="M29.05,22.7c-.83-1.06-2.42-3.64-2.42-3.64s-1.78-3.55-1.85-5.52a29.71,29.71,0,0,0-.42-3.78C23.08,4.69,18.08,3,18.08,3A3.31,3.31,0,0,0,15-.16,3.31,3.31,0,0,0,11.92,3s-5,1.67-6.28,6.74a29.71,29.71,0,0,0-.42,3.78c-.07,2-1.85,5.52-1.85,5.52S1.78,21.64,1,22.7s-2.09,3,1.17,4.8a34.39,34.39,0,0,0,9.12,1.18s2.45.11,3.76,0c1.31.11,3.76,0,3.76,0a34.39,34.39,0,0,0,9.12-1.18C31.14,25.72,29.89,23.76,29.05,22.7Z" transform="translate(0 0.16)"/><path d="M15,32.76A4.09,4.09,0,0,0,19,30h-7.9A4.09,4.09,0,0,0,15,32.76Z" transform="translate(0 0.16)"/></svg>
+                <div id="DropDown_Notification" className={(!openNotif && !openProfile)? "active":"inactive"}>
                     <div id="Header_Notification">
                         <h6>Notificaton</h6>
                         <p class="BodyText3">Mark as Read</p>
@@ -40,8 +40,8 @@ function HeaderNavigation(props) {
                 </div>
               </div>           
               <div id='profile_Navigation'>
-                <img id='profilePicture_Navigation' src={PicLogo} alt="" onClick={()=>{setopenHeaderNavigationDropdown("Profile")}}/>
-                <div className={(openHeaderNavigationDropdown === "Profile")?'dropdown-menu active':'dropdown-menu inactive'}>
+                <img id='profilePicture_Navigation' src={PicLogo} alt="" onClick={()=>{setOpenProfile(!openProfile)}}/>
+                <div className={openProfile?'dropdown-menu active':'dropdown-menu inactive'}>
                   <a href="/profile">
                     <h5 className='BodyText2'>Dianne Chrystalin Brandez</h5>
                   </a>

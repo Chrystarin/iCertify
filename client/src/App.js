@@ -9,6 +9,10 @@ import EventView from './Pages/Event/EventView.js';
 import Error404 from './Pages/Error404';
 import Login from './Components/Login/Login';
 
+
+import DashboardAdmin from './Pages/Dashboard/Dashboard(Admin)';
+import EventAdmin from './Pages/Event/EventAdmin'
+
 import {Route, Routes, Navigate } from 'react-router-dom';
 
 function App() {
@@ -17,13 +21,20 @@ function App() {
     <Route path="/" element={<Home/>}/>
     <Route path="/dashboard" element={<Dashboard/>}/>
     <Route path="/events" element={<Event/>}/>
-    <Route path="/events/create" element={<EventCreate/>}/>
     <Route path="/events/:id" element={<EventView/>}/>
     <Route path="*" element={<Error404/>}/>
+
+
+    <Route path="/Admin" element={<DashboardAdmin/>}/>
+    <Route path="/Admin/Event" element={<EventAdmin/>}/>
+    <Route path="/Admin/Event/Create" element={<EventCreate/>}/>
+
+
+
   </Routes>
 
 
-{/* <Routes>
+{/* <Routes>client/src/App.js
 
     // Public Routes
     <Route path="/" element={<Home/>}/>

@@ -1,0 +1,25 @@
+#Content{
+    display: grid;
+    grid-template-columns: 1fr .3fr;
+    gap: 25px;
+    #Container_Event{
+        background-color: red;
+        
+    }
+    #Container_Analytics{
+        background-color: pink;
+        padding: 1em;
+    }
+    #AddEventBtn{
+        padding: .5em 1em;
+        background-color: var(--accent);
+        font-weight: 700;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+    }
+
+
+  
+
+}
