@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input {
+            width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <input type="number" name="" id="memberInput" value="50" min="0" placeholder="Enter number of test Members to create">
+    <br><br>
+    <input type="number" name="" id="eventInput" value="30" min="0" placeholder="Enter number of test Events to create">
+    <br><br>
+    <button id="button">Create data</button>
+
+    <script>
+        (function() {
+            document.getElementById('button').addEventListener('click', async function() {
+                var memberN = Number(document.getElementById('memberInput').value);
+                var eventN = Number(document.getElementById('eventInput').value);
+
+                while(members.length < memberN) {
+                     await fetch(`http://localhost:6787/api/members/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ walletAddress: randomAddress() })
+                    })
+                }
+            });
+
+            
+        })();
+    </script>
+</body>
+</html>
