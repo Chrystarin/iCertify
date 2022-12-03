@@ -1,29 +1,31 @@
 import React, { useState, useEffect } from "react";
 
 const EventView = (props) => {
-    const {eventId} = "_onJEVl5";
+    const {eventId} = props;
 
-    const [event, setEvent] = useState(null)
+    const [event, setEvent] = useState(props)
+
+    // console.log('http://localhost:5000/api/events/:eventId')
 
     useEffect(() => {
         const fetchEvent = async () => {
-            const response  = await fetch('http://localhost:5000/api/events/:id')
-            // const response  = await fetch('http://localhost:5000/api/events/_onJEVl5')
+            // const response  = await fetch('http://localhost:5000/api/events/:eventId')
+            const response  = await fetch('http://localhost:5000/api/events/n9L4NCLt')
 
             const json = await response.json()
-  
+
             if(response.ok){
                 setEvent(json)
             }
         }
-  
+
         fetchEvent()
     }, [])
 
   return (
     <div>
         <h1>EVENT VIEW</h1>
-        {/* <ul>
+        <ul>
             <li>Id: {event.eventId}</li>
             <li>Type: {event.type}</li>
             <li>Title: {event.title}</li>
@@ -35,7 +37,7 @@ const EventView = (props) => {
             <li>CanClaimDocument: {event.canClaimDocument} </li>
             <li>Status: {event.status} </li>
             <li>isAcceptingVolunteer: {event.isAcceptingVolunteer} </li>
-        </ul> */}
+        </ul>
     </div>
   )
 }

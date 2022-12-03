@@ -77,7 +77,6 @@ function Panel_Events(props){
             {events.length > 0 && events.map((event) => 
               <EventCard title={event.title} key={event.eventId}/>
             )}
-
           </div>
       </div>
     );

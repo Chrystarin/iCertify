@@ -12,30 +12,56 @@ import EventCard from './../../Components/Events/EventCard';
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export default function EventCreate() {
+    const url = "http://localhost:5000/api/events/create"
     const [form, setForm] = useState({
-        eventId: "",
-        type: "",
-        title: "",
-        description: "",
-        link: "",
-        location: "",
+        eventId: '',
+        type: '',
+        title: '',
+        description: '',
+        link: '',
+        location: '',
         date:{
-            start: "",
-            end: ""
+            start: '',
+            end: ''
         },
-        canClaimDocument: "",
-        status: "",
-        isAcceptingVolunteer: "",
-        tags: ""
+        canClaimDocument: '',
+        status: '',
+        isAcceptingVolunteer: '',
+        tags: ''
     });
+
+    const [date, setDate] = useState(['',''])
 
     const navigate = useNavigate();
  
     // These methods will update the state properties.
-    function updateForm(value) {
+    function updateForm(e) {
         return setForm((prev) => {
-            return { ...prev, ...value };
-    });
+            console.log(form)
+            return { ...prev, ...e };
+            
+    });}
+
+    async function testSubmit(e){
+        setForm({ 
+            eventId: "2eaq21",
+            type: "online",
+            title: "Test",
+            description: "desc",
+            link: "www.test.com",
+            location: "somehwere",
+            date:{
+                start: "1668312507439",
+                end: "1668312507439"
+            },
+            canClaimDocument: "true",
+            status: "draft",
+            isAcceptingVolunteer: "true",
+            tags: "test" 
+        });
+
+        console.log(form)
+    }
 
      // This function will handle the submission.
     async function onSubmit(e) {
@@ -55,7 +81,7 @@ export default function EventCreate() {
             window.alert(error);
             return;
         });
-    
+
         setForm({ 
             eventId: "",
             type: "",
@@ -72,12 +98,13 @@ export default function EventCreate() {
             isAcceptingVolunteer: "",
             tags: "" 
         });
-        navigate("/");
+        // navigate("/");
+        console.log("Submitted")
     }
 
-    }
     return (
         <div>
+            {/* <form onSubmit={(e)=>onSubmit(e)}> */}
             <form>
             {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
                 <Stack spacing={3}>
@@ -116,18 +143,25 @@ export default function EventCreate() {
                         onChange={(e)=>updateForm({ location: e.target.value })}
                     />
 
-                    <TextField 
+                    {/* <TextField 
                         label="Date Start" 
                         variant="standard" 
                         value={form.date.start}
-                        onChange={(e)=>updateForm({ date:{start:  e.target.value}})}
+                        onChange={(e)=>updateForm({ date:{start: e.target.value}})}
+                    /> */}
+
+                    <TextField 
+                        label="Date Start" 
+                        variant="standard" 
+                        value={form.date.start || ''}
+                        onChange={(e)=>updateForm({ date:{start: e.target.value}})}
                     />
 
                     <TextField 
                         label="Date End" 
                         variant="standard" 
-                        value={form.date.end}
-                        onChange={(e)=>updateForm({ date:{end:  e.target.value}})}
+                        value={form.date.end || ''}
+                        onChange={(e)=>updateForm({ date:{end: e.target.value}})}
                     />
 
                     <TextField 
@@ -158,7 +192,7 @@ export default function EventCreate() {
                         onChange={(e)=>updateForm({ tags: e.target.value })}
                     />
 
-                    <Button type="submit" variant="contained">Contained</Button>
+                    {/* <Button type="submit" variant="contained" onClick={testSubmit}>Contained</Button> */}
 
                     {/* <DateTimePicker
                         label="Start"
@@ -171,7 +205,7 @@ export default function EventCreate() {
             {/* </LocalizationProvider> */}
                 
             </form>
-
+            <Button type="submit" variant="contained" onClick={(e)=>testSubmit(e)}>Submit</Button>
         </div>
     )
 }

@@ -10,6 +10,7 @@ import Error404 from './Pages/Error404';
 import Login from './Components/Login/Login';
 
 import {Route, Routes, Navigate } from 'react-router-dom';
+import ProtectedRoutes from './Routes/ProtectedRoutes';
 
 function App() {
 
@@ -20,8 +21,10 @@ function App() {
     <Route path="/events/create" element={<EventCreate/>}/>
     <Route path="/events/:id" element={<EventView/>}/>
     <Route path="*" element={<Error404/>}/>
+    {/* <Route element={<ProtectedRoutes/>}>
+      <Route path="/dashboard" element={<Dashboard/>}/>
+    </Route> */}
   </Routes>
-
 
 {/* <Routes>
 

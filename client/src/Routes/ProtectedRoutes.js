@@ -1,12 +1,14 @@
-// const useAuth = () => {
-//     const user = {loggedIn: false}
-//     return user && user.loggedIn;
+import {Navigate, Outlet} from "react-router";
 
-// }
+const useAuth = () => {
+    const user = {loggedIn: false}
+    return user && user.loggedIn;
 
-// const ProtectedRoutes = () => {
-//     const isAuth = userAuth();
-//     return isAuth ? <Outlet/>: <SignIn/>;
-// };
+}
 
-// export default ProtectedRoutes;
+const ProtectedRoutes = () => {
+    const isAuth = useAuth();
+    return isAuth ? <Outlet/>: <Navigate to="/"/>;
+};
+
+export default ProtectedRoutes;
