@@ -63,19 +63,39 @@
             justify-content: center;
 
             #Container_Signup_Form{
-                width: 80%;
-                h1{
-                    text-align: center;
-                    margin-bottom: 10px;
+                width: 90%;
+                .Active{
+                    display: block;
                 }
-                h4{
-                    text-align: center;
-                    span{
-                        color: var(--accent);
+                .Inactive{
+                    display: none;
+                }
+                #Form2{
+                    img{
+                        width: 40%;
+                        display: block;
+                        margin: 0 auto 50px auto;
+                    }
+                    h5{
+                        text-align: center;
+                        margin-bottom: 25px;
+                        color: rgb(66, 66, 66);
                     }
                 }
                 form{
-                    margin-top: 45px;
+                    
+                    
+                    h1{
+                        text-align: center;
+                        margin-bottom: 10px;
+                    }
+                    h4{
+                        text-align: center;
+                        margin-bottom: 50px;
+                        span{
+                            color: var(--accent);
+                        }
+                    }
                     #LabelHolder{
                         margin-bottom: 25px;
                     }
@@ -85,6 +105,8 @@
                         gap: 25px;
                     }
                     #Submit{
+                        display: block;
+                        text-align: center;
                         width: 100%;
                         padding: 1em;
                         background-color: var(--accent);
