@@ -3,6 +3,7 @@ const { getAllTransactions, getTransaction, saveTransaction } = require('../cont
 
 const router = express.Router();
 
+// Accountant
 router.get('/', getAllTransactions);
 router.get('/:hash', getTransaction);
 

@@ -7,7 +7,6 @@ const { NotFoundError, UnauthorizedError } = require('../miscellaneous/errors');
 const ADMIN_WALLET_ADDRESS = '0x0';
 
 module.exports = async (req, res, next) => {
-    // console.log('You passed authUser route');
     
     const token = req.header('X-Auth-Token');
     if(!token) {
@@ -17,7 +16,7 @@ module.exports = async (req, res, next) => {
 
     try {
         // Verify token
-        const { _id, walletAddress } = jwt.verify(token, process.env.JWT_SECRET);
+        const { id, walletAddress } = jwt.verify(token, process.env.JWT_SECRET);
 
         // Admin
         if(walletAddress === ADMIN_WALLET_ADDRESS) {

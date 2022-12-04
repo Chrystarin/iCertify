@@ -10,13 +10,6 @@ const ROLES = {
 
 const generateNonce = () => Math.floor(Math.random() * 1e8);
 
-const filterBody = (acceptedEntries, requestBody) => {
-    return Object
-        .entries(requestBody)
-        .filter(([key]) => acceptedEntries.has(key))
-        .reduce((output, [key, value]) => (output[key] = value, output), {})
-}
-
 const certificateContract = () => {
     return new ethers.Contract(
         process.env.TEST_CONTRACT_ADDRESS,                              // contract address
@@ -29,13 +22,12 @@ const verifySignature = (signature, walletAddress, nonce) => {
     const message = `Nonce: ${nonce}`;
     const signerAddress = ethers.utils.verifyMessage(message, signature);
     if(signerAddress !== walletAddress)
-        return new UnauthorizedError('Invalid signer');
+        throw new UnauthorizedError('Invalid signer');
 }
 
 module.exports = {
     ROLES,
     generateNonce,
-    filterBody,
     certificateContract,
     verifySignature
 }

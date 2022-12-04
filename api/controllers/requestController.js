@@ -10,7 +10,7 @@ const createRequest = async (req, res, next) => {
     try {
         if(!(  requestorAddress && typeof requestorAddress === 'string'
             && eventId          && typeof eventId === 'string'
-            && requestType      && typeof requestType === 'string'
+            && requestType      && typeof requestType === 'string'      && new Set(['event', 'document', 'volunteer']).has(requestType)
             && status           && typeof status === 'string'
         )) throw new UnprocessableRequest();
 

@@ -9,10 +9,7 @@ const eventSchema = new Schema({
     },
     type: {
         type: String,
-        enum: {
-            values: ['online', 'onsite'],
-            message: 'Invalid event type'
-        },
+        enum: ['online', 'onsite'],
         default: 'online',
         required: true,
     },

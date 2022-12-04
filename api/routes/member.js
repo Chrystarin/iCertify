@@ -15,6 +15,7 @@ const authUser = require('../middlewares/authUser');
 
 const router = express.Router();
 
+// public
 router.post('/login', loginMember);
 router.post('/register', registerUser);
 
@@ -30,6 +31,7 @@ router.get('/:walletAddress/events', getJoinedEvents);
 router.get('/:walletAddress/documents', getDocuments);
 router.get('/:walletAddress/requests', getRequests);
 
+// Members
 router.patch('/:walletAddress', updateMember);
 
 module.exports = router;

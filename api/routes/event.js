@@ -10,11 +10,15 @@ const {
 
 const router = express.Router();
 
+// Members
 router.get('/', getAllEvents);
 router.get('/:eventId', getEvent);
 router.get('/:eventId/participants', getParticipants);
 
+// Admin
 router.post('/create', createEvent);
+
+// Organizer
 router.post('/:eventId/join', joinEvent);
 
 router.patch('/:eventId', updateEvent);

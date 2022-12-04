@@ -3,9 +3,12 @@ const { addFunds, dismissAccountant, getAccountant, getAllAccountants, getTransa
 
 const router = express.Router();
 
-router.get('/', getAllAccountants);
+// Accountant
 router.get('/:walletAddress', getAccountant);
 router.get('/:walletAddress/transactions', getTransactions);
+
+// Admin Only
+router.get('/', getAllAccountants);
 
 router.post('/create', registerAccountant);
 

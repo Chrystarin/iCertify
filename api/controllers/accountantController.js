@@ -16,9 +16,12 @@ const registerAccountant = async (req, res, next) => {
         const member = await Member.findOne({ walletAddress }).exec();
         if(!member) throw accountantNotMember;
 
-        await Accountant.create({ member: member._id });
+        const accountant = await Accountant.create({ member: member._id });
         
-        res.sendStatus(204);
+        res.status(201).json({
+            message: 'Accountant registered',
+            id: accountant._id
+        });
     } catch (error) {
         next(error);
     }
@@ -26,13 +29,13 @@ const registerAccountant = async (req, res, next) => {
 
 const getAllAccountants = async (req, res, next) => {
     try {
-        const allAccountants = await Accountant
-            .find()
-            .select('-_id -__v -transactions')
-            .populate('member', '-_id walletAddress name')
-            .exec();
-
-        res.status(200).json(allAccountants);
+        res.status(200).json(
+            await Accountant
+                .find()
+                .select('-_id -__v -transactions')
+                .populate('member', '-_id walletAddress name')
+                .exec()
+        );
     } catch (error) {
         next(error);
     }
@@ -103,6 +106,7 @@ const dismissAccountant = async (req, res, next) => {
         if(!accountant) throw missingAccountant;
 
         accountant.isActive = false;
+        accountant.data.end = Date.now();
         await accountant.save();
 
         res.sendStatus(204);

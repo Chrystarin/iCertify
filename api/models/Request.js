@@ -14,7 +14,7 @@ const requestSchema = new Schema({
     },
     date: {
         requested: {
-            type: String,
+            type: Number,
             default: Date.now()
         },
         completed: String

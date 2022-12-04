@@ -48,23 +48,23 @@ const saveTransaction = async (req, res, next) => {
 
 const getAllTransactions = async (req, res, next) => {
     try {
-        const allTransactions = await Transaction
-            .find()
-            .select('-_id -__v')
-            .populate('event', '-_id eventId title')
-            .populate({
-                path: 'sender',
-                populate: {
-                    path: 'member',
-                    model: 'Member',
-                    select: '-_id walletAddress name'
-                },
-                select: '-_id member'
-            })
-            .populate('receiver', '-_id walletAddress name')
-            .exec()
-
-        res.status(200).json(allTransactions);
+        res.status(200).json(
+            await Transaction
+                .find()
+                .select('-_id -__v')
+                .populate('event', '-_id eventId title')
+                .populate({
+                    path: 'sender',
+                    populate: {
+                        path: 'member',
+                        model: 'Member',
+                        select: '-_id walletAddress name'
+                    },
+                    select: '-_id member'
+                })
+                .populate('receiver', '-_id walletAddress name')
+                .exec()
+        );
     } catch (error) {
         next(error);
     }

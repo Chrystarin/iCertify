@@ -4,9 +4,11 @@ const { getCertificate, certificateIPFS, saveCertificate } = require('../control
 
 const router = express.Router();
 
+// Public
 router.get('/:certificateId', getCertificate);
-router.get('/save', saveCertificate);
 
+// Accountant
+router.post('/save', saveCertificate);
 router.post('/ipfs', fileUpload(), certificateIPFS);
 
 module.exports = router;

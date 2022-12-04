@@ -9,6 +9,10 @@ const memberSchema = new Schema({
         index: true,
         required: true
     },
+    isStillAccountCreation: {
+        type: Boolean,
+        default: true
+    },
     isPremium: {
         type: Boolean,
         default: false

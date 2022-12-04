@@ -17,7 +17,7 @@ const accountantSchema = new Schema({
             type: Number,
             default: Date.now()
         },
-        end: String
+        end: Number
     },
     isActive: {
         type: Boolean,

@@ -3,6 +3,7 @@ const { createRequest, getAllReqeusts, getRequest, updateStatus } = require('../
 
 const router = express.Router();
 
+// Members
 router.get('/', getAllReqeusts);
 router.get('/:requestId', getRequest);
 

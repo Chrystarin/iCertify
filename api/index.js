@@ -48,7 +48,7 @@ app.use((err, req, res, next) => {
         }
     }
 
-    if(err.code || 11000) {
+    if(err.code === 11000) {
         err.message = 'Duplicate entry';
         err.status = 409;
     }

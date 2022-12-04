@@ -16,13 +16,13 @@ const filterRequestBody = ({
     tags
 }) => {
     // Validate required fields
-    if(!(  type         && typeof type === 'string'
+    if(!(  type         && typeof type === 'string'         && new Set(['online', 'onsite']).has(type)
         && title        && typeof title === 'string'
         && description  && typeof description === 'string'
         && link         && typeof link === 'string'
         && start        && typeof start === 'number'
         && end          && typeof end === 'number'
-    )) return new UnprocessableRequest();
+    )) throw new UnprocessableRequest();
 
     var obj = {
         type,
@@ -35,32 +35,32 @@ const filterRequestBody = ({
     // Validate optional fields
     if(location !== undefined) {
         if(!(location && typeof location === 'string'))
-            return new UnprocessableRequest()
-        else obj['location'] = location;
+            throw new UnprocessableRequest();
+        Object.assign(obj, {location});
     }
 
     if(canClaimCertificate !== undefined) {
         if(!(typeof canClaimCertificate === 'boolean'))
-            return new UnprocessableRequest();
-        else obj['canClainCertificate'] = canClaimCertificate;
+            throw new UnprocessableRequest();
+        Object.assign(obj, {canClaimCertificate});
     }
 
     if(status !== undefined) {
-        if(!(status && typeof status === 'string'))
-            return new UnprocessableRequest()
-        else obj['status'] = status;
+        if(!(status && typeof status === 'string') && new Set(['draft', 'active', 'inactive']).has(status))
+            throw new UnprocessableRequest();
+        Object.assign(obj, {status});
     }
 
     if(isAcceptingVolunteer !== undefined) {
         if(!(typeof isAcceptingVolunteer === 'boolean'))
-            return new UnprocessableRequest()
-        else obj['isAcceptingVolunteer'] = isAcceptingVolunteer;
+            throw new UnprocessableRequest();
+        Object.assign(obj, {isAcceptingVolunteer});
     }
 
     if(tags !== undefined) {
         if(!(tags instanceof Array))
-            return new UnprocessableRequest()
-        else obj['tags'] = tags;
+            throw new UnprocessableRequest();
+        Object.assign(obj, {tags});
     }
 
     return obj;
@@ -68,13 +68,12 @@ const filterRequestBody = ({
 
 const createEvent = async (req, res, next) => {
     try {
-        const body = filterRequestBody(req.body);
-        if(body instanceof Error) throw body;
-
         const event = await Event.create({
             eventId: nanoid(8),
-            ...body
+            ...filterRequestBody(req.body)
         });
+
+        console.log(event);
 
         res.status(201).json({
             message: 'Event created',
@@ -91,7 +90,7 @@ const joinEvent = async (req, res, next) => {
 
     try {
         if(!(  walletAddress    && typeof walletAddress === 'string'
-            && role             && typeof role === 'string'
+            && role             && typeof role === 'string'             && new Set(['Organizer', 'Speaker', 'Guest', 'Volunteer', 'Participant']).has(role)
         )) throw new UnprocessableRequest();
 
         // Find event
@@ -120,12 +119,12 @@ const joinEvent = async (req, res, next) => {
 
 const getAllEvents = async (req, res, next) => {
     try {
-        const events = await Event
-            .find()
-            .select('-_id -__v -participants -requests')
-            .exec();
-
-        res.status(200).json(events);
+        res.status(200).json(
+            await Event
+                .find()
+                .select('-_id -__v -participants -requests')
+                .exec()
+        );
     } catch (error) {
         next(error);
     }
@@ -168,13 +167,10 @@ const updateEvent = async (req, res, next) => {
     const { eventId } = req.params;
 
     try {
-        const body = filterRequestBody(req.body);
-        if(body instanceof Error) throw body;
-
         const event = await Event.findOne({ eventId }).exec();
         if(!event) throw new NotFound('Event');
 
-        Object.assign(event, body);
+        Object.assign(event, filterRequestBody(req.body));
         await event.save();
 
         res.sendStatus(204);

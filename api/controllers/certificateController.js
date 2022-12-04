@@ -25,6 +25,8 @@ const saveCertificate = async (req, res, next) => {
         const event = await Event.findOne({ eventId });
         if(!event) throw new NotFound('Event is not created yet');
 
+        // Check if hash is valid
+
         const certificate = await Certificate.create({
             certificateId: nanoid(8),
             nftId,
