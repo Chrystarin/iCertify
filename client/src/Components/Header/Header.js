@@ -3,7 +3,6 @@ import './../../Assets/Styles/Components/style-Navigation.scss';
 import React,{useState} from 'react';
 import WordMark from './../../Assets/Images/brand/Whitehorizontal.png'
 import ModalLogin from '../Login/Login.js';
-import ModalSignup from '../Signup/Signup.js';
 
 export default function Header() {
     const [isOpen , setIsOpen] = useState(false); 

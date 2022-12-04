@@ -2,7 +2,9 @@ import './../../Assets/Styles/Page/style-LandingPage.scss';
 // import IconWordmarkImg from './../../Assets/Images/brand/icon_wordmark.png'
 // import IconWalletImg from './../../Assets/Images/icons/wallet.png'
 import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg';
-
+import DianneImg from './../../Assets/Images/Resources/Developers/Dianne.jpg';
+import JonImg from './../../Assets/Images/Resources/Developers/Jon.jpg';
+import HaroldImg from './../../Assets/Images/Resources/Developers/Harold.jpg';
 function LandingPage() {
  return(
     <div id='LandingPage'>
@@ -71,6 +73,24 @@ function LandingPage() {
               </div>
 
               <div className="Container_Content_Section">
+                <div id='Selected'>
+                  <img src={DianneImg} alt="" />
+                  <h4 className='DevName'>Dianne Chrystalin Brandez</h4>
+                  <h5 className='DevRole'>LEADER</h5>
+                  <p className='BodyText1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed excepturi molestias ad.</p>
+                </div>
+                <div id='Selected'>
+                  <img src={HaroldImg} alt="" />
+                  <h4 className='DevName'>Harold James H. Castillo</h4>
+                  <h5 className='DevRole'>Front-End Developer</h5>
+                  <p className='BodyText1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed excepturi molestias ad.</p>
+                </div>
+                <div id='Selected'>
+                  <img src={JonImg} alt="" />
+                  <h4 className='DevName'>Jon Angelo Llagas</h4>
+                  <h5 className='DevRole'>Back-End Developer</h5>
+                  <p className='BodyText1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed excepturi molestias ad.</p>
+                </div>
                 
               </div>
             </section>

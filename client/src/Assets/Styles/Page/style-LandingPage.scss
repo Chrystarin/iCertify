@@ -10,7 +10,7 @@ $Maxwidth1 : 1920px;
     height: 10px;
     border-radius: 20px;
     background-color: white;
-    top: -20px;
+    top: -40px;
 }
  
 #LandingPage{ 
@@ -54,10 +54,10 @@ $Maxwidth1 : 1920px;
             }
             a{
                 display: inline;
-                padding: .5em .8em;
+                padding: .9em 1.4em;
                 text-decoration: none;
                 color: white;
-                border: solid var(--accent) 3px;
+                background-color: var(--accent);
                 border-radius: 20px;
             }
         }
@@ -97,7 +97,7 @@ $Maxwidth1 : 1920px;
             width: 100px;
             height: 10px;
             border-radius: 20px;
-            top: -20px;
+            top: -40px;
             left: 50%;
             transform: translate(-50%,0);
             background-color: white;
@@ -188,6 +188,48 @@ $Maxwidth1 : 1920px;
             background-color: var(--dark1);
         }
     }
+    .Container_Content_Section{
+        padding: 60px;
+        display: flex;
+        justify-content: center;
+        gap: 5%;
+        div{
+            cursor: pointer;
+            width: 25%;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.397);
+            border-radius: 1em;
+            padding: 0 1em 4em;
+            text-align: center;
+            margin-top: 80px;
+            transform: scale(1);
+            opacity: .8;
+
+            img{
+                width: 45%;
+                margin: 80px auto 0px;
+                display: block;
+                border-radius: 500px;
+            }
+            .DevName{
+                margin-top: 25px;
+            }
+            .DevRole{
+                opacity: .6;
+                margin: 10px;
+            }
+            p{
+                opacity: .5;
+                line-height: 40px;
+            }
+        }
+        div:hover{
+            opacity: 1;
+            transform: scale(1.1);
+            align-self: center;
+            background-color: var(--dark1);
+            color: white;
+        }
+    }
 }
 #Container_Section3{
     padding-top: 200px;
@@ -205,7 +247,7 @@ $Maxwidth1 : 1920px;
             position: absolute;
             width: 100px;
             height: 10px;
-            border-radius: 20px;
+            border-radius: 16px;
             top: -25px;
             left: 50%;
             transform: translate(-50%,0);
