@@ -7,13 +7,14 @@ import HeaderNavigation from '../../Components/DashboardUserNavigation/HeaderNav
 import Analytics from '../../Components/Events/Analytics'
 import EventCard from '../../Components/Events/EventCard.js';
 
+import Filter_Icon from './../../Assets/Images/icons/filter.png';
 
 function Dashboard() {
     const [isOpenPanel_Events , setIsOpenPanel_Events] = useState("All");
   return (
     <div id='DashboardHolder'>
       <div id="Navigation">
-        <Navigation />
+        <Navigation/>
       </div>
       <div id="Holder_Content">
         <HeaderNavigation/>
@@ -31,7 +32,7 @@ function Dashboard() {
 
                         <a id="AddEventBtn" href="/Admin/Event/Create" style={{float:"right", height:"100%"}}>Add Event</a>
                         <div className='Container_Filer'>
-
+                            <img src={Filter_Icon} alt="" />
                         </div>
                     </div>
                     <div id='Panel_Events'>
@@ -39,7 +40,9 @@ function Dashboard() {
                     </div>
                 </section>
                 
-                <Analytics/>
+                <div>
+                    <Analytics/>
+                </div>
             </div>
         </div>
       </div>
@@ -49,19 +52,83 @@ function Dashboard() {
 
 function Panel_Events(props){
     if(props.open === "All"){
-        return "All"
+        return <div id='Container_All_Events'>
+            <div className='Container_All_Overview' id='Container_Ongoing_Events'>
+                <h5>Ongoing Events</h5>
+                <div className='Wrapper_Eventcard'>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                </div>
+            </div>
+            <div id='Container_Ongoing Events'> 
+                <h5>Upcoming Events</h5>
+                <div className='Wrapper_Eventcard'>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                    <EventCard/>
+                </div>
+            </div>
+        </div>
+        
     }
     else if(props.open === "Ongoing"){
-        return "Ongoing"
+        return <div id='Container_Ongoing Events'> 
+            <div className='Wrapper_Eventcard'>
+                <EventCard/>
+                <EventCard/>
+                <EventCard/>
+                <EventCard/>
+                <EventCard/>
+                <EventCard/>
+                <EventCard/>
+                <EventCard/>
+            </div>
+         </div>
     }
     else if(props.open === "Upcoming"){
-        return "Upcoming"
+        return <div id='Container_Ongoing Events'> 
+        <div className='Wrapper_Eventcard'>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+        </div>
+     </div>
     }
     else if(props.open === "Done"){
-        return "Done"
+        return <div id='Container_Ongoing Events'> 
+        <div className='Wrapper_Eventcard'>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+        </div>
+     </div>
     }
     else if(props.open === "Drafts"){
-        return "Drafts"
+        return <div id='Container_Ongoing Events'> 
+        <div className='Wrapper_Eventcard'>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+        </div>
+     </div>
     }
 };
 

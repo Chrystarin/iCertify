@@ -20,8 +20,7 @@ export default function Header() {
                     <li><a href="#LearnMore">Learn More!</a></li>
                     <li><a href="#Login" onClick={() => setIsOpen(true)}>Login</a></li>
                     <ModalLogin open={isOpen} onClose={() => setIsOpen(false)}/>
-                    <li><a href="#GetStarted" id="GetStarted" onClick={() => setIsOpenSignup(true)}> Get Started</a></li>
-                    <ModalSignup open={isOpenSignup} onClose={() => setIsOpenSignup(false)}/>
+                    <li><a href="Dashboard/Signup" id="GetStarted" onClick={() => setIsOpenSignup(true)}> Get Started</a></li>
                 </ul>
             </nav>
         </div>

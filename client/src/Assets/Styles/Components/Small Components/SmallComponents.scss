@@ -1,0 +1,20 @@
+#LabelHolder{
+    background-color: white;
+    border-radius: 1em;
+    padding: 1em;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.041);
+    h5{
+        color: rgb(66, 66, 66);
+    }
+    input{
+        width: 100%;
+        border: none;
+        background-color: none;
+        font-size: 21px;
+    }
+    input:focus {
+        outline: none;
+
+    }
+    
+}

@@ -8,7 +8,7 @@ import EventList from './Pages/Event/EventList.js';
 import EventView from './Pages/Event/EventView.js';
 import Error404 from './Pages/Error404';
 import Login from './Components/Login/Login';
-
+import Signup from './Pages/Login & Signup/Signup.js'
 
 import DashboardAdmin from './Pages/Dashboard/Dashboard(Admin)';
 import EventAdmin from './Pages/Event/EventAdmin'
@@ -20,6 +20,7 @@ function App() {
   return <Routes>    
     <Route path="/" element={<Home/>}/>
     <Route path="/dashboard" element={<Dashboard/>}/>
+    <Route path="/dashboard/Signup" element={<Signup/>}/>
     <Route path="/events" element={<Event/>}/>
     <Route path="/events/:id" element={<EventView/>}/>
     <Route path="*" element={<Error404/>}/>
