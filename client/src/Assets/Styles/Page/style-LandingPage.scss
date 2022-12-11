@@ -222,38 +222,69 @@ $Maxwidth1 : 1920px;
                 line-height: 40px;
             }
         }
+        // div:nth-child(1){
+        //     opacity: 1;
+        //     transform: scale(1.1);
+        //     align-self: center;
+        //     background-color: var(--dark1);
+        //     color: white;
+        // }
+        
         div:hover{
-            opacity: 1;
             transform: scale(1.1);
             align-self: center;
             background-color: var(--dark1);
             color: white;
+            opacity: 1;
         }
     }
 }
 #Container_Section3{
     padding-top: 200px;
     color: var(--dark1);
-    
-    .Container_Title_Section{
-        display: block;
-        padding-top: 100px;
-        h3{
-            position: relative;
-        }
-        h3::before{
-            content: ""; 
-            display: block;
-            position: absolute;
-            width: 100px;
-            height: 10px;
-            border-radius: 16px;
-            top: -25px;
-            left: 50%;
-            transform: translate(-50%,0);
-            background-color: var(--dark1);
+    #Holder_FAQ_Section{
+        margin: 70px auto;
+        width: 80%;
+        ul{
+            list-style: none;
+
+            li{
+                opacity: .6;
+                margin-bottom: 25px;
+                border-bottom: 4px solid rgb(34, 34, 34);
+                cursor: pointer;
+                padding: 0 15px 25px 0;
+                position: relative;
+                
+                h4{
+                    color: rgb(27, 27, 27);
+                }
+                svg{
+                    position: absolute;
+                    right: 15px;
+                    top: 5px;
+                    fill: rgb(27, 27, 27);
+                    height: 25px;
+                }
+                p{
+                    margin: 25px 0 0;
+                    display: none;
+                    line-height: 25px;
+                }
+            }
+            .active{
+                opacity: 1;
+                svg{
+                transform: rotate(90deg);
+                }
+                p{
+                    display: block;
+                }
+            }
+            
         }
     }
+    
 }
 
 

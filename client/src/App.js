@@ -9,6 +9,9 @@ import EventView from './Pages/Event/EventView.js';
 import Error404 from './Pages/Error404';
 import Login from './Components/Login/Login';
 import Signup from './Pages/Login & Signup/Signup.js'
+import Credential from './Pages/Credential/Credential.js';
+import CredentialView from './Pages/Credential/CredentialView.js';
+
 
 import DashboardAdmin from './Pages/Dashboard/Dashboard(Admin)';
 import EventAdmin from './Pages/Event/EventAdmin'
@@ -24,7 +27,8 @@ function App() {
     <Route path="/events" element={<Event/>}/>
     <Route path="/events/:id" element={<EventView/>}/>
     <Route path="*" element={<Error404/>}/>
-
+    <Route path='/Credential/' element={<Credential/>}/>
+    <Route path='/Credential/View' element={<CredentialView/>}/>
 
     <Route path="/Admin" element={<DashboardAdmin/>}/>
     <Route path="/Admin/Event" element={<EventAdmin/>}/>

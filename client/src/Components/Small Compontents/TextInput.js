@@ -1,6 +1,8 @@
-import React from 'react'
-import './../../Assets/Styles/Components/Small Components/SmallComponents.scss'
+import React from 'react';
+import './../../Assets/Styles/Components/Small Components/SmallComponents.scss';
 function TextInput(props) {
+
+    
     let InputTitle = props.Title;
     let InputSample = props.Holder;  
     return (

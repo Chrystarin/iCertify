@@ -16,8 +16,7 @@ function Dashboard() {
       <div id="Holder_Content">
         <HeaderNavigation/>
         <div id="Content">
-
-          <div id="Alert">
+        <div id="Alert">
             <ul>
               {/* Maximum of 2 alert 
               
