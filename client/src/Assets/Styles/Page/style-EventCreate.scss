@@ -1,0 +1,55 @@
+#Create_Event{
+    #Container_Navigatoin_Creat_Event{
+        display: flex;
+        gap: 25px;
+    }
+    #Container_Form_Create_Event{
+        margin-top: 25px;
+        form{
+            .Container_Form{
+                .Wrapper_Form_Create{
+                    display: grid;
+                    grid-template-columns: .4fr 1fr;
+                    row-gap: 70px;
+                    .Wrapper_Title_Form{
+                    }
+                    .Wrapper_Inputs_Form{
+                        display: grid;
+                        grid-template-columns: 1fr;
+                        gap: 40px;
+                    }
+                    .Wrapper_2_Inputs{
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        grid-gap: 25px;
+                    }
+                    .Wrapper_3_Inputs{
+                        display: grid;
+                        grid-template-columns: .5fr .5fr 1fr;
+                        grid-gap: 25px;
+                    }
+                }
+
+
+            }
+            .ActiveForm{
+                display: block;
+            }
+            .InactiveForm{
+                display: none;
+            }
+            .Wrapper_Button_Create{
+                display: flex;
+                gap: 25px;
+                margin-top: 40px;
+                float: right;
+                div{
+                    min-width: 200px;
+                }
+            }
+        }
+        
+    }
+}
+#Form1{
+}

@@ -98,6 +98,12 @@
 #header_Content{
     height: 4vh;
     min-height: 25px;
+
+
+    #Navigation_Left{
+        float: left;
+        background-color: red;
+    }
     #Search{
         height: 100%;
         float: left;
