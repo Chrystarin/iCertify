@@ -13,7 +13,7 @@ import Credential from './Pages/Credential/Credential.js';
 import CredentialView from './Pages/Credential/CredentialView.js';
 
 import Event from './Pages/Event/Event';
-import EventCreate from './Pages/Event/EventCreate1.js';
+import EventCreate from './Pages/Event/EventCreate.js';
 import EventList from './Pages/Event/EventList.js';
 import EventView from './Pages/Event/EventView.js';
 
@@ -48,8 +48,6 @@ function App() {
     <Route path="/Admin" element={<DashboardAdmin/>}/>
     <Route path="/Admin/Event" element={<EventAdmin/>}/>
     <Route path="/Admin/Event/Create" element={<EventCreate/>}/>
-
-
 
     {/* <Route element={<ProtectedRoutes/>}>
       <Route path="/dashboard" element={<Dashboard/>}/>

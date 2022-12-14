@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
-import TextField from '@mui/material/TextField';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import EventCard from './../../Components/Events/EventCard';
+// import TextField from '@mui/material/TextField';
+// import Stack from '@mui/material/Stack';
+// import Button from '@mui/material/Button';
+// import EventCard from './../../Components/Events/EventCard';
 
-// import dayjs, { Dayjs } from 'dayjs';
-// import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import '../../Assets/Styles/Page/style-EventCreate.scss'
+
+import Navigation from '../../Components/DashboardAdminNavigation/DashboardNavigationAdmin';
+import HeaderNavigation from '../../Components/DashboardUserNavigation/HeaderNavigation';
+
+import Input from '../../Components/Small Compontents/TextInput';
+import TabBtn from '../../Components/Small Compontents/Button.js';
 
 export default function EventCreate() {
     const url = "http://localhost:5000/api/events/create"
-    const [dateStart, setDateStart] = useState('');
-    const [dateEnd, setDateEnd] = useState('');
+    const navigate = useNavigate();
+    
+    let [openPanel,setopenPanel] = useState(1);
 
     const [form, setForm] = useState({
         eventId: '',
@@ -33,8 +37,6 @@ export default function EventCreate() {
         tags: ''
     });
 
-    const navigate = useNavigate();
- 
     // These methods will update the state properties.
     function updateForm(e) {
         return setForm((prev) => {
@@ -73,127 +75,104 @@ export default function EventCreate() {
             window.alert(error);
             return;
         });
-
-        setForm({ 
-            eventId: "",
-            type: "",
-            title: "",
-            description: "",
-            link: "",
-            location: "",
-            date:{
-                start: "",
-                end: ""
-            },
-            canClaimDocument: "",
-            status: "",
-            isAcceptingVolunteer: "",
-            tags: "" 
-        });
-        // navigate("/");
         console.log("Submitted")
+        navigate("/events");
     }
 
     return (
-        <div>
-            {/* <form onSubmit={(e)=>onSubmit(e)}> */}
-            <form>
-            {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
-                <Stack spacing={3}>
-                    <TextField 
-                        label="Title" 
-                        variant="standard" 
-                        onInput={(e)=>updateForm({ title: e.target.value })}
-                    />
-                    
-                    <TextField 
-                        label="Description" 
-                        variant="standard" 
-                        onInput={(e)=>updateForm({ description: e.target.value })}
-                    />
 
-                    <TextField 
-                        label="Type" 
-                        variant="standard" 
-                        onInput={(e)=>updateForm({ type: e.target.value })}
-                    />
-
-                    <TextField 
-                        label="Link" 
-                        variant="standard" 
-                        onInput={(e)=>updateForm({ link: e.target.value })}
-                    />
-
-                    <TextField 
-                        label="Location" 
-                        variant="standard" 
-                        onInput={(e)=>updateForm({ location: e.target.value })}
-                    />
-
-                    <TextField 
-                        label="Date Start" 
-                        variant="standard" 
-                        onInput={(e)=>updateForm({ date:{start: e.target.value}})}
-                    />
-
-                    <TextField 
-                        label="Date End" 
-                        variant="standard" 
-                        onInput={(e)=>updateForm({ date:{end: e.target.value}})}
-                    />
-
-                    {/* <TextField 
-                        label="Date Start" 
-                        variant="standard" 
-                        value={dateStart}
-                        onChange={(e)=>setDateStart(e.target.value)}
-                    />
-
-                    <TextField 
-                        label="Date End" 
-                        variant="standard" 
-                        value={dateEnd}
-                        onChange={(e)=>setDateEnd(e.target.value)}
-                    /> */}
-
-                    <TextField 
-                        label="Can Claim Document" 
-                        variant="standard" 
-                        onInput={(e)=>updateForm({ canClaimDocument: e.target.value })}
-                    />
-
-                    <TextField 
-                        label="Status" 
-                        variant="standard" 
-                        onInput={(e)=>updateForm({ status: e.target.value })}
-                    />
-
-                    <TextField  
-                        label="Accepting Volunteer" 
-                        variant="standard" 
-                        onInput={(e)=>updateForm({ isAcceptingVolunteer: e.target.value })}
-                    />
-
-                    <TextField  
-                        label="Tags" 
-                        variant="standard" 
-                        onInput={(e)=>updateForm({ tags: e.target.value })}
-                    />
-
-                    {/* <Button type="submit" variant="contained" onClick={testSubmit}>Contained</Button> */}
-
-                    {/* <DateTimePicker
-                        label="Start"
-                        value={form.date.start}
-                        onChange={(e)=>updateForm({ date:{start:  e.target.value}})}
-                        renderInput={(params) => <TextField {...params} />}
-                    /> */}
-
-                </Stack>
-            {/* </LocalizationProvider> */}
-                
-            </form>
-            <Button type="submit" variant="contained" onClick={(e)=>onSubmit(e)}>Submit</Button>
+        <div id='DashboardHolder'>
+        <div id="Navigation">
+        <Navigation />
         </div>
+        <div id="Holder_Content">
+        <HeaderNavigation/>
+        <div id="Content">
+            <section id='Create_Event'>
+                <div id='Container_Navigatoin_Creat_Event' >
+                    <div  onClick={()=>setopenPanel(1)}>
+                        <TabBtn Action="ButtonTab_Number" Type="Active_ButtonTab_Number" Number="1" Value="Event Details" Status={(openPanel===1)?"Active":"Inactive"}/>
+                    </div>
+                    <div onClick={()=>setopenPanel(2)}>
+                        <TabBtn Action="ButtonTab_Number" Type="Active_ButtonTab_Number" Number="2" Value="Set Participants" Status={(openPanel===2)?"Active":"Inactive"}/>
+                    </div>
+                    <div onClick={()=>setopenPanel(3)}>
+                        <TabBtn Action="ButtonTab_Number" Type="Active_ButtonTab_Number" Number="3" Value="Payment" Status={(openPanel===3)?"Active":"Inactive"}/>
+                    </div>
+                </div>
+                <div id='Container_Form_Create_Event'>
+                    <form onSubmit={(e)=>onSubmit(e)}>
+                        <div id='Form1' className={(openPanel===1)? "Container_Form ActiveForm":"Container_Form InactiveForm"}>
+                            <div className="Wrapper_Form_Create">
+                                <div className="Wrapper_Title_Form">
+                                    <h3>Event Details</h3>
+                                    <p>Necessary Information for new event.</p>
+                                </div>
+                                <div className='Wrapper_Inputs_Form'>
+                                    <Input Title="Event Type" Holder="Dianne" Action={(e)=>updateForm({ type: e.target.value })}/>
+                                </div>
+                                <div className="Wrapper_Title_Form">
+                                    <h3>Basic Details</h3>
+                                    <p>Necessary Information for new event.</p>
+                                </div>
+                                <div className='Wrapper_Inputs_Form'>
+                                    <Input Title="Event Name" Holder="Blockchain Technology 101" Action={(e)=>updateForm({ title: e.target.value })}/>
+                                    <Input Title="Event Description" Holder="Adding information about the evenT" Action={(e)=>updateForm({ description: e.target.value })}/>
+                                    <Input Title="Link" Holder="www.test.com" Action={(e)=>updateForm({ link: e.target.value })}/>
+                                    <Input Title="Location" Holder="Marikina" Action={(e)=>updateForm({ location: e.target.value })}/>
+                                    <Input Title="Can Claim Document" Holder="www.test.com" Action={(e)=>updateForm({ canClaimDocument: e.target.value })}/>
+                                    <Input Title="Status" Holder="www.test.com" Action={(e)=>updateForm({ status: e.target.value })}/>
+                                    <Input Title="Accepting Volunteers" Holder="true" Action={(e)=>updateForm({ isAcceptingVolunteer: e.target.value })}/>
+                                    
+                                    <div className='Wrapper_3_Inputs'>
+                                        <Input Title="Start Date & Time" Holder="10/3/2020 @ 4:10 PM" Action={(e)=>updateForm({ date:{start: e.target.value}})}/>
+                                        <Input Title="End Date & Time" Holder="10/3/2020 @ 4:10 PM" Action={(e)=>updateForm({ date:{end: e.target.value}})}/>
+                                        <Input Title="Search Tags" Holder="#Sample1, #Sample2,"/>
+                                    </div>
+                                    
+                                    <div className='Wrapper_2_Inputs'>
+                                        <Input Title="Email(Optional)" Holder="YourEmail@mail.com"/>
+                                        <Input Title="Email(Optional)" Holder="YourEmail@mail.com"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='Wrapper_Button_Create'>
+                                <div>
+                                    <TabBtn Action="Function" BtnType="Primary2" Value="Save as Default"/>
+                                </div>
+                                <div onClick={()=>setopenPanel(2)}>
+                                    <TabBtn onClick={()=>alert("")} Action="Function" BtnType="Primary" Value="Next"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={(openPanel===2)? "Container_Form ActiveForm":"Container_Form InactiveForm"}>
+                        <div className="Wrapper_Form_Create">
+                                <div className="Wrapper_Title_Form">
+                                    <h3>Participants</h3>
+                                    <p>Assign participants</p>
+                                </div>
+                                <div className='Wrapper_Inputs_Form'>
+                                    <Input Title="Event Type" Holder="Dianne"/>
+                                </div>
+                                
+                            </div>
+                            <div className='Wrapper_Button_Create'>
+                                <div>
+                                    <TabBtn Action="Function" BtnType="Primary2" Value="Save as Default"/>
+                                </div>
+                                <div onClick={()=>setopenPanel(3)}>
+                                    <TabBtn onClick={()=>alert("")} Action="Function" BtnType="Primary" Value="Next"/>
+                                </div>
+                            </div>      
+                        </div>
+                        <div className={(openPanel===3)? "Container_Form ActiveForm":"Container_Form InactiveForm"}>
+                            <TabBtn type="submit" variant="contained" onClick={(e)=>onSubmit(e)} BtnType="Primary" Value="Create"/>   
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+        </div>
+    </div>
     )
 }

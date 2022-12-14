@@ -16,7 +16,7 @@ function Button(props) {
   }
   return (
     // <Button Action="Function" BtnType="Primary / Primary2 / Secondary / Icon Button" Value="Content"/>
-    <button id="Button" className={props.BtnType} type="button">
+    <button id="Button" className={props.BtnType} type={props.type} onClick={props.onClick}>
         {props.Value}
     </button>
   )

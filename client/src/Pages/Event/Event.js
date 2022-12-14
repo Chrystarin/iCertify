@@ -75,30 +75,16 @@ function Panel_Events(props){
               </div>
           </div>
           <div id='Container_Upcoming_FeaturedEvents'>
-            {events.length > 0 && events.map((event) => 
-              <EventCard title={event.title} key={event.eventId}/>
-            )}
             
             <h5>Upcoming Events</h5>
             <div id="Wrapper_Upcoming_FeaturedEvents">
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
+              {events.length > 0 && events.map((event) => {
+                if(event.status == 'active'){
+                  return(<EventCard title={event.title} key={event.eventId} eventId={event.eventId} dateStart={event.date.start}/>)
+                }
+              }
+              )}
             </div>
-            
-
-            {/* {events.map((event) => 
-              <EventCard title={event.title} eventId={event.eventId}/>
-            )} */}
           </div>
       </div>
     );
