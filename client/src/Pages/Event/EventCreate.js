@@ -13,6 +13,9 @@ import EventCard from './../../Components/Events/EventCard';
 
 export default function EventCreate() {
     const url = "http://localhost:5000/api/events/create"
+    const [dateStart, setDateStart] = useState('');
+    const [dateEnd, setDateEnd] = useState('');
+
     const [form, setForm] = useState({
         eventId: '',
         type: '',
@@ -30,38 +33,27 @@ export default function EventCreate() {
         tags: ''
     });
 
-    const [date, setDate] = useState(['',''])
-
     const navigate = useNavigate();
  
     // These methods will update the state properties.
     function updateForm(e) {
         return setForm((prev) => {
-            console.log(form)
-            return { ...prev, ...e };
+            const [key, value] = Object.entries(e)[0];
+
+            // Identify if toChange is date
+            if(key == 'date') {
+                const [dateType, date] = Object.entries(value)[0];
+
+                prev[key][dateType] = date;
+            } else {
+                prev[key] = value;
+            }
+
+            console.log(prev);
+            console.log(form);
+            return prev;
             
     });}
-
-    async function testSubmit(e){
-        setForm({ 
-            eventId: "2eaq21",
-            type: "online",
-            title: "Test",
-            description: "desc",
-            link: "www.test.com",
-            location: "somehwere",
-            date:{
-                start: "1668312507439",
-                end: "1668312507439"
-            },
-            canClaimDocument: "true",
-            status: "draft",
-            isAcceptingVolunteer: "true",
-            tags: "test" 
-        });
-
-        console.log(form)
-    }
 
      // This function will handle the submission.
     async function onSubmit(e) {
@@ -111,85 +103,81 @@ export default function EventCreate() {
                     <TextField 
                         label="Title" 
                         variant="standard" 
-                        value={form.title}
-                        onChange={(e)=>updateForm({ title: e.target.value })}
+                        onInput={(e)=>updateForm({ title: e.target.value })}
                     />
                     
                     <TextField 
                         label="Description" 
                         variant="standard" 
-                        value={form.description}
-                        onChange={(e)=>updateForm({ description: e.target.value })}
+                        onInput={(e)=>updateForm({ description: e.target.value })}
                     />
 
                     <TextField 
                         label="Type" 
                         variant="standard" 
-                        value={form.type}
-                        onChange={(e)=>updateForm({ type: e.target.value })}
+                        onInput={(e)=>updateForm({ type: e.target.value })}
                     />
 
                     <TextField 
                         label="Link" 
                         variant="standard" 
-                        value={form.link}
-                        onChange={(e)=>updateForm({ link: e.target.value })}
+                        onInput={(e)=>updateForm({ link: e.target.value })}
                     />
 
                     <TextField 
                         label="Location" 
                         variant="standard" 
-                        value={form.location}
-                        onChange={(e)=>updateForm({ location: e.target.value })}
+                        onInput={(e)=>updateForm({ location: e.target.value })}
                     />
-
-                    {/* <TextField 
-                        label="Date Start" 
-                        variant="standard" 
-                        value={form.date.start}
-                        onChange={(e)=>updateForm({ date:{start: e.target.value}})}
-                    /> */}
 
                     <TextField 
                         label="Date Start" 
                         variant="standard" 
-                        value={form.date.start || ''}
-                        onChange={(e)=>updateForm({ date:{start: e.target.value}})}
+                        onInput={(e)=>updateForm({ date:{start: e.target.value}})}
                     />
 
                     <TextField 
                         label="Date End" 
                         variant="standard" 
-                        value={form.date.end || ''}
-                        onChange={(e)=>updateForm({ date:{end: e.target.value}})}
+                        onInput={(e)=>updateForm({ date:{end: e.target.value}})}
                     />
+
+                    {/* <TextField 
+                        label="Date Start" 
+                        variant="standard" 
+                        value={dateStart}
+                        onChange={(e)=>setDateStart(e.target.value)}
+                    />
+
+                    <TextField 
+                        label="Date End" 
+                        variant="standard" 
+                        value={dateEnd}
+                        onChange={(e)=>setDateEnd(e.target.value)}
+                    /> */}
 
                     <TextField 
                         label="Can Claim Document" 
                         variant="standard" 
-                        value={form.canClaimDocument}
-                        onChange={(e)=>updateForm({ canClaimDocument: e.target.value })}
+                        onInput={(e)=>updateForm({ canClaimDocument: e.target.value })}
                     />
 
                     <TextField 
                         label="Status" 
                         variant="standard" 
-                        value={form.status}
-                        onChange={(e)=>updateForm({ status: e.target.value })}
+                        onInput={(e)=>updateForm({ status: e.target.value })}
                     />
 
                     <TextField  
                         label="Accepting Volunteer" 
                         variant="standard" 
-                        value={form.isAcceptingVolunteer}
-                        onChange={(e)=>updateForm({ isAcceptingVolunteer: e.target.value })}
+                        onInput={(e)=>updateForm({ isAcceptingVolunteer: e.target.value })}
                     />
 
                     <TextField  
                         label="Tags" 
                         variant="standard" 
-                        value={form.tags}
-                        onChange={(e)=>updateForm({ tags: e.target.value })}
+                        onInput={(e)=>updateForm({ tags: e.target.value })}
                     />
 
                     {/* <Button type="submit" variant="contained" onClick={testSubmit}>Contained</Button> */}
@@ -205,7 +193,7 @@ export default function EventCreate() {
             {/* </LocalizationProvider> */}
                 
             </form>
-            <Button type="submit" variant="contained" onClick={(e)=>testSubmit(e)}>Submit</Button>
+            <Button type="submit" variant="contained" onClick={(e)=>onSubmit(e)}>Submit</Button>
         </div>
     )
 }
