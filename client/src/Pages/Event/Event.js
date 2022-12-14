@@ -28,14 +28,15 @@ function Event() {
           <section id='Events'>
             <h4>Events</h4>
             <div className="Navigation_Event">
-              <button id="FeaturedEvents" className="Selected"  onClick={() => setIsOpenPanel_Events("FeaturedEvents")}>Featured Events</button>
-              <button id="JoinedEvents" onClick={() => setIsOpenPanel_Events("JoinedEvents")}>Joined Events</button>
-              <button id="ManageEvents" onClick={() => setIsOpenPanel_Events("ManageEvents")}>Manage Events</button>
+              <button id="FeaturedEvents" className={(isOpenPanel_Events === "FeaturedEvents")? "Selected":""}  onClick={() => setIsOpenPanel_Events("FeaturedEvents")}>Featured Events</button>
+              <button id="JoinedEvents" className={(isOpenPanel_Events === "JoinedEvents")? "Selected":""} onClick={() => setIsOpenPanel_Events("JoinedEvents")}>Joined Events</button>
+              <span>.</span>
+              <button id="ManageEvents" className={(isOpenPanel_Events === "ManageEvents")? "Selected":""} onClick={() => setIsOpenPanel_Events("ManageEvents")}>Manage Events</button>
             </div>
 
-              <div id='Panel_Events'>
-                <Panel_Events open={isOpenPanel_Events}/>
-              </div>
+            <div id='Panel_Events'>
+              <Panel_Events open={isOpenPanel_Events}/>
+            </div>
 
           </section>
         </div>
@@ -77,13 +78,42 @@ function Panel_Events(props){
             {events.length > 0 && events.map((event) => 
               <EventCard title={event.title} key={event.eventId}/>
             )}
+            
+            <h5>Upcoming Events</h5>
+            <div id="Wrapper_Upcoming_FeaturedEvents">
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            <EventCard/>
+            </div>
+            
+
+            {/* {events.map((event) => 
+              <EventCard title={event.title} eventId={event.eventId}/>
+            )} */}
           </div>
       </div>
     );
-  }else if(props.open === "JoinedEvents"){
+  }
+  else if(props.open === "JoinedEvents"){
     return (
       <div id='Container_JoinedEvents'>
-          JoinedEvents
+          <div className="EventPerMonths">
+            <span>October 2022</span>
+            <EventCard/>
+          </div>
+          <div className="EventPerMonths">
+            <span>October 2022</span>
+            <EventCard/>
+          </div>
       </div>
     );
   }else if(props.open === "ManageEvents"){

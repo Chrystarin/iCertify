@@ -6,7 +6,7 @@ import {ethers} from 'ethers';
 
 import  './../../Assets/Styles/Components/style-Modal.scss';
 import './../../Assets/Styles/Components/style-login-signup.scss';
-import Pattern from './../../Assets/Images/Resources/pattern.png';
+import Pattern from './../../Assets/Images/Resources/Pattern1.png';
 import UserIcon from './../../Assets/Images/icons/user.png';
 import MetamaskIcon from './../../Assets/Images/icons/fox.png';
 import LockIcon from './../../Assets/Images/icons/lock.png';

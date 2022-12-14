@@ -10,7 +10,7 @@ $Maxwidth1 : 1920px;
     height: 10px;
     border-radius: 20px;
     background-color: white;
-    top: -20px;
+    top: -40px;
 }
  
 #LandingPage{ 
@@ -54,12 +54,11 @@ $Maxwidth1 : 1920px;
             }
             a{
                 display: inline;
-                padding: .5em .8em;
+                padding: .9em 1.4em;
                 text-decoration: none;
                 color: white;
-                border: solid var(--accent) 3px;
+                background-color: var(--accent);
                 border-radius: 20px;
-                float: right;
             }
         }
     }
@@ -98,7 +97,7 @@ $Maxwidth1 : 1920px;
             width: 100px;
             height: 10px;
             border-radius: 20px;
-            top: -20px;
+            top: -40px;
             left: 50%;
             transform: translate(-50%,0);
             background-color: white;
@@ -189,30 +188,103 @@ $Maxwidth1 : 1920px;
             background-color: var(--dark1);
         }
     }
+    .Container_Content_Section{
+        padding: 60px;
+        display: flex;
+        justify-content: center;
+        gap: 5%;
+        div{
+            cursor: pointer;
+            width: 25%;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.397);
+            border-radius: 1em;
+            padding: 0 1em 4em;
+            text-align: center;
+            margin-top: 80px;
+            transform: scale(1);
+            opacity: .8;
+
+            img{
+                width: 45%;
+                margin: 80px auto 0px;
+                display: block;
+                border-radius: 500px;
+            }
+            .DevName{
+                margin-top: 25px;
+            }
+            .DevRole{
+                opacity: .6;
+                margin: 10px;
+            }
+            p{
+                opacity: .5;
+                line-height: 40px;
+            }
+        }
+        // div:nth-child(1){
+        //     opacity: 1;
+        //     transform: scale(1.1);
+        //     align-self: center;
+        //     background-color: var(--dark1);
+        //     color: white;
+        // }
+        
+        div:hover{
+            transform: scale(1.1);
+            align-self: center;
+            background-color: var(--dark1);
+            color: white;
+            opacity: 1;
+        }
+    }
 }
 #Container_Section3{
     padding-top: 200px;
     color: var(--dark1);
-    
-    .Container_Title_Section{
-        display: block;
-        padding-top: 100px;
-        h3{
-            position: relative;
-        }
-        h3::before{
-            content: ""; 
-            display: block;
-            position: absolute;
-            width: 100px;
-            height: 10px;
-            border-radius: 20px;
-            top: -25px;
-            left: 50%;
-            transform: translate(-50%,0);
-            background-color: var(--dark1);
+    #Holder_FAQ_Section{
+        margin: 70px auto;
+        width: 80%;
+        ul{
+            list-style: none;
+
+            li{
+                opacity: .6;
+                margin-bottom: 25px;
+                border-bottom: 4px solid rgb(34, 34, 34);
+                cursor: pointer;
+                padding: 0 15px 25px 0;
+                position: relative;
+                
+                h4{
+                    color: rgb(27, 27, 27);
+                }
+                svg{
+                    position: absolute;
+                    right: 15px;
+                    top: 5px;
+                    fill: rgb(27, 27, 27);
+                    height: 25px;
+                }
+                p{
+                    margin: 25px 0 0;
+                    display: none;
+                    line-height: 25px;
+                }
+            }
+            .active{
+                opacity: 1;
+                svg{
+                transform: rotate(90deg);
+                }
+                p{
+                    display: block;
+                }
+            }
+            
         }
     }
+    
 }
 
 

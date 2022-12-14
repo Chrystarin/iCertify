@@ -4,10 +4,10 @@
     justify-content: center;
     align-items: center;
     position: relative;
+    
     #Icon_Notification{
         height: 80%;
-    cursor: pointer;
-
+        cursor: pointer;
     }
     .active{
         opacity: 1;
@@ -98,6 +98,12 @@
 #header_Content{
     height: 4vh;
     min-height: 25px;
+
+
+    #Navigation_Left{
+        float: left;
+        background-color: red;
+    }
     #Search{
         height: 100%;
         float: left;
