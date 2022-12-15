@@ -13,7 +13,7 @@ function EventCreate1() {
     return (
     <div id='DashboardHolder'>
         <div id="Navigation">
-        <Navigation />
+            <Navigation />
         </div>
         <div id="Holder_Content">
         <HeaderNavigation/>
@@ -49,7 +49,7 @@ function EventCreate1() {
                                     <Input Title="Event Name" Holder="Blockchain Technology 101"/>
                                     <Input Title="Event Description" Holder="Adding information about the evenT"/>
                                     <div className='Wrapper_3_Inputs'>
-                                        <Input Title="Start Date & Time" Holder="10/3/2020 @ 4:10 PM"/>
+                                        <Input Type="Date" Title="Start Date & Time" Holder="10/3/2020 @ 4:10 PM"/>
                                         <Input Title="End Date & Time" Holder="10/3/2020 @ 4:10 PM"/>
                                         <Input Title="Search Tags" Holder="#Sample1, #Sample2,"/>
                                     </div>
