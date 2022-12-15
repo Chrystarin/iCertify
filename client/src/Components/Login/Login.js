@@ -33,9 +33,9 @@ export default function ModalLogin({open,onClose}) {
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const signer = provider.getSigner();
 
-          console.log("Signer:" + signer);
+          console.log("Signer:" + JSON.stringify(signer));
 
-          alert("Signer:" + signer);
+          // alert("Signer:" + JSON.stringify(signer));
 
           // Get address of signer
           const address = await signer.getAddress();
@@ -48,7 +48,7 @@ export default function ModalLogin({open,onClose}) {
           const signature = await signer.signMessage('Nonce: ' + nonce);
 
           // Login with the address and signature
-          const loginResponse = await fetch('http://localhost:5000/api/members/login', {
+          const loginResponse = await fetch('http://localhost:6787/members/login', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ type: 'metamask', credentials: [address, signature] })
