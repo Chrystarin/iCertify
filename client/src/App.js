@@ -13,6 +13,8 @@ import Signup from './Pages/Login & Signup/Signup.js'
 
 import Dashboard from './Pages/Dashboard/Dashboard(User)';
 
+import Credential from './Layouts/Credential/Credential';
+
 // import Credential from './Pages/Credential/Credential.js';
 // import CredentialView from './Pages/Credential/CredentialView.js';
 
@@ -39,10 +41,14 @@ import ProtectedRoutes from './Routes/ProtectedRoutes';
 
 function App() {
 
-  return <Routes>    
-    <Route path="/" element={<Home/>}/>
-    <Route path='/user' element={<UserPanel/>}/>
+  return <Routes>  
 
+      
+    <Route path="/" element={<Home/>}/>
+    <Route path='/user' element={<UserPanel/>}>
+      <Route path="event" element={<Event/>}/>
+      <Route path="credential" element={<Credential/>}/>
+    </Route>
 
     <Route path="/dashboard" element={<Dashboard/>}/>
     <Route path="/dashboard/Signup" element={<Signup/>}/>
