@@ -3,10 +3,10 @@ import {useParams} from 'react-router-dom';
 
 import './../../Assets/Styles/Page/style-DashboardUser.scss';
 import './../../Assets/Styles/Page/style-Event.scss';
-import Navigation from './../../Components/DashboardUserNavigation/DashboardNavigation';
-import HeaderNavigation from './../../Components/DashboardUserNavigation/HeaderNavigation';
+import Navigation from './../../Layouts/Dashboard/DashboardNavigation';
+import HeaderNavigation from './../../Layouts/Dashboard/HeaderNavigation';
 
-import CredentialTab from '../../Components/Credential/CredentialTab.js';
+import CredentialTab from '../../Layouts/Credential/CredentialTab.js';
 import EventCard from '../../Components/Events/EventCard.js';
 
 import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg';

@@ -8,8 +8,8 @@ import { useNavigate } from "react-router";
 
 import '../../Assets/Styles/Page/style-EventCreate.scss'
 
-import Navigation from '../../Components/DashboardAdminNavigation/DashboardNavigationAdmin';
-import HeaderNavigation from '../../Components/DashboardUserNavigation/HeaderNavigation';
+import Navigation from '../../Layouts/DashboardAdminNavigation/DashboardNavigationAdmin';
+import HeaderNavigation from '../../Layouts/Dashboard/HeaderNavigation';
 
 import Input from '../../Components/Small Compontents/TextInput';
 import TabBtn from '../../Components/Small Compontents/Button.js';

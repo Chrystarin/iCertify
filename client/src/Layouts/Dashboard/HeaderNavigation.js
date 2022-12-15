@@ -1,9 +1,6 @@
 import React, {useEffect, useState,useRef}from 'react';
 import PicLogo from './../../Assets/Images/brand/icon.png';
 import './../../Assets/Styles/Components/style-HeaderNavigation.scss';
-import PicNotification from './../../Assets/Images/brand/icon.png';
-
-import NavigationLeft from '../Small Compontents/SearchInput.js';
 
 function HeaderNavigation() {
 

@@ -1,11 +1,11 @@
 
 import React from 'react';
 
-import Navigation from './../../Components/DashboardUserNavigation/DashboardNavigation';
-import HeaderNavigation from './../../Components/DashboardUserNavigation/HeaderNavigation';
+import Navigation from './../../Layouts/Dashboard/DashboardNavigation';
+import HeaderNavigation from './../../Layouts/Dashboard/HeaderNavigation';
 
-import CredentialTab from '../../Components/Credential/CredentialTab.js';
-import Table from '../../Components/Credential/Table.js';
+import CredentialTab from '../../Layouts/Credential/CredentialTab.js';
+import Table from '../../Layouts/Table.js';
 
 function Credential() {
   return (
@@ -16,7 +16,6 @@ function Credential() {
       <div id="Holder_Content">
         <HeaderNavigation/>
         <div id="Content">
-
           <section>
             <h4 className='SectionTitle'>Credential</h4>
             <CredentialTab Active="Documents"/>
@@ -24,8 +23,6 @@ function Credential() {
           <section>
             <Table/>
           </section>
-
-
         </div>
       </div>
     </div>

@@ -2,14 +2,12 @@
 import React,{useState} from 'react';
 import '../../Assets/Styles/Page/style-CredentialView.scss'
 
-import Navigation from './../../Components/DashboardUserNavigation/DashboardNavigation';
-import HeaderNavigation from './../../Components/DashboardUserNavigation/HeaderNavigation';
+import Navigation from './../../Layouts/Dashboard/DashboardNavigation';
+import HeaderNavigation from './../../Layouts/Dashboard/HeaderNavigation';
 import Button from '../../Components/Small Compontents/Button';
 
 
 import UserImg from './../../Assets/Images/Resources/Developers/Dianne.jpg';
-
-
 
 function Credential() {
   const [openDetails, setopenDetails] = useState(false);

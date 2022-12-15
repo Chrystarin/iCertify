@@ -2,11 +2,10 @@ import React from 'react';
 import './../../Assets/Styles/Page/style-DashboardUser.scss';
 
 
-import Navigation from '../../Components/DashboardAdminNavigation/DashboardNavigationAdmin';
-import HeaderNavigation from '../../Components/DashboardUserNavigation/HeaderNavigation';
+import Navigation from '../../Layouts/DashboardAdminNavigation/DashboardNavigationAdmin';
+import HeaderNavigation from '../../Layouts/Dashboard/HeaderNavigation';
 
-import CredentialTab from '../../Components/Credential/CredentialTab.js';
-import EventCard from '../../Components/Events/EventCard.js';
+
 function Dashboard(props) {
   const carInfo = { name: "Ford", model: "Mustang" };
   return (

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import '../../Assets/Styles/Page/style-EventView.scss'
 
-import Navigation from './../../Components/DashboardUserNavigation/DashboardNavigation';
-import HeaderNavigation from './../../Components/DashboardUserNavigation/HeaderNavigation';
+import Navigation from '../../Layouts/Dashboard/DashboardNavigation';
+import HeaderNavigation from './../../Layouts/Dashboard/HeaderNavigation';
 
 import Button from '../../Components/Small Compontents/Button.js';
 

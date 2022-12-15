@@ -2,7 +2,11 @@ import React from 'react';
 
 
 // User
+
 import Home from './Pages/Home';
+import UserPanel from './Pages/User';
+
+
 
 import Login from './Components/Login/Login';
 import Signup from './Pages/Login & Signup/Signup.js'
@@ -37,6 +41,9 @@ function App() {
 
   return <Routes>    
     <Route path="/" element={<Home/>}/>
+    <Route path='/user' element={<UserPanel/>}/>
+
+
     <Route path="/dashboard" element={<Dashboard/>}/>
     <Route path="/dashboard/Signup" element={<Signup/>}/>
     <Route path="/events" element={<Event/>}/>
