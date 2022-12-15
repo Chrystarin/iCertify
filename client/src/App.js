@@ -16,8 +16,7 @@ import Event from './Pages/Event/Event';
 import EventCreate from './Pages/Event/EventCreate.js';
 import EventList from './Pages/Event/EventList.js';
 import EventView from './Pages/Event/EventView.js';
-
-
+import MemberView from './Pages/Member/MemberView.js';
 
 
 // Admin
@@ -41,7 +40,10 @@ function App() {
     <Route path="/dashboard/Signup" element={<Signup/>}/>
     <Route path="/events" element={<Event/>}/>
     <Route path="/events/:id" element={<EventView/>}/>
+    <Route path="/members/:id" element={<MemberView/>}/>
+    
     <Route path="*" element={<Error404/>}/>
+
     <Route path='/Credential/' element={<Credential/>}/>
     <Route path='/Credential/View' element={<CredentialView/>}/>
 

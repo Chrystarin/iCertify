@@ -59,7 +59,8 @@ const loginMember = async (req, res, next) => {
                     expiresIn: 1 * 1000 * 60 * 60
                 })
                 .json({
-                    message: 'Successfully logged in'
+                    message: 'Successfully logged in',
+                    userType: req.user
                 });
         }
         /**
@@ -95,7 +96,9 @@ const loginMember = async (req, res, next) => {
                 .cookie('access token', token, { httpOnly: true, expiresIn: 1 * 1000 * 60 * 60 })
                 .cookie('refresh token', 'this is a refresh token', { httpOnly: true, expiresIn: 1 * 1000 * 60 * 60 })
                 .json({
-                    message: 'Successfully logged in'
+                    message: 'Successfully logged in',
+                    userType: req.user,
+                    walletAddress: member.walletAddress
                 });
         }
     } catch (error) {
@@ -120,7 +123,7 @@ const registerUser = async (req, res, next) => {
 
         res.status(201).json({
             message: 'Wallet address registered',
-            walletAddress
+            walletAddress: member.walletAddress
         });
     } catch (error) {
         next(error)
