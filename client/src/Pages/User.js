@@ -9,8 +9,13 @@ import HeaderNavigation from './../Layouts/Dashboard/HeaderNavigation';
 
 
 //Paths
+import Dashboard from '../Pages/Dashboard/Dashboard(User)';
 
-import Dashboard from '../Pages/Dashboard/Dashboard(User)'
+import Credential from './../Layouts/Credential/Credential';
+import Credential_View from './../Layouts/Credential/CredentialView.js';
+
+import Event from './../Layouts/Event/Event.js';
+
 
 function User() {
   return (
@@ -21,9 +26,7 @@ function User() {
       <div id="Holder_Content">
         <HeaderNavigation/>
         <div id="Content">
-            <Routes> 
-                <Route path="/Dashboard" Component={<Dashboard/>}/>
-            </Routes>
+            <Event/>
         </div>
       </div>
     </div>

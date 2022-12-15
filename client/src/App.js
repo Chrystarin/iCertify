@@ -13,10 +13,10 @@ import Signup from './Pages/Login & Signup/Signup.js'
 
 import Dashboard from './Pages/Dashboard/Dashboard(User)';
 
-import Credential from './Pages/Credential/Credential.js';
-import CredentialView from './Pages/Credential/CredentialView.js';
+// import Credential from './Pages/Credential/Credential.js';
+// import CredentialView from './Pages/Credential/CredentialView.js';
 
-import Event from './Pages/Event/Event';
+import Event from './Layouts/Event/Event';
 import EventCreate from './Pages/Event/EventCreate.js';
 import EventList from './Pages/Event/EventList.js';
 import EventView from './Pages/Event/EventView.js';
@@ -49,8 +49,8 @@ function App() {
     <Route path="/events" element={<Event/>}/>
     <Route path="/events/:id" element={<EventView/>}/>
     <Route path="*" element={<Error404/>}/>
-    <Route path='/Credential/' element={<Credential/>}/>
-    <Route path='/Credential/View' element={<CredentialView/>}/>
+    {/* <Route path='/Credential/' element={<Credential/>}/>
+    <Route path='/Credential/View' element={<CredentialView/>}/> */}
 
     <Route path="/Admin" element={<DashboardAdmin/>}/>
     <Route path="/Admin/Event" element={<EventAdmin/>}/>
