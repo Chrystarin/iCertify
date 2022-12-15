@@ -43,7 +43,7 @@ function Signup() {
             </div>
             <div id='Form2' className={isNext?"Active":"Inactive"}>
               <h1>SIGN UP</h1>
-              <h4><span>Create</span>or <span>Connect</span> your Metamask Wallet</h4>
+              <h4><span>Create</span> or <span>Connect</span> your Metamask Wallet</h4>
               <img src={MetamaskImg} alt="" />
               <h5>Create or Connect your metamask where we will put your certificates </h5>
               <input id='Submit' type="submit" value="Connect" />

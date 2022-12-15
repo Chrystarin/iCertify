@@ -7,7 +7,7 @@ import Navigation from '../Dashboard/DashboardNavigation';
 import HeaderNavigation from '../Dashboard/HeaderNavigation';
 
 import CredentialTab from '../Credential/CredentialTab.js';
-import EventCard from '../../Components/Events/EventCard.js';
+import EventCard from './EventCard.js';
 
 import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg';
 import ImagePosterSample from './../../Assets/Images/placeholder/PosterSample.jpg'

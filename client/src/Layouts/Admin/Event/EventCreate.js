@@ -6,13 +6,13 @@ import { useNavigate } from "react-router";
 // import Button from '@mui/material/Button';
 // import EventCard from './../../Components/Events/EventCard';
 
-import '../../Assets/Styles/Page/style-EventCreate.scss'
+import '../../../Assets/Styles/Page/style-EventCreate.scss'
 
-import Navigation from '../../Layouts/DashboardAdminNavigation/DashboardNavigationAdmin';
-import HeaderNavigation from '../../Layouts/Dashboard/HeaderNavigation';
+import Navigation from '../../DashboardAdminNavigation/DashboardNavigationAdmin';
+import HeaderNavigation from '../../Dashboard/HeaderNavigation';
 
-import Input from '../../Components/Small Compontents/TextInput';
-import TabBtn from '../../Components/Small Compontents/Button.js';
+import Input from '../../../Components/Small Compontents/TextInput';
+import TabBtn from '../../../Components/Small Compontents/Button.js';
 
 export default function EventCreate() {
     const url = "http://localhost:6787/events/create"

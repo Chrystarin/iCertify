@@ -1,9 +1,9 @@
 import React from 'react';
-import './../../Assets/Styles/Page/style-DashboardUser.scss';
+import './../Assets/Styles/Page/style-DashboardUser.scss';
+import { Outlet } from 'react-router-dom';
 
-
-import Navigation from '../../Layouts/DashboardAdminNavigation/DashboardNavigationAdmin';
-import HeaderNavigation from '../../Layouts/Dashboard/HeaderNavigation';
+import Navigation from '../Layouts/DashboardAdminNavigation/DashboardNavigationAdmin';
+import HeaderNavigation from '../Layouts/Dashboard/HeaderNavigation';
 
 
 function Dashboard(props) {
@@ -17,8 +17,7 @@ function Dashboard(props) {
 
         <HeaderNavigation dropdown={carInfo}/>
         <div id="Content">
-            
-          
+          <Outlet/>
         </div>
       </div>
     </div>

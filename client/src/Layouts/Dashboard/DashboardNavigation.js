@@ -8,7 +8,7 @@ export class DashboardNavigation extends PureComponent {
     return (
       <div>
         <div id='Logo'>
-          <a href="/dashboard"><img src={Logo} alt=""/></a>
+          <Link to="dashboard"><img src={Logo} alt=""/></Link>
         </div>
         <div id="Button_Holder">
           <ul>

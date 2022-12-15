@@ -56,7 +56,7 @@ export default function ModalLogin({open,onClose}) {
 
           console.log(await loginResponse.json());
         
-          return navigate('/dashboard')
+          return navigate('user/dashboard')
         } catch (err) {
           console.error(err.message);
         }
@@ -75,7 +75,7 @@ export default function ModalLogin({open,onClose}) {
           if (accounts.length > 0) {
             setWalletAddress(accounts[0]);
             console.log(accounts[0]);
-            // return navigate('/dashboard')
+            return navigate('user/dashboard')
           } else {
             console.log("Connect to MetaMask using the Connect button");
           }
@@ -127,9 +127,7 @@ export default function ModalLogin({open,onClose}) {
                     <br/>
                     <button className="btn_learn_wallet">Learn about wallet</button>
                 </form>
-                
             </div>
-                
         </div>
       </div>
     

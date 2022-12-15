@@ -10,7 +10,7 @@ function Table() {
                 <p>Event</p>
             </div>
             <li>
-                <a href="/credential/View">
+                <a href="credential/View">
                     <p>Art & Design Certificate</p>
                     <p>Art & Design Training</p>
                     <p>Oct 2, 2001</p>
