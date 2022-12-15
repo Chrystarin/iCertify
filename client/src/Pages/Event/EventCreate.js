@@ -65,18 +65,25 @@ export default function EventCreate() {
         const newEvent = { ...form };
     
         await fetch("http://localhost:5000/api/events/create", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newEvent),
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newEvent),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            navigate(`/events/${data.event}`);
+            console.log("Submitted")
         })
         .catch(error => {
             window.alert(error);
             return;
         });
-        console.log("Submitted")
-        navigate("/events");
+        
+
+        
     }
 
     return (

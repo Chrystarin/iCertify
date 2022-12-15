@@ -18,12 +18,14 @@ const eventAcceptedEntries = new Set([
 
 const createEvent = async (req, res, next) => {
     try {
-        await Event.create({
+        const event = await Event.create({
             eventId: nanoid(8),
             ...filterBody(eventAcceptedEntries, req.body)
         });
 
-        res.sendStatus(204);
+        res.status(201).json({
+            event: event.eventId
+        });
     } catch (error) {
         next(error);
     }

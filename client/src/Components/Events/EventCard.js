@@ -10,18 +10,18 @@ const EventCard = (props) => {
         dateStart,
     } = props;
 
-  return (
-    <div className='EventCardContainer'>
-        <a href={`/events/${eventId}`}>
-            <img className='EventName' src={ImagePlaceHolder} alt=""/>
-            <div>
-                <h6 className="EventTitle">{title}</h6>
-                {/* Add class DateDue if the date if near on happening */}
-                <p className='Date BodyText3'>{dateStart}</p>
-            </div>
-        </a>
-    </div>
-  )
+    return (
+        <div className='EventCardContainer'>
+            <a href={`/events/${eventId}`}>
+                <img className='EventName' src={ImagePlaceHolder} alt=""/>
+                <div>
+                    <h6 className="EventTitle">{title}</h6>
+                    {/* Add class DateDue if the date if near on happening */}
+                    <p className='Date BodyText3'>{dateStart}</p>
+                </div>
+            </a>
+        </div>
+    )
 }
 
 export default EventCard
