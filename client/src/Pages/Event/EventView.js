@@ -42,8 +42,8 @@ const EventView = (props) => {
                             </div>
                             <div id="Holder_DateButton_Event">
                                 <div id="Holder_Date_Event">
-                                    <h3>{event.date ? (event.date.start).getDay() : '...'}</h3>
-                                    <p>{event.date ? (event.date.start).getMonth() : '...'}</p>
+                                    <h3>{event.date ? event.date.start : '...'}</h3>
+                                    <p>{event.date ? event.date.start : '...'}</p>
                                 </div>
                                 <div id="Holder_Button_Event">
                                     <div>
