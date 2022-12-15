@@ -1,7 +1,9 @@
 import React, {useEffect, useState,useRef}from 'react';
 import PicLogo from './../../Assets/Images/brand/icon.png';
-import './../../Assets/Styles/Components/style-HeaderNavigation.scss'
+import './../../Assets/Styles/Components/style-HeaderNavigation.scss';
 import PicNotification from './../../Assets/Images/brand/icon.png';
+
+import NavigationLeft from '../Small Compontents/SearchInput.js';
 
 function HeaderNavigation() {
 
@@ -20,7 +22,7 @@ function HeaderNavigation() {
   return (
     <div id="header_Content">
           <div id='Navigation_Left'>
-            we
+            {/* <NavigationLeft/> */}
           </div>
           {/* <div id='Search'>
             <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 195.52 209.34"><defs><style>.cls-1</style></defs><path class="cls-1" d="M211.12,197.54l-37.07-37.07A89.14,89.14,0,0,0,45.59,36.91,89.16,89.16,0,0,0,153.26,177.13l39.14,39.14a13.24,13.24,0,0,0,18.72-18.73ZM46,99.94a62.66,62.66,0,1,1,62.66,62.66A62.73,62.73,0,0,1,46,99.94Z" transform="translate(-19.48 -10.8)"/><path class="cls-1" d="M189.6,125.7a1.5,1.5,0,0,0,0-3,1.5,1.5,0,0,0,0,3Z" transform="translate(-19.48 -10.8)"/></svg>

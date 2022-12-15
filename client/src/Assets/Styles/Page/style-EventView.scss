@@ -1,0 +1,116 @@
+#Event-View{
+    #Container_Event_Header{
+        #Holder_Wallpaper_Event{
+            background-color: white;
+            border-radius: 12px;
+            min-height: 250px;
+            max-height: 300px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.048);
+        }
+        #Holder_DateButton_Event{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            transform: translateY(-35px);
+            #Holder_Date_Event{
+                margin-left: 4%;
+                padding: 2em 1em 1em;
+                border-radius: 12px;
+                max-width: 100px;
+                text-align: center;
+                background-color: white;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.068);
+                position: relative;
+            }
+            #Holder_Date_Event::after{
+                content: "";
+                height: 20%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                background-color: rgb(211, 16, 16);
+                width: 100%;
+                border-top-left-radius: 12px;
+                border-top-right-radius: 12px;
+            }
+            #Holder_Button_Event{
+                align-items: flex-end;
+                position: relative;
+                div{
+                    position: absolute;
+                    bottom: 0;
+                    right: 0;
+                }
+            }
+        }
+        #Holder_Title_Event{
+            margin-bottom: 25px;
+            #Date_Event{
+                color: rgb(211, 16, 16);
+            }
+        }
+    }
+    #Container_Event_Details{
+        display: grid;
+        grid-template-columns: 1fr .3fr;
+        gap: 30px;
+
+        h4{
+            margin-bottom: 5px;
+        }
+        .Container_EventDetails{
+            background-color: white;
+            border-radius: 12px;
+            padding: 1em;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.048);
+        }
+        .Wrapper_Left_Event_Details{
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            #Wrapper_Container{
+                display: grid;
+                grid-template-columns: 1fr .4fr;
+                gap: 30px;
+            }
+        }
+        // .Wrapper_Left_Event_Details {  
+        //     display: grid;
+        //     grid-template-columns: 1fr 1fr 1fr;
+        //     grid-template-rows: 1fr 1fr;
+        //     gap: 25px 30px;
+        //     grid-auto-flow: row;
+        //     margin-bottom: 40px;
+
+        //     grid-template-areas:
+        //         "Container_Details Container_Details Container_Details"
+        //         "Container_Host Container_Host Container_Analytics";
+        //     .Container_Details { 
+        //         grid-area: Container_Details; 
+                
+        //     }
+        //     .Container_Host { grid-area: Container_Host; }
+        //     .Container_Analytics { grid-area: Container_Analytics; }
+        // }
+        .Wrapper_Right_Event_Details{
+            display: flex;
+            flex-direction: column ;
+            gap: 25px;
+            margin-bottom: 40px;
+
+            #Holder_Certificate_Event_Details{
+                a{
+                    margin-top: 25px;
+                }
+            }
+            ul{
+                list-style: none;
+            }
+
+            #Container_Multiple{
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    }
+}

@@ -28,18 +28,14 @@ function LandingPage() {
               </div>
             </div>
           </div>
-
           {/* Sections  */}
-
           <div id="Container_Sections">
-
             {/* Section #1 - What is iCertify*/}
             <section id="Container_Section1">
               <div className="Container_Title_Section">
                 <h3 >What is iCertify?</h3>
                 <p>Integrating NFT and Blockchain Technology for Academic Credentials Authenticity</p>
               </div>
-
               <div className="Container_Content_Section">
                 <div className="Img_Content_Section1">
                   <img src={ImagePlaceHolder} alt="" />
@@ -76,7 +72,6 @@ function LandingPage() {
                 <h3 >Meet our team</h3>
                 <p>Integrating NFT and Blockchain Technology for Academic Credentials Authenticity</p>
               </div>
-
               <div className="Container_Content_Section">
                 <div id='Selected'>
                   <img src={DianneImg} alt="" />
@@ -96,7 +91,6 @@ function LandingPage() {
                   <h5 className='DevRole'>Back-End Developer</h5>
                   <p className='BodyText1'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed excepturi molestias ad.</p>
                 </div>
-                
               </div>
             </section>
             {/* Section #3 - Frequently Ask question*/}
@@ -105,7 +99,6 @@ function LandingPage() {
                 <h3>Frequently Ask Questions</h3>
                 <p>Integrating NFT and Blockchain Technology for Academic Credentials Authenticity</p>
               </div>
-
               <div className="Container_Content_Section">
                 <div id="Holder_FAQ_Section">
                   <ul>
