@@ -14,7 +14,7 @@ const EventView = (props) => {
 
     useEffect(() => {
         const fetchEvent = async () => {
-            const response  = await fetch(`http://localhost:5000/api/events/${id}`)
+            const response  = await fetch(`http://localhost:6787/events/${id}`)
 
             const json = await response.json()
 

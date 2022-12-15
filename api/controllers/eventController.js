@@ -68,6 +68,8 @@ const filterRequestBody = ({
 
 const createEvent = async (req, res, next) => {
     try {
+        console.log(req.body);
+
         const event = await Event.create({
             eventId: nanoid(8),
             ...filterRequestBody(req.body)

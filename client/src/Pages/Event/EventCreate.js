@@ -15,7 +15,7 @@ import Input from '../../Components/Small Compontents/TextInput';
 import TabBtn from '../../Components/Small Compontents/Button.js';
 
 export default function EventCreate() {
-    const url = "http://localhost:5000/api/events/create"
+    const url = "http://localhost:6787/events/create"
     const navigate = useNavigate();
     
     let [openPanel,setopenPanel] = useState(1);
@@ -61,10 +61,16 @@ export default function EventCreate() {
     async function onSubmit(e) {
         e.preventDefault();
     
+        form.date.start = Number(form.date.start);
+        form.date.end = Number(form.date.end);
+        form.canClaimDocument = form.canClaimDocument == 'true' ? true : false;
+        form.isAcceptingVolunteer = form.isAcceptingVolunteer == 'true' ? true : false;
+        form.tags = form.tags ? [] : [form.tags];
+
         // When a post request is sent to the create url, we'll add a new record to the database.
         const newEvent = { ...form };
     
-        await fetch("http://localhost:5000/api/events/create", {
+        await fetch(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -74,15 +80,14 @@ export default function EventCreate() {
         .then(response => response.json())
         .then(data => {
             console.log(data);
-            navigate(`/events/${data.event}`);
+            navigate(`/events/${data.eventId}`);
             console.log("Submitted")
         })
         .catch(error => {
             window.alert(error);
+            console.log("Error:" + error);
             return;
         });
-        
-
         
     }
 
