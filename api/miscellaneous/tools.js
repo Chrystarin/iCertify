@@ -1,11 +1,12 @@
 const ethers = require('ethers');
+const { abi } = require('../build/contracts/CertificateNFT.json');
+const { Unauthorized } = require('./errors');
 
-const ROLES = {
+const roles = {
     ADMIN: 'Admin',
     ACCOUNTANT: 'Accountant',
     ORGANIZER: 'Organizer',
-    MEMBER: 'Member',
-    VIEWER: 'Viewer'
+    MEMBER: 'Member'
 }
 
 const generateNonce = () => Math.floor(Math.random() * 1e8);
@@ -13,7 +14,7 @@ const generateNonce = () => Math.floor(Math.random() * 1e8);
 const certificateContract = () => {
     return new ethers.Contract(
         process.env.TEST_CONTRACT_ADDRESS,                              // contract address
-        require('../build/contracts/CertificateNFT.json').abi,          // abi
+        abi,                                                            // abi
         new ethers.providers.JsonRpcProvider(process.env.TEST_PROVIDER) // provider
     );
 }
@@ -22,11 +23,11 @@ const verifySignature = (signature, walletAddress, nonce) => {
     const message = `Nonce: ${nonce}`;
     const signerAddress = ethers.utils.verifyMessage(message, signature);
     if(signerAddress !== walletAddress)
-        throw new UnauthorizedError('Invalid signer');
+        throw new Unauthorized('Invalid signer');
 }
 
 module.exports = {
-    ROLES,
+    roles,
     generateNonce,
     certificateContract,
     verifySignature

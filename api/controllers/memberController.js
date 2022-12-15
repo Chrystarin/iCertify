@@ -51,9 +51,16 @@ const loginMember = async (req, res, next) => {
 
             // set httpOnly cookie in hearder for the token
 
-            res.status(200).json({
-                message: 'Successfully logged in'
-            });
+            res
+                .status(200)
+                .cookie({
+                    accessToken: token,
+                    httpOnly: true,
+                    expiresIn: 1 * 1000 * 60 * 60
+                })
+                .json({
+                    message: 'Successfully logged in'
+                });
         }
         /**
          * type: metamask
@@ -75,7 +82,7 @@ const loginMember = async (req, res, next) => {
                     nonce: member.credentials.nonce,
                     createdAt: Date.now()
                 },
-                process.env.JWT_SECRET,
+                process.env.JWT_SECRET,  
                 { expiresIn: '1d' }
             );
 
@@ -83,10 +90,13 @@ const loginMember = async (req, res, next) => {
             await member.save();
 
             // set httpOnly cookie in hearder for the token
-
-            res.status(200).json({
-                message: 'Successfully logged in'
-            });
+            res
+                .status(200)
+                .cookie('access token', token, { httpOnly: true, expiresIn: 1 * 1000 * 60 * 60 })
+                .cookie('refresh token', 'this is a refresh token', { httpOnly: true, expiresIn: 1 * 1000 * 60 * 60 })
+                .json({
+                    message: 'Successfully logged in'
+                });
         }
     } catch (error) {
         next(error);

@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
+const cookieParser = require('cookie-parser');
 require('dotenv/config');
 
 const { NotFound } = require('./miscellaneous/errors');
@@ -19,9 +20,11 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
-app.use(cors({
-    origin: 'http://localhost:3125'
-}));
+// app.use(cors({
+//     origin: 'http://localhost:3125'
+// }));
+app.use(cookieParser());
+app.use(cors());
 app.use(helmet());
 
 // Routes
@@ -52,6 +55,8 @@ app.use((err, req, res, next) => {
         err.message = 'Duplicate entry';
         err.status = 409;
     }
+
+    console.log(err);
 
     res.status(err.status || 500).json({ error: err.message });
 });

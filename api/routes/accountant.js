@@ -1,5 +1,12 @@
 const express = require('express');
-const { addFunds, dismissAccountant, getAccountant, getAllAccountants, getTransactions, registerAccountant } = require('../controllers/accountantController');
+const {
+    addFunds,
+    dismissAccountant,
+    getAccountant,
+    getAllAccountants,
+    getTransactions,
+    registerAccountant
+} = require('../controllers/accountantController');
 
 const router = express.Router();
 

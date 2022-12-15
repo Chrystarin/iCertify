@@ -36,31 +36,31 @@ const filterRequestBody = ({
     if(location !== undefined) {
         if(!(location && typeof location === 'string'))
             throw new UnprocessableRequest();
-        Object.assign(obj, {location});
+        Object.assign(obj, { location });
     }
 
     if(canClaimCertificate !== undefined) {
         if(!(typeof canClaimCertificate === 'boolean'))
             throw new UnprocessableRequest();
-        Object.assign(obj, {canClaimCertificate});
+        Object.assign(obj, { canClaimCertificate });
     }
 
     if(status !== undefined) {
         if(!(status && typeof status === 'string') && new Set(['draft', 'active', 'inactive']).has(status))
             throw new UnprocessableRequest();
-        Object.assign(obj, {status});
+        Object.assign(obj, { status });
     }
 
     if(isAcceptingVolunteer !== undefined) {
         if(!(typeof isAcceptingVolunteer === 'boolean'))
             throw new UnprocessableRequest();
-        Object.assign(obj, {isAcceptingVolunteer});
+        Object.assign(obj, { isAcceptingVolunteer });
     }
 
     if(tags !== undefined) {
         if(!(tags instanceof Array))
             throw new UnprocessableRequest();
-        Object.assign(obj, {tags});
+        Object.assign(obj, { tags });
     }
 
     return obj;
