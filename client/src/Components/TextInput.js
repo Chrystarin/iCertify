@@ -2,8 +2,7 @@ import React from 'react';
 import './../Assets/Styles/Components/Small Components/SmallComponents.scss';
 function TextInput(props) {
     return (
-        <div id='Input'>
-            <span>{props.Title} :</span>
+        <div className='Input'>
             <input 
                 type={props.type}
                 id={props.id} 
@@ -11,6 +10,7 @@ function TextInput(props) {
                 value={props.value}
                 required={props.required}
             />
+            <label for={props.id} className='Label'>{props.Title} :</label>
         </div>
     )
 }
