@@ -19,7 +19,6 @@ import Credential_View from './Layouts/Credential/CredentialView.js';
 import Event from './Layouts/Event/Event';
 import Event_View from './Layouts/Event/EventView';
 
-
 // Admin
 
 import AdminPanel from './Pages/Admin';
@@ -27,12 +26,8 @@ import AdminPanel from './Pages/Admin';
 import A_Event from './Layouts/Admin/Event/Event.js';
 import A_EventCreate from './Layouts/Admin/Event/EventCreate.js'
 
-
-
 function App() {
-
   return <Routes>  
-      
 
     <Route path="*" element={<Error404/>}/>
     <Route path="/" element={<Home/>}/>
@@ -51,7 +46,7 @@ function App() {
 
     <Route path='/admin' element={<AdminPanel/>}>
       <Route path="event" element={<A_Event/>}/>
-      <Route path="event/create" element={A_EventCreate}/>
+      <Route path="event/create" element={<A_EventCreate/>}/>
     </Route>
     
     {/* <Route path='/Credential/' element={<Credential/>}/>
