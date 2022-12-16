@@ -11,8 +11,8 @@ import '../../../Assets/Styles/Page/style-EventCreate.scss'
 import Navigation from '../../DashboardAdminNavigation/DashboardNavigationAdmin';
 import HeaderNavigation from '../../Dashboard/HeaderNavigation';
 
-import Input from '../../../Components/Small Compontents/TextInput';
-import TabBtn from '../../../Components/Small Compontents/Button.js';
+import Input from '../../../Components/TextInput.js';
+import TabBtn from '../../../Components/Button.js';
 
 export default function EventCreate() {
     const url = "http://localhost:6787/events/create"

@@ -1,5 +1,5 @@
 import React from 'react';
-import './../../Assets/Styles/Components/Small Components/SmallComponents.scss';
+import './../Assets/Styles/Components/Small Components/SmallComponents.scss';
 function TextInput(props) {
 
     return (

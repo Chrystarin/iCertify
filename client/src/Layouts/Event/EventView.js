@@ -4,7 +4,7 @@ import '../../Assets/Styles/Page/style-EventView.scss'
 import Navigation from '../Dashboard/DashboardNavigation';
 import HeaderNavigation from '../Dashboard/HeaderNavigation';
 
-import Button from '../../Components/Small Compontents/Button.js';
+import Button from '../../Components/Button.js';
 
 import { useParams } from "react-router-dom";
 

@@ -4,7 +4,7 @@ import '../../Assets/Styles/Page/style-CredentialView.scss'
 
 import Navigation from '../Dashboard/DashboardNavigation';
 import HeaderNavigation from '../Dashboard/HeaderNavigation';
-import Button from '../../Components/Small Compontents/Button';
+import Button from '../../Components/Button';
 
 
 import UserImg from './../../Assets/Images/Resources/Developers/Dianne.jpg';

@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import './../../Assets/Styles/Components/style-Navigation.scss';
 
 import WordMark from './../../Assets/Images/brand/Whitehorizontal.png'
-import ModalLogin from '../../Components/Login/Login.js';
+import ModalLogin from '../../Layouts/Login/Login.js';
 
 export default function Header() {
     const [isOpen , setIsOpen] = useState(false); 

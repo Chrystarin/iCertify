@@ -5,7 +5,7 @@ import CertifiicatImg from '../../Assets/Images/Resources/Certificate.jpg';
 import MetamaskImg from '../../Assets/Images/Resources/Metamask.png';
 
 
-import Input from '../../Components/Small Compontents/TextInput';
+import Input from '../../Components/TextInput.js';
 
 
 function Signup() {
