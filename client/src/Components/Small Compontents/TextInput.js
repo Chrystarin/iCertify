@@ -5,7 +5,14 @@ function TextInput(props) {
     return (
         <div id='LabelHolder'>
             <h5>{props.Title} :</h5>
-            <input type="text" id='' placeholder={props.Holder} onInput={props.Action}/>
+            <input 
+                type={props.type}
+                id={props.id} 
+                placeholder={props.Holder} 
+                onInput={props.Action} 
+                value={props.value}
+                required={props.required}
+            />
         </div>
     )
 }

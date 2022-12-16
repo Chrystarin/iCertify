@@ -5,16 +5,59 @@ import CertifiicatImg from '../../Assets/Images/Resources/Certificate.jpg';
 import MetamaskImg from '../../Assets/Images/Resources/Metamask.png';
 
 
-import Label from '../../Components/Small Compontents/TextInput';
+import Input from '../../Components/Small Compontents/TextInput';
 
 
 function Signup() {
 
-  const [isNext , setIsNext] = useState(false); 
+    const url = "http://localhost:6787/member/register"
 
-  const signup = async () => {
+    const [isNext , setIsNext] = useState(false); 
+    const [userInfo, setUserInfo] = useState({
+        firstName: '',
+        lastName: '',
+        occupation: '',
+        email: '',
+        password: ''
+    });
+
+    function updateForm(e) {
+        return setUserInfo((prev) => {
+            const [key, value] = Object.entries(e)[0];
+            prev[key] = value;
+
+            console.log(prev);
+            console.log(userInfo);
+            return prev;
+        
+    });}
+
+    async function onSubmit(e) {
+        e.preventDefault();
     
-  }
+        // When a post request is sent to the create url, we'll add a new record to the database.
+        const newUser = { ...userInfo };
+    
+        await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newUser),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            // navigate(`/events/${data.eventId}`);
+            console.log("Submitted")
+        })
+        .catch(error => {
+            window.alert(error);
+            console.log("Error:" + error);
+            return;
+        });
+        
+    }
 
   return (
     <div id='Signup'>
@@ -38,12 +81,34 @@ function Signup() {
                 <h1>SIGN UP</h1>
                 <h4><span>Setup</span> your profile Details </h4>
                 <div id='Wrapper_Name'>
-                  <Label Title="First Name" Holder="Dianne"/>
-                  <Label Title="Last Name" Holder="Dianne"/>
+                    <Input 
+                        Title="First Name" 
+                        Holder="Dianne" 
+                        Action={(e)=>updateForm({ firstName: e.target.value })}
+                    />
+                    <Input 
+                        Title="Last Name" 
+                        Holder="Dianne" 
+                        Action={(e)=>updateForm({ lastName: e.target.value })}
+                    />
                 </div>
-                <Label Title="Occupation" Holder="Student"/>
-                <Label Title="Email" Holder="YourEmail@gmail.com"/>
-                <Label Title="Password" Holder="PaSSwoRD"/>
+                <Input 
+                    Title="Occupation" 
+                    Holder="Student" 
+                    Action={(e)=>updateForm({ occupation: e.target.value })}
+                />
+                <Input 
+                    Title="Email" 
+                    Holder="YourEmail@gmail.com" 
+                    type="email"
+                    Action={(e)=>updateForm({ email: e.target.value })}
+                />
+                <Input 
+                    Title="Password" 
+                    Holder="PaSSwoRD" 
+                    type="password"
+                    Action={(e)=>updateForm({ password: e.target.value })}
+                />
                 <span id="Submit" onClick={()=>{setIsNext(!isNext)}}> Next</span>
               </div>
               <div id='Form2' className={isNext?"Active":"Inactive"}>
