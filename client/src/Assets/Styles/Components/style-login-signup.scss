@@ -12,7 +12,7 @@
     margin: 10px;
 }
 
-#Modal input[type=email], [type=password] {
+#Modal input[type=email], #Modal [type=password] {
     border: 0;
     outline: 0;
     background: transparent;

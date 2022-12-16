@@ -13,6 +13,7 @@ function Signup() {
     const url = "http://localhost:6787/member/register"
 
     const [isNext , setIsNext] = useState(false); 
+
     const [userInfo, setUserInfo] = useState({
         firstName: '',
         lastName: '',
@@ -76,49 +77,53 @@ function Signup() {
         </div>
         <div id='Container_Signup_Panel'>
           <div id='Container_Signup_Form'>
-            <form action="/Dashboard">
+
+
               <div id='Form1' className={isNext?"Inactive":"Active"}>
                 <h1>SIGN UP</h1>
-                <h4><span>Setup</span> your profile Details </h4>
-                <div id='Wrapper_Name'>
-                    <Input 
-                        Title="First Name" 
-                        Holder="Dianne" 
-                        Action={(e)=>updateForm({ firstName: e.target.value })}
-                    />
-                    <Input 
-                        Title="Last Name" 
-                        Holder="Dianne" 
-                        Action={(e)=>updateForm({ lastName: e.target.value })}
-                    />
-                </div>
-                <Input 
-                    Title="Occupation" 
-                    Holder="Student" 
-                    Action={(e)=>updateForm({ occupation: e.target.value })}
-                />
-                <Input 
-                    Title="Email" 
-                    Holder="YourEmail@gmail.com" 
-                    type="email"
-                    Action={(e)=>updateForm({ email: e.target.value })}
-                />
-                <Input 
-                    Title="Password" 
-                    Holder="PaSSwoRD" 
-                    type="password"
-                    Action={(e)=>updateForm({ password: e.target.value })}
-                />
-                <span id="Submit" onClick={()=>{setIsNext(!isNext)}}> Next</span>
+                <h4><span>Create</span> or <span>Connect</span> your Metamask Wallet</h4>
+                <img src={MetamaskImg} alt="" />
+                <h5>You will recieve certificates to your own metamask. </h5>
+                <span id="Submit" onClick={()=>{setIsNext(!isNext)}}> Next</span>                
+
               </div>
+
               <div id='Form2' className={isNext?"Active":"Inactive"}>
                 <h1>SIGN UP</h1>
-                <h4><span>Create</span>or <span>Connect</span> your Metamask Wallet</h4>
-                <img src={MetamaskImg} alt="" />
-                <h5>Create or Connect your metamask where we will put your certificates </h5>
-                <input id='Submit' type="submit" value="Connect" />
+                <h4><span>Setup</span> your profile Details </h4>
+                <form action="/Dashboard">
+                  <div id='Wrapper_Name'>
+                      <Input 
+                          Title="First Name" 
+                          Holder="Dianne" 
+                          Action={(e)=>updateForm({ firstName: e.target.value })}
+                      />
+                      <Input 
+                          Title="Last Name" 
+                          Holder="Dianne" 
+                          Action={(e)=>updateForm({ lastName: e.target.value })}
+                      />
+                  </div>
+                  <Input 
+                      Title="Occupation" 
+                      Holder="Student" 
+                      Action={(e)=>updateForm({ occupation: e.target.value })}
+                  />
+                  <Input 
+                      Title="Email" 
+                      Holder="YourEmail@gmail.com" 
+                      type="email"
+                      Action={(e)=>updateForm({ email: e.target.value })}
+                  />
+                  <Input 
+                      Title="Password" 
+                      Holder="PaSSwoRD" 
+                      type="password"
+                      Action={(e)=>updateForm({ password: e.target.value })}
+                  />
+                  <input id='Submit' type="submit" value="Connect" />
+                </form>
               </div>
-            </form>
           </div>
         </div>
       </div>
