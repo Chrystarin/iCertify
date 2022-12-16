@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Routes, Navigate } from 'react-router-dom';
+import {Route, Routes } from 'react-router-dom';
 import ProtectedRoutes from './Routes/ProtectedRoutes';
 
 import Error404 from './Pages/Error404';
@@ -44,7 +44,6 @@ function App() {
       <Route path="event" element={<Event/>}/>
       <Route path="event/view/:id" element={<Event_View/>}/>
 
-
       <Route path=":id" element={<MemberView/>}/>
     </Route>
 
@@ -52,7 +51,7 @@ function App() {
       <Route path="event" element={<A_Event/>}/>
       <Route path="event/create" element={<A_EventCreate/>}/>
     </Route>
-    
+
     {/* <Route path='/Credential/' element={<Credential/>}/>
     <Route path='/Credential/View' element={<CredentialView/>}/> */}
 
@@ -92,3 +91,31 @@ function App() {
 }
 
 export default App;
+
+// Public Routes
+// /
+// /getstarted
+// /about
+// /dashboard
+// /event
+// /event/create
+// /event/:id
+// /member/:id
+// /credential
+// /credential/:id
+
+// Protected Routes Accountant
+// /dashboard
+// /request
+// /request/:id
+
+// Protected Routes Admin
+// /dashboard
+// /event/create
+// /event/drafts
+// /event/:id/edit
+// /member
+// /accountant
+// /accountant/create
+// /accountant/edit
+// /accountant/:id
