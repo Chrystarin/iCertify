@@ -70,7 +70,7 @@ export default function ModalLogin({open, onClose}) {
             .then(res => res.json())
             .then(data => {
                 // redirect
-                navigate(`/members/${data.walletAddress}`);
+                navigate(`/member/${data.walletAddress}`);
                 console.log(data.walletAddress);
             });
         } catch (err) {

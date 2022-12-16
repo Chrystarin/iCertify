@@ -5,19 +5,19 @@ import ProtectedRoutes from './Routes/ProtectedRoutes';
 import Error404 from './Pages/Error404';
 
 import Home from './Pages/Home';
-import Signup from './Pages/Login & Signup/Signup.js'
+import Signup from './Pages/Signup/Signup.js'
 
 
 // Member Components
 import MemberPanel from './Pages/Member';
 
-import Event from './Pages/Event/Event';
-import EventCreate from './Pages/Event/EventCreate.js';
-import EventList from './Pages/Event/EventList.js';
-import EventView from './Pages/Event/EventView.js';
+import Dashboard from './Layouts/Dashboard/Dashboard';
 
-import MemberView from './Pages/Member/MemberView.js';
+import Credential from './Layouts/Credential/Credential';
+import Credential_View from './Layouts/Credential/CredentialView.js';
 
+import Event from './Layouts/Event/Event';
+import Event_View from './Layouts/Event/EventView';
 
 // Admin
 
@@ -26,12 +26,14 @@ import AdminPanel from './Pages/Admin';
 import A_Event from './Layouts/Admin/Event/Event.js';
 import A_EventCreate from './Layouts/Admin/Event/EventCreate.js'
 
+import MemberView from './Pages/Member/MemberView.js';
+
 function App() {
   return <Routes>  
 
     <Route path="*" element={<Error404/>}/>
     <Route path="/" element={<Home/>}/>
-    <Route path="/home/signup" element={<Signup/>}/>
+    <Route path="/signup" element={<Signup/>}/>
 
     <Route path='/member' element={<MemberPanel/>}>
       <Route path="dashboard" element={<Dashboard/>}/>
@@ -42,6 +44,8 @@ function App() {
       <Route path="event" element={<Event/>}/>
       <Route path="event/view/:id" element={<Event_View/>}/>
 
+
+      <Route path=":id" element={<MemberView/>}/>
     </Route>
 
     <Route path='/admin' element={<AdminPanel/>}>
