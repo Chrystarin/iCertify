@@ -7,13 +7,6 @@ import { Outlet } from 'react-router-dom';
 import Navigation from '../Layouts/Dashboard/DashboardNavigation.js';
 import HeaderNavigation from '../Layouts/Dashboard/HeaderNavigation';
 
-//Paths
-import Dashboard from '../Layouts/Dashboard/Dashboard';
-
-import Credential from '../Layouts/Credential/Credential';
-
-import Event from '../Layouts/Event/Event.js';
-import Event_View from '../Layouts/Event/EventView.js'
 
 function User() {
   return (
