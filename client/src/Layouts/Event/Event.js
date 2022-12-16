@@ -3,11 +3,11 @@ import {useParams} from 'react-router-dom';
 
 import './../../Assets/Styles/Page/style-DashboardUser.scss';
 import './../../Assets/Styles/Page/style-Event.scss';
-import Navigation from './../../Components/DashboardUserNavigation/DashboardNavigation';
-import HeaderNavigation from './../../Components/DashboardUserNavigation/HeaderNavigation';
+import Navigation from '../Dashboard/DashboardNavigation';
+import HeaderNavigation from '../Dashboard/HeaderNavigation';
 
-import CredentialTab from '../../Components/Credential/CredentialTab.js';
-import EventCard from '../../Components/Events/EventCard.js';
+import CredentialTab from '../Credential/CredentialTab.js';
+import EventCard from './EventCard.js';
 
 import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg';
 import ImagePosterSample from './../../Assets/Images/placeholder/PosterSample.jpg'
@@ -18,30 +18,18 @@ function Event() {
 
 
   return (
-    <div id='DashboardHolder'>
-      <div id="Navigation">
-        <Navigation />
-      </div>
-      <div id="Holder_Content">
-        <HeaderNavigation/>
-        <div id="Content">
-          <section id='Events'>
-            <h4>Events</h4>
-            <div className="Navigation_Event">
-              <button id="FeaturedEvents" className={(isOpenPanel_Events === "FeaturedEvents")? "Selected":""}  onClick={() => setIsOpenPanel_Events("FeaturedEvents")}>Featured Events</button>
-              <button id="JoinedEvents" className={(isOpenPanel_Events === "JoinedEvents")? "Selected":""} onClick={() => setIsOpenPanel_Events("JoinedEvents")}>Joined Events</button>
-              <span>.</span>
-              <button id="ManageEvents" className={(isOpenPanel_Events === "ManageEvents")? "Selected":""} onClick={() => setIsOpenPanel_Events("ManageEvents")}>Manage Events</button>
-            </div>
-
-            <div id='Panel_Events'>
-              <Panel_Events open={isOpenPanel_Events}/>
-            </div>
-
-          </section>
+    <section id='Events'>
+       <h4>Events</h4>
+        <div className="Navigation_Event">
+          <button id="FeaturedEvents" className={(isOpenPanel_Events === "FeaturedEvents")? "Selected":""}  onClick={() => setIsOpenPanel_Events("FeaturedEvents")}>Featured Events</button>
+          <button id="JoinedEvents" className={(isOpenPanel_Events === "JoinedEvents")? "Selected":""} onClick={() => setIsOpenPanel_Events("JoinedEvents")}>Joined Events</button>
+          <span>.</span>
+          <button id="ManageEvents" className={(isOpenPanel_Events === "ManageEvents")? "Selected":""} onClick={() => setIsOpenPanel_Events("ManageEvents")}>Manage Events</button>
         </div>
-      </div>
-    </div>
+        <div id='Panel_Events'>
+          <Panel_Events open={isOpenPanel_Events}/>
+        </div>
+    </section>
   );
 }
 

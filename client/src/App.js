@@ -1,55 +1,60 @@
 import React from 'react';
+import {Route, Routes, Navigate } from 'react-router-dom';
+import ProtectedRoutes from './Routes/ProtectedRoutes';
 
+import Error404 from './Pages/Error404';
 
-// User
 import Home from './Pages/Home';
-
-import Login from './Components/Login/Login';
 import Signup from './Pages/Login & Signup/Signup.js'
 
-import Dashboard from './Pages/Dashboard/Dashboard(User)';
 
-import Credential from './Pages/Credential/Credential.js';
-import CredentialView from './Pages/Credential/CredentialView.js';
+// Member Components
+import MemberPanel from './Pages/Member';
 
 import Event from './Pages/Event/Event';
 import EventCreate from './Pages/Event/EventCreate.js';
 import EventList from './Pages/Event/EventList.js';
 import EventView from './Pages/Event/EventView.js';
+
 import MemberView from './Pages/Member/MemberView.js';
 
 
 // Admin
 
-import DashboardAdmin from './Pages/Dashboard/Dashboard(Admin)';
-import EventAdmin from './Pages/Event/EventAdmin'
+import AdminPanel from './Pages/Admin';
 
-
-
-import Error404 from './Pages/Error404';
-
-
-import {Route, Routes, Navigate } from 'react-router-dom';
-import ProtectedRoutes from './Routes/ProtectedRoutes';
+import A_Event from './Layouts/Admin/Event/Event.js';
+import A_EventCreate from './Layouts/Admin/Event/EventCreate.js'
 
 function App() {
+  return <Routes>  
 
-  return <Routes>    
-    <Route path="/" element={<Home/>}/>
-    <Route path="/dashboard" element={<Dashboard/>}/>
-    <Route path="/dashboard/Signup" element={<Signup/>}/>
-    <Route path="/events" element={<Event/>}/>
-    <Route path="/events/:id" element={<EventView/>}/>
-    <Route path="/members/:id" element={<MemberView/>}/>
-    
     <Route path="*" element={<Error404/>}/>
+    <Route path="/" element={<Home/>}/>
+    <Route path="/home/signup" element={<Signup/>}/>
 
-    <Route path='/Credential/' element={<Credential/>}/>
-    <Route path='/Credential/View' element={<CredentialView/>}/>
+    <Route path='/member' element={<MemberPanel/>}>
+      <Route path="dashboard" element={<Dashboard/>}/>
 
-    <Route path="/Admin" element={<DashboardAdmin/>}/>
+      <Route path="credential" element={<Credential/>}/>
+      <Route path="credential/view" element={<Credential_View/>}/>
+
+      <Route path="event" element={<Event/>}/>
+      <Route path="event/view/:id" element={<Event_View/>}/>
+
+    </Route>
+
+    <Route path='/admin' element={<AdminPanel/>}>
+      <Route path="event" element={<A_Event/>}/>
+      <Route path="event/create" element={<A_EventCreate/>}/>
+    </Route>
+    
+    {/* <Route path='/Credential/' element={<Credential/>}/>
+    <Route path='/Credential/View' element={<CredentialView/>}/> */}
+
+    {/* <Route path="/Admin" element={<DashboardAdmin/>}/>
     <Route path="/Admin/Event" element={<EventAdmin/>}/>
-    <Route path="/Admin/Event/Create" element={<EventCreate/>}/>
+    <Route path="/Admin/Event/Create" element={<EventCreate/>}/> */}
 
     {/* <Route element={<ProtectedRoutes/>}>
       <Route path="/dashboard" element={<Dashboard/>}/>

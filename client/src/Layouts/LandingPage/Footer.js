@@ -5,8 +5,6 @@ import emailicon from './../../Assets/Images/icons/SocialMedia/email.png';
 import instagramicon from './../../Assets/Images/icons/SocialMedia/instagram.png';
 
 
-
-
 function Footer() {
  return(
     <footer>
