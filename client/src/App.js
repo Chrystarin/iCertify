@@ -1,4 +1,5 @@
 import React from 'react';
+import RequireAuth from './Middleware/RequireAuth';
 import {Route, Routes } from 'react-router-dom';
 import ProtectedRoutes from './Routes/ProtectedRoutes';
 
@@ -28,6 +29,8 @@ import A_EventCreate from './Layouts/Admin/Event/EventCreate.js'
 
 import MemberView from './Pages/Member/MemberView.js';
 
+
+
 function App() {
   return <Routes>  
 
@@ -35,7 +38,22 @@ function App() {
     <Route path="/" element={<Home/>}/>
     <Route path="/signup" element={<Signup/>}/>
 
-    <Route path='/member' element={<MemberPanel/>}>
+    <Route element={<RequireAuth/>}>
+      <Route path='/member' element={<MemberPanel/>}>
+        <Route path="dashboard" element={<Dashboard/>}/>
+
+        <Route path="credential" element={<Credential/>}/>
+        <Route path="credential/view" element={<Credential_View/>}/>
+
+        <Route path="event" element={<Event/>}/>
+        <Route path="event/view/:id" element={<Event_View/>}/>
+
+        <Route path=":id" element={<MemberView/>}/>
+      </Route>
+    </Route>
+
+
+    {/* <Route path='/member' element={<MemberPanel/>}>
       <Route path="dashboard" element={<Dashboard/>}/>
 
       <Route path="credential" element={<Credential/>}/>
@@ -45,7 +63,9 @@ function App() {
       <Route path="event/view/:id" element={<Event_View/>}/>
 
       <Route path=":id" element={<MemberView/>}/>
-    </Route>
+    </Route> */}
+
+   
 
     <Route path='/admin' element={<AdminPanel/>}>
       <Route path="event" element={<A_Event/>}/>
@@ -62,7 +82,15 @@ function App() {
     {/* <Route element={<ProtectedRoutes/>}>
       <Route path="/dashboard" element={<Dashboard/>}/>
     </Route> */}
+    
   </Routes>
+
+  // <Routes>
+  //   <Route path="/" element={<Layout/>}>
+
+
+  //   </Route>
+  // </Routes>
 
 
 {/* <Routes>

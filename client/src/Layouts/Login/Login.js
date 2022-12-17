@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
-import {useNavigate} from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
+import {Link, useNavigate, useLocation} from 'react-router-dom';
 import {ethers} from 'ethers';
 
-import AuthContext from '../../Context/AuthProvider';
-import axios from '../../Api/axios';
+import useAuth from '../../Hooks/useAuth';
+
+import axios from '../../Config/axios';
 
 import './../../Assets/Styles/Components/style-Modal.scss';
 import './../../Assets/Styles/Components/style-login-signup.scss';
@@ -17,15 +18,9 @@ import CloseIcon from './../../Assets/Images/icons/close.png';
 const LOGIN_URL = '/auth';
 
 export default function ModalLogin({open, onClose}) {
-    const {setAuth} = useContext(AuthContext);
-
+    const {setAuth} = useAuth();
     const navigate = useNavigate();
-    const userRef = useRef();
-    const errRef = useRef();
-
     const [walletAddress, setWalletAddress] = useState("");
-    const [errMsg, setErrMsg] = useState('');
-    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         addWalletListener()
@@ -93,20 +88,16 @@ export default function ModalLogin({open, onClose}) {
                         'Content-Type': 'application/json',
                         withCredentials: true
                     }
-                // body: JSON.stringify({ type: 'metamask', credentials: [address, signature] })
             })
             .then(response => {
-                console.log(response.data.walletAddress)
+                const accessToken = response.data.accessToken;
+                const user = response.data.walletAddress;
+                setAuth({user, accessToken});
+                navigate(`/member/${response.data.walletAddress}`);
+                console.log(response.data.walletAddress);
+                console.log(JSON.stringify(response.data.accessToken));
             });
-            // .then(data => {
-            //     // const accessToken = response?.data?.accessToken;
-            //     // setAuth({walletAddress, accessToken})
 
-            //     // redirect
-            //     navigate(`/member/${data.walletAddress}`);
-            //     console.log(data.walletAddress);
-            // });
-            
         } catch (err) {
             console.error(err.message);
         }

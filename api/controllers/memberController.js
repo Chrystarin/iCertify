@@ -60,7 +60,8 @@ const loginMember = async (req, res, next) => {
                 })
                 .json({
                     message: 'Successfully logged in',
-                    userType: req.user
+                    userType: req.user,
+                    accessToken: token
                 });
         }
         /**
@@ -98,7 +99,8 @@ const loginMember = async (req, res, next) => {
                 .json({
                     message: 'Successfully logged in',
                     userType: req.user,
-                    walletAddress: member.walletAddress
+                    walletAddress: member.walletAddress,
+                    accessToken: token
                 });
         }
     } catch (error) {
