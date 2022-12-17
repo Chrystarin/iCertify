@@ -8,11 +8,15 @@ import { useNavigate } from "react-router";
 
 import '../../../Assets/Styles/Page/style-EventCreate.scss'
 
-import Navigation from '../../DashboardAdminNavigation/DashboardNavigationAdmin';
-import HeaderNavigation from '../../Dashboard/HeaderNavigation';
 
-import Input from '../../../Components/TextInput.js';
 import TabBtn from '../../../Components/Button.js';
+
+import TextField from '@mui/material/TextField';
+
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
 
 export default function EventCreate() {
     const url = "http://localhost:6787/events/create"
@@ -113,7 +117,20 @@ export default function EventCreate() {
                                 <p>Necessary Information for new event.</p>
                             </div>
                             <div className='Wrapper_Inputs_Form'>
-                                <Input Title="Event Type" Holder="Dianne" Action={(e)=>updateForm({ type: e.target.value })}/>
+                                <FormControl fullWidth required>
+                                    <InputLabel id="demo-simple-select-label">Occupation</InputLabel>
+                                    <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={Occupation}
+                                    label="Occupation"
+                                    onChange={handleChange}
+                                    >
+                                    <MenuItem value={"Student"}>Student</MenuItem>
+                                    <MenuItem value={"Professional"}>Professional</MenuItem>
+                                    <MenuItem value={"None"}>None</MenuItem>
+                                    </Select>
+                                </FormControl>
                             </div>
                             <div className="Wrapper_Title_Form">
                                 <h3>Basic Details</h3>
