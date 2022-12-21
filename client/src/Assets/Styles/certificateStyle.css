@@ -1,0 +1,76 @@
+.certificate {
+    height: 500px;
+    width: 650px;
+    }
+
+.certificate img{
+    height: 100%;
+    width: 100%;
+}
+    
+.main_body { 
+    position: relative;
+    height: 85%;
+}
+
+.main_body .certificate_title{
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    top: -80%;
+    color:#27b3fe;
+    font-size: 40px;
+}
+
+.main_body .user_name{
+    position: relative;
+    size: 100px;
+    z-index: 1;
+    text-align: center;
+    top: -70%;
+    color:darkcyan;
+    font-size: 20px;
+}
+
+.main_body .user_role{
+    position: relative;
+    size: 100px;
+    z-index: 1;
+    text-align: center;
+    top: -70%;
+    color:darkcyan;
+    font-size: 15px;
+}
+
+.main_body .event_title{
+    position: relative;
+    size: 100px;
+    z-index: 1;
+    text-align: center;
+    top: -70%;
+    color:darkcyan;
+    font-size: 15px;
+}
+
+.main_body .event_date{
+    position: relative;
+    size: 100px;
+    z-index: 1;
+    text-align: center;
+    top: -70%;
+    color:darkcyan;
+    font-size: 15px;
+}
+
+
+.footer { 
+    position: relative;
+    height: 15%;
+}
+
+.footer .qrcode{
+    position: absolute;
+    z-index: 1;
+    top: 10%;
+    left: 85%;
+}
