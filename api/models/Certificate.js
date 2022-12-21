@@ -7,6 +7,11 @@ const certificateSchema = new Schema({
         unique: true,
         required: true
     },
+    ipfsCID: {
+        type: String,
+        unique: true,
+        require: true
+    },
     nftId: {
         type: Number,
         unique: true,

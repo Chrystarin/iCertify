@@ -56,8 +56,6 @@ app.use((err, req, res, next) => {
         err.status = 409;
     }
 
-    console.log(err);
-
     res.status(err.status || 500).json({ error: err.message });
 });
 

@@ -19,6 +19,9 @@ import Credential_View from './Layouts/Credential/CredentialView.js';
 import Event from './Layouts/Event/Event';
 import Event_View from './Layouts/Event/EventView';
 
+
+import MintTransfer from './Pages/MintTransfer/mintTransfer.js';
+
 // Admin
 
 import AdminPanel from './Pages/Admin';
@@ -51,6 +54,7 @@ function App() {
       <Route path="event" element={<A_Event/>}/>
       <Route path="event/create" element={<A_EventCreate/>}/>
     </Route>
+    <Route path='/mintTransfer' element={<MintTransfer/>}/>
 
     {/* <Route path='/Credential/' element={<Credential/>}/>
     <Route path='/Credential/View' element={<CredentialView/>}/> */}

@@ -2,19 +2,21 @@ const { nanoid } = require('nanoid');
 const Certificate = require('../models/Certificate');
 const Event = require('../models/Event');
 const Member = require('../models/Member');
-const { UnprocessableRequest, NotFound } = require('../miscellaneous/errors');
+const { UnprocessableRequest, NotFound, Forbidden } = require('../miscellaneous/errors');
 const { create } = require('ipfs-http-client');
+const Hash = require('ipfs-only-hash');
 
 const saveCertificate = async (req, res, next) => {
-    const { nftId, title, hash, dateReceived, ownerAddress, eventId } = req.body;
+    const { nftId, ipfsCID, title, hash, dateReceived, ownerAddress, eventId } = req.body;
 
     try {
-        if(!(  nftId        && typeof nftId === 'number'
-            && title        && typeof title === 'string'
-            && hash         && typeof hash === 'string'
-            && dateReceived && typeof dateReceived === 'number'
-            && ownerAddress && typeof ownerAddress === 'string'
-            && eventId      && typeof eventId === 'string'
+        if(!(  nftId            && typeof nftId === 'number'
+            && title            && typeof title === 'string'
+            && ipfsCID          && typeof ipfsCID === 'string'
+            && hash             && typeof hash === 'string'
+            && dateReceived     && typeof dateReceived === 'number'
+            && ownerAddress     && typeof ownerAddress === 'string'
+            && eventId          && typeof eventId === 'string'
         )) throw new UnprocessableRequest();
 
         // Find member
@@ -47,11 +49,19 @@ const saveCertificate = async (req, res, next) => {
 }
 
 const certificateIPFS = async (req, res, next) => {
-    const { certificate: { mimetype, data } } = req.files;
+    // console.log(req.headers);
 
     try {
-        if(mimetype !== 'image/png') throw new UnprocessableRequest();
+        const { certificate: { mimetype, data } } = req.files;
 
+        // Check file type
+        // if(mimetype !== 'image/png') throw new UnprocessableRequest();
+
+        // Check if the generated hash is unique
+        // const certificate = await Certificate.findOne({ ipfsCID: await Hash.of(data) })
+        // if(certificate) throw new Forbidden('Certificate is already existing');
+
+        // Create ipfs instance
         const ipfsClient = create({
             host: 'ipfs.infura.io',
             port: 5001,
@@ -61,11 +71,19 @@ const certificateIPFS = async (req, res, next) => {
             }
         });
 
-        res.json(
-            await ipfsClient.add({
-                content: data
-            })
-        );
+        const hash = await Hash.of(data);
+        const getImage = ipfsClient.cat(hash);
+        const exists = ipfsClient.get(hash).next();
+        // console.log(ipfsClient.files.ls)
+        console.log(getImage);
+        for await (const file of getImage) {
+            console.log(file);
+        }
+
+        // console.log(exists);
+
+        // res.json(await ipfsClient.add({ content: data }));
+        res.json({});
     } catch (error) {
         next(error);
     }
