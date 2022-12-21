@@ -1,16 +1,18 @@
-import certificateBodyTemplate from './../../Assets/Images/template.png'
-import certificateFooterTemplate from './../../Assets/Images/footer.png'
+import React, { useRef, useState } from 'react';
+
 import './../../Assets/Styles/certificateStyle.css'
 
-import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from 'react-component-export-image';
-import React from 'react';
+import certificateBodyTemplate from './../../Assets/Images/template.png'
+import certificateFooterTemplate from './../../Assets/Images/footer.png'
 
-// import React, { useEffect, useState } from "react";
+
+import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from 'react-component-export-image';
+
+
 
 import downloadjs from 'downloadjs';
 import html2canvas from 'html2canvas';
 import exportAsImage from '../../Services/Actions/exportAsImage';
-import { useRef, useState } from "react"
 import QRCode from 'react-qr-code';
 
 function CertificateGenerator(){
