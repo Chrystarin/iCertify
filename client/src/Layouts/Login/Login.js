@@ -92,10 +92,12 @@ export default function ModalLogin({open, onClose}) {
             .then(response => {
                 const accessToken = response.data.accessToken;
                 const user = response.data.walletAddress;
-                setAuth({user, accessToken});
+                const roles = response.data.roles;
+                setAuth({user, roles, accessToken});
                 navigate(`/member/${response.data.walletAddress}`);
                 console.log(response.data.walletAddress);
                 console.log(JSON.stringify(response.data.accessToken));
+                // console.log(JSON.stringify(roles));
             });
 
         } catch (err) {

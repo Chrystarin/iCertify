@@ -15,6 +15,8 @@ const memberAcceptedEntries = new Set([
     'location'
 ]);
 
+const roles = ['admin', 'member']
+
 const loginMember = async (req, res, next) => {
     const { type, credentials } = req.body;
 
@@ -100,7 +102,8 @@ const loginMember = async (req, res, next) => {
                     message: 'Successfully logged in',
                     userType: req.user,
                     walletAddress: member.walletAddress,
-                    accessToken: token
+                    accessToken: token,
+                    roles: roles
                 });
         }
     } catch (error) {
