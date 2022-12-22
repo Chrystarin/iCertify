@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {useParams} from 'react-router-dom';
 
 import './../../Assets/Styles/Page/style-DashboardUser.scss';
 import './../../Assets/Styles/Page/style-Event.scss';
-import Navigation from '../Dashboard/DashboardNavigation';
-import HeaderNavigation from '../Dashboard/HeaderNavigation';
 
-import CredentialTab from '../Credential/CredentialTab.js';
+
 import EventCard from './EventCard.js';
 
-import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg';
 import ImagePosterSample from './../../Assets/Images/placeholder/PosterSample.jpg'
 
 function Event() {
