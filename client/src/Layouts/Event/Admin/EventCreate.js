@@ -3,7 +3,12 @@ import { useNavigate } from "react-router";
 
 import '../../../Assets/Styles/Page/style-EventCreate.scss'
 
-import TabBtn from '../../../Components/Button.js';
+import Stepper from '@mui/material/Stepper';
+import Step from '@mui/material/Step';
+import StepLabel from '@mui/material/StepLabel';
+
+
+import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField';
 
 // Dropdown
@@ -15,14 +20,26 @@ import FormHelperText from '@mui/material/FormHelperText';
 
 
 //datePicker
+import DatePicker from '../../../Components/DateTime_Picker';
 
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-import Autocomplete from '@mui/material/Autocomplete';
-import Chip from '@mui/material/Chip';
+import Tags from '../../../Components/Tags.js'
+
 export default function EventCreate() {
+
+    // Stepper
+    const [activeStep,setActiveStep] = useState(0);
+    function nextStep(){
+        if(activeStep !== 2){
+            setActiveStep(activeStep+1);
+        }
+    }
+    function backStep(){
+        if(activeStep !== 0){
+            setActiveStep(activeStep-1);
+        }
+    }
+
 
     // Event type
      
@@ -37,30 +54,14 @@ export default function EventCreate() {
                 return <TextField id="outlined-search" label="link" type="text" required/>
 
             case 'Onsite':
-                return <TextField id="outlined-search" label="link" type="text" required/>
+                return <TextField id="outlined-search" label="Address" type="text" required/>
             default:
                 return 
         }
     }
     // End
 
-    // start Time and Date
-    const [StartDateTime, setStartDateTime] = useState(null);
     
-    const handleChangeStartDateTime = (newValue) => {
-        setStartDateTime(newValue);
-    };
-    // End
-    // End Time and Date
-    const [EndDateTime, setEndDateTime] = useState(null);
-    
-    const handleChangeEndDateTime = (newValue) => {
-        setEndDateTime(newValue);
-    };
-    // End
-        
-    // Tags
-    const [Tags, setTags] = useState();
     const PredefinedTags = [ "Computer","Technology", "Blockchain", "Entertainment","UserInterface","UserExperience"];
 
     // +================================================================================
@@ -69,7 +70,6 @@ export default function EventCreate() {
     const url = "http://localhost:6787/events/create"
     const navigate = useNavigate();
     
-    let [openPanel,setopenPanel] = useState(1);
 
     const [form, setForm] = useState({
         eventId: '',
@@ -143,147 +143,87 @@ export default function EventCreate() {
     
     
 
-
+    function VIEWFORM(){
+       switch (activeStep) {
+        case 0:
+            return <>
+                <form action="#">
+                    <div className="Subject_Seperator">
+                        <div className="holder_Subject">
+                            <h3>Event Type</h3>
+                            <p>Necessary Information for new event.</p>
+                        </div>
+                        <div className="holder_Questions">
+                            <div className="Wrapper_2_Inputs">
+                                <FormControl fullWidth required  helperText="Select Event">
+                                    <InputLabel id="demo-simple-select-label" required>Event Type</InputLabel>
+                                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventType} label="Event Type" onChange={handleChangeEvent}>
+                                        <MenuItem value={"Online"}>Online</MenuItem>
+                                        <MenuItem value={"Onsite"}>Onsite</MenuItem>
+                                    </Select>
+                                    <FormHelperText>Select event type</FormHelperText>
+                                </FormControl>
+                                <EventTypeChecker EventType={EventType}/>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="Subject_Seperator">
+                        <div className="holder_Subject">
+                            <h3>Basic Details</h3>
+                            <p>Necessary Information for new event.</p>
+                        </div>
+                        <div className="holder_Questions">
+                            <TextField id="outlined-search" label="Event Name" type="text" required />
+                            <TextField id="outlined-search" label="Event Description" type="text" required multiline/>
+                            <div className='Wrapper_2_1_Inputs'>   
+                                <DatePicker Label="Start Date & Time"/>    
+                                <DatePicker Label="End Date & Time"/>  
+                                <Tags PredefinedTags={PredefinedTags} />
+                            </div>
+                            <div className="Wrapper_2_Inputs">
+                                <TextField id="outlined-search" label="Email" type="email"/>
+                                <TextField id="outlined-search" label="Contact Number" type="tel"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </>
+            break;
+        case 1:
+            return <h1>Hello</h1>
+            break;
+        case 2:
+            return <h1>Hello</h1>
+            break;
+       
+        default:
+            break;
+       }
+    }
 
 
     return (
         
         <section id='Create_Event'>
-            <div id='Container_Navigatoin_Creat_Event' >
-                <div  onClick={()=>setopenPanel(1)}>
-                    <TabBtn Action="ButtonTab_Number" Type="Active_ButtonTab_Number" Number="1" Value="Event Details" Status={(openPanel===1)?"Active":"Inactive"}/>
-                </div>
-                <div onClick={()=>setopenPanel(2)}>
-                    <TabBtn Action="ButtonTab_Number" Type="Active_ButtonTab_Number" Number="2" Value="Set Participants" Status={(openPanel===2)?"Active":"Inactive"}/>
-                </div>
-                <div onClick={()=>setopenPanel(3)}>
-                    <TabBtn Action="ButtonTab_Number" Type="Active_ButtonTab_Number" Number="3" Value="Payment" Status={(openPanel===3)?"Active":"Inactive"}/>
-                </div>
+            <div id="Holder_Stepper">
+                <Stepper activeStep={activeStep}>
+                    <Step>
+                        <StepLabel>Event Details</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel>Set Participants</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel>Payment</StepLabel>
+                    </Step>
+                </Stepper>
             </div>
-            <div id='Container_Form_Create_Event'>
-                <form onSubmit={(e)=>onSubmit(e)}>
-                    <div id='Form1' className={(openPanel===1)? "Container_Form ActiveForm":"Container_Form InactiveForm"}>
-                        <div className="Wrapper_Form_Create">
-                            <div className="Wrapper_Title_Form">
-                                <h3>Event Details</h3>
-                                <p>Necessary Information for new event.</p>
-                            </div>
-                            <div className='Wrapper_Inputs_Form'>
-                                <div className="Wrapper_2_Inputs">
-                                    <FormControl fullWidth required  helperText="Select Event">
-                                        <InputLabel id="demo-simple-select-label" required>Event Type</InputLabel>
-                                        <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventType} label="Event Type" onChange={handleChangeEvent}>
-                                            <MenuItem value={"Online"}>Online</MenuItem>
-                                            <MenuItem value={"Onsite"}>Onsite</MenuItem>
-                                        </Select>
-                                        <FormHelperText>Select event type</FormHelperText>
-                                    </FormControl>
-                                    <EventTypeChecker EventType={EventType}/>
-                                </div>
-                            </div>
-                            <div className="Wrapper_Title_Form">
-                                <h3>Basic Details</h3>
-                                <p>Necessary Information for new event.</p>
-                            </div>
-                            <div className='Wrapper_Inputs_Form'>
 
-                                <TextField id="outlined-search" label="Event Name" type="text" required  />
-                                <TextField id="outlined-search" label="Event Description" type="text" required multiline/>
-                                <div className='Wrapper_3_Inputs'>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DateTimePicker
-                                        label="Start Date & Time"
-                                        value={StartDateTime}
-                                        onChange={handleChangeStartDateTime}
-                                        renderInput={(params) => <TextField {...params} />}
-                                        />
-                                    </LocalizationProvider>
-                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                                        <DateTimePicker
-                                        label="End Date & Time"
-                                        value={EndDateTime}
-                                        onChange={handleChangeEndDateTime}
-                                        renderInput={(params) => <TextField {...params} />}
-                                        />
-                                    </LocalizationProvider>
-                                    <Autocomplete
-                                        multiple
-                                        id="tags-outlined"
-                                        options={PredefinedTags.map((option) => option)}
-                                        defaultValue={[PredefinedTags[1]]}
-                                        freeSolo
-                                        renderTags={(value, getTagProps) =>
-                                        value.map((option, index) => (
-                                            // Inputs
-                                            <Chip variant="filled" label={option} {...getTagProps({ index })} />
-                                        ))
-                                        }
-                                        onChange={(option, index) => setTags(index)}
-                                        renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Event Tags"
-                                            placeholder="Tags"
-                                        />
-                                        )}
-                                    />
-                                    
-                                </div>
+            <VIEWFORM />
 
-
-                                {/* <Input Title="Event Name" Holder="Blockchain Technology 101" Action={(e)=>updateForm({ title: e.target.value })}/>
-                                <Input Title="Event Description" Holder="Adding information about the evenT" Action={(e)=>updateForm({ description: e.target.value })}/>
-                                <Input Title="Link" Holder="www.test.com" Action={(e)=>updateForm({ link: e.target.value })}/>
-                                <Input Title="Location" Holder="Marikina" Action={(e)=>updateForm({ location: e.target.value })}/>
-                                <Input Title="Can Claim Document" Holder="www.test.com" Action={(e)=>updateForm({ canClaimDocument: e.target.value })}/>
-                                <Input Title="Status" Holder="www.test.com" Action={(e)=>updateForm({ status: e.target.value })}/>
-                                <Input Title="Accepting Volunteers" Holder="true" Action={(e)=>updateForm({ isAcceptingVolunteer: e.target.value })}/>
-                                
-                                <div className='Wrapper_3_Inputs'>
-                                    <Input Title="Start Date & Time" Holder="10/3/2020 @ 4:10 PM" Action={(e)=>updateForm({ date:{start: e.target.value}})}/>
-                                    <Input Title="End Date & Time" Holder="10/3/2020 @ 4:10 PM" Action={(e)=>updateForm({ date:{end: e.target.value}})}/>
-                                    <Input Title="Search Tags" Holder="#Sample1, #Sample2,"/>
-                                </div>
-                                
-                                <div className='Wrapper_2_Inputs'>
-                                    <Input Title="Email(Optional)" Holder="YourEmail@mail.com"/>
-                                    <Input Title="Email(Optional)" Holder="YourEmail@mail.com"/>
-                                </div> */}
-                            </div>
-                        </div>
-                        <div className='Wrapper_Button_Create'>
-                            <div>
-                                <TabBtn Action="Function" BtnType="Primary2" Value="Save as Default"/>
-                            </div>
-                            <div onClick={()=>setopenPanel(2)}>
-                                <TabBtn Action="Function" BtnType="Primary" Value="Next"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div className={(openPanel===2)? "Container_Form ActiveForm":"Container_Form InactiveForm"}>
-                    <div className="Wrapper_Form_Create">
-                            <div className="Wrapper_Title_Form">
-                                <h3>Participants</h3>
-                                <p>Assign participants</p>
-                            </div>
-                            <div className='Wrapper_Inputs_Form'>
-                                {/* <Input Title="Event Type" Holder="Dianne"/> */}
-                            </div>
-                            
-                        </div>
-                        <div className='Wrapper_Button_Create'>
-                            <div>
-                                <TabBtn Action="Function" BtnType="Primary2" Value="Save as Default"/>
-                            </div>
-                            <div onClick={()=>setopenPanel(3)}>
-                                <TabBtn onClick={()=>alert("")} Action="Function" BtnType="Primary" Value="Next"/>
-                            </div>
-                        </div>      
-                    </div>
-                    <div className={(openPanel===3)? "Container_Form ActiveForm":"Container_Form InactiveForm"}>
-                        <TabBtn type="submit" variant="contained" onClick={(e)=>onSubmit(e)} BtnType="Primary" Value="Create"/>   
-                    </div>
-                </form>
+            <div id="Holder_Button">
+                <Button variant="outlined" onClick={backStep}>Back</Button>
+                <Button variant="contained" onClick={nextStep}>Next</Button>
             </div>
         </section>
     )
