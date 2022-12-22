@@ -1,5 +1,4 @@
 import html2canvas from "html2canvas";
-import React from 'react'
 
 const exportAsImage = async (element, imageFileName) => {
     const canvas = await html2canvas(element);

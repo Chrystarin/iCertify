@@ -18,7 +18,7 @@
     z-index: 1;
     text-align: center;
     top: -80%;
-    color:#27b3fe;
+    color:#1b3652;
     font-size: 40px;
 }
 
@@ -27,9 +27,9 @@
     size: 100px;
     z-index: 1;
     text-align: center;
-    top: -70%;
-    color:darkcyan;
-    font-size: 20px;
+    top: -50%;
+    color:#1b3652;
+    font-size: 25px;
 }
 
 .main_body .user_role{
@@ -38,8 +38,20 @@
     z-index: 1;
     text-align: center;
     top: -70%;
-    color:darkcyan;
+    color:#1b3652;
     font-size: 15px;
+}
+
+.main_body .cert_description{
+    position: relative;
+    size: 100px;
+    z-index: 1;
+    text-align: center;
+    top: -40%;
+    color:#1b3652;
+    font-size: 10px;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 .main_body .event_title{
@@ -48,7 +60,7 @@
     z-index: 1;
     text-align: center;
     top: -70%;
-    color:darkcyan;
+    color:#1b3652;
     font-size: 15px;
 }
 
@@ -58,7 +70,7 @@
     z-index: 1;
     text-align: center;
     top: -70%;
-    color:darkcyan;
+    color:#1b3652;
     font-size: 15px;
 }
 

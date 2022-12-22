@@ -7,6 +7,7 @@ import Error404 from './Pages/Error404';
 import Home from './Pages/Home';
 import Signup from './Pages/Signup/Signup.js'
 
+import CertificateGenerator from './Pages/CertificateGenerator/CertificateGenerator.js'
 
 // Member Components
 import MemberPanel from './Pages/Member';
@@ -34,6 +35,7 @@ function App() {
     <Route path="*" element={<Error404/>}/>
     <Route path="/" element={<Home/>}/>
     <Route path="/signup" element={<Signup/>}/>
+    <Route path="/certificate/generate" element={<CertificateGenerator/>}/>
 
     <Route path='/member' element={<MemberPanel/>}>
       <Route path="dashboard" element={<Dashboard/>}/>
