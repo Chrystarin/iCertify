@@ -5,16 +5,16 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 function DateTime_Picker(props) {
-  const [DateTime, setDateTime] = useState(null);
-  const handleChange = (newValue) => {
-    setDateTime(newValue);
-  };
+  // const [DateTime, setDateTime] = useState(null);
+  // const handleChange = (newValue) => {
+  //   setDateTime(newValue);
+  // };
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateTimePicker
         label={props.Label}
-        value={DateTime}
-        onChange={handleChange}
+        value={props.Value}
+        onChange={props.HandleChange}
         renderInput={(params) => <TextField required {...params} />}
       />
     </LocalizationProvider>

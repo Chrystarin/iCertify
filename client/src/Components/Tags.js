@@ -4,7 +4,6 @@ import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
 function Tags(props) {
-    const [Tags, setTags] = useState();
     return (
         <Autocomplete
             multiple
@@ -17,7 +16,9 @@ function Tags(props) {
                 <Chip variant="filled" label={option} {...getTagProps({ index })} />
             ))
             }
-            onChange={(option, index) => setTags(index)}
+            onChange={
+                props.HandleChange
+            }
             renderInput={(params) => (
             <TextField
                 {...params}

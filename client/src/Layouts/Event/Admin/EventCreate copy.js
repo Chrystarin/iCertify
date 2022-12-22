@@ -44,20 +44,7 @@ export default function EventCreate() {
     }
     // End
 
-    // start Time and Date
-    const [StartDateTime, setStartDateTime] = useState(null);
-    
-    const handleChangeStartDateTime = (newValue) => {
-        setStartDateTime(newValue);
-    };
-    // End
-    // End Time and Date
-    const [EndDateTime, setEndDateTime] = useState(null);
-    
-    const handleChangeEndDateTime = (newValue) => {
-        setEndDateTime(newValue);
-    };
-    // End
+
         
     // Tags
     const [Tags, setTags] = useState();

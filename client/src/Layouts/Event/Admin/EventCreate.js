@@ -6,7 +6,8 @@ import '../../../Assets/Styles/Page/style-EventCreate.scss'
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch'
 
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField';
@@ -22,7 +23,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 //datePicker
 import DatePicker from '../../../Components/DateTime_Picker';
 
-
+// Tags
 import Tags from '../../../Components/Tags.js'
 
 export default function EventCreate() {
@@ -39,15 +40,14 @@ export default function EventCreate() {
             setActiveStep(activeStep-1);
         }
     }
-
-
+    
     // Event type
-     
+        
     const [EventType, setEventType] = React.useState('');
     const handleChangeEvent = (event) => {
-      setEventType(event.target.value);
+        setEventType(event.target.value);
     };
-    
+
     function EventTypeChecker(props){
         switch(props.EventType) {
             case 'Online':
@@ -61,8 +61,39 @@ export default function EventCreate() {
     }
     // End
 
-    
+
+    // Get input of forms 
+        // Start Date
+    const [StartDateTimeVal, setStartDateVal] = useState(null);
+    const [EndDateTimeVal, setEndDateVal] = useState(null);
+    let TagsVal = [];
+    const [CertificateVal, setCertificateVal] = useState(false);
+
+    const StartDateTimeHandleChange = (newValueStart) => {
+        setStartDateVal(newValueStart);
+    };
+
+    const EndDateTimeHandleChange = (newValueEnd) => {
+        setEndDateVal(newValueEnd);
+    };
+
+    function TagsValHandleChange(option, index){
+        TagsVal = index;
+        console.log(TagsVal);
+    }
     const PredefinedTags = [ "Computer","Technology", "Blockchain", "Entertainment","UserInterface","UserExperience"];
+
+
+    function CertificateValHandleChange(){
+        setCertificateVal(!CertificateVal);
+    }
+
+
+
+
+    
+
+    
 
     // +================================================================================
 
@@ -176,13 +207,21 @@ export default function EventCreate() {
                             <TextField id="outlined-search" label="Event Name" type="text" required />
                             <TextField id="outlined-search" label="Event Description" type="text" required multiline/>
                             <div className='Wrapper_2_1_Inputs'>   
-                                <DatePicker Label="Start Date & Time"/>    
-                                <DatePicker Label="End Date & Time"/>  
-                                <Tags PredefinedTags={PredefinedTags} />
+                                <DatePicker Label="Start Date & Time" Value={StartDateTimeVal} HandleChange={StartDateTimeHandleChange}/>
+                                <DatePicker Label="End Date & Time" Value={EndDateTimeVal} HandleChange={EndDateTimeHandleChange}/>        
+                                <Tags PredefinedTags={PredefinedTags} HandleChange={TagsValHandleChange}/>
                             </div>
                             <div className="Wrapper_2_Inputs">
                                 <TextField id="outlined-search" label="Email" type="email"/>
                                 <TextField id="outlined-search" label="Contact Number" type="tel"/>
+                            </div>
+                            <div >
+                                <FormControlLabel
+                                    control={
+                                    <Switch checked={CertificateVal} onChange={CertificateValHandleChange} name="Certificate" />
+                                    }
+                                    label= {<h5>Certificate</h5>}
+                                />
                             </div>
                         </div>
                     </div>
@@ -205,18 +244,20 @@ export default function EventCreate() {
     return (
         
         <section id='Create_Event'>
-            <div id="Holder_Stepper">
-                <Stepper activeStep={activeStep}>
-                    <Step>
-                        <StepLabel>Event Details</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Set Participants</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Payment</StepLabel>
-                    </Step>
-                </Stepper>
+            <div id="Stepper">
+                <div id="Holder_Stepper">
+                    <Stepper activeStep={activeStep}>
+                        <Step>
+                            <StepLabel>Event Details</StepLabel>
+                        </Step>
+                        <Step>
+                            <StepLabel>Set Participants</StepLabel>
+                        </Step>
+                        <Step>
+                            <StepLabel>Payment</StepLabel>
+                        </Step>
+                    </Stepper>
+                </div>
             </div>
 
             <VIEWFORM />

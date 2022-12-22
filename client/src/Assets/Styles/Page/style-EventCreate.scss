@@ -1,7 +1,24 @@
 #Create_Event{
-    #Holder_Stepper{
-        padding-bottom: 10px;
+    #Stepper{
+        border-bottom: 1px solid rgba(0, 0, 0, 0.158);
+        padding-bottom: 25px;
         margin-bottom: 50px;
+
+        #Holder_Stepper{
+            width: 50%;
+
+            .MuiStepConnector-lineHorizontal{
+                width: 0;
+            }
+            .css-j5w0w9-MuiStepConnector-root{
+                -webkit-flex: none;
+            }
+            .css-m5vj9m-MuiStepper-root{
+                gap: 25px;
+                
+            }
+            
+        }
     }
     form{
         display: grid;
