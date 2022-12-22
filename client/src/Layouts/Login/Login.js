@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import {ethers} from 'ethers';
 
-import useAuth from '../../Hooks/useAuth';
+import useAuth from '../../Authentication/useAuth';
 
 import axios from '../../Config/axios';
 

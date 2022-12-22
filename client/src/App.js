@@ -1,5 +1,5 @@
 import React from 'react';
-import RequireAuth from './Middleware/RequireAuth';
+import RequireAuth from './Authentication/RequireAuth';
 import {Route, Routes } from 'react-router-dom';
 import ProtectedRoutes from './Routes/ProtectedRoutes';
 
@@ -29,16 +29,20 @@ import A_EventCreate from './Layouts/Admin/Event/EventCreate.js'
 
 import MemberView from './Pages/Member/MemberView.js';
 
+const ROLES = {
 
+}
 
 function App() {
   return <Routes>  
 
+    {/* Public Routes */}
     <Route path="*" element={<Error404/>}/>
     <Route path="/" element={<Home/>}/>
     <Route path="/signup" element={<Signup/>}/>
 
-    <Route element={<RequireAuth/>}>
+    {/* Routes for members */}
+    <Route element={<RequireAuth allowedRoles={['member']}/>}>
       <Route path='/member' element={<MemberPanel/>}>
         <Route path="dashboard" element={<Dashboard/>}/>
 
@@ -52,70 +56,19 @@ function App() {
       </Route>
     </Route>
 
-
-    {/* <Route path='/member' element={<MemberPanel/>}>
-      <Route path="dashboard" element={<Dashboard/>}/>
-
-      <Route path="credential" element={<Credential/>}/>
-      <Route path="credential/view" element={<Credential_View/>}/>
-
-      <Route path="event" element={<Event/>}/>
-      <Route path="event/view/:id" element={<Event_View/>}/>
-
-      <Route path=":id" element={<MemberView/>}/>
-    </Route> */}
-
-   
-
-    <Route path='/admin' element={<AdminPanel/>}>
-      <Route path="event" element={<A_Event/>}/>
-      <Route path="event/create" element={<A_EventCreate/>}/>
+    {/* Routes for admin */}
+    <Route element={<RequireAuth allowedRoles={['admin']}/>}>
+      <Route path='/admin' element={<AdminPanel/>}>
+        <Route path="event" element={<A_Event/>}/>
+        <Route path="event/create" element={<A_EventCreate/>}/>
+      </Route>
     </Route>
 
-    {/* <Route path='/Credential/' element={<Credential/>}/>
-    <Route path='/Credential/View' element={<CredentialView/>}/> */}
-
-    {/* <Route path="/Admin" element={<DashboardAdmin/>}/>
-    <Route path="/Admin/Event" element={<EventAdmin/>}/>
-    <Route path="/Admin/Event/Create" element={<EventCreate/>}/> */}
-
-    {/* <Route element={<ProtectedRoutes/>}>
-      <Route path="/dashboard" element={<Dashboard/>}/>
-    </Route> */}
+    <Route element={<RequireAuth allowedRoles={['admin', 'accountant']}/>}>
+      {/* Insert routes here */}
+    </Route>
     
   </Routes>
-
-  // <Routes>
-  //   <Route path="/" element={<Layout/>}>
-
-
-  //   </Route>
-  // </Routes>
-
-
-{/* <Routes>
-
-    // Public Routes
-    <Route path="/" element={<Home/>}/>
-    <Route path="/about" element={<Home/>}/>
-    <Route path="/about/icertify" element={<Home/>}/>
-    <Route path="/about/" element={<Home/>}/>
-
-    // Protected Routes User
-    <Route path="/dashboard" element={<Dashboard/>}/>
-    <Route path="/events" element={<EventList/>}/>
-    <Route path="/events/:id" element={<Event/>}/>
-
-    // Protected Routes Admin
-    <Route path="/dashboard" element={<Dashboard/>}/>
-    <Route path="/events/create" element={<EventList/>}/>
-    <Route path="/events/edit" element={<EventList/>}/>
-    <Route path="/accountants" element={<EventList/>}/>
-    <Route path="/accountants/create" element={<EventList/>}/>
-
-    // Catch All
-    <Route path="*" element={<Error404/>}/>
-  </Routes> */}
 }
 
 export default App;
