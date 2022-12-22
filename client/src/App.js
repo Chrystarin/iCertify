@@ -1,5 +1,5 @@
 import React from 'react';
-import RequireAuth from './Authentication/RequireAuth';
+import RequireAuth from './Authentication/RequireAuth.js';
 import {Route, Routes } from 'react-router-dom';
 import ProtectedRoutes from './Routes/ProtectedRoutes';
 
@@ -29,46 +29,80 @@ import A_EventCreate from './Layouts/Admin/Event/EventCreate.js'
 
 import MemberView from './Pages/Member/MemberView.js';
 
-const ROLES = {
-
-}
+// const ROLES = {
+//   member: '46936',
+//   admin: '28537',
+//   accountant: '04279'
+// }
 
 function App() {
-  return <Routes>  
+  return (
+    <Routes>  
 
-    {/* Public Routes */}
-    <Route path="*" element={<Error404/>}/>
-    <Route path="/" element={<Home/>}/>
-    <Route path="/signup" element={<Signup/>}/>
+      {/* Public Routes */}
+      <Route path="*" element={<Error404/>}/>
+      <Route path="/" element={<Home/>}/>
+      <Route path="/signup" element={<Signup/>}/>
 
-    {/* Routes for members */}
-    <Route element={<RequireAuth allowedRoles={['member']}/>}>
-      <Route path='/member' element={<MemberPanel/>}>
-        <Route path="dashboard" element={<Dashboard/>}/>
+      {/* Routes for members */}
+      <Route element={<RequireAuth/>}>
+        <Route path='/member' element={<MemberPanel/>}>
+          <Route path="dashboard" element={<Dashboard/>}/>
 
-        <Route path="credential" element={<Credential/>}/>
-        <Route path="credential/view" element={<Credential_View/>}/>
+          <Route path="credential" element={<Credential/>}/>
+          <Route path="credential/view" element={<Credential_View/>}/>
 
-        <Route path="event" element={<Event/>}/>
-        <Route path="event/view/:id" element={<Event_View/>}/>
+          <Route path="event" element={<Event/>}/>
+          <Route path="event/view/:id" element={<Event_View/>}/>
 
-        <Route path=":id" element={<MemberView/>}/>
+          <Route path=":id" element={<MemberView/>}/>
+        </Route>
       </Route>
-    </Route>
 
-    {/* Routes for admin */}
-    <Route element={<RequireAuth allowedRoles={['admin']}/>}>
-      <Route path='/admin' element={<AdminPanel/>}>
-        <Route path="event" element={<A_Event/>}/>
-        <Route path="event/create" element={<A_EventCreate/>}/>
-      </Route>
-    </Route>
+      {/* Routes for Admin */}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin]}/>}>
+        <Route path='/admin' element={<AdminPanel/>}>
+          <Route path="accountants" element={<Error404/>}/>
+          <Route path="analytics" element={<Error404/>}/>
+          <Route path="accountants" element={<Error404/>}/>
+        </Route>
 
-    <Route element={<RequireAuth allowedRoles={['admin', 'accountant']}/>}>
-      {/* Insert routes here */}
-    </Route>
-    
-  </Routes>
+        <Route path='/event' element={<A_Event/>}>
+          <Route path=":id" element={<A_EventCreate/>}/>
+          <Route path=":id/edit" element={<A_EventCreate/>}/>
+          <Route path="create" element={<A_EventCreate/>}/>
+        </Route>
+
+      </Route> */}
+
+      {/* Routes for Accountant */}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.accountant]}/>}> */}
+        {/* Insert routes here */}
+      {/* </Route> */}
+
+      {/* Routes for Organizer  */}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.organizer]}/>}> */}
+        {/* Insert routes here */}
+      {/* </Route> */}
+
+
+      {/* Routes for Admin & Member*/}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.member]}/>}> */}
+        {/* Insert routes here */}
+      {/* </Route> */}
+
+      {/* Routes for Admin & Accountant*/}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.accountant]}/>}> */}
+        {/* Insert routes here */}
+      {/* </Route> */}
+
+      {/* Routes for Admin & Organizer*/}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.organizer]}/>}> */}
+        {/* Insert routes here */}
+      {/* </Route> */}
+
+    </Routes>
+  )
 }
 
 export default App;
