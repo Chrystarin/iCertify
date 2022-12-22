@@ -13,12 +13,66 @@ import TabBtn from '../../../Components/Button.js';
 
 import TextField from '@mui/material/TextField';
 
+// Dropdown
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import FormHelperText from '@mui/material/FormHelperText';
+
+
+//datePicker
+
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+
+import Autocomplete from '@mui/material/Autocomplete';
 
 export default function EventCreate() {
+
+    // Event type
+     
+    const [EventType, setEventType] = React.useState('');
+    const handleChangeEvent = (event) => {
+      setEventType(event.target.value);
+    };
+    
+    function EventTypeChecker(props){
+        switch(props.EventType) {
+            case 'Online':
+                return <TextField id="outlined-search" label="link" type="text" required/>
+
+            case 'Onsite':
+                return <TextField id="outlined-search" label="link" type="text" required/>
+            default:
+                return 
+        }
+    }
+    // End
+
+    // start Time and Date
+    const [StartDateTime, setStartDateTime] = React.useState(null);
+    
+    const handleChangeStartDateTime = (newValue) => {
+        setStartDateTime(newValue);
+    };
+    // End
+    // End Time and Date
+    const [EndDateTime, setEndDateTime] = React.useState(null);
+    
+    const handleChangeEndDateTime = (newValue) => {
+        setEndDateTime(newValue);
+    };
+    // End
+        
+    // Tags
+
+  
+
+    // +================================================================================
+
+
     const url = "http://localhost:6787/events/create"
     const navigate = useNavigate();
     
@@ -88,14 +142,19 @@ export default function EventCreate() {
             console.log("Submitted")
         })
         .catch(error => {
-            window.alert(error);
+            
             console.log("Error:" + error);
             return;
         });
-        
     }
+    
+    
+
+
+
 
     return (
+        
         <section id='Create_Event'>
             <div id='Container_Navigatoin_Creat_Event' >
                 <div  onClick={()=>setopenPanel(1)}>
@@ -117,27 +176,49 @@ export default function EventCreate() {
                                 <p>Necessary Information for new event.</p>
                             </div>
                             <div className='Wrapper_Inputs_Form'>
-                                <FormControl fullWidth required>
-                                    <InputLabel id="demo-simple-select-label">Occupation</InputLabel>
-                                    <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={Occupation}
-                                    label="Occupation"
-                                    onChange={handleChange}
-                                    >
-                                    <MenuItem value={"Student"}>Student</MenuItem>
-                                    <MenuItem value={"Professional"}>Professional</MenuItem>
-                                    <MenuItem value={"None"}>None</MenuItem>
-                                    </Select>
-                                </FormControl>
+                                <div className="Wrapper_2_Inputs">
+                                    <FormControl fullWidth required  helperText="Select Event">
+                                        <InputLabel id="demo-simple-select-label" required>Event Type</InputLabel>
+                                        <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventType} label="Event Type" onChange={handleChangeEvent}>
+                                            <MenuItem value={"Online"}>Online</MenuItem>
+                                            <MenuItem value={"Onsite"}>Onsite</MenuItem>
+                                        </Select>
+                                        <FormHelperText>Select event type</FormHelperText>
+                                    </FormControl>
+                                    <EventTypeChecker EventType={EventType}/>
+                                </div>
                             </div>
                             <div className="Wrapper_Title_Form">
                                 <h3>Basic Details</h3>
                                 <p>Necessary Information for new event.</p>
                             </div>
                             <div className='Wrapper_Inputs_Form'>
-                                <Input Title="Event Name" Holder="Blockchain Technology 101" Action={(e)=>updateForm({ title: e.target.value })}/>
+
+                                <TextField id="outlined-search" label="Event Name" type="text" required  />
+                                <TextField id="outlined-search" label="Event Description" type="text" required multiline/>
+                                <div className='Wrapper_3_Inputs'>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DateTimePicker
+                                        label="Start Date & Time"
+                                        value={StartDateTime}
+                                        onChange={handleChangeStartDateTime}
+                                        renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                        <DateTimePicker
+                                        label="End Date & Time"
+                                        value={EndDateTime}
+                                        onChange={handleChangeEndDateTime}
+                                        renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                    
+                                    
+                                </div>
+
+
+                                {/* <Input Title="Event Name" Holder="Blockchain Technology 101" Action={(e)=>updateForm({ title: e.target.value })}/>
                                 <Input Title="Event Description" Holder="Adding information about the evenT" Action={(e)=>updateForm({ description: e.target.value })}/>
                                 <Input Title="Link" Holder="www.test.com" Action={(e)=>updateForm({ link: e.target.value })}/>
                                 <Input Title="Location" Holder="Marikina" Action={(e)=>updateForm({ location: e.target.value })}/>
@@ -154,7 +235,7 @@ export default function EventCreate() {
                                 <div className='Wrapper_2_Inputs'>
                                     <Input Title="Email(Optional)" Holder="YourEmail@mail.com"/>
                                     <Input Title="Email(Optional)" Holder="YourEmail@mail.com"/>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                         <div className='Wrapper_Button_Create'>
@@ -162,7 +243,7 @@ export default function EventCreate() {
                                 <TabBtn Action="Function" BtnType="Primary2" Value="Save as Default"/>
                             </div>
                             <div onClick={()=>setopenPanel(2)}>
-                                <TabBtn onClick={()=>alert("")} Action="Function" BtnType="Primary" Value="Next"/>
+                                <TabBtn Action="Function" BtnType="Primary" Value="Next"/>
                             </div>
                         </div>
                     </div>
@@ -173,7 +254,7 @@ export default function EventCreate() {
                                 <p>Assign participants</p>
                             </div>
                             <div className='Wrapper_Inputs_Form'>
-                                <Input Title="Event Type" Holder="Dianne"/>
+                                {/* <Input Title="Event Type" Holder="Dianne"/> */}
                             </div>
                             
                         </div>

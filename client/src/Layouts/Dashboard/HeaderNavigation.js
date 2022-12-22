@@ -31,20 +31,20 @@ function HeaderNavigation() {
                 <div id="DropDown_Notification" className={(openDropdown === "Notification")? "active":"inactive"} >
                     <div id="Header_Notification">
                         <h6>Notificaton</h6>
-                        <p class="BodyText3">Mark as Read</p>
+                        <p className="BodyText3">Mark as Read</p>
                     </div>
                     <div id="Content_Notification" >
                         <ul>
                             <li >
                                 <a href='/' className='unread'>
                                 <img src={PicLogo} alt=""/>
-                                <p class="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
+                                <p className="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
                                 </a>
                             </li>
                             <li>
                                 <a href='/'>
                                 <img src={PicLogo} alt=""/>
-                                <p class="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
+                                <p className="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
                                 </a>
                             </li>
                         </ul>
@@ -83,7 +83,7 @@ function HeaderNavigation() {
                 {img.map((image) =>  
                     <li>
                     <img src={image} alt=""/>
-                    <p class="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
+                    <p className="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
                     </li>
                 )};
             </ul>
