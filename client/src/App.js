@@ -23,7 +23,7 @@ import Event_View from './Layouts/Event/EventView';
 
 import AdminPanel from './Pages/Admin';
 
-import A_Event from './Layouts/Admin/Event/Event.js';
+import A_Event from './Layouts/Event/Admin/Event';
 import A_EventCreate from './Layouts/Event/Admin/EventCreate.js'
 
 import MemberView from './Pages/Member/MemberView.js';

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
+
 import '../../../Assets/Styles/Page/style-EventCreate.scss'
+
 
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch'
+
 
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField';
@@ -20,11 +21,18 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormHelperText from '@mui/material/FormHelperText';
 
 
+// Search Input
+import SearchInput from '../../../Components/SearchInput'
+
 //datePicker
-import DatePicker from '../../../Components/DateTime_Picker';
+import DateTime_Picker from '../../../Components/DateTime_Picker';
 
 // Tags
-import Tags from '../../../Components/Tags.js'
+import Tags from '../../../Components/Tags.js';
+
+// Switch
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch'
 
 export default function EventCreate() {
 
@@ -43,10 +51,7 @@ export default function EventCreate() {
     
     // Event type
         
-    const [EventType, setEventType] = React.useState('');
-    const handleChangeEvent = (event) => {
-        setEventType(event.target.value);
-    };
+    
 
     function EventTypeChecker(props){
         switch(props.EventType) {
@@ -61,42 +66,57 @@ export default function EventCreate() {
     }
     // End
 
+    // +================================================================================
+    //                      GET VALUES FROM EVENT DETAILS INPUT
 
-    // Get input of forms 
-        // Start Date
-    const [StartDateTimeVal, setStartDateVal] = useState(null);
-    const [EndDateTimeVal, setEndDateVal] = useState(null);
+    const [EventType, setEventType] = React.useState('');
     let TagsVal = [];
     const [CertificateVal, setCertificateVal] = useState(false);
+    const [startDateTimeVal, setstartDateTimeVal] = useState(null);
 
-    const StartDateTimeHandleChange = (newValueStart) => {
-        setStartDateVal(newValueStart);
+
+    
+    const EventTypehandleChangeEvent = (event) => {
+        setEventType(event.target.value);
     };
 
-    const EndDateTimeHandleChange = (newValueEnd) => {
-        setEndDateVal(newValueEnd);
+    function startDateTimeValhandleChange(newValue){
+        setstartDateTimeVal(newValue);
     };
 
     function TagsValHandleChange(option, index){
         TagsVal = index;
-        console.log(TagsVal);
     }
     const PredefinedTags = [ "Computer","Technology", "Blockchain", "Entertainment","UserInterface","UserExperience"];
-
 
     function CertificateValHandleChange(){
         setCertificateVal(!CertificateVal);
     }
-
-
-
-
-    
-
     
 
     // +================================================================================
+    //                      GET VALUES FROM SET PARTICIPANTS INPUT
 
+    const [AcceptVlunteerVal, setAcceptVlunteerVal] = useState(false)
+
+
+
+
+
+    function AcceptVlunteerValHandleChange(){
+        setAcceptVlunteerVal(!AcceptVlunteerVal);
+    };
+
+    const [EventMembersAccessibility, setEventMembersAccessibility] = React.useState('');
+    
+    const EventMembersAccessibilityhandleChangeEvent = (event) => {
+        setEventMembersAccessibility(event.target.value);
+    };
+
+
+
+
+    // +================================================================================
 
     const url = "http://localhost:6787/events/create"
     const navigate = useNavigate();
@@ -119,7 +139,7 @@ export default function EventCreate() {
         tags: ''
     });
 
-    // These methods will update the state properties.
+    // These methods wileeel update the state properties.
     function updateForm(e) {
         return setForm((prev) => {
             const [key, value] = Object.entries(e)[0];
@@ -188,7 +208,7 @@ export default function EventCreate() {
                             <div className="Wrapper_2_Inputs">
                                 <FormControl fullWidth required  helperText="Select Event">
                                     <InputLabel id="demo-simple-select-label" required>Event Type</InputLabel>
-                                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventType} label="Event Type" onChange={handleChangeEvent}>
+                                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventType} label="Event Type" onChange={EventTypehandleChangeEvent}>
                                         <MenuItem value={"Online"}>Online</MenuItem>
                                         <MenuItem value={"Onsite"}>Onsite</MenuItem>
                                     </Select>
@@ -207,8 +227,8 @@ export default function EventCreate() {
                             <TextField id="outlined-search" label="Event Name" type="text" required />
                             <TextField id="outlined-search" label="Event Description" type="text" required multiline/>
                             <div className='Wrapper_2_1_Inputs'>   
-                                <DatePicker Label="Start Date & Time" Value={StartDateTimeVal} HandleChange={StartDateTimeHandleChange}/>
-                                <DatePicker Label="End Date & Time" Value={EndDateTimeVal} HandleChange={EndDateTimeHandleChange}/>        
+                                <DateTime_Picker Label="Start Date & Time" Value={startDateTimeVal} handleChange={startDateTimeValhandleChange} />
+                                <DateTime_Picker Label="Start Date & Time" Value={startDateTimeVal} handleChange={startDateTimeValhandleChange} />
                                 <Tags PredefinedTags={PredefinedTags} HandleChange={TagsValHandleChange}/>
                             </div>
                             <div className="Wrapper_2_Inputs">
@@ -229,7 +249,50 @@ export default function EventCreate() {
             </>
             break;
         case 1:
-            return <h1>Hello</h1>
+            return<>
+            <form action="#">
+                    <div className="Subject_Seperator">
+                        <div className="holder_Subject">
+                            <h3>Participants Accessibility</h3>
+                            <p>Adjust participants accessibility</p>
+                        </div>
+                        <div className="holder_Questions">
+                            <FormControlLabel
+                                control={
+                                <Switch checked={AcceptVlunteerVal} onChange={AcceptVlunteerValHandleChange} name="Certificate" />
+                                }
+                                label= {<h5>Accept Volunteer Request</h5>}
+                            />
+                            <div className="Wrapper_2_Inputs">
+                                <FormControl fullWidth required  helperText="Select Event">
+                                    <InputLabel id="demo-simple-select-label" required>Available only on</InputLabel>
+                                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventMembersAccessibility} label="Available only on" onChange={EventMembersAccessibilityhandleChangeEvent}>
+                                        <MenuItem value={"All"}>All</MenuItem>
+                                        <MenuItem value={"Accountants"}>Accountants</MenuItem>
+                                        <MenuItem value={"Membership"}>Members with premium membership</MenuItem>
+                                    </Select>
+                                </FormControl>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="Subject_Seperator">
+                        <div className="holder_Subject">
+                            <h3>Set Participants</h3>
+                            <p>Assign roles to any participants</p>
+                        </div>
+                        <div className="holder_Questions">
+                            <div className="Wrapper_2_Inputs">
+                                <SearchInput/>
+                            </div>
+                            <div className="Wrapper_2_Inputs">
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+            </> 
+
             break;
         case 2:
             return <h1>Hello</h1>
