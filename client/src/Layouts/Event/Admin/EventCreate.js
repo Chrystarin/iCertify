@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
-
 import '../../../Assets/Styles/Page/style-EventCreate.scss'
 
-
+// Stepper
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
-
+// Utilities
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField';
 
@@ -20,10 +19,11 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import FormHelperText from '@mui/material/FormHelperText';
 
+import ParticipantsList from "./ParticipantsList";
 
 // Search Input
 import SearchInput from '../../../Components/SearchInput'
-
+import InputAdornment from '@mui/material/InputAdornment';
 //datePicker
 import DateTime_Picker from '../../../Components/DateTime_Picker';
 
@@ -49,10 +49,6 @@ export default function EventCreate() {
         }
     }
     
-    // Event type
-        
-    
-
     function EventTypeChecker(props){
         switch(props.EventType) {
             case 'Online':
@@ -69,19 +65,22 @@ export default function EventCreate() {
     // +================================================================================
     //                      GET VALUES FROM EVENT DETAILS INPUT
 
-    const [EventType, setEventType] = React.useState('');
-    let TagsVal = [];
-    const [CertificateVal, setCertificateVal] = useState(false);
+
+    //All the values initialize
+    const [EventTypeVal, setEventTypeVal] = React.useState('');
+
     const [startDateTimeVal, setstartDateTimeVal] = useState(null);
+    const [endDateTimeVal, setendDateTimeVal] = useState(null);
+    let TagsVal = [];
 
-
+    const [CertificateVal, setCertificateVal] = useState(false);
     
-    const EventTypehandleChangeEvent = (event) => {
-        setEventType(event.target.value);
-    };
 
-    function startDateTimeValhandleChange(newValue){
-        setstartDateTimeVal(newValue);
+
+
+    // Setting up the values 
+    const EventTypehandleChangeEvent = (event) => {
+        setEventTypeVal(event.target.value);
     };
 
     function TagsValHandleChange(option, index){
@@ -100,9 +99,6 @@ export default function EventCreate() {
     const [AcceptVlunteerVal, setAcceptVlunteerVal] = useState(false)
 
 
-
-
-
     function AcceptVlunteerValHandleChange(){
         setAcceptVlunteerVal(!AcceptVlunteerVal);
     };
@@ -113,15 +109,11 @@ export default function EventCreate() {
         setEventMembersAccessibility(event.target.value);
     };
 
-
-
-
     // +================================================================================
 
     const url = "http://localhost:6787/events/create"
     const navigate = useNavigate();
     
-
     const [form, setForm] = useState({
         eventId: '',
         type: '',
@@ -208,13 +200,13 @@ export default function EventCreate() {
                             <div className="Wrapper_2_Inputs">
                                 <FormControl fullWidth required  helperText="Select Event">
                                     <InputLabel id="demo-simple-select-label" required>Event Type</InputLabel>
-                                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventType} label="Event Type" onChange={EventTypehandleChangeEvent}>
+                                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventTypeVal} label="Event Type" onChange={EventTypehandleChangeEvent}>
                                         <MenuItem value={"Online"}>Online</MenuItem>
                                         <MenuItem value={"Onsite"}>Onsite</MenuItem>
                                     </Select>
                                     <FormHelperText>Select event type</FormHelperText>
                                 </FormControl>
-                                <EventTypeChecker EventType={EventType}/>
+                                <EventTypeChecker EventType={EventTypeVal}/>
                             </div>
                         </div>
                     </div>
@@ -227,12 +219,12 @@ export default function EventCreate() {
                             <TextField id="outlined-search" label="Event Name" type="text" required />
                             <TextField id="outlined-search" label="Event Description" type="text" required multiline/>
                             <div className='Wrapper_2_1_Inputs'>   
-                                <DateTime_Picker Label="Start Date & Time" Value={startDateTimeVal} handleChange={startDateTimeValhandleChange} />
-                                <DateTime_Picker Label="Start Date & Time" Value={startDateTimeVal} handleChange={startDateTimeValhandleChange} />
+                                <DateTime_Picker Label="Start Date & Time" Value={startDateTimeVal} SetValue={setstartDateTimeVal}/>
+                                <DateTime_Picker Label="Start Date & Time" Value={endDateTimeVal} SetValue={setendDateTimeVal}/>
                                 <Tags PredefinedTags={PredefinedTags} HandleChange={TagsValHandleChange}/>
                             </div>
                             <div className="Wrapper_2_Inputs">
-                                <TextField id="outlined-search" label="Email" type="email"/>
+                                <TextField id="outlined-search" label="Email" type="email" />
                                 <TextField id="outlined-search" label="Contact Number" type="tel"/>
                             </div>
                             <div >
@@ -250,7 +242,7 @@ export default function EventCreate() {
             break;
         case 1:
             return<>
-            <form action="#">
+                <form action="#">
                     <div className="Subject_Seperator">
                         <div className="holder_Subject">
                             <h3>Participants Accessibility</h3>
@@ -285,7 +277,7 @@ export default function EventCreate() {
                                 <SearchInput/>
                             </div>
                             <div className="Wrapper_2_Inputs">
-                                
+                                <ParticipantsList/>
                             </div>
                         </div>
                     </div>
@@ -295,9 +287,30 @@ export default function EventCreate() {
 
             break;
         case 2:
-            return <h1>Hello</h1>
+            return <>
+                <form action="#">
+                    <div className="Subject_Seperator">
+                        <div className="holder_Subject">
+                            <h3>Price & Discount</h3>
+                            <p>Assign the entrance fee for the event</p>
+                        </div>
+                        <div className="holder_Questions">
+                            <div className="Wrapper_2_Inputs">
+                            <TextField
+                                label="With normal TextField"
+                                id="outlined-start-adornment"
+                                type="Number"
+                                InputProps={{
+                                    startAdornment: <InputAdornment position="start">₱</InputAdornment>,
+                                }}
+                            />
+                            </div>
+                        </div>
+                    </div>
+                    
+                </form>
+            </>
             break;
-       
         default:
             break;
        }

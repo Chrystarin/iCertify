@@ -1,0 +1,36 @@
+#ListofSetParticipants{
+    h5:nth-child(1){
+        margin-bottom: 20px;
+    }
+    ul{
+        list-style: none;
+        li{
+            display: grid;
+            padding: .5em 1em;
+            grid-template-columns: 1fr 1fr;
+            #ParticipantsAction{
+                display: flex;
+                justify-content: end;
+                gap: 15px;
+                select{
+                    min-width: 80px;
+                    -webkit-border-radius: 2px;
+                    -webkit-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+                    -webkit-padding-end: 20px;
+                    -webkit-padding-start: 2px;
+                    -webkit-user-select: none;
+                    border: none;
+                    color: none;
+                    overflow: hidden;
+                    border-radius: 10px;
+                }
+                select:focus{
+                    outline: none;
+                }
+            }
+        }
+        li:hover{
+            background-color: rgb(240, 240, 240);
+        }
+    }
+}

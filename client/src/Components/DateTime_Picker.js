@@ -1,26 +1,19 @@
 import React, {useState} from 'react'
 import TextField from '@mui/material/TextField';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';;
 
-function DateTime_Picker(props) {
-  // const [value, setValue] = useState(null);
-
-  // const handleChange = (newValue) => {
-  //   setValue(newValue);
-  // };
-  
-
+function DateTime_Picker({Label,Value,SetValue}) {
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateTimePicker
-        label={props.Label}
-        value={props.Value}
-        onChange={props.handleChange}
-        renderInput={(params) => <TextField {...params} />}
-      />
-    </LocalizationProvider>
+    <TextField
+      id="datetime-local"
+      label={Label}
+      type="datetime-local"
+      defaultValue="2017-05-24T10:30"
+      value={Value}
+      onChange={(e)=> {SetValue(e.target.value)}}
+      InputLabelProps={{
+        shrink: true,
+      }}
+    />
   )
 }
 
