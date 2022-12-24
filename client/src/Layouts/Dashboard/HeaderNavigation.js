@@ -3,7 +3,7 @@ import PicLogo from './../../Assets/Images/brand/icon.png';
 import './../../Assets/Styles/Components/style-HeaderNavigation.scss';
 
 import SearchInput from '../../Components/SearchInput';
-
+import LogoutIcon from '@mui/icons-material/Logout';
 
 function HeaderNavigation() {
 
@@ -18,6 +18,37 @@ function HeaderNavigation() {
       }
     });
   })
+  function Notificaton(){
+    let img = ["PicLogo","PicLogo"];
+    let sender = ["Dianne","Llagas"];
+    let reciver = ["1","None"];
+    let content = ["Paragraph 1","Paragrap 2"];
+    return(
+      <ul>              
+          {img.map((image) =>  
+              <li>
+                <img src={image} alt=""/>
+                <p className="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
+              </li>
+          )};
+      </ul>
+    );
+}
+function UserMembership(){
+    let Membership = true;
+    if(Membership) return <h6 className='BodyText3 PremiumMember'>Premium Membership</h6>
+    return <h6 className='BodyText3 PremiumMember'>Get Membership</h6>
+}
+function DropdownItem(props){
+    return(
+    <li className = 'dropdownItem'>
+        <a href={"/" + props.link}>
+        <LogoutIcon/>
+        <h6>{[props.text]}</h6>
+        </a>
+    </li>
+    );
+}
   
   return (
     <div id="header_Content">
@@ -55,7 +86,7 @@ function HeaderNavigation() {
                 <img id='profilePicture_Navigation' src={PicLogo} alt="" onClick={()=>{(openDropdown==="Profile")?setopenDropdown(""): setopenDropdown("Profile")}}/>
                 <div className={(openDropdown==="Profile")?'dropdown-menu active':'dropdown-menu inactive'} >
                   <a href="/profile">
-                    <h5 className='BodyText2'>Dianne Chrystalin Brandez</h5>
+                    <h4 className='BodyText2'>Dianne Chrystalin Brandez</h4>
                   </a>
                   <a href='/membership'>
                     <div id='Wrapper_MembershipType'>
@@ -71,44 +102,6 @@ function HeaderNavigation() {
           </div>
         </div>
     );
-
-
-    function Notificaton(){
-        let img = ["PicLogo","PicLogo"];
-        let sender = ["Dianne","Llagas"];
-        let reciver = ["1","None"];
-        let content = ["Paragraph 1","Paragrap 2"];
-        return(
-            <ul>              
-                {img.map((image) =>  
-                    <li>
-                    <img src={image} alt=""/>
-                    <p className="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
-                    </li>
-                )};
-            </ul>
-           );
-    }
-
-
-    function UserMembership(){
-        let Membership = true;
-        if(Membership) return <h6 className='BodyText3 PremiumMember'>Premium Membership</h6>
-        
-        return <h6 className='BodyText3'>Member</h6>
-    }
-    
-    function DropdownItem(props){
-        return(
-        <li className = 'dropdownItem'>
-            <a href={"/" + props.link}>
-            <img src={props.img} alt="" />
-            <h6>{[props.text]}</h6>
-            </a>
-        </li>
-        );
-    }
-  
 }
 
 export default HeaderNavigation;

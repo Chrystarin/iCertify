@@ -11,6 +11,7 @@ import StepLabel from '@mui/material/StepLabel';
 // Utilities
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField';
+import TextFieldTry from '../../../Components/TextField'
 
 // Dropdown
 import InputLabel from '@mui/material/InputLabel';
@@ -33,51 +34,24 @@ import Tags from '../../../Components/Tags.js';
 // Switch
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch'
-
+import dayjs from 'dayjs';
 export default function EventCreate() {
 
-    // Stepper
-    const [activeStep,setActiveStep] = useState(0);
-    function nextStep(){
-        if(activeStep !== 2){
-            setActiveStep(activeStep+1);
-        }
-    }
-    function backStep(){
-        if(activeStep !== 0){
-            setActiveStep(activeStep-1);
-        }
-    }
     
-    function EventTypeChecker(props){
-        switch(props.EventType) {
-            case 'Online':
-                return <TextField id="outlined-search" label="link" type="text" required/>
-
-            case 'Onsite':
-                return <TextField id="outlined-search" label="Address" type="text" required/>
-            default:
-                return 
-        }
-    }
     // End
-
     // +================================================================================
-    //                      GET VALUES FROM EVENT DETAILS INPUT
-
-
+    //                      GET VALUES FROM EVENT DETAILS INPUT FORM
     //All the values initialize
-    const [EventTypeVal, setEventTypeVal] = React.useState('');
-
-    const [startDateTimeVal, setstartDateTimeVal] = useState(null);
-    const [endDateTimeVal, setendDateTimeVal] = useState(null);
+    const [EventTypeVal, setEventTypeVal] = useState('');
+    const [LinkAdressVal, setLinkAdressVal] = useState('');
+    const [EventNameVal, setEventNameVal] = useState('');
+    const [EventDescriptionVal, setEventDescriptionVal] = useState('');
+    const [startDateTimeVal, setstartDateTimeVal] = useState(dayjs('2014-08-18T21:11:54'));
+    const [endDateTimeVal, setendDateTimeVal] = useState(dayjs('2014-08-18T21:11:54'));
     let TagsVal = [];
-
     const [CertificateVal, setCertificateVal] = useState(false);
+    const [EmailVal, setEmailVal] = useState('');
     
-
-
-
     // Setting up the values 
     const EventTypehandleChangeEvent = (event) => {
         setEventTypeVal(event.target.value);
@@ -91,13 +65,11 @@ export default function EventCreate() {
     function CertificateValHandleChange(){
         setCertificateVal(!CertificateVal);
     }
-    
 
     // +================================================================================
-    //                      GET VALUES FROM SET PARTICIPANTS INPUT
+    //                      GET VALUES FROM SET PARTICIPANTS INPUT FORM
 
     const [AcceptVlunteerVal, setAcceptVlunteerVal] = useState(false)
-
 
     function AcceptVlunteerValHandleChange(){
         setAcceptVlunteerVal(!AcceptVlunteerVal);
@@ -110,6 +82,30 @@ export default function EventCreate() {
     };
 
     // +================================================================================
+
+    // Stepper
+    const [activeStep,setActiveStep] = useState(0);
+    function nextStep(){
+        if(activeStep !== 2){
+            setActiveStep(activeStep+1);
+        }
+    }
+    function backStep(){
+        if(activeStep !== 0){
+            setActiveStep(activeStep-1);
+        }
+    }
+    function EventTypeChecker(props){
+        switch(props.EventType) {
+            case 'Online':
+                return <TextField id="outlined-search" label="link" type="text" required onChange={()=>setLinkAdressVal(LinkAdressVal)}/>
+
+            case 'Onsite':
+                return <TextField id="outlined-search" label="Address" type="text" required  onChange={()=>setLinkAdressVal(LinkAdressVal)}/>
+            default:
+                return 
+        }
+    }
 
     const url = "http://localhost:6787/events/create"
     const navigate = useNavigate();
@@ -296,14 +292,22 @@ export default function EventCreate() {
                         </div>
                         <div className="holder_Questions">
                             <div className="Wrapper_2_Inputs">
-                            <TextField
-                                label="With normal TextField"
-                                id="outlined-start-adornment"
-                                type="Number"
-                                InputProps={{
-                                    startAdornment: <InputAdornment position="start">₱</InputAdornment>,
-                                }}
-                            />
+                                <TextField
+                                    label="With normal TextField"
+                                    id="outlined-start-adornment"
+                                    type="Number"
+                                    InputProps={{
+                                        startAdornment: <InputAdornment position="start">₱</InputAdornment>,
+                                    }}
+                                />
+                                <TextField
+                                    label="Premium Membership Discount"
+                                    id="outlined-start-adornment"
+                                    type="Number"
+                                    InputProps={{
+                                        startAdornment: <InputAdornment position="start">%</InputAdornment>,
+                                    }}
+                                />
                             </div>
                         </div>
                     </div>

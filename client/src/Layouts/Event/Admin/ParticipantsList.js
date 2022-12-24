@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './ParticipantsList.scss'
+import './../../../Assets/Styles/Components/ParticipantsList.scss'
 import UserPanelInfo from "../../../Components/UserPanelInfo";
 import UserPicture from '../../../Assets/Images/Resources/Developers/Dianne.jpg';
 
