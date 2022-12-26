@@ -104,6 +104,7 @@ const loginMember = async (req, res, next) => {
                     walletAddress: member.walletAddress,
                     accessToken: token,
                     roles: roles
+                    // role: role
                 });
         }
     } catch (error) {

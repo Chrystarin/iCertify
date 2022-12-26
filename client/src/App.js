@@ -45,7 +45,7 @@ function App() {
       <Route path="/signup" element={<Signup/>}/>
 
       {/* Routes for members */}
-      <Route element={<RequireAuth allowedRoles={'member'}/>}>
+      <Route element={<RequireAuth allowedRoles={'members'}/>}>
         <Route path='/member' element={<MemberPanel/>}>
           <Route path="dashboard" element={<Dashboard/>}/>
 
