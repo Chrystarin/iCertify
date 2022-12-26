@@ -19,6 +19,7 @@ import Credential_View from './Layouts/Credential/CredentialView.js';
 import Event from './Layouts/Event/Event';
 import Event_View from './Layouts/Event/EventView';
 
+import Profile from './Layouts/Profile/profile'
 // Admin
 
 import AdminPanel from './Pages/Admin';
@@ -35,6 +36,8 @@ function App() {
     <Route path="/" element={<Home/>}/>
     <Route path="/signup" element={<Signup/>}/>
 
+
+
     <Route path='/member' element={<MemberPanel/>}>
       <Route path="dashboard" element={<Dashboard/>}/>
 
@@ -45,12 +48,20 @@ function App() {
       <Route path="event/view/:id" element={<Event_View/>}/>
 
       <Route path=":id" element={<MemberView/>}/>
+
+      <Route path="profile" element={<Profile/>}/>
+
+
+
     </Route>
 
     <Route path='/admin' element={<AdminPanel/>}>
       <Route path="event" element={<A_Event/>}/>
       <Route path="event/create" element={<A_EventCreate/>}/>
     </Route>
+
+    {/* --------------------TEST---------------------- */}
+
 
     {/* <Route path='/Credential/' element={<Credential/>}/>
     <Route path='/Credential/View' element={<CredentialView/>}/> */}

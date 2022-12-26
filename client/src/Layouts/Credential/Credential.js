@@ -4,7 +4,7 @@ import Navigation from './../../Layouts/Dashboard/DashboardNavigation';
 import HeaderNavigation from './../../Layouts/Dashboard/HeaderNavigation';
 
 import CredentialTab from '../../Layouts/Credential/CredentialTab.js';
-import Table from '../../Layouts/Table.js';
+import Table from '../../Layouts/Credential/Table.js';
 
 function Credential() {
   return (

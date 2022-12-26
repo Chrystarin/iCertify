@@ -7,7 +7,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 export class DashboardNavigation extends PureComponent {
   render() {
     return (
-      <div>
+      <div id='Navigation__Sticky'>
         <div id='Logo'>
           <Link to="dashboard"><img src={Logo} alt=""/></Link>
         </div>

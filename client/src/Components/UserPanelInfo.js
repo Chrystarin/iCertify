@@ -6,7 +6,7 @@ function UserPanelInfo(props) {
   return (
     <div id='UserPanel'>
         <img src={props.Image}/>
-        <h6>{props.Name}</h6>
+        <h6>{props.Title}</h6>
     </div>
   )
 }
