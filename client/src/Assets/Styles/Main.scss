@@ -59,3 +59,31 @@ p{
     transform: translateY(-20px);
     transition: var(500ms) ease;
 }
+
+.Panel__Container{
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.074);
+    padding: 1em;
+    .Panel__Title{
+        margin-bottom: 10px;
+    }
+    .Panel__Content__IconText{
+        display: flex;
+        gap: 10px;
+    }
+    .Panel__MultipleContent{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        list-style: none;
+    }
+}
+.Wrapper__EventCard{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px , 1fr));
+    gap: 15px 5px;
+}
+.Panel__Title{
+    margin-bottom: 10px;
+}

@@ -102,41 +102,9 @@
 
     #Navigation_Left{
         float: left;
-        background-color: red;
-    }
-    #Search{
         height: 100%;
-        float: left;
-        background-color: red;
-        padding: .5em;
-        border-radius: 10px;
-        background-color: white;
-        box-shadow: 5px 5px 25px rgba($color: #000000, $alpha: .1);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        svg{
-            height: 70%;
-            float: left;
-            margin-right: 5px;
-            opacity: .8;
-            min-height: 15px;
-
-        }
-        input{
-            float: left;
-            display: block;
-            height: 100%;
-            border: none;
-            width: 300px;
-            background-color: rgba($color: #000000, $alpha: 0);
-        }
-        input:focus {
-            outline: none;
-        }
-        
-        
     }
+    
     #Navigation_Content{
         float: right;
         height: 100%;
@@ -190,55 +158,59 @@
                 box-shadow: 5px 5px 25px rgba($color: #000000, $alpha: .1);
                 z-index: 2;
 
-                .PremiumMember{
-                    color: rgb(211, 183, 23);
-                }
-                #Wrapper_MembershipType{
-                    background-color: white;
-                    padding: .5em;
-                    box-shadow: 5px 5px 25px rgba($color: #000000, $alpha: .1);
-                    border-radius: 12px;
-                    margin-top: 5px;
 
-                    h6{
-                        text-align: center;
-                        opacity: .6;
-                    }
-                }
-                h5{
+                h4{
                     text-align: center;
                     font-weight: bold;
                     width: 190px;
-                    line-height: 20px;
-                }   
-                          
-                ul{
+                    line-height: 30px;
+                }
+                
+                #Wrapper_MembershipType{
+                    background-color: rgb(211, 183, 23);
+                    padding: .5em;
+                    box-shadow: 5px 5px 25px rgba($color: #000000, $alpha: .1);
+                    border-radius: 12px;
                     margin-top: 20px;
+                    .PremiumMember{
+                        color: white;
+                        text-align: center;
+                        opacity: 1;
+                    }
+                }
+                
+                 
+                ul::before{
+                    content: "";
+                        display: block;
+                        width: 100%;
+                        background-color: rgba($color: #000000, $alpha: .3);
+                        border-radius: 20px;
+                        opacity: .4;
+                        height: 3px;
+                        margin-bottom: 30px;
+                }  
+                ul{
+                    margin-top: 35px;
                     li{
                         list-style: none;
                         a{
                             display: flex;
                             justify-content: center;
                             align-items: center;
-                            img{
-                                width: 25px;
-                                margin-right: 5px;
-                            }
+                            gap: 8px;
+                            padding: 1em;
                             h6{
+                                
                                 width: 70px;
                             }
                         }
                         
                     }
-                    li::before{
-                        content: "";
-                        display: block;
-                        width: 100%;
-                        background-color: rgba($color: #000000, $alpha: .3);
-                        border-radius: 20px;
-                        opacity: .4;
-                        margin: 10px 0;
-                        height: 3px;
+                    
+                    Li:hover{
+                        background-color: rgb(237, 237, 237);
+                        border-radius: 8px;
                     }
                 }
             }      

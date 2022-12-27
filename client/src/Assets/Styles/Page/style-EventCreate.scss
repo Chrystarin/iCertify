@@ -1,55 +1,65 @@
 #Create_Event{
-    #Container_Navigatoin_Creat_Event{
-        display: flex;
-        gap: 25px;
-    }
-    #Container_Form_Create_Event{
-        margin-top: 25px;
-        form{
-            .Container_Form{
-                .Wrapper_Form_Create{
-                    display: grid;
-                    grid-template-columns: .4fr 1fr;
-                    row-gap: 70px;
-                    .Wrapper_Title_Form{
-                    }
-                    .Wrapper_Inputs_Form{
-                        display: grid;
-                        grid-template-columns: 1fr;
-                        gap: 40px;
-                    }
-                    .Wrapper_2_Inputs{
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        grid-gap: 25px;
-                    }
-                    .Wrapper_3_Inputs{
-                        display: grid;
-                        grid-template-columns: .5fr .5fr 1fr;
-                        grid-gap: 25px;
-                    }
-                }
+    #Stepper{
+        border-bottom: 1px solid rgba(0, 0, 0, 0.158);
+        padding-bottom: 25px;
+        margin-bottom: 50px;
 
+        #Holder_Stepper{
+            width: 50%;
 
+            .MuiStepConnector-lineHorizontal{
+                width: 0;
             }
-            .ActiveForm{
-                display: block;
+            .css-j5w0w9-MuiStepConnector-root{
+                -webkit-flex: none;
             }
-            .InactiveForm{
-                display: none;
-            }
-            .Wrapper_Button_Create{
-                display: flex;
+            .css-m5vj9m-MuiStepper-root{
                 gap: 25px;
-                margin-top: 40px;
-                float: right;
-                div{
-                    min-width: 200px;
+                
+            }
+            
+        }
+    }
+    form{
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 40px;
+        .Subject_Seperator{
+            display: grid;
+            grid-template-columns: 35% 65%;
+            .holder_Subject{
+                h3{
+                    color: var(--dark1);
                 }
+                p{
+                    color: var(--dark2);
+                }
+            }
+            .holder_Questions{
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 25px;
+                
+                .Wrapper_2_Inputs{
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 25px;
+                }
+                .Wrapper_2_1_Inputs{
+                    display: grid;
+                    grid-template-columns: .48fr .48fr 1fr;
+                    gap: 25px;
+                }
+                
             }
         }
-        
+    }
+    #Holder_Button{
+        float: right;
+        margin: 20px 0 45px;
+        button{
+            margin-left: 25px;
+        }
     }
 }
-#Form1{
-}
+

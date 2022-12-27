@@ -14,7 +14,6 @@ function Dashboard(props) {
         <Navigation />
       </div>
       <div id="Holder_Content">
-
         <HeaderNavigation dropdown={carInfo}/>
         <div id="Content">
           <Outlet/>
