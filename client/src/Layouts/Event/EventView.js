@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import {ethers} from 'ethers';
+
 import '../../Assets/Styles/Page/style-EventView.scss'
 
 import Navigation from '../Dashboard/DashboardNavigation';
@@ -6,17 +9,12 @@ import HeaderNavigation from '../Dashboard/HeaderNavigation';
 
 import Button from '../../Components/Button.js';
 
-import { useParams } from "react-router-dom";
-
 import axios from '../../Config/axios';
-
-import {ethers} from 'ethers';
 
 const EventView = (props) => {
     const { id } = useParams()
     const [event, setEvent] = useState(props)
     const [participants, setParticipants] = useState(null)
-
 
     const joinEvent = async () => {
         try{
@@ -34,28 +32,12 @@ const EventView = (props) => {
                 }
             })
             .then(response => {
-                console.log(JSON.stringify(response));
                 console.log("event joined!");
             });
         }
         catch (err){
             console.error(err.message);
         }
-    };
-
-    const testButton = async () => {
-        const accounts = await window.ethereum.request({method: 'eth_requestAccounts'}); 
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const address2 = await signer.getAddress();
-        const address1 = "0x9E698b3AB80878A5e61b06aB2f850048D25E37af";
-        // const address2 = (accounts[0]).toString();
-
-
-        console.log(address1);
-        console.log(address2);
-        console.log(address1 === address2);
-
     };
 
     useEffect(() => {
@@ -83,8 +65,7 @@ const EventView = (props) => {
         fetchEvent()
     }, [])
 
-    // if(!event || !participants) return <div>loading...</div>
-    if(!event) return <div>loading...</div>
+    if(!event || !participants) return <div>loading...</div>
 
     return (
         <div id="Event-View">
@@ -167,9 +148,9 @@ const EventView = (props) => {
                     
                 </div>
             </div>
-            {/* {participants.length > 0 && participants.map((participant) => {
-                return(<h1>{participant.member.walletAddress}</h1>)
-            })} */}
+            {participants.length > 0 && participants.map((participant) => {
+                return(<h5>Participant: {participant.member.walletAddress}</h5>)
+            })}
         </div>
     )
 }
