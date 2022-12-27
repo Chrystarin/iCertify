@@ -20,12 +20,13 @@ import Credential_View from './Layouts/Credential/CredentialView.js';
 import Event from './Layouts/Event/Event';
 import Event_View from './Layouts/Event/EventView';
 
+import Profile from './Layouts/Profile/profile'
 // Admin
 
 import AdminPanel from './Pages/Admin';
 
-import A_Event from './Layouts/Admin/Event/Event.js';
-import A_EventCreate from './Layouts/Admin/Event/EventCreate.js'
+import A_Event from './Layouts/Event/Admin/Event';
+import A_EventCreate from './Layouts/Event/Admin/EventCreate.js'
 
 import MemberView from './Pages/Member/MemberView.js';
 
@@ -45,16 +46,24 @@ function App() {
       <Route path="/signup" element={<Signup/>}/>
 
       <Route path='/member' element={<MemberPanel/>}>
-          <Route path="dashboard" element={<Dashboard/>}/>
+        <Route path="dashboard" element={<Dashboard/>}/>
 
-          <Route path="credential" element={<Credential/>}/>
-          <Route path="credential/view" element={<Credential_View/>}/>
+        <Route path="credential" element={<Credential/>}/>
+        <Route path="credential/view" element={<Credential_View/>}/>
 
-          <Route path="event" element={<Event/>}/>
-          <Route path="event/view/:id" element={<Event_View/>}/>
+        <Route path="event" element={<Event/>}/>
+        <Route path="event/view/:id" element={<Event_View/>}/>
 
-          <Route path=":id" element={<MemberView/>}/>
-        </Route>
+        <Route path=":id" element={<MemberView/>}/>
+
+        <Route path="profile" element={<Profile/>}/>
+
+      </Route>
+
+      <Route path='/admin' element={<AdminPanel/>}>
+        <Route path="event" element={<A_Event/>}/>
+        <Route path="event/create" element={<A_EventCreate/>}/>
+      </Route>
 
       {/* Routes for members */}
       {/* <Route element={<RequireAuth allowedRoles={'members'}/>}>
