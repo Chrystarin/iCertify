@@ -8,103 +8,20 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 
-// Utilities
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField';
-import TextFieldTry from '../../../Components/TextField'
 
-// Dropdown
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import FormHelperText from '@mui/material/FormHelperText';
-
-import ParticipantsList from "./ParticipantsList";
-
-// Search Input
-import SearchInput from '../../../Components/SearchInput'
-import InputAdornment from '@mui/material/InputAdornment';
-//datePicker
-import DateTime_Picker from '../../../Components/DateTime_Picker';
+// Forms
+import EventDetailsForm from '../../../Layouts/Event/Admin/EventCreate_EventDetails';
+import EventSetParticipantsForm from '../../../Layouts/Event/Admin/EventCreate_SetParticipants';
+import EventPaymentForm from '../../../Layouts/Event/Admin/EventCreate_Payement';
 
 
-
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { TimePicker } from '@mui/x-date-pickers/TimePicker';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-
-
-
-
-
-
-
-// Tags
-import Tags from '../../../Components/Tags.js';
-
-// Switch
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Switch from '@mui/material/Switch'
 export default function EventCreate() {
-
-    
-    // End
-    // +================================================================================
-    //                      GET VALUES FROM EVENT DETAILS INPUT FORM
-    //All the values initialize
-    const [EventTypeVal, setEventTypeVal] = useState('');
-    const [LinkAdressVal, setLinkAdressVal] = useState('');
-    const [EventNameVal, setEventNameVal] = useState('');
-    const [EventDescriptionVal, setEventDescriptionVal] = useState('');
-
-    const [startDateTimeVal, setstartDateTimeVal] = useState(null);
-    // const [endDateTimeVal, setendDateTimeVal] = useState(dayjs('2014-08-18T21:11:54'));
-
-
-    let TagsVal = [];
-    const [CertificateVal, setCertificateVal] = useState(false);
-    const [EmailVal, setEmailVal] = useState('');
-    
-    // Setting up the values 
-    const EventTypehandleChangeEvent = (event) => {
-        setEventTypeVal(event.target.value);
-    };
-
-    function TagsValHandleChange(option, index){
-        TagsVal = index;
-    }
-
-    const PredefinedTags = [ "Computer","Technology", "Blockchain", "Entertainment","UserInterface","UserExperience"];
-
-    function CertificateValHandleChange(){
-        setCertificateVal(!CertificateVal);
-    }
-
-    // +================================================================================
-    //                      GET VALUES FROM SET PARTICIPANTS INPUT FORM
-
-    const [AcceptVlunteerVal, setAcceptVlunteerVal] = useState(false)
-
-    function AcceptVlunteerValHandleChange(){
-        setAcceptVlunteerVal(!AcceptVlunteerVal);
-    };
-
-    const [EventMembersAccessibility, setEventMembersAccessibility] = React.useState('');
-    
-    const EventMembersAccessibilityhandleChangeEvent = (event) => {
-        setEventMembersAccessibility(event.target.value);
-    };
-
-    // +================================================================================
 
     // Stepper
     const [activeStep,setActiveStep] = useState(0);
     function nextStep(){
         if(activeStep !== 2){
             setActiveStep(activeStep+1);
-
         }
     }
     function backStep(){
@@ -112,17 +29,7 @@ export default function EventCreate() {
             setActiveStep(activeStep-1);
         }
     }
-    function EventTypeChecker(props){
-        switch(props.EventType) {
-            case 'Online':
-                return <TextField id="outlined-search" label="link" type="text" required onChange={()=>setLinkAdressVal(LinkAdressVal)}/>
-
-            case 'Onsite':
-                return <TextField id="outlined-search" label="Address" type="text" required  onChange={()=>setLinkAdressVal(LinkAdressVal)}/>
-            default:
-                return 
-        }
-    }
+   
 
     const url = "http://localhost:6787/events/create"
     const navigate = useNavigate();
@@ -202,138 +109,13 @@ export default function EventCreate() {
     function VIEWFORM(){
        switch (activeStep) {
         case 0:
-            return <>
-                <form action="#">
-                    <div className="Subject_Seperator">
-                        <div className="holder_Subject">
-                            <h3>Event Type</h3>
-                            <p>Necessary Information for new event.</p>
-                        </div>
-                        <div className="holder_Questions">
-                            <div className="Wrapper_2_Inputs">
-                                <FormControl fullWidth required  helpertext="Select Event">
-                                    <InputLabel id="demo-simple-select-label" required>Event Type</InputLabel>
-                                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventTypeVal} label="Event Type" onChange={EventTypehandleChangeEvent}>
-                                        <MenuItem value={"Online"}>Online</MenuItem>
-                                        <MenuItem value={"Onsite"}>Onsite</MenuItem>
-                                    </Select>
-                                    <FormHelperText>Select event type</FormHelperText>
-                                </FormControl>
-                                <EventTypeChecker EventType={EventTypeVal}/>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="Subject_Seperator">
-                        <div className="holder_Subject">
-                            <h3>Basic Details</h3>
-                            <p>Necessary Information for new event.</p>
-                        </div>
-                        <div className="holder_Questions">
-                            <TextField id="outlined-search" label="Event Name" type="text" required />
-                            <TextField id="outlined-search" label="Event Description" type="text" required multiline/>
-                            <div className='Wrapper_2_1_Inputs'>   
-                                {/* <DateTime_Picker Label="Start Date & Time" Value={startDateTimeVal} SetValue={setstartDateTimeVal}/>
-                                <DateTime_Picker Label="Start Date & Time" Value={endDateTimeVal} SetValue={setendDateTimeVal}/> */}
-                                <DateTime_Picker Label="Start Date & Time" Value={startDateTimeVal} setValueToParent={setstartDateTimeVal}/>
-
-                                <Tags PredefinedTags={PredefinedTags} HandleChange={TagsValHandleChange}/>
-                            </div>
-                            <div className="Wrapper_2_Inputs">
-                                <TextField id="outlined-search" label="Email" type="email" />
-                                <TextField id="outlined-search" label="Contact Number" type="tel"/>
-                            </div>
-                            <div >
-                                <FormControlLabel
-                                    control={
-                                    <Switch checked={CertificateVal} onChange={CertificateValHandleChange} name="Certificate" />
-                                    }
-                                    label= {<h5>Certificate</h5>}
-                                />
-                            </div>
-                        </div>
-                    </div>
-
-                </form>
-            </>
+            return <EventDetailsForm   StepValue={activeStep} SetStepValue={setActiveStep}/>
             break;
         case 1:
-            return<>
-                <form action="#">
-                    <div className="Subject_Seperator">
-                        <div className="holder_Subject">
-                            <h3>Participants Accessibility</h3>
-                            <p>Adjust participants accessibility</p>
-                        </div>
-                        <div className="holder_Questions">
-                            <FormControlLabel
-                                control={
-                                <Switch checked={AcceptVlunteerVal} onChange={AcceptVlunteerValHandleChange} name="Certificate" />
-                                }
-                                label= {<h5>Accept Volunteer Request</h5>}
-                            />
-                            <div className="Wrapper_2_Inputs">
-                                <FormControl fullWidth required  helperText="Select Event">
-                                    <InputLabel id="demo-simple-select-label" required>Available only on</InputLabel>
-                                    <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventMembersAccessibility} label="Available only on" onChange={EventMembersAccessibilityhandleChangeEvent}>
-                                        <MenuItem value={"All"}>All</MenuItem>
-                                        <MenuItem value={"Accountants"}>Accountants</MenuItem>
-                                        <MenuItem value={"Membership"}>Members with premium membership</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="Subject_Seperator">
-                        <div className="holder_Subject">
-                            <h3>Set Participants</h3>
-                            <p>Assign roles to any participants</p>
-                        </div>
-                        <div className="holder_Questions">
-                            <div className="Wrapper_2_Inputs">
-                                <SearchInput/>
-                            </div>
-                            <div className="Wrapper_2_Inputs">
-                                <ParticipantsList/>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </form>
-            </> 
-
+            return <EventSetParticipantsForm StepValue={activeStep} SetStepValue={setActiveStep}/>
             break;
         case 2:
-            return <>
-                <form action="#">
-                    <div className="Subject_Seperator">
-                        <div className="holder_Subject">
-                            <h3>Price & Discount</h3>
-                            <p>Assign the entrance fee for the event</p>
-                        </div>
-                        <div className="holder_Questions">
-                            <div className="Wrapper_2_Inputs">
-                                <TextField
-                                    label="With normal TextField"
-                                    id="outlined-start-adornment"
-                                    type="Number"
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start">₱</InputAdornment>,
-                                    }}
-                                />
-                                <TextField
-                                    label="Premium Membership Discount"
-                                    id="outlined-start-adornment"
-                                    type="Number"
-                                    InputProps={{
-                                        startAdornment: <InputAdornment position="start">%</InputAdornment>,
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    
-                </form>
-            </>
+            return <EventPaymentForm StepValue={activeStep} SetStepValue={setActiveStep}/>
             break;
         default:
             break;
@@ -359,13 +141,7 @@ export default function EventCreate() {
                     </Stepper>
                 </div>
             </div>
-
             <VIEWFORM />
-            {/* Fix  */}
-            <div id="Holder_Button">
-                <Button variant="outlined" onClick={backStep}>Back</Button>
-                <Button variant="contained" onClick={nextStep}>Next</Button>
-            </div>
         </section>
     )
 }

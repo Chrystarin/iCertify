@@ -22,7 +22,7 @@ function ParticipantsList() {
             <h5 id>Participats:</h5>
             <ul>
                 <li>
-                    <UserPanelInfo Image={UserPicture}  Name="Dianne Chrystalin Brandez" />
+                    <UserPanelInfo Image={UserPicture}  Title="Dianne Chrystalin Brandez" />
                     <div id='ParticipantsAction'>
                         <select name="" id="">
                             {ParticipantsRole}
@@ -33,9 +33,9 @@ function ParticipantsList() {
                     </div>
                 </li>
                 <li>
-                    <UserPanelInfo Image={UserPicture}  Name="Dianne Chrystalin Brandez" />
+                    <UserPanelInfo Image={UserPicture}  Title="Dianne Chrystalin Brandez" />
                     <div id='ParticipantsAction'>
-                        <select name="" id="">
+                        <select name="Role" id="">
                             {ParticipantsRole}
                         </select>
                         <IconButton aria-label="delete" color='error' >

@@ -53,13 +53,14 @@
                 
             }
         }
-    }
-    #Holder_Button{
-        float: right;
-        margin: 20px 0 45px;
-        button{
-            margin-left: 25px;
+        #Holder_Button{
+            display: flex;
+            justify-content: flex-end;
+            button{
+                margin-left: 25px;
+            }
         }
     }
+    
 }
 
