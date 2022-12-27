@@ -28,13 +28,25 @@ import InputAdornment from '@mui/material/InputAdornment';
 //datePicker
 import DateTime_Picker from '../../../Components/DateTime_Picker';
 
+
+
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+
+
+
+
+
+
+
 // Tags
 import Tags from '../../../Components/Tags.js';
 
 // Switch
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch'
-import dayjs from 'dayjs';
 export default function EventCreate() {
 
     
@@ -46,8 +58,11 @@ export default function EventCreate() {
     const [LinkAdressVal, setLinkAdressVal] = useState('');
     const [EventNameVal, setEventNameVal] = useState('');
     const [EventDescriptionVal, setEventDescriptionVal] = useState('');
-    const [startDateTimeVal, setstartDateTimeVal] = useState(dayjs('2014-08-18T21:11:54'));
-    const [endDateTimeVal, setendDateTimeVal] = useState(dayjs('2014-08-18T21:11:54'));
+
+    const [startDateTimeVal, setstartDateTimeVal] = useState(null);
+    // const [endDateTimeVal, setendDateTimeVal] = useState(dayjs('2014-08-18T21:11:54'));
+
+
     let TagsVal = [];
     const [CertificateVal, setCertificateVal] = useState(false);
     const [EmailVal, setEmailVal] = useState('');
@@ -60,6 +75,7 @@ export default function EventCreate() {
     function TagsValHandleChange(option, index){
         TagsVal = index;
     }
+
     const PredefinedTags = [ "Computer","Technology", "Blockchain", "Entertainment","UserInterface","UserExperience"];
 
     function CertificateValHandleChange(){
@@ -88,6 +104,7 @@ export default function EventCreate() {
     function nextStep(){
         if(activeStep !== 2){
             setActiveStep(activeStep+1);
+
         }
     }
     function backStep(){
@@ -194,7 +211,7 @@ export default function EventCreate() {
                         </div>
                         <div className="holder_Questions">
                             <div className="Wrapper_2_Inputs">
-                                <FormControl fullWidth required  helperText="Select Event">
+                                <FormControl fullWidth required  helpertext="Select Event">
                                     <InputLabel id="demo-simple-select-label" required>Event Type</InputLabel>
                                     <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventTypeVal} label="Event Type" onChange={EventTypehandleChangeEvent}>
                                         <MenuItem value={"Online"}>Online</MenuItem>
@@ -215,8 +232,10 @@ export default function EventCreate() {
                             <TextField id="outlined-search" label="Event Name" type="text" required />
                             <TextField id="outlined-search" label="Event Description" type="text" required multiline/>
                             <div className='Wrapper_2_1_Inputs'>   
-                                <DateTime_Picker Label="Start Date & Time" Value={startDateTimeVal} SetValue={setstartDateTimeVal}/>
-                                <DateTime_Picker Label="Start Date & Time" Value={endDateTimeVal} SetValue={setendDateTimeVal}/>
+                                {/* <DateTime_Picker Label="Start Date & Time" Value={startDateTimeVal} SetValue={setstartDateTimeVal}/>
+                                <DateTime_Picker Label="Start Date & Time" Value={endDateTimeVal} SetValue={setendDateTimeVal}/> */}
+                                <DateTime_Picker Label="Start Date & Time" Value={startDateTimeVal} setValueToParent={setstartDateTimeVal}/>
+
                                 <Tags PredefinedTags={PredefinedTags} HandleChange={TagsValHandleChange}/>
                             </div>
                             <div className="Wrapper_2_Inputs">
@@ -233,6 +252,7 @@ export default function EventCreate() {
                             </div>
                         </div>
                     </div>
+
                 </form>
             </>
             break;
@@ -341,7 +361,7 @@ export default function EventCreate() {
             </div>
 
             <VIEWFORM />
-
+            {/* Fix  */}
             <div id="Holder_Button">
                 <Button variant="outlined" onClick={backStep}>Back</Button>
                 <Button variant="contained" onClick={nextStep}>Next</Button>

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import Logo from './../../Assets/Images/brand/icon.png';
-import './../../Assets/Styles/Components/style-DashboardNavigation.scss';
+import './../../Assets/Styles/Components/style-Navigation.scss';
 import {Link} from "react-router-dom";
 import LogoutIcon from '@mui/icons-material/Logout';
 
