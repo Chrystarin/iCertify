@@ -8,9 +8,55 @@ import Button from '../../Components/Button.js';
 
 import { useParams } from "react-router-dom";
 
+import axios from '../../Config/axios';
+
+import {ethers} from 'ethers';
+
 const EventView = (props) => {
     const { id } = useParams()
     const [event, setEvent] = useState(props)
+    const [participants, setParticipants] = useState(null)
+
+
+    const joinEvent = async () => {
+        try{
+            const accounts = await window.ethereum.request({method: 'eth_requestAccounts'}); 
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            const address = await signer.getAddress();
+
+            const response = await axios.post(`events/${id}/join`,
+            JSON.stringify({ eventId: id, walletAddress: address, role: 'Participant' }),
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                console.log(JSON.stringify(response));
+                console.log("event joined!");
+            });
+        }
+        catch (err){
+            console.error(err.message);
+        }
+    };
+
+    const testButton = async () => {
+        const accounts = await window.ethereum.request({method: 'eth_requestAccounts'}); 
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const address2 = await signer.getAddress();
+        const address1 = "0x9E698b3AB80878A5e61b06aB2f850048D25E37af";
+        // const address2 = (accounts[0]).toString();
+
+
+        console.log(address1);
+        console.log(address2);
+        console.log(address1 === address2);
+
+    };
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -23,9 +69,21 @@ const EventView = (props) => {
             }
         }
 
+        const fetchParticipants = async () =>{
+            const response = await fetch(`http://localhost:6787/events/${id}/participants`)
+
+            const json = await response.json()
+
+            if(response.ok){
+                setParticipants(json)
+            }
+        }
+        
+        fetchParticipants()
         fetchEvent()
     }, [])
 
+    // if(!event || !participants) return <div>loading...</div>
     if(!event) return <div>loading...</div>
 
     return (
@@ -40,7 +98,7 @@ const EventView = (props) => {
                     </div>
                     <div id="Holder_Button_Event">
                         <div>
-                            <Button Action="Link" Link="" BtnType="Primary" Value="Content"/>
+                            <Button BtnType="Primary" Value="Join Event" onClick={() => joinEvent()}/>
                         </div>
                     </div>
                 </div>
@@ -106,8 +164,12 @@ const EventView = (props) => {
                             <p>{event.link}</p>
                         </div>
                     </div>
+                    
                 </div>
             </div>
+            {/* {participants.length > 0 && participants.map((participant) => {
+                return(<h1>{participant.member.walletAddress}</h1>)
+            })} */}
         </div>
     )
 }

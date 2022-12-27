@@ -44,8 +44,20 @@ function App() {
       <Route path="/" element={<Home/>}/>
       <Route path="/signup" element={<Signup/>}/>
 
+      <Route path='/member' element={<MemberPanel/>}>
+          <Route path="dashboard" element={<Dashboard/>}/>
+
+          <Route path="credential" element={<Credential/>}/>
+          <Route path="credential/view" element={<Credential_View/>}/>
+
+          <Route path="event" element={<Event/>}/>
+          <Route path="event/view/:id" element={<Event_View/>}/>
+
+          <Route path=":id" element={<MemberView/>}/>
+        </Route>
+
       {/* Routes for members */}
-      <Route element={<RequireAuth allowedRoles={'members'}/>}>
+      {/* <Route element={<RequireAuth allowedRoles={'members'}/>}>
         <Route path='/member' element={<MemberPanel/>}>
           <Route path="dashboard" element={<Dashboard/>}/>
 
@@ -57,7 +69,7 @@ function App() {
 
           <Route path=":id" element={<MemberView/>}/>
         </Route>
-      </Route>
+      </Route> */}
 
       {/* Routes for Admin */}
       {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin]}/>}>
