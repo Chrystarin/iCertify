@@ -5,7 +5,7 @@ import './../../Assets/Styles/Components/style-DashboardNavigation.scss';
 export class DashboardNavigation extends PureComponent {
   render() {
     return (
-      <div>
+      <div id='Navigation__Sticky'>
         <div id='Logo'>
           <a href="/Admin"><img src={Logo} alt=""/></a>
         </div>

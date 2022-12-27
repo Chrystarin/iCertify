@@ -60,25 +60,6 @@ export default function ModalLogin({open, onClose}) {
             // Sign message
             const signature = await signer.signMessage('Nonce: ' + nonce);
 
-            // // Login with the address and signature
-            // fetch('http://localhost:6787/members/login', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         withCredentials: true
-            //     },
-            //     body: JSON.stringify({ type: 'metamask', credentials: [address, signature] })
-            // })
-            // .then(res => res.json())
-            // .then(data => {
-            //     // const accessToken = response?.data?.accessToken;
-            //     // setAuth({walletAddress, accessToken})
-
-            //     // redirect
-            //     navigate(`/member/${data.walletAddress}`);
-            //     console.log(data.walletAddress);
-            // });
-
             // Login with the address and signature
             const response = await axios.post('/members/login',
                 JSON.stringify({ type: 'metamask', credentials: [address, signature] }),
