@@ -8,7 +8,8 @@ $Maxwidth1 : 1920px;
 
 header{
     background-color: var(--dark1);
-    
+    position: sticky;
+    top: 0;
     #Wrapper_Header{
         max-width: $Maxwidth1;
         padding: 1em 2em;

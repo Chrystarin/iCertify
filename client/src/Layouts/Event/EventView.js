@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import '../../Assets/Styles/Page/style-EventView.scss'
 
-import Navigation from '../Dashboard/DashboardNavigation';
-import HeaderNavigation from '../Dashboard/HeaderNavigation';
+
 
 import Button from '../../Components/Button.js';
 
@@ -40,7 +39,7 @@ const EventView = (props) => {
                     </div>
                     <div id="Holder_Button_Event">
                         <div>
-                            <Button Action="Link" Link="" BtnType="Primary" Value="Content"/>
+                            <Button Action="Link" Link="Join" BtnType="Primary" Value="Join Event"/>
                         </div>
                     </div>
                 </div>

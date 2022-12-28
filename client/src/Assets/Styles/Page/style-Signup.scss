@@ -64,13 +64,49 @@
 
             #Container_Signup_Form{
                 width: 90%;
+                h1{
+                    text-align: center;
+                    margin-bottom: 10px;
+                }
+                h4{
+                    text-align: center;
+                    margin-bottom: 50px;
+                    span{
+                        color: var(--accent);
+                    }
+                }
+                #LabelHolder{
+                    margin-bottom: 25px;
+                }
+                #Wrapper_Name{
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
+                    gap: 25px;
+                }
+                #Submit{
+                    display: block;
+                    text-align: center;
+                    width: 100%;
+                    padding: 1em;
+                    background-color: var(--accent);
+                    border: none;
+                    border-radius: .5em;
+                    color: white;
+                    font-size: 20px;
+                    cursor: pointer;
+                }
+                form{
+                    display: flex;
+                    flex-direction: column;
+                    gap: 15px;
+                }
                 .Active{
                     display: block;
                 }
                 .Inactive{
                     display: none;
                 }
-                #Form2{
+                #Form1{
                     img{
                         width: 40%;
                         display: block;
@@ -80,41 +116,6 @@
                         text-align: center;
                         margin-bottom: 25px;
                         color: rgb(66, 66, 66);
-                    }
-                }
-                form{
-                    
-                    
-                    h1{
-                        text-align: center;
-                        margin-bottom: 10px;
-                    }
-                    h4{
-                        text-align: center;
-                        margin-bottom: 50px;
-                        span{
-                            color: var(--accent);
-                        }
-                    }
-                    #LabelHolder{
-                        margin-bottom: 25px;
-                    }
-                    #Wrapper_Name{
-                        display: grid;
-                        grid-template-columns: 1fr 1fr;
-                        gap: 25px;
-                    }
-                    #Submit{
-                        display: block;
-                        text-align: center;
-                        width: 100%;
-                        padding: 1em;
-                        background-color: var(--accent);
-                        border: none;
-                        border-radius: .5em;
-                        color: white;
-                        font-size: 20px;
-                        cursor: pointer;
                     }
                 }
             }

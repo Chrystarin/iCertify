@@ -1,0 +1,31 @@
+#ListofSetParticipants{
+    h5:nth-child(1){
+        margin-bottom: 20px;
+    }
+    ul{
+        list-style: none;
+        li{
+            display: grid;
+            padding: .5em 1em;
+            grid-template-columns: 1fr 1fr;
+            #ParticipantsAction{
+                display: flex;
+                gap: 15px;
+                justify-content: flex-end;
+                select{
+                    min-width: 80px;
+                    border: none;
+                    color: none;
+                    overflow: hidden;
+                    border-radius: 10px;
+                }
+                select:focus{
+                    outline: none;
+                }
+            }
+        }
+        li:hover{
+            background-color: rgb(240, 240, 240);
+        }
+    }
+}

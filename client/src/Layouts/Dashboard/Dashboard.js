@@ -1,8 +1,6 @@
 import React from 'react';
 import './../../Assets/Styles/Page/style-DashboardUser.scss';
 
-import Navigation from './DashboardNavigation';
-import HeaderNavigation from './HeaderNavigation';
 
 import CredentialTab from '../Credential/CredentialTab.js';
 import EventCard from '../Event/EventCard.js';
