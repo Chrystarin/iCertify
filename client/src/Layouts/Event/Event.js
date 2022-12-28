@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import './../../Assets/Styles/Page/style-DashboardUser.scss';
+import './../../Pages/style-DashboardUser.scss';
 import './../../Assets/Styles/Page/style-Event.scss';
 
 

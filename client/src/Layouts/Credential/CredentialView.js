@@ -1,9 +1,7 @@
 
 import React,{useState} from 'react';
-import '../../Assets/Styles/Page/style-CredentialView.scss'
+import './style-CredentialView.scss'
 
-import Navigation from '../Dashboard/DashboardNavigation';
-import HeaderNavigation from '../Dashboard/HeaderNavigation';
 import Button from '../../Components/Button';
 
 

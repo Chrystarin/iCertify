@@ -1,15 +1,11 @@
 $Width : 100vw;
 $Maxwidth1 : 1920px;
 
-// Color 
-
-
-
-
 header{
     background-color: var(--dark1);
     position: sticky;
     top: 0;
+    z-index: 99;
     #Wrapper_Header{
         max-width: $Maxwidth1;
         padding: 1em 2em;

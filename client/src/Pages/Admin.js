@@ -1,5 +1,5 @@
 import React from 'react';
-import './../Assets/Styles/Page/style-DashboardUser.scss';
+import './style-DashboardUser.scss';
 import { Outlet } from 'react-router-dom';
 
 import Navigation from '../Layouts/DashboardAdminNavigation/DashboardNavigationAdmin';

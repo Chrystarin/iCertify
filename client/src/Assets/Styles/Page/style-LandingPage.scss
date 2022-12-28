@@ -28,6 +28,7 @@ $Maxwidth1 : 1920px;
     gap: 0px 50px;
     padding: 14em 2em 15em;
     background-color: var(--dark1);
+    z-index: -1;
 
     #Container_Img_Main{
         position: relative;
@@ -84,6 +85,7 @@ $Maxwidth1 : 1920px;
     background-color: var(--dark1);
     position: relative;
     color: white;
+    z-index: -1;
     .Container_Title_Section{
         
         h3{

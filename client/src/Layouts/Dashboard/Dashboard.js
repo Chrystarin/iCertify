@@ -1,5 +1,5 @@
 import React from 'react';
-import './../../Assets/Styles/Page/style-DashboardUser.scss';
+import './../../Pages/style-DashboardUser.scss';
 
 
 import CredentialTab from '../Credential/CredentialTab.js';
