@@ -6,14 +6,14 @@ import useAuth from '../hooks/useAuth';
 
 import axios from '../config/axios';
 
-import '../Assets/Styles/Components/style-Modal.scss';
-import '../Assets/Styles/Components/style-login-signup.scss';
+import './Modal.scss';
+import './login.scss';
 
-import Pattern from '../Assets/Images/Resources/Pattern1.png';
-import UserIcon from '../Assets/Images/icons/user.png';
-import MetamaskIcon from '../Assets/Images/icons/fox.png';
-import LockIcon from '../Assets/Images/icons/lock.png';
-import CloseIcon from '../Assets/Images/icons/close.png';
+import Pattern from './../images/Resources/Pattern1.png';
+import UserIcon from './../images/icons/user.png';
+import MetamaskIcon from './../images/icons/fox.png';
+import LockIcon from './../images/icons/lock.png';
+import CloseIcon from './../images/icons/close.png';
 
 const LOGIN_URL = '/auth';
 

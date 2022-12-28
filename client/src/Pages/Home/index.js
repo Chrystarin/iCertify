@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Header from '../../layouts/LandingPage/Header';
+import Header from '../../layouts/LandingPage/Header.js';
 import LandingPage from './../LandingPage/LandingPage';
 import Footer from '../../layouts/LandingPage/Footer';
 
