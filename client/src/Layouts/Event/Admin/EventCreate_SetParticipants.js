@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import SearchInput from '../../../components/SearchInput'
+import SearchInput from '../../../components/SearchInput.js'
 import ParticipantsList from "./ParticipantsList";
 import Button from '@mui/material/Button'
 
