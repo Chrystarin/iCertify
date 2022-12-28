@@ -14,16 +14,26 @@ const EventView = (props) => {
     const { id } = useParams()
     const [event, setEvent] = useState(props)
     const [participants, setParticipants] = useState(null)
+    const [memberAddress, setMemberAddress] = useState()
 
-    const joinEvent = async () => {
+    const checkWallet = async () => {
         try{
             const accounts = await window.ethereum.request({method: 'eth_requestAccounts'}); 
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
             const address = await signer.getAddress();
+            setMemberAddress(address);
+        }
+        catch(err){
+            console.error(err.message);
+        }
+    }
 
+    const joinEvent = async () => {
+        try{
+            
             const response = await axios.post(`events/${id}/join`,
-            JSON.stringify({ eventId: id, walletAddress: address, role: 'Participant' }),
+            JSON.stringify({ eventId: id, walletAddress: memberAddress, role: 'Participant' }),
             {
                 method: 'POST',
                 headers: {
@@ -38,6 +48,15 @@ const EventView = (props) => {
             console.error(err.message);
         }
     };
+
+    function eventJoined(json, value) {
+        let contains = false;
+        Object.keys(json).some(key => {
+            contains = typeof json[key] === 'object' ? eventJoined(json[key], value) : json[key] === value;
+             return contains;
+        });
+        return contains;
+     }
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -59,10 +78,13 @@ const EventView = (props) => {
                 setParticipants(json)
             }
         }
-        
+
         fetchParticipants()
         fetchEvent()
+        checkWallet()
     }, [])
+
+    
 
     if(!event || !participants) return <div>loading...</div>
 
@@ -77,9 +99,16 @@ const EventView = (props) => {
                         <p>{event.date ? event.date.start : '...'}</p>
                     </div>
                     <div id="Holder_Button_Event">
-                        <div>
-                            <Button BtnType="Primary" Value="Join Event" onClick={() => joinEvent()}/>
-                        </div>
+                        { eventJoined(participants, memberAddress) ? (
+                            <div>
+                                <Button BtnType="Primary" Value="Joined"/>
+                            </div>
+                        ) : (
+                            <div>
+                                <Button BtnType="Primary" Value="Join Event" onClick={() => joinEvent()}/>
+                            </div>
+                        )
+                        }
                     </div>
                 </div>
                 <div id="Holder_Title_Event">
@@ -110,7 +139,7 @@ const EventView = (props) => {
                         <h4>Certificate</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, blanditiis?</p>
                         <div>
-                            <Button Action="Link" Link="" BtnType="Primary" Value="Claim"/>
+                            <Button BtnType="Primary" Value="Test"/>
                         </div>
                     </div>
                     <div className="Container_EventDetails" id="Container_Multiple">
