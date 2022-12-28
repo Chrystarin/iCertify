@@ -1,7 +1,7 @@
 import React from 'react'
 
 import './../../../Assets/Styles/Components/ParticipantsList.scss'
-import UserPanelInfo from "../../../Components/UserPanelInfo";
+import UserPanelInfo from "../../../components/UserPanelInfo";
 import UserPicture from '../../../Assets/Images/Resources/Developers/Dianne.jpg';
 
 import IconButton from '@mui/material/IconButton';

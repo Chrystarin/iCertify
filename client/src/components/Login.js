@@ -2,18 +2,18 @@ import React, { useEffect, useState, useRef } from 'react';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import {ethers} from 'ethers';
 
-import useAuth from '../../authentication/useAuth';
+import useAuth from '../hooks/useAuth';
 
-import axios from '../../Config/axios';
+import axios from '../config/axios';
 
-import './../../Assets/Styles/Components/style-Modal.scss';
-import './../../Assets/Styles/Components/style-login-signup.scss';
+import '../Assets/Styles/Components/style-Modal.scss';
+import '../Assets/Styles/Components/style-login-signup.scss';
 
-import Pattern from './../../Assets/Images/Resources/Pattern1.png';
-import UserIcon from './../../Assets/Images/icons/user.png';
-import MetamaskIcon from './../../Assets/Images/icons/fox.png';
-import LockIcon from './../../Assets/Images/icons/lock.png';
-import CloseIcon from './../../Assets/Images/icons/close.png';
+import Pattern from '../Assets/Images/Resources/Pattern1.png';
+import UserIcon from '../Assets/Images/icons/user.png';
+import MetamaskIcon from '../Assets/Images/icons/fox.png';
+import LockIcon from '../Assets/Images/icons/lock.png';
+import CloseIcon from '../Assets/Images/icons/close.png';
 
 const LOGIN_URL = '/auth';
 

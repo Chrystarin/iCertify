@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import './../../../Pages/style-DashboardUser.scss'
+import './../../../routes/style-DashboardUser.scss'
 import './../../../Assets/Styles/Page/style-EventAdmin.scss';
 
 import Analytics from './Analytics'

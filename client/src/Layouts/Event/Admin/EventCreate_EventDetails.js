@@ -20,7 +20,7 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 
 import FormHelperText from '@mui/material/FormHelperText';
-import Tags from '../../../Components/Tags.js';
+import Tags from '../../../components/Tags.js';
 
 function EventCreate_EventDetails({StepValue,SetStepValue}) {
 

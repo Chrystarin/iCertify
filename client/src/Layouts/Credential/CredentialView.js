@@ -2,7 +2,7 @@
 import React,{useState} from 'react';
 import './style-CredentialView.scss'
 
-import Button from '../../Components/Button';
+import Button from '../../components/Button';
 
 
 import UserImg from './../../Assets/Images/Resources/Developers/Dianne.jpg';

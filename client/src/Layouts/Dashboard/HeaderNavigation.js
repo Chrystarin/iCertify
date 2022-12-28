@@ -2,7 +2,7 @@ import React, {useEffect, useState,useRef}from 'react';
 import PicLogo from './../../Assets/Images/brand/icon.png';
 import './../../Assets/Styles/Components/style-HeaderNavigation.scss';
 
-import SearchInput from '../../Components/SearchInput';
+import SearchInput from '../../components/SearchInput';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 function HeaderNavigation() {

@@ -2,9 +2,9 @@ import React,{useEffect, useState} from 'react';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import {ethers} from 'ethers';
 
-import useAuth from '../../authentication/useAuth';
+import useAuth from '../../hooks/useAuth';
 
-import axios from '../../Config/axios';
+import axios from '../../config/axios';
 
 import './../../Assets/Styles/Page/style-Signup.scss';
 import logo from '../../Assets/Images/brand/icertify_footer.png';
