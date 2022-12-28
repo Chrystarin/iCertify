@@ -13,18 +13,18 @@ import Signup from './pages/Signup/Signup.js'
 import MemberPanel from './routes/Member.js';
 import MemberView from './pages/Member/MemberView.js';
 import MemberEdit from './pages/Member/MemberEdit.js'
-import Dashboard from './Layouts/Dashboard/Dashboard';
-import Credential from './Layouts/Credential/Credential';
-import Credential_View from './Layouts/Credential/CredentialView.js';
-import Event from './Layouts/Event/Event';
-import Event_View from './Layouts/Event/EventView';
-import JoinEvent from './Layouts/Event/JoinEvent';
-import Profile from './Layouts/Profile/profile'
+import Dashboard from './layouts/Dashboard/Dashboard';
+import Credential from './layouts/Credential/Credential';
+import Credential_View from './layouts/Credential/CredentialView.js';
+import Event from './layouts/Event/Event';
+import Event_View from './layouts/Event/EventView';
+import JoinEvent from './layouts/Event/JoinEvent';
+import Profile from './layouts/Profile/profile'
 
 // Admin
 import AdminPanel from './routes/Admin.js';
-import A_Event from './Layouts/Event/Admin/Event';
-import A_EventCreate from './Layouts/Event/Admin/EventCreate.js'
+import A_Event from './layouts/Event/Admin/Event';
+import A_EventCreate from './layouts/Event/Admin/EventCreate.js'
 import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js'
 
 // const ROLES = {

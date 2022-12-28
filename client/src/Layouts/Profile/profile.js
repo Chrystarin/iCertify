@@ -8,8 +8,8 @@ import CallIcon from '@mui/icons-material/Call';
 import MetaMaskIcon from './../../Assets/Images/icons/fox.png'
 import EmailIcon from '@mui/icons-material/Email';
 
-import EventCard from '../../Layouts/Event/EventCard'
-import CredentialList from '../../Layouts/Credential/Table'
+import EventCard from '../../layouts/Event/EventCard'
+import CredentialList from '../../layouts/Credential/Table'
 function profile() {
 
     let user = {

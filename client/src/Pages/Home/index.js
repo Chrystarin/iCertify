@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Header from '../../Layouts/LandingPage/Header';
+import Header from '../../layouts/LandingPage/Header';
 import LandingPage from './../LandingPage/LandingPage';
-import Footer from '../../Layouts/LandingPage/Footer';
+import Footer from '../../layouts/LandingPage/Footer';
 
 
 function Home() {

@@ -3,9 +3,9 @@ import './style-DashboardUser.scss';
 
 import { Outlet } from 'react-router-dom';
 
-// Layouts
-import Navigation from '../Layouts/Dashboard/DashboardNavigation.js';
-import HeaderNavigation from '../Layouts/Dashboard/HeaderNavigation';
+// layouts
+import Navigation from '../layouts/Dashboard/DashboardNavigation.js';
+import HeaderNavigation from '../layouts/Dashboard/HeaderNavigation';
 
 
 function User() {

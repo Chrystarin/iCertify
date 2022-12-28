@@ -1,10 +1,10 @@
 import React from 'react';
 
-import Navigation from './../../Layouts/Dashboard/DashboardNavigation';
-import HeaderNavigation from './../../Layouts/Dashboard/HeaderNavigation';
+import Navigation from './../../layouts/Dashboard/DashboardNavigation';
+import HeaderNavigation from './../../layouts/Dashboard/HeaderNavigation';
 
-import CredentialTab from '../../Layouts/Credential/CredentialTab.js';
-import Table from '../../Layouts/Credential/Table.js';
+import CredentialTab from '../../layouts/Credential/CredentialTab.js';
+import Table from '../../layouts/Credential/Table.js';
 
 function Credential() {
   return (
