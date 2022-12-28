@@ -5,14 +5,14 @@ import {Route, Routes } from 'react-router-dom';
 import ProtectedRoutes from './routes/ProtectedRoutes.js';
 
 // Public
-import Error404 from './Pages//Errors/Error404.js';
-import Home from './Pages/Home';
-import Signup from './Pages/Signup/Signup.js'
+import Error404 from './pages//Errors/Error404.js';
+import Home from './pages/Home';
+import Signup from './pages/Signup/Signup.js'
 
 // Member
 import MemberPanel from './routes/Member.js';
-import MemberView from './Pages/Member/MemberView.js';
-import MemberEdit from './Pages/Member/MemberEdit.js'
+import MemberView from './pages/Member/MemberView.js';
+import MemberEdit from './pages/Member/MemberEdit.js'
 import Dashboard from './Layouts/Dashboard/Dashboard';
 import Credential from './Layouts/Credential/Credential';
 import Credential_View from './Layouts/Credential/CredentialView.js';
@@ -25,7 +25,7 @@ import Profile from './Layouts/Profile/profile'
 import AdminPanel from './routes/Admin.js';
 import A_Event from './Layouts/Event/Admin/Event';
 import A_EventCreate from './Layouts/Event/Admin/EventCreate.js'
-import CertificateGenerator from './Pages/CertificateGenerator/CertificateGenerator.js'
+import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js'
 
 // const ROLES = {
 //   member: '46936',
