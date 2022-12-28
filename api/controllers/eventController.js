@@ -104,7 +104,7 @@ const joinEvent = async (req, res, next) => {
         if(!member) throw new NotFound('Member');
 
         // Check if member already joined
-        if(event.participants.filter(([pid]) => pid === member._id).length > 0)
+        if(event.participants.filter(p => p.member.equals(member._id)).length > 0)
             throw new Forbidden('Member already joined');
 
         event.participants.push({ member: member._id, role });

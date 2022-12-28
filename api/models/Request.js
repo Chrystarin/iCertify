@@ -9,7 +9,7 @@ const requestSchema = new Schema({
     },
     requestType: {
         type: String,
-        enum: ['event', 'document', 'volunteer'],
+        enum: ['event', 'certificate', 'volunteer'],
         required: true
     },
     date: {

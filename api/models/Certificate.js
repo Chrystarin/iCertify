@@ -15,7 +15,8 @@ const certificateSchema = new Schema({
     nftId: {
         type: Number,
         unique: true,
-        required: true
+        index: true,
+        sparse: true
     },
     title: {
         type: String,
