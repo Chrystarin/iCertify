@@ -21,14 +21,18 @@ import Event from './Layouts/Event/Event';
 import Event_View from './Layouts/Event/EventView';
 
 import Profile from './Layouts/Profile/profile'
-// Admin
 
+// Admin
 import AdminPanel from './Pages/Admin';
 
 import A_Event from './Layouts/Event/Admin/Event';
 import A_EventCreate from './Layouts/Event/Admin/EventCreate.js'
 
 import MemberView from './Pages/Member/MemberView.js';
+
+
+
+import MemberEdit from './Pages/Member/MemberEdit.js'
 
 // const ROLES = {
 //   member: '46936',
@@ -57,6 +61,8 @@ function App() {
         <Route path=":id" element={<MemberView/>}/>
 
         <Route path="profile" element={<Profile/>}/>
+
+        <Route path=":id/edit" element={<MemberEdit/>}/>
 
       </Route>
 

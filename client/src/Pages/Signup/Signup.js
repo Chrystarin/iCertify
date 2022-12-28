@@ -131,7 +131,9 @@ function Signup() {
       const address = await signer.getAddress();
 
       const response = await axios.post('/members/login',
-      JSON.stringify({walletAddress: address}),
+      JSON.stringify({
+        walletAddress: address,
+      }),
       {
           method: 'PATCH',
           headers: {
