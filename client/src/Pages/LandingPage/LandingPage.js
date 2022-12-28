@@ -1,12 +1,13 @@
 import React, {useState}from 'react';
 
-import './../../Assets/Styles/Page/style-LandingPage.scss';
-// import IconWordmarkImg from './../../Assets/Images/brand/icon_wordmark.png'
-// import IconWalletImg from './../../Assets/Images/icons/wallet.png'
-import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg';
-import DianneImg from './../../Assets/Images/Resources/Developers/Dianne.jpg';
-import JonImg from './../../Assets/Images/Resources/Developers/Jon.jpg';
-import HaroldImg from './../../Assets/Images/Resources/Developers/Harold.jpg';
+import './LandingPage.scss';
+// import IconWordmarkImg from './../../Assets/images/brand/icon_wordmark.png'
+// import IconWalletImg from './../../Assets/images/icons/wallet.png'
+import ImagePlaceHolder from './../../images/placeholder/image_placeholder.jpg';
+
+import DianneImg from './../../images/Resources/Developers/Dianne.jpg';
+import JonImg from './../../images/Resources/Developers/Jon.jpg';
+import HaroldImg from './../../images/Resources/Developers/Harold.jpg';
 
 
 function LandingPage() {

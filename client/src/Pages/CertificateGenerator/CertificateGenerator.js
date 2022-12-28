@@ -3,10 +3,10 @@ import React, { useRef, useState } from 'react';
 // import downloadjs from 'downloadjs';
 // import html2canvas from 'html2canvas';
 
-import './../../Assets/Styles/certificateStyle.css'
+import './certificateStyle.css'
 
-import certificateBodyTemplate from './../../Assets/Images/certificate_template_default.png'
-import certificateFooterTemplate from './../../Assets/Images/footer.png'
+import certificateBodyTemplate from './../../images/Resources/certificate_template_default.png'
+import certificateFooterTemplate from './../../images/Resources/Certificatefooter.png'
 import QRCode from 'react-qr-code';
 import exportAsImage from './exportAsImage';
 

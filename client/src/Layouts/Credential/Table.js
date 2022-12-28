@@ -1,5 +1,5 @@
 import React from 'react'
-import '../../Assets/Styles/Components/style-Table.scss'
+import './Table.scss'
 function Table() {
   return (
     <div id='Table'>

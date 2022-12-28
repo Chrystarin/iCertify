@@ -1,8 +1,9 @@
 import React,{useState} from 'react';
-import './../../Assets/Styles/Components/style-Navigation.scss';
 
-import WordMark from './../../Assets/Images/brand/Whitehorizontal.png'
+
 import ModalLogin from '../../components/Login.js';
+import WordMark from './../../images/iCertifyBranding//Whitehorizontal.png'
+
 
 export default function Header() {
     const [isOpen , setIsOpen] = useState(false); 
@@ -19,7 +20,7 @@ export default function Header() {
                     <li><a href="#LearnMore">Learn More!</a></li>
                     <li><a href="#Login" onClick={() => setIsOpen(true)}>Login</a></li>
                     <ModalLogin open={isOpen} onClose={() => setIsOpen(false)}/>
-                    <li><a href="/signup" id="GetStarted" onClick={() => setIsOpenSignup(true)}> Get Started</a></li>
+                    <li><a href="/getstarted" id="GetStarted" onClick={() => setIsOpenSignup(true)}> Get Started</a></li>
                 </ul>
             </nav>
         </div>

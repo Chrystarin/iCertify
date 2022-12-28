@@ -1,8 +1,12 @@
-import './../../Assets/Styles/Components/style-Footer.scss';
-import icertify_footer from './../../Assets/Images/brand/icertify_footer.png';
-import facebookicon from './../../Assets/Images/icons/SocialMedia/facebook.png';
-import emailicon from './../../Assets/Images/icons/SocialMedia/email.png';
-import instagramicon from './../../Assets/Images/icons/SocialMedia/instagram.png';
+import React from 'react';
+import './Footer.scss';
+import icertify_footer from '../../images/iCertifyBranding/icertify_footer.png';
+
+
+
+import facebookicon from './../../images/icons/SocialMedia/facebook.png';
+import emailicon from './../../images/icons/SocialMedia/email.png';
+import instagramicon from './../../images/icons/SocialMedia/instagram.png';
 
 
 function Footer() {

@@ -1,5 +1,5 @@
 import React from 'react'
-import './../../Assets/Styles/Components/style-CredentialTab.scss'
+import './CredentialTab.scss'
 function CredentialTab(props) {
   let Active = props.Active; 
   return (

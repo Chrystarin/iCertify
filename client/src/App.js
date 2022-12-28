@@ -5,9 +5,9 @@ import {Route, Routes } from 'react-router-dom';
 import ProtectedRoutes from './routes/ProtectedRoutes.js';
 
 // Public
-import Error404 from './pages//Errors/Error404.js';
+import Error404 from './pages/Errors/Error404.js';
 import Home from './pages/Home';
-import Signup from './pages/Signup/Signup.js'
+import GetStarted from './pages/GetStarted/GetStarted.js'
 
 // Member
 import MemberPanel from './routes/Member.js';
@@ -40,7 +40,7 @@ function App() {
       {/* Public Routes */}
       <Route path="*" element={<Error404/>}/>
       <Route path="/" element={<Home/>}/>
-      <Route path="/signup" element={<Signup/>}/>
+      <Route path="/getstarted" element={<GetStarted/>}/>
 
       <Route path='/member' element={<MemberPanel/>}>
         <Route path="dashboard" element={<Dashboard/>}/>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
-import '../../../Assets/Styles/Page/style-EventCreate.scss'
+import './EventCreate.scss'
 
 // Stepper
 import Stepper from '@mui/material/Stepper';

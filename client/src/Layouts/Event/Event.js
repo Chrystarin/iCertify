@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import './../../routes/style-DashboardUser.scss';
-import './../../Assets/Styles/Page/style-Event.scss';
+import './Event.scss';
 
 
 import EventCard from './EventCard.js';
-
-import ImagePosterSample from './../../Assets/Images/placeholder/PosterSample.jpg'
+import ImagePosterSample from './../../images/placeholder/PosterSample.jpg'
 
 function Event() {
 
