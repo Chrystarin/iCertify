@@ -1,6 +1,6 @@
 import React from 'react'
-import './../../../Assets/Styles/Components/style-Analytics.scss';
-import PicNotification from './../../../Assets/Images/brand/icon.png';
+import './Analytics.scss';
+import PicNotification from './../../../images/iCertifyBranding/icon.png';
 
 function Analytics() {
   return (

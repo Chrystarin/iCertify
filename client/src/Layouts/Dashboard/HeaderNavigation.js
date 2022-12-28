@@ -1,6 +1,6 @@
 import React, {useEffect, useState,useRef}from 'react';
-import PicLogo from './../../Assets/Images/brand/icon.png';
-import './../../Assets/Styles/Components/style-HeaderNavigation.scss';
+import PicLogo from './../../images/iCertifyBranding/icon.png';
+import './HeaderNavigation.scss';
 
 import SearchInput from '../../Components/SearchInput';
 import LogoutIcon from '@mui/icons-material/Logout';

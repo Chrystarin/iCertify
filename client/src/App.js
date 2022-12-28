@@ -5,7 +5,7 @@ import {Route, Routes } from 'react-router-dom';
 // Public
 import Error404 from './Pages/Error404';
 import Home from './Pages/Home';
-import Signup from './Pages/Signup/Signup.js'
+import GetStarted from './Pages/GetStarted/GetStarted.js'
 
 // Member
 import MemberPanel from './Pages/Member';
@@ -38,7 +38,7 @@ function App() {
       {/* Public Routes */}
       <Route path="*" element={<Error404/>}/>
       <Route path="/" element={<Home/>}/>
-      <Route path="/signup" element={<Signup/>}/>
+      <Route path="/getstarted" element={<GetStarted/>}/>
 
       <Route path='/member' element={<MemberPanel/>}>
         <Route path="dashboard" element={<Dashboard/>}/>

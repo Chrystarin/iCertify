@@ -1,6 +1,5 @@
 import React from 'react'
-import '../Assets/Styles/Components/style-SearchInput.scss';
-import userImg from '../Assets/Images/Resources/Developers/Dianne.jpg'
+import './SearchInput.scss';
 
 function SearchInput() {
   return (

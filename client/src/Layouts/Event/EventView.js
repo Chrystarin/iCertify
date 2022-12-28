@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {ethers} from 'ethers';
 
-import '../../Assets/Styles/Page/style-EventView.scss'
+import './EventView.scss'
 
 
 

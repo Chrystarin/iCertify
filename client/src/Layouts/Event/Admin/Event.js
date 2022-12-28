@@ -1,11 +1,11 @@
 import React,{useState} from 'react';
 import './../../../Pages/style-DashboardUser.scss'
-import './../../../Assets/Styles/Page/style-EventAdmin.scss';
+import './EventAdmin.scss';
 
 import Analytics from './Analytics'
 import EventCard from '../EventCard.js';
 
-import Filter_Icon from './../../../Assets/Images/icons/filter.png';
+import Filter_Icon from './../../../images/icons/filter.png';
 
 function Dashboard() {
     const [isOpenPanel_Events , setIsOpenPanel_Events] = useState("All");

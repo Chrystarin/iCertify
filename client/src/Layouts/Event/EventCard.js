@@ -1,6 +1,6 @@
 import React from 'react';
-import ImagePlaceHolder from './../../Assets/Images/placeholder/image_placeholder.jpg';
-import './../../Assets/Styles/Components/style-EventCard.scss';
+import ImagePlaceHolder from './../../images/placeholder/image_placeholder.jpg';
+import './EventCard.scss';
 import {Link} from "react-router-dom";
 
 const EventCard = (props) => {

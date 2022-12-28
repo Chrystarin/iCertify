@@ -1,5 +1,5 @@
 import React from 'react';
-import './../Assets/Styles/Components/Small Components/SmallComponents.scss';
+import './Button.scss';
 
 function Button(props) {
   if(props.Action === "Link"){

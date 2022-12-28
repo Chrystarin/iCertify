@@ -1,5 +1,5 @@
 import React from 'react'
-import '../Assets/Styles/Components/stye-UserPanelInfo.scss'
+import './UserPanelInfo.scss'
 
 
 function UserPanelInfo(props) {
