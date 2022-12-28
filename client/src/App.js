@@ -18,6 +18,8 @@ import Credential_View from './Layouts/Credential/CredentialView.js';
 
 import Event from './Layouts/Event/Event';
 import Event_View from './Layouts/Event/EventView';
+import JoinEvent from './Layouts/Event/JoinEvent';
+
 
 import Profile from './Layouts/Profile/profile'
 // Admin
@@ -46,6 +48,7 @@ function App() {
 
       <Route path="event" element={<Event/>}/>
       <Route path="event/view/:id" element={<Event_View/>}/>
+      <Route path='event/view/join' element={<JoinEvent/>}/>
 
       <Route path=":id" element={<MemberView/>}/>
 

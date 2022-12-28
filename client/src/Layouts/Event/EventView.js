@@ -39,7 +39,7 @@ const EventView = (props) => {
                     </div>
                     <div id="Holder_Button_Event">
                         <div>
-                            <Button Action="Link" Link="" BtnType="Primary" Value="Content"/>
+                            <Button Action="Link" Link="Join" BtnType="Primary" Value="Join Event"/>
                         </div>
                     </div>
                 </div>
