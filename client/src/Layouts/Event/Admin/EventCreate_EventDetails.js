@@ -47,10 +47,10 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
   const startDateTimeValhandleChange = (newValue) => {
     setstartDateTimeVal(newValue);
   };
-  const [endDateTimeVal, setendDateTimeVal] = useState(null);
+  const [endDateTimeVal, setstartendDateTimeVal] = useState(null);
 
   const endDateTimeValhandleChange = (newValue) => {
-    setendDateTimeVal(newValue);
+    endDateTimeValhandleChange(newValue);
   };
   // +================================================================================
 
@@ -104,7 +104,7 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
               <p>Necessary Information for new event.</p>
           </div>
           <div className="holder_Questions">
-              <TextField id="outlined-search" label="Event Name" type="text" required />
+              <TextField id="outlined-search" label="Event Name" type="text" required oncha/>
               <TextField id="outlined-search" label="Event Description" type="text" required multiline/>
               <div className="Wrapper_2_Inputs">
                   <TextField id="outlined-search" label="Email" type="email" />
@@ -122,7 +122,7 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     label="End Date & Time"
-                    value={endDateTimeVal}
+                    value={startDateTimeVal}
                     onChange={endDateTimeValhandleChange}
                     renderInput={(params) => <TextField {...params} />}
                   />
