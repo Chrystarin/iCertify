@@ -57,8 +57,8 @@ function EventCreate_SetParticipants({StepValue,SetStepValue}) {
                                 <InputLabel id="demo-simple-select-label" required>Available only on</InputLabel>
                                 <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventMembersAccessibility} label="Available only on" onChange={EventMembersAccessibilityhandleChangeEvent}>
                                     <MenuItem value={"All"}>All</MenuItem>
-                                    <MenuItem value={"Accountants"}>Accountants</MenuItem>
-                                    <MenuItem value={"Membership"}>Members with premium membership</MenuItem>
+                                    <MenuItem value={"Premium Membership"}>Premium Membership</MenuItem>
+                                    <MenuItem value={"With out Premium Membership"}>With out Premium Membership</MenuItem>
                                 </Select>
                             </FormControl>
                         </div>
