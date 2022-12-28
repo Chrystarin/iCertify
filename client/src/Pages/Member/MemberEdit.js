@@ -28,6 +28,9 @@ const MemberEdit = (props) => {
 
             if(response.ok){
                 setMember(json);
+                console.log(json);
+                console.log(member);
+                console.log(json.name.firstName || '');
                 console.log("success");
             }
             else{
@@ -36,8 +39,8 @@ const MemberEdit = (props) => {
         }
 
         fetchMember()
-        console.log(JSON.stringify(member));
-        console.log(`${id}`);
+        
+        // console.log(`${id}`);
     }, [])
 
     
@@ -63,7 +66,7 @@ const MemberEdit = (props) => {
                 type="text" 
                 fullWidth
                 required 
-                value="test"
+                
                 onChange={(e)=>updateForm({ firstName: e.target.value })}
             />
             <TextField 
