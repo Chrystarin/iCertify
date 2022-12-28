@@ -1,18 +1,24 @@
-import {useEffect, useState} from 'react';
-import React, { Component } from 'react';
-import {Routes, Route, useNavigate} from 'react-router-dom';
-
+import React, { useEffect, useState, useRef } from 'react';
+import {Link, useNavigate, useLocation} from 'react-router-dom';
 import {ethers} from 'ethers';
+
+import useAuth from '../../Authentication/useAuth';
+
+import axios from '../../Config/axios';
 
 import './../../Assets/Styles/Components/style-Modal.scss';
 import './../../Assets/Styles/Components/style-login-signup.scss';
+
 import Pattern from './../../Assets/Images/Resources/Pattern1.png';
 import UserIcon from './../../Assets/Images/icons/user.png';
 import MetamaskIcon from './../../Assets/Images/icons/fox.png';
 import LockIcon from './../../Assets/Images/icons/lock.png';
 import CloseIcon from './../../Assets/Images/icons/close.png';
 
+const LOGIN_URL = '/auth';
+
 export default function ModalLogin({open, onClose}) {
+    const {setAuth} = useAuth();
     const navigate = useNavigate();
     const [walletAddress, setWalletAddress] = useState("");
 
@@ -37,10 +43,6 @@ export default function ModalLogin({open, onClose}) {
 
             // Check if address is already registered
             const { isExisting } = await fetch(`http://localhost:6787/members/${address}/exists`).then(res => res.json());
-            console.log(isExisting);
-            
-            console.log(isExisting);
-            
             if(!isExisting) {
                 // Register address
                 await fetch(`http://localhost:6787/members/register`, {
@@ -59,20 +61,26 @@ export default function ModalLogin({open, onClose}) {
             const signature = await signer.signMessage('Nonce: ' + nonce);
 
             // Login with the address and signature
-            fetch('http://localhost:6787/members/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    withCredentials: true
-                },
-                body: JSON.stringify({ type: 'metamask', credentials: [address, signature] })
+            const response = await axios.post('/members/login',
+                JSON.stringify({ type: 'metamask', credentials: [address, signature] }),
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        withCredentials: true
+                    }
             })
-            .then(res => res.json())
-            .then(data => {
-                // redirect
-                navigate(`/member/${data.walletAddress}`);
-                console.log(data.walletAddress);
+            .then(response => {
+                const accessToken = response.data.accessToken;
+                const user = response.data.walletAddress;
+                const roles = response.data.roles;
+                setAuth({user, roles, accessToken});
+                navigate(`/member/${response.data.walletAddress}`);
+                console.log(response.data.walletAddress);
+                console.log(JSON.stringify(response.data.accessToken));
+                // console.log(JSON.stringify(roles));
             });
+
         } catch (err) {
             console.error(err.message);
         }
@@ -106,13 +114,13 @@ export default function ModalLogin({open, onClose}) {
                         <img src={LockIcon} className="icon_img" alt=""/>
                         <input type="password" name="" id="" placeholder="Password"/><br/>
                         <button className="btn_login" type="submit">Login</button>
+                    </form>
                         <br/>or<br/>
                         <button className="btn_metamask" onClick={() => connectWallet()}><img src={MetamaskIcon} alt="" /><br/>Meta Mask</button>
                         <hr/>
                         <p>Have any trouble?</p>
                         <br/>
                         <button className="btn_learn_wallet">Learn about wallet</button>
-                    </form>
                 </div>
             </div>
                 

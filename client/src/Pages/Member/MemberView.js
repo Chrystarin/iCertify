@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import {ethers} from 'ethers';
 
 const MemberView = (props) => {
   const { id } = useParams()
@@ -20,6 +21,15 @@ const MemberView = (props) => {
   }, [])
 
   if(!member) return <div>loading...</div>
+
+  async function isConnected() {
+    const accounts = await window.ethereum.request({method: 'eth_accounts'});       
+    if (accounts.length) {
+       console.log(`You're connected to: ${accounts[0]}`);
+    } else {
+       console.log("Metamask is not connected");
+    }
+  }
 
   return (
     <div>

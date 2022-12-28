@@ -15,6 +15,8 @@ const memberAcceptedEntries = new Set([
     'location'
 ]);
 
+const roles = ['admin', 'member']
+
 const loginMember = async (req, res, next) => {
     const { type, credentials } = req.body;
 
@@ -60,7 +62,8 @@ const loginMember = async (req, res, next) => {
                 })
                 .json({
                     message: 'Successfully logged in',
-                    userType: req.user
+                    userType: req.user,
+                    accessToken: token
                 });
         }
         /**
@@ -98,7 +101,10 @@ const loginMember = async (req, res, next) => {
                 .json({
                     message: 'Successfully logged in',
                     userType: req.user,
-                    walletAddress: member.walletAddress
+                    walletAddress: member.walletAddress,
+                    accessToken: token,
+                    roles: roles
+                    // role: role
                 });
         }
     } catch (error) {

@@ -1,15 +1,43 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import {ethers} from 'ethers';
+
 import '../../Assets/Styles/Page/style-EventView.scss'
 
 
 
 import Button from '../../Components/Button.js';
 
-import { useParams } from "react-router-dom";
+import axios from '../../Config/axios';
 
 const EventView = (props) => {
     const { id } = useParams()
     const [event, setEvent] = useState(props)
+    const [participants, setParticipants] = useState(null)
+
+    const joinEvent = async () => {
+        try{
+            const accounts = await window.ethereum.request({method: 'eth_requestAccounts'}); 
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            const address = await signer.getAddress();
+
+            const response = await axios.post(`events/${id}/join`,
+            JSON.stringify({ eventId: id, walletAddress: address, role: 'Participant' }),
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => {
+                console.log("event joined!");
+            });
+        }
+        catch (err){
+            console.error(err.message);
+        }
+    };
 
     useEffect(() => {
         const fetchEvent = async () => {
@@ -22,10 +50,21 @@ const EventView = (props) => {
             }
         }
 
+        const fetchParticipants = async () =>{
+            const response = await fetch(`http://localhost:6787/events/${id}/participants`)
+
+            const json = await response.json()
+
+            if(response.ok){
+                setParticipants(json)
+            }
+        }
+        
+        fetchParticipants()
         fetchEvent()
     }, [])
 
-    if(!event) return <div>loading...</div>
+    if(!event || !participants) return <div>loading...</div>
 
     return (
         <div id="Event-View">
@@ -39,7 +78,7 @@ const EventView = (props) => {
                     </div>
                     <div id="Holder_Button_Event">
                         <div>
-                            <Button Action="Link" Link="Join" BtnType="Primary" Value="Join Event"/>
+                            <Button BtnType="Primary" Value="Join Event" onClick={() => joinEvent()}/>
                         </div>
                     </div>
                 </div>
@@ -105,8 +144,12 @@ const EventView = (props) => {
                             <p>{event.link}</p>
                         </div>
                     </div>
+                    
                 </div>
             </div>
+            {participants.length > 0 && participants.map((participant) => {
+                return(<h5>Participant: {participant.member.walletAddress}</h5>)
+            })}
         </div>
     )
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import RequireAuth from './Authentication/RequireAuth.js';
 import {Route, Routes } from 'react-router-dom';
 import ProtectedRoutes from './Routes/ProtectedRoutes';
 
@@ -23,8 +24,8 @@ import JoinEvent from './Layouts/Event/JoinEvent';
 
 
 import Profile from './Layouts/Profile/profile'
-// Admin
 
+// Admin
 import AdminPanel from './Pages/Admin';
 
 import A_Event from './Layouts/Event/Admin/Event';
@@ -32,38 +33,110 @@ import A_EventCreate from './Layouts/Event/Admin/EventCreate.js'
 
 import MemberView from './Pages/Member/MemberView.js';
 
+
+
+import MemberEdit from './Pages/Member/MemberEdit.js'
+
+// const ROLES = {
+//   member: '46936',
+//   admin: '28537',
+//   accountant: '04279'
+// }
+
 function App() {
-  return <Routes>  
+  return (
+    <Routes>  
 
-    <Route path="*" element={<Error404/>}/>
-    <Route path="/" element={<Home/>}/>
-    <Route path="/signup" element={<Signup/>}/>
-    <Route path="/certificate/generate" element={<CertificateGenerator/>}/>
+      {/* Public Routes */}
+      <Route path="*" element={<Error404/>}/>
+      <Route path="/" element={<Home/>}/>
+      <Route path="/signup" element={<Signup/>}/>
+
+      <Route path='/member' element={<MemberPanel/>}>
+        <Route path="dashboard" element={<Dashboard/>}/>
+        <Route path="credential" element={<Credential/>}/>
+        <Route path="credential/view" element={<Credential_View/>}/>
+        <Route path="event" element={<Event/>}/>
+        <Route path="event/view/:id" element={<Event_View/>}/>
+        <Route path='event/view/join' element={<JoinEvent/>}/>
+        <Route path=":id" element={<MemberView/>}/>
+        <Route path="profile" element={<Profile/>}/>
+        <Route path=":id/edit" element={<MemberEdit/>}/>
+      </Route>
+
+      <Route path='/admin' element={<AdminPanel/>}>
+        <Route path="event" element={<A_Event/>}/>
+        <Route path="event/create" element={<A_EventCreate/>}/>
+        <Route path="certificate/generate" element ={<CertificateGenerator/>}/>
+      </Route>
+
+     
+  </Routes>
+)}
+
+export default App;
 
 
+ {/* Routes for members */}
+      {/* <Route element={<RequireAuth allowedRoles={'members'}/>}>
+        <Route path='/member' element={<MemberPanel/>}>
+          <Route path="dashboard" element={<Dashboard/>}/>
 
-    <Route path='/member' element={<MemberPanel/>}>
-      <Route path="dashboard" element={<Dashboard/>}/>
+          <Route path="credential" element={<Credential/>}/>
+          <Route path="credential/view" element={<Credential_View/>}/>
 
-      <Route path="credential" element={<Credential/>}/>
-      <Route path="credential/view" element={<Credential_View/>}/>
+          <Route path="event" element={<Event/>}/>
+          <Route path="event/view/:id" element={<Event_View/>}/>
 
-      <Route path="event" element={<Event/>}/>
-      <Route path="event/view/:id" element={<Event_View/>}/>
-      <Route path='event/view/join' element={<JoinEvent/>}/>
+          <Route path=":id" element={<MemberView/>}/>
+        </Route>
+      </Route> */}
 
-      <Route path=":id" element={<MemberView/>}/>
+      {/* Routes for Admin */}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin]}/>}>
+        <Route path='/admin' element={<AdminPanel/>}>
+          <Route path="accountants" element={<Error404/>}/>
+          <Route path="analytics" element={<Error404/>}/>
+          <Route path="accountants" element={<Error404/>}/>
+        </Route>
 
-      <Route path="profile" element={<Profile/>}/>
+        <Route path='/event' element={<A_Event/>}>
+          <Route path=":id" element={<A_EventCreate/>}/>
+          <Route path=":id/edit" element={<A_EventCreate/>}/>
+          <Route path="create" element={<A_EventCreate/>}/>
+        </Route>
+
+      </Route> */}
+
+      {/* Routes for Accountant */}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.accountant]}/>}> */}
+        {/* Insert routes here */}
+      {/* </Route> */}
+
+      {/* Routes for Organizer  */}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.organizer]}/>}> */}
+        {/* Insert routes here */}
+      {/* </Route> */}
 
 
+      {/* Routes for Admin & Member*/}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.member]}/>}> */}
+        {/* Insert routes here */}
+      {/* </Route> */}
 
-    </Route>
+      {/* Routes for Admin & Accountant*/}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.accountant]}/>}> */}
+        {/* Insert routes here */}
+      {/* </Route> */}
 
-    <Route path='/admin' element={<AdminPanel/>}>
-      <Route path="event" element={<A_Event/>}/>
-      <Route path="event/create" element={<A_EventCreate/>}/>
-    </Route>
+      {/* Routes for Admin & Organizer*/}
+      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.organizer]}/>}> */}
+        {/* Insert routes here */}
+      {/* </Route> */}
+
+      
+
+    
 
     {/* --------------------TEST---------------------- */}
 
@@ -78,35 +151,7 @@ function App() {
     {/* <Route element={<ProtectedRoutes/>}>
       <Route path="/dashboard" element={<Dashboard/>}/>
     </Route> */}
-  </Routes>
 
-
-{/* <Routes>
-
-    // Public Routes
-    <Route path="/" element={<Home/>}/>
-    <Route path="/about" element={<Home/>}/>
-    <Route path="/about/icertify" element={<Home/>}/>
-    <Route path="/about/" element={<Home/>}/>
-
-    // Protected Routes User
-    <Route path="/dashboard" element={<Dashboard/>}/>
-    <Route path="/events" element={<EventList/>}/>
-    <Route path="/events/:id" element={<Event/>}/>
-
-    // Protected Routes Admin
-    <Route path="/dashboard" element={<Dashboard/>}/>
-    <Route path="/events/create" element={<EventList/>}/>
-    <Route path="/events/edit" element={<EventList/>}/>
-    <Route path="/accountants" element={<EventList/>}/>
-    <Route path="/accountants/create" element={<EventList/>}/>
-
-    // Catch All
-    <Route path="*" element={<Error404/>}/>
-  </Routes> */}
-}
-
-export default App;
 
 // Public Routes
 // /
