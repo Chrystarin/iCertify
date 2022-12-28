@@ -1,29 +1,31 @@
 import React from 'react';
-import RequireAuth from './authentication/RequireAuth.js';
+
 import {Route, Routes } from 'react-router-dom';
 
+import ProtectedRoutes from './routes/ProtectedRoutes.js';
+
 // Public
-import Error404 from './Pages/Error404';
-import Home from './Pages/Home';
-import GetStarted from './Pages/GetStarted/GetStarted.js'
+import Error404 from './pages//Errors/Error404.js';
+import Home from './pages/Home';
+import Signup from './pages/Signup/Signup.js'
 
 // Member
-import MemberPanel from './Pages/Member';
-import MemberView from './Pages/Member/MemberView.js';
-import MemberEdit from './Pages/Member/MemberEdit.js'
-import Dashboard from './Layouts/Dashboard/Dashboard';
-import Credential from './Layouts/Credential/Credential';
-import Credential_View from './Layouts/Credential/CredentialView.js';
-import Event from './Layouts/Event/Event';
-import Event_View from './Layouts/Event/EventView';
-import JoinEvent from './Layouts/Event/JoinEvent';
-import Profile from './Layouts/Profile/profile'
+import MemberPanel from './routes/Member.js';
+import MemberView from './pages/Member/MemberView.js';
+import MemberEdit from './pages/Member/MemberEdit.js'
+import Dashboard from './layouts/Dashboard/Dashboard';
+import Credential from './layouts/Credential/Credential';
+import Credential_View from './layouts/Credential/CredentialView.js';
+import Event from './layouts/Event/Event';
+import Event_View from './layouts/Event/EventView';
+import JoinEvent from './layouts/Event/JoinEvent';
+import Profile from './layouts/Profile/profile'
 
 // Admin
-import AdminPanel from './Pages/Admin';
-import A_Event from './Layouts/Event/Admin/Event';
-import A_EventCreate from './Layouts/Event/Admin/EventCreate.js'
-import CertificateGenerator from './Pages/CertificateGenerator/CertificateGenerator.js'
+import AdminPanel from './routes/Admin.js';
+import A_Event from './layouts/Event/Admin/Event';
+import A_EventCreate from './layouts/Event/Admin/EventCreate.js'
+import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js'
 
 // const ROLES = {
 //   member: '46936',
@@ -38,7 +40,7 @@ function App() {
       {/* Public Routes */}
       <Route path="*" element={<Error404/>}/>
       <Route path="/" element={<Home/>}/>
-      <Route path="/getstarted" element={<GetStarted/>}/>
+      <Route path="/signup" element={<Signup/>}/>
 
       <Route path='/member' element={<MemberPanel/>}>
         <Route path="dashboard" element={<Dashboard/>}/>
@@ -66,7 +68,7 @@ export default App;
 
 
  {/* Routes for members */}
-      {/* <Route element={<RequireAuth allowedRoles={'members'}/>}>
+      {/* <Route element={<ProtectedRoutes allowedRoles={'members'}/>}>
         <Route path='/member' element={<MemberPanel/>}>
           <Route path="dashboard" element={<Dashboard/>}/>
 
@@ -81,7 +83,7 @@ export default App;
       </Route> */}
 
       {/* Routes for Admin */}
-      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin]}/>}>
+      {/* <Route element={<ProtectedRoutes allowedRoles={[ROLES.admin]}/>}>
         <Route path='/admin' element={<AdminPanel/>}>
           <Route path="accountants" element={<Error404/>}/>
           <Route path="analytics" element={<Error404/>}/>
@@ -97,28 +99,28 @@ export default App;
       </Route> */}
 
       {/* Routes for Accountant */}
-      {/* <Route element={<RequireAuth allowedRoles={[ROLES.accountant]}/>}> */}
+      {/* <Route element={<ProtectedRoutes allowedRoles={[ROLES.accountant]}/>}> */}
         {/* Insert routes here */}
       {/* </Route> */}
 
       {/* Routes for Organizer  */}
-      {/* <Route element={<RequireAuth allowedRoles={[ROLES.organizer]}/>}> */}
+      {/* <Route element={<ProtectedRoutes allowedRoles={[ROLES.organizer]}/>}> */}
         {/* Insert routes here */}
       {/* </Route> */}
 
 
       {/* Routes for Admin & Member*/}
-      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.member]}/>}> */}
+      {/* <Route element={<ProtectedRoutes allowedRoles={[ROLES.admin, ROLES.member]}/>}> */}
         {/* Insert routes here */}
       {/* </Route> */}
 
       {/* Routes for Admin & Accountant*/}
-      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.accountant]}/>}> */}
+      {/* <Route element={<ProtectedRoutes allowedRoles={[ROLES.admin, ROLES.accountant]}/>}> */}
         {/* Insert routes here */}
       {/* </Route> */}
 
       {/* Routes for Admin & Organizer*/}
-      {/* <Route element={<RequireAuth allowedRoles={[ROLES.admin, ROLES.organizer]}/>}> */}
+      {/* <Route element={<ProtectedRoutes allowedRoles={[ROLES.admin, ROLES.organizer]}/>}> */}
         {/* Insert routes here */}
       {/* </Route> */}
 

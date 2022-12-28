@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import {Route, Routes, BrowserRouter} from 'react-router-dom';
-import './styles/Main.scss';
-import { AuthProvider } from './authentication/AuthProvider';
+import './Assets/Styles/Main.scss';
+import { AuthProvider } from './context/AuthProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

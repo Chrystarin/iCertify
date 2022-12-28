@@ -1,9 +1,11 @@
 
 import React,{useState} from 'react';
 import './style-CredentialView.scss'
-import Button from '../../Components/Button';
-import UserImg from './../../images/Resources/Developers/Dianne.jpg';
 
+import Button from '../../components/Button';
+
+
+import UserImg from './../../Assets/Images/Resources/Developers/Dianne.jpg';
 function Credential() {
   const [openDetails, setopenDetails] = useState(false);
   const [openFullView, setopenFullView] = useState(false);

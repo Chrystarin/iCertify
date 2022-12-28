@@ -1,5 +1,5 @@
 import React from 'react';
-import './../../Pages/style-DashboardUser.scss';
+import './../../routes/style-DashboardUser.scss';
 
 
 import CredentialTab from '../Credential/CredentialTab.js';

@@ -10,9 +10,9 @@ import StepLabel from '@mui/material/StepLabel';
 
 
 // Forms
-import EventDetailsForm from '../../../Layouts/Event/Admin/EventCreate_EventDetails';
-import EventSetParticipantsForm from '../../../Layouts/Event/Admin/EventCreate_SetParticipants';
-import EventPaymentForm from '../../../Layouts/Event/Admin/EventCreate_Payement';
+import EventDetailsForm from '../../../layouts/Event/Admin/EventCreate_EventDetails';
+import EventSetParticipantsForm from '../../../layouts/Event/Admin/EventCreate_SetParticipants';
+import EventPaymentForm from '../../../layouts/Event/Admin/EventCreate_Payement';
 
 
 export default function EventCreate() {

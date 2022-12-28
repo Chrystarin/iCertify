@@ -1,8 +1,8 @@
 import React from 'react'
 
-import './ParticipantsList.scss'
-import UserPanelInfo from "../../../Components/UserPanelInfo";
-import UserPicture from '../../../images/Resources/Developers/Dianne.jpg';
+import './../../../Assets/Styles/Components/ParticipantsList.scss'
+import UserPanelInfo from "../../../components/UserPanelInfo";
+import UserPicture from '../../../Assets/Images/Resources/Developers/Dianne.jpg';
 
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';

@@ -2,8 +2,8 @@ import React from 'react';
 import './style-DashboardUser.scss';
 import { Outlet } from 'react-router-dom';
 
-import Navigation from '../Layouts/DashboardAdminNavigation/DashboardNavigationAdmin';
-import HeaderNavigation from '../Layouts/Dashboard/HeaderNavigation';
+import Navigation from '../layouts/DashboardAdminNavigation/DashboardNavigationAdmin';
+import HeaderNavigation from '../layouts/Dashboard/HeaderNavigation';
 
 
 function Dashboard(props) {

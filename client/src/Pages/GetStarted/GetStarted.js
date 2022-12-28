@@ -2,14 +2,14 @@ import React,{useEffect, useState} from 'react';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import {ethers} from 'ethers';
 
-import useAuth from '../../authentication/useAuth';
+import useAuth from '../../hooks/useAuth';
 
-import axios from '../../Config/axios';
-import './GetStarted.scss'
+import axios from '../../config/axios';
 
-import logo from '../../images/iCertifyBranding/icertify_footer.png';
-import CertifiicatImg from '../../images/Resources/Certificate.jpg';
-import MetamaskImg from '../../images/Resources/Metamask.png';
+import './../../Assets/Styles/Page/style-Signup.scss';
+import logo from '../../Assets/Images/brand/icertify_footer.png';
+import CertifiicatImg from '../../Assets/Images/Resources/Certificate.jpg';
+import MetamaskImg from '../../Assets/Images/Resources/Metamask.png';
 
 import TextField from '@mui/material/TextField';
 
@@ -194,7 +194,7 @@ function Signup() {
 
 
               <div id='Form1' className={isNext?"Inactive":"Active"}>
-                <h1>Get Started</h1>
+                <h1>SIGN UP</h1>
                 <h4><span>Create</span> or <span>Connect</span> your Metamask Wallet</h4>
                 <img src={MetamaskImg} alt="" />
                 <h5>You will recieve certificates to your own </h5>
@@ -204,7 +204,7 @@ function Signup() {
               
 
               <div id='Form2' className={isNext?"Active":"Inactive"}>
-                <h1>Get Started</h1>
+                <h1>SIGN UP</h1>
                 <h4><span>Setup</span> your profile Details </h4>
                 <form action="/Dashboard">
                   <div id='Wrapper_Name'>

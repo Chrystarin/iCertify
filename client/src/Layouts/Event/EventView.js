@@ -6,9 +6,9 @@ import './EventView.scss'
 
 
 
-import Button from '../../Components/Button.js';
+import Button from '../../components/Button.js';
 
-import axios from '../../Config/axios';
+import axios from '../../config/axios';
 
 const EventView = (props) => {
     const { id } = useParams()
