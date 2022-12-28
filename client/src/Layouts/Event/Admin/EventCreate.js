@@ -31,78 +31,7 @@ export default function EventCreate() {
     }
    
 
-    const url = "http://localhost:6787/events/create"
-    const navigate = useNavigate();
     
-    const [form, setForm] = useState({
-        eventId: '',
-        type: '',
-        title: '',
-        description: '',
-        link: '',
-        location: '',
-        date:{
-            start: '',
-            end: ''
-        },
-        canClaimDocument: '',
-        status: '',
-        isAcceptingVolunteer: '',
-        tags: ''
-    });
-
-    // These methods wileeel update the state properties.
-    function updateForm(e) {
-        return setForm((prev) => {
-            const [key, value] = Object.entries(e)[0];
-
-            // Identify if toChange is date
-            if(key == 'date') {
-                const [dateType, date] = Object.entries(value)[0];
-
-                prev[key][dateType] = date;
-            } else {
-                prev[key] = value;
-            }
-
-            console.log(prev);
-            console.log(form);
-            return prev;
-            
-    });}
-
-     // This function will handle the submission.
-    async function onSubmit(e) {
-        e.preventDefault();
-    
-        form.date.start = Number(form.date.start);
-        form.date.end = Number(form.date.end);
-        form.canClaimDocument = form.canClaimDocument == 'true' ? true : false;
-        form.isAcceptingVolunteer = form.isAcceptingVolunteer == 'true' ? true : false;
-        form.tags = form.tags ? [] : [form.tags];
-
-        // When a post request is sent to the create url, we'll add a new record to the database.
-        const newEvent = { ...form };
-    
-        await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newEvent),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            navigate(`/events/${data.eventId}`);
-            console.log("Submitted")
-        })
-        .catch(error => {
-            
-            console.log("Error:" + error);
-            return;
-        });
-    }
     
     
 

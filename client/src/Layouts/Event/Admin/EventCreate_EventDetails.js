@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { useNavigate } from "react-router";
 
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
@@ -14,7 +15,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 
 import Button from '@mui/material/Button'
-
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 
 
 
@@ -25,7 +26,9 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
 
 
  // Tags Predifined for help searching
- const PredefinedTags = [ "Computer","Technology", "Blockchain", "Entertainment","UserInterface","UserExperience"]; 
+  const PredefinedTags = [ "Computer","Technology", "Blockchain", "Entertainment","UserInterface","UserExperience"]; 
+  const url = "http://localhost:6787/events/create"
+  const navigate = useNavigate();
 
   // +================================================================================
   //                      GET VALUES FROM SET Event Details INPUT FORM
@@ -50,7 +53,8 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
   const [endDateTimeVal, setstartendDateTimeVal] = useState(null);
 
   const endDateTimeValhandleChange = (newValue) => {
-    endDateTimeValhandleChange(newValue);
+    setstartendDateTimeVal(newValue);
+
   };
   // +================================================================================
 
@@ -64,7 +68,6 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
 
   
   // Event Type Setter
-
   function EventTypeChecker(props){
     switch(props.EventType) {
         case 'Online':
@@ -76,6 +79,77 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
             return 
     }
   }
+
+  // +================================================================================
+
+    const [form, setForm] = useState({
+        eventId: '',
+        type: '',
+        title: '',
+        description: '',
+        link: '',
+        location: '',
+        date:{
+            start: '',
+            end: ''
+        },
+        canClaimDocument: '',
+        status: '',
+        tags: ''
+    });
+
+    // These methods wileeel update the state properties.
+    function updateForm(e) {
+        return setForm((prev) => {
+            const [key, value] = Object.entries(e)[0];
+
+            // Identify if toChange is date
+            if(key == 'date') {
+                const [dateType, date] = Object.entries(value)[0];
+
+                prev[key][dateType] = date;
+            } else {
+                prev[key] = value;
+            }
+
+            console.log(prev);
+            console.log(form);
+            return prev;
+            
+    });}
+
+     // This function will handle the submission.
+    async function onSubmit(e) {
+        e.preventDefault();
+    
+        form.date.start = Number(form.date.start);
+        form.date.end = Number(form.date.end);
+        form.canClaimDocument = form.canClaimDocument == 'true' ? true : false;
+        form.isAcceptingVolunteer = form.isAcceptingVolunteer == 'true' ? true : false;
+        form.tags = form.tags ? [] : [form.tags];
+
+        // When a post request is sent to the create url, we'll add a new record to the database.
+        const newEvent = { ...form };
+    
+        await fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newEvent),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            navigate(`/events/${data.eventId}`);
+            console.log("Submitted")
+        })
+        .catch(error => {
+            
+            console.log("Error:" + error);
+            return;
+        });
+    }
 
   return (
     <form action="#">
@@ -104,25 +178,48 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
               <p>Necessary Information for new event.</p>
           </div>
           <div className="holder_Questions">
-              <TextField id="outlined-search" label="Event Name" type="text" required oncha/>
-              <TextField id="outlined-search" label="Event Description" type="text" required multiline/>
-              <div className="Wrapper_2_Inputs">
-                  <TextField id="outlined-search" label="Email" type="email" />
-                  <TextField id="outlined-search" label="Contact Number" type="tel"/>
-              </div>
+              <TextField 
+                id="outlined-search" 
+                label="Event Name" 
+                type="text" 
+                required
+                onChange={(e) => updateForm({title: e.target.value})}
+              />
+              <TextField 
+                id="outlined-search" 
+                label="Event Description" 
+                type="text" 
+                required 
+                multiline
+                onChange={(e) => updateForm({description: e.target.value})}
+              />
+              {/* <div className="Wrapper_2_Inputs">
+                  <TextField 
+                    id="outlined-search" 
+                    label="Email" 
+                    type="email" 
+                  />
+                  <TextField 
+                    id="outlined-search" 
+                    label="Contact Number" 
+                    type="tel"
+                  />
+              </div> */}
               <div className='Wrapper_2_1_Inputs'>   
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     label="Start Date & Time"
                     value={startDateTimeVal}
                     onChange={startDateTimeValhandleChange}
+                    // value={form.date.start || ''}
+                    // onChange={(e) => updateForm({date : {start : e.target.value}})}
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     label="End Date & Time"
-                    value={startDateTimeVal}
+                    value={endDateTimeVal}
                     onChange={endDateTimeValhandleChange}
                     renderInput={(params) => <TextField {...params} />}
                   />
@@ -137,7 +234,7 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
       <div id="Holder_Button">
           {/* <Button variant="outlined">Back</Button>
           <Button variant="text">Save as draft</Button> */}
-          <Button variant="contained" onClick={nextStep}>Next</Button>
+          <Button variant="contained" onClick={nextStep} endIcon={<NavigateNextIcon/>}>Next</Button>
       </div>
     </form>
   )
