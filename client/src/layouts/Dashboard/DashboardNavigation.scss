@@ -1,49 +1,65 @@
-$Width : 100vw;
-$Maxwidth1 : 1920px;
-
-header{
-    background-color: var(--dark1);
-    position: sticky;
-    top: 0;
-    z-index: 99;
-    #Wrapper_Header{
-        max-width: $Maxwidth1;
-        padding: 1em 2em;
-        margin: auto;
-        height: 80px;
-        #Home_nav{
+#Navigation{
+    background-color: white;
+    padding-top: 1em;
+    min-width: 50px;
+    z-index: 3;
+    #Navigation__Sticky{
+        position: sticky;
+        top: 25px;
+        #Logo{
+            width: 100%;
+            
             img{
-                height: 100%;
+                width: 55%;
+                margin: 0 22.5% 0 22.5%;
             }
         }
-        nav{
-            float: right;
-            height: 100%;
+        #Button_Holder{
+            margin-top: 40px;
+            width: 100%;
             ul{
-                list-style-type: none;
-                margin: 0;
-                height: 100%;
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-            li{
-                display: inline;
-                margin-left: 50px;
-                font-style: none;
-                font-size: 21px;
-                a{
-
-                    text-decoration: none;
-                    color: white;
-                    font-weight: 500;
+                width: 55%;
+                margin: 0 22.5% 0 22.5%;
+    
+                li{
+                    list-style:  none;
+                    margin-bottom: 20%;
+                    border-radius: 5px;
+                    position: relative;
+                    .Svg{
+                        width: 60%;
+                        margin: 20% 20% 10%;
+                        fill: rgba($color: #000000, $alpha: .4);
+                    }
+                    span{
+                        visibility: hidden;
+                        position: absolute;
+                        top:50%;
+                        transform: translate(0,-50%);
+                        background-color: #000000;
+                        border-radius: 20px;
+                        padding: .2em 1em;
+                        color: white;
+                        font-size: 16px;
+                    }
                 }
-                #GetStarted{
+                li:hover{
+                    background-color: gray;
+                }
+                li:hover .Svg{
+                    fill: white;
+                }
+                li:hover span{
+                    visibility: visible;
+                }
+    
+                .active{
                     background-color: var(--accent);
-                    padding: .4em .7em;
-                    border-radius: 8px;
+                    svg{
+                        fill: white;
+                    }
                 }
+                
             }
         }
     }

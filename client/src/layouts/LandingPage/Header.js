@@ -1,9 +1,8 @@
 import React,{useState} from 'react';
 
-
 import ModalLogin from '../../components/Login.js';
 import WordMark from './../../images/iCertifyBranding//Whitehorizontal.png'
-
+import './Header.scss'
 
 export default function Header() {
     const [isOpen , setIsOpen] = useState(false); 
