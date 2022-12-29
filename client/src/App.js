@@ -20,7 +20,7 @@ import Event from './layouts/Event/Event';
 import Event_View from './layouts/Event/EventView';
 import JoinEvent from './layouts/Event/JoinEvent';
 import Profile from './layouts/Profile/profile'
-import MintTransfer from './Pages/MintTransfer/mintTransfer.js';
+import MintTransfer from './pages/MintTransfer/mintTransfer.js';
 
 // Admin
 import AdminPanel from './routes/Admin.js';
