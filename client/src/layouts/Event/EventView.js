@@ -100,10 +100,12 @@ const EventView = (props) => {
                     </div>
                     <div id="Holder_Button_Event">
                         { eventJoined(participants, memberAddress) ? (
+                            // If member has already joined
                             <div>
                                 <Button BtnType="Primary" Value="Joined"/>
                             </div>
                         ) : (
+                            // If member has not yet joined
                             <div>
                                 <Button BtnType="Primary" Value="Join Event" onClick={() => joinEvent()}/>
                             </div>
