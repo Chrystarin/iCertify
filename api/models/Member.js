@@ -6,7 +6,6 @@ const memberSchema = new Schema({
     walletAddress: {
         type: String,
         unique: true,
-        index: true,
         required: true
     },
     isStillAccountCreation: {

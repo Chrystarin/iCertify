@@ -20,9 +20,6 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
-// app.use(cors({
-//     origin: 'http://localhost:3125'
-// }));
 app.use(cookieParser());
 app.use(cors());
 app.use(helmet());
@@ -37,6 +34,8 @@ app.use('/transactions', transactionRoute);
 
 app.use((req, res, next) => next(new NotFound('Route')));
 app.use((err, req, res, next) => {
+    console.log(err);
+
     if(err.name === 'ValidationError') {
         err.status = 409;
         err.message = {
@@ -56,14 +55,12 @@ app.use((err, req, res, next) => {
         err.status = 409;
     }
 
-    console.log(err);
-
-    res.status(err.status || 500).json({ error: err.message });
+    res.status(err.status || 500).json({ name: err.name, message: err.message });
 });
 
 // Connect to database
 mongoose
-    .connect(process.env.TEST_MONGO)
+    .connect(process.env.MONGO_URI)
     .then(() => {
         // Run server
         app.listen(process.env.PORT, err => {

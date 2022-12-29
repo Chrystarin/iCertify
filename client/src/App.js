@@ -20,6 +20,7 @@ import Event from './layouts/Event/Event';
 import Event_View from './layouts/Event/EventView';
 import JoinEvent from './layouts/Event/JoinEvent';
 import Profile from './layouts/Profile/profile'
+import MintTransfer from './Pages/MintTransfer/mintTransfer.js';
 
 // Admin
 import AdminPanel from './routes/Admin.js';
@@ -37,10 +38,11 @@ function App() {
   return (
     <Routes>  
 
-      {/* Public Routes */}
-      <Route path="*" element={<Error404/>}/>
-      <Route path="/" element={<Home/>}/>
-      <Route path="/getstarted" element={<GetStarted/>}/>
+    {/* Public Routes */}
+    <Route path="*" element={<Error404/>}/>
+    <Route path="/" element={<Home/>}/>
+    <Route path="/getstarted" element={<GetStarted/>}/>
+    <Route path="/certificate/generate" element={<CertificateGenerator/>}/>
 
       <Route path='/member' element={<MemberPanel/>}>
         <Route path="dashboard" element={<Dashboard/>}/>
@@ -129,8 +131,6 @@ export default App;
     
 
     {/* --------------------TEST---------------------- */}
-
-
     {/* <Route path='/Credential/' element={<Credential/>}/>
     <Route path='/Credential/View' element={<CredentialView/>}/> */}
 
