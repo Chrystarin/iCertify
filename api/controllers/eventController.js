@@ -10,7 +10,7 @@ const filterRequestBody = ({
     link,
     location,
     date: {start, end},
-    canClaimDocument,
+    canClaimCertificate,
     status,
     isAcceptingVolunteer,
     tags
@@ -19,7 +19,6 @@ const filterRequestBody = ({
     if(!(  type         && typeof type === 'string'         && new Set(['online', 'onsite']).has(type)
         && title        && typeof title === 'string'
         && description  && typeof description === 'string'
-        && link         && typeof link === 'string'
         && start        && typeof start === 'number'
         && end          && typeof end === 'number'
     )) throw new UnprocessableRequest();
@@ -28,21 +27,26 @@ const filterRequestBody = ({
         type,
         title,
         description,
-        link,
         date: {start, end}
     }
 
     // Validate optional fields
+    if(link !== undefined) {
+        if(!(link && typeof link === 'string'))
+            throw new UnprocessableRequest();
+        Object.assign(obj, { link });
+    }
+
     if(location !== undefined) {
         if(!(location && typeof location === 'string'))
             throw new UnprocessableRequest();
         Object.assign(obj, { location });
     }
 
-    if(canClaimDocument !== undefined) {
-        if(!(typeof canClaimDocument === 'boolean'))
+    if(canClaimCertificate !== undefined) {
+        if(!(typeof canClaimCertificate === 'boolean'))
             throw new UnprocessableRequest();
-        Object.assign(obj, { canClaimDocument });
+        Object.assign(obj, { canClaimCertificate });
     }
 
     if(status !== undefined) {

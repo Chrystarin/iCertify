@@ -47,8 +47,8 @@ function App() {
         <Route path="credential" element={<Credential/>}/>
         <Route path="credential/view" element={<Credential_View/>}/>
         <Route path="event" element={<Event/>}/>
-        <Route path="event/view/:id" element={<Event_View/>}/>
-        <Route path='event/view/join' element={<JoinEvent/>}/>
+        <Route path="event/:id" element={<Event_View/>}/>
+        <Route path='event/join' element={<JoinEvent/>}/>
         <Route path=":id" element={<MemberView/>}/>
         <Route path="profile" element={<Profile/>}/>
         <Route path=":id/edit" element={<MemberEdit/>}/>

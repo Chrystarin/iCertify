@@ -13,7 +13,7 @@ const EventCard = (props) => {
 
     return (
         <div className='EventCardContainer'>
-            <Link to={`view/${eventId}`}>
+            <Link to={`${eventId}`}>
                 <img className='EventName' src={ImagePlaceHolder} alt=""/>
                 <div>
                     <h6 className="EventTitle">{title}</h6>

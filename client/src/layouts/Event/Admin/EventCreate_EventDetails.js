@@ -38,13 +38,13 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
       type: '',
       title: '',
       description: '',
-      link: '',
-      location: 'location',
+      link: ' ',
+      location: ' ',
       date:{
           start: '',
           end: ''
       },
-      canClaimDocument: '',
+      canClaimCertificate: '',
       status: '',
       tags: ['']
   });
@@ -111,7 +111,7 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
     form.type = form.type.toLowerCase();
     form.date.start = Number(form.date.start);
     form.date.end = Number(form.date.end);
-    form.canClaimDocument = form.canClaimDocument == 'on' ? true : false;
+    form.canClaimCertificate = form.canClaimCertificate == 'on' ? true : false;
     form.tags = form.tags ? [] : [form.tags];
     console.log("data validated");
   }
@@ -136,7 +136,7 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
     .then(response => response.json())
     .then(data => {
         console.log(data);
-        // navigate(`/events/${data.eventId}`);
+        navigate(`/member/event/${data.eventId}`);
         console.log("Submitted")
     })
     .catch(error => {
@@ -144,7 +144,7 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
         return;
     });
 
-    nextStep();
+    // nextStep();
   }
 
   // +================================================================================

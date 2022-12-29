@@ -21,10 +21,7 @@ const eventSchema = new Schema({
         type: String,
         required: true
     },
-    link: {
-        type: String,
-        required: true
-    },
+    link: String,
     location: String,
     date: {
         start: {
