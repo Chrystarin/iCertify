@@ -60,6 +60,7 @@ const saveCertificate = async (req, res, next) => {
 
         const certificate = await Certificate.create({
             certificateId: nanoid(8),
+            ipfsCID,
             title,
             hash,
             dateReceived: Date.now(),
@@ -72,7 +73,8 @@ const saveCertificate = async (req, res, next) => {
 
         res.status(201).json({
             message: 'Certificate recorded',
-            certificateId: certificate.certificateId
+            certificateId: certificate.certificateId,
+            uri: 'https://icertify.infura-ipfs.io/ipfs/' + ipfsCID
         })
     } catch (error) {
         next(error);
@@ -86,8 +88,10 @@ const certificateIPFS = async (req, res, next) => {
         // Check file type
         if(mimetype !== 'image/png') throw new UnprocessableRequest();
 
+        const imageHash = await Hash.of(data);
+
         // Check if certificate is already saved
-        const certificate = await Certificate.findOne({ ipfsCID: await Hash.of(data) })
+        const certificate = await Certificate.findOne({ ipfsCID: imageHash })
         if(certificate) throw new Forbidden('Certificate already saved');
 
         // Create ipfs instance
@@ -95,9 +99,7 @@ const certificateIPFS = async (req, res, next) => {
             host: 'ipfs.infura.io',
             port: 5001,
             protocol: 'https',
-            headers: {
-                authorization: 'Basic ' + Buffer.from(process.env.IPFS_ID + ':' + process.env.IPFS_SECRET).toString('base64')
-            }
+            headers: { authorization: 'Basic ' + Buffer.from(process.env.IPFS_ID + ':' + process.env.IPFS_SECRET).toString('base64') }
         });
 
         res.json(await ipfsClient.add({ content: data }));
