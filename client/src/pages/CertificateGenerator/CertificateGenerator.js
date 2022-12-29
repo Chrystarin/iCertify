@@ -6,8 +6,8 @@ import { ethers } from 'ethers'
 import './certificateStyle.css'
 
 import contractBuild from '../../CertificateNFT.json'
-import certificateBodyTemplate from './../../Assets/Images/certificate_template_default.png'
-import certificateFooterTemplate from './../../Assets/Images/Certificatefooter.png'
+import certificateBodyTemplate from './../../images/certificate_template_default.png'
+import certificateFooterTemplate from './../../images/Certificatefooter.png'
 
 // import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from 'react-component-export-image';
 // import downloadjs from 'downloadjs';
