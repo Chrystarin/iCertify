@@ -10,7 +10,7 @@ const filterRequestBody = ({
     link,
     location,
     date: {start, end},
-    canClaimCertificate,
+    canClaimDocument,
     status,
     isAcceptingVolunteer,
     tags
@@ -39,10 +39,10 @@ const filterRequestBody = ({
         Object.assign(obj, { location });
     }
 
-    if(canClaimCertificate !== undefined) {
-        if(!(typeof canClaimCertificate === 'boolean'))
+    if(canClaimDocument !== undefined) {
+        if(!(typeof canClaimDocument === 'boolean'))
             throw new UnprocessableRequest();
-        Object.assign(obj, { canClaimCertificate });
+        Object.assign(obj, { canClaimDocument });
     }
 
     if(status !== undefined) {

@@ -13,17 +13,12 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
-
 import Button from '@mui/material/Button'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-
-
-
 import FormHelperText from '@mui/material/FormHelperText';
 import Tags from '../../../components/Tags.js';
 
 function EventCreate_EventDetails({StepValue,SetStepValue}) {
-
 
  // Tags Predifined for help searching
   const PredefinedTags = [ "Computer","Technology", "Blockchain", "Entertainment","UserInterface","UserExperience"]; 
@@ -32,127 +27,130 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
 
   // +================================================================================
   //                      GET VALUES FROM SET Event Details INPUT FORM
-  //  EVENT TYPE
+  
+  let TagsVal = [];
 
   const [EventTypeVal, setEventTypeVal] = useState('');
+  const [startDateTimeVal, setstartDateTimeVal] = useState(null);
+  const [endDateTimeVal, setendDateTimeVal] = useState(null);
+  const [form, setForm] = useState({
+      eventId: '',
+      type: '',
+      title: '',
+      description: '',
+      link: '',
+      location: 'location',
+      date:{
+          start: '',
+          end: ''
+      },
+      canClaimDocument: '',
+      status: '',
+      tags: ['']
+  });
+
+  // Event Type
   const EventTypehandleChangeEvent = (event) => {
     setEventTypeVal(event.target.value);
+    setForm({
+      ...form,
+      type:event.target.value
+    });
   };
 
-  // TAGS 
-  let TagsVal = [];
+  // Tags 
   function TagsValHandleChange(option, index){
     TagsVal = index;
+    setForm({
+      ...form,
+      tags: TagsVal
+    });
   }
-  // START DATE & TIME
-  const [startDateTimeVal, setstartDateTimeVal] = useState(null);
 
+  // Start Date and Time
   const startDateTimeValhandleChange = (newValue) => {
     setstartDateTimeVal(newValue);
+    setForm(prevState => ({
+      ...form,
+      date:{
+        ...prevState.date,
+        start: Date.parse(newValue)
+      }
+    }));
   };
-  const [endDateTimeVal, setstartendDateTimeVal] = useState(null);
 
+  // End Date and Time
   const endDateTimeValhandleChange = (newValue) => {
-    setstartendDateTimeVal(newValue);
-
+    setendDateTimeVal(newValue);
+    setForm(prevState => ({
+      ...form,
+      date:{
+        ...prevState.date,
+        end: Date.parse(newValue)
+      }
+    }));
   };
-  // +================================================================================
 
   // Button Next
   function nextStep(){
     if(StepValue !== 2){
       SetStepValue(StepValue+1);
     } 
-    // Validation and Submition
   }
 
-  
-  // Event Type Setter
-  function EventTypeChecker(props){
-    switch(props.EventType) {
-        case 'Online':
-            return <TextField id="outlined-search" label="link" type="text" required />
+  // These methods will update the form data
+  function updateForm(e) {
+      return setForm((prev) => {
+          const [key, value] = Object.entries(e)[0];
+          prev[key] = value;
+          console.log(form);
+          return prev;
+  });}
 
-        case 'Onsite':
-            return <TextField id="outlined-search" label="Address" type="text" required />
-        default:
-            return 
-    }
+  function validateFormData(){
+    form.type = form.type.toLowerCase();
+    form.date.start = Number(form.date.start);
+    form.date.end = Number(form.date.end);
+    form.canClaimDocument = form.canClaimDocument == 'on' ? true : false;
+    form.tags = form.tags ? [] : [form.tags];
+    console.log("data validated");
+  }
+
+  // This function will handle the submission.
+  async function onSubmit(e) {
+    e.preventDefault();
+    validateFormData();
+
+    form.status = "active";
+
+    // When a post request is sent to the create url, we'll add a new record to the database.
+    const newEvent = { ...form };
+
+    await fetch(url, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newEvent),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        // navigate(`/events/${data.eventId}`);
+        console.log("Submitted")
+    })
+    .catch(error => {
+        console.log("Error:" + error);
+        return;
+    });
+
+    nextStep();
   }
 
   // +================================================================================
 
-    const [form, setForm] = useState({
-        eventId: '',
-        type: '',
-        title: '',
-        description: '',
-        link: '',
-        location: '',
-        date:{
-            start: '',
-            end: ''
-        },
-        canClaimDocument: '',
-        status: '',
-        tags: ''
-    });
-
-    // These methods wileeel update the state properties.
-    function updateForm(e) {
-        return setForm((prev) => {
-            const [key, value] = Object.entries(e)[0];
-
-            // Identify if toChange is date
-            if(key == 'date') {
-                const [dateType, date] = Object.entries(value)[0];
-
-                prev[key][dateType] = date;
-            } else {
-                prev[key] = value;
-            }
-
-            console.log(prev);
-            console.log(form);
-            return prev;
-            
-    });}
-
-     // This function will handle the submission.
-    async function onSubmit(e) {
-        e.preventDefault();
-    
-        form.date.start = Number(form.date.start);
-        form.date.end = Number(form.date.end);
-        form.canClaimDocument = form.canClaimDocument == 'true' ? true : false;
-        form.isAcceptingVolunteer = form.isAcceptingVolunteer == 'true' ? true : false;
-        form.tags = form.tags ? [] : [form.tags];
-
-        // When a post request is sent to the create url, we'll add a new record to the database.
-        const newEvent = { ...form };
-    
-        await fetch(url, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newEvent),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            navigate(`/events/${data.eventId}`);
-            console.log("Submitted")
-        })
-        .catch(error => {
-            
-            console.log("Error:" + error);
-            return;
-        });
-    }
-
   return (
-    <form action="#">
+    <form onSubmit={(e)=>onSubmit(e)}>
         <div className="Subject_Seperator">
           <div className="holder_Subject">
               <h3>Event Type</h3>
@@ -168,7 +166,25 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
                       </Select>
                       <FormHelperText>Select event type</FormHelperText>
                   </FormControl>
-                  <EventTypeChecker EventType={EventTypeVal}/>
+                  {EventTypeVal == '' ? '' : 
+                    (EventTypeVal == 'Online' ? (
+                      <TextField 
+                        id="outlined-search" 
+                        label="Link" 
+                        type="text" 
+                        required 
+                        onChange={(e) => updateForm({link: e.target.value})}
+                      />
+                    ) : (
+                      <TextField 
+                        id="outlined-search" 
+                        label="Location" 
+                        type="text" 
+                        required 
+                        onChange={(e) => updateForm({location: e.target.value})}
+                      />
+                    ))
+                  }
               </div>
           </div>
       </div>
@@ -193,26 +209,12 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
                 multiline
                 onChange={(e) => updateForm({description: e.target.value})}
               />
-              {/* <div className="Wrapper_2_Inputs">
-                  <TextField 
-                    id="outlined-search" 
-                    label="Email" 
-                    type="email" 
-                  />
-                  <TextField 
-                    id="outlined-search" 
-                    label="Contact Number" 
-                    type="tel"
-                  />
-              </div> */}
               <div className='Wrapper_2_1_Inputs'>   
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     label="Start Date & Time"
                     value={startDateTimeVal}
                     onChange={startDateTimeValhandleChange}
-                    // value={form.date.start || ''}
-                    // onChange={(e) => updateForm({date : {start : e.target.value}})}
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
@@ -227,14 +229,14 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
                 <Tags PredefinedTags={PredefinedTags} HandleChange={TagsValHandleChange}/>
               </div>
               <div >
-                <FormControlLabel control={<Switch defaultChecked />} label="Certificate" />
+                <FormControlLabel control={<Switch defaultChecked />} label="Certificate" onChange={(e) => updateForm({canClaimCertificate: e.target.value})}/>
               </div>
           </div>
       </div>
       <div id="Holder_Button">
           {/* <Button variant="outlined">Back</Button>
           <Button variant="text">Save as draft</Button> */}
-          <Button variant="contained" onClick={nextStep} endIcon={<NavigateNextIcon/>}>Next</Button>
+          <Button variant="contained" onClick={(e)=>onSubmit(e)} endIcon={<NavigateNextIcon/>}>Next</Button>
       </div>
     </form>
   )
