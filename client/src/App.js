@@ -21,6 +21,7 @@ import Event_View from './Layouts/Event/EventView';
 
 
 import MintTransfer from './Pages/MintTransfer/mintTransfer.js';
+import CertificateGenerator from './Pages/CertificateGenerator/CertificateGenerator.js';
 
 // Admin
 
@@ -37,6 +38,7 @@ function App() {
     <Route path="*" element={<Error404/>}/>
     <Route path="/" element={<Home/>}/>
     <Route path="/signup" element={<Signup/>}/>
+    <Route path="/certificate/generate" element={<CertificateGenerator/>}/>
 
     <Route path='/member' element={<MemberPanel/>}>
       <Route path="dashboard" element={<Dashboard/>}/>
