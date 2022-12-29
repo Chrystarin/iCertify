@@ -98,9 +98,16 @@
             margin-bottom: 40px;
 
             #Holder_Certificate_Event_Details{
-                a{
-                    margin-top: 25px;
-                }
+               #CertificateButton{
+                margin-top: 25px;
+                display: flex;
+                justify-content: end;
+               }
+               #Certificate__Status{
+                display: flex;
+                align-items: center;
+                gap: 10px;
+               }
             }
             ul{
                 list-style: none;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
 import './EventCreate.scss'
+import './../../../styles/Form.scss';
 
 // Stepper
 import Stepper from '@mui/material/Stepper';
@@ -53,7 +54,6 @@ export default function EventCreate() {
 
 
     return (
-        
         <section id='Create_Event'>
             <div id="Stepper">
                 <div id="Holder_Stepper">

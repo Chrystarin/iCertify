@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import Logo from './../../images/iCertifyBranding/icon.png';
-import './DashboardNavigation.scss';
 import {Link} from "react-router-dom";
 
 export class DashboardNavigation extends PureComponent {

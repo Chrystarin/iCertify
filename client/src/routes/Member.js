@@ -12,7 +12,7 @@ function User() {
   return (
     <div id='DashboardHolder'>
       <div id="Navigation">
-        <Navigation />
+        <Navigation Type="Admin"/>
       </div>
       <div id="Holder_Content">
         <HeaderNavigation/>
