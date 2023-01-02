@@ -1,5 +1,5 @@
 import React from 'react'
-import './Analytics.scss';
+import './EventAnalytics.scss';
 import PicNotification from './../../../images/iCertifyBranding/icon.png';
 
 function Analytics() {

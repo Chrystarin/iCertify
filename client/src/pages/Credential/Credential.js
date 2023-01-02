@@ -1,8 +1,4 @@
 import React from 'react';
-
-import Navigation from './../../layouts/Dashboard/DashboardNavigation';
-import HeaderNavigation from './../../layouts/Dashboard/HeaderNavigation';
-
 import CredentialTab from '../../layouts/Credential/CredentialTab.js';
 import Table from '../../layouts/Credential/Table.js';
 

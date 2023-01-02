@@ -105,7 +105,11 @@ const EventView = (props) => {
                             </div>
                         ) : (
                             <div>
+<<<<<<< Updated upstream:client/src/layouts/Event/EventView.js
                                 <Button BtnType="Primary" Value="Join Event" onClick={() => joinEvent()}/>
+=======
+                                <Button variant="contained" href="/member/event/:id/join" endIcon={<EventAvailableIcon />}>Join</Button>
+>>>>>>> Stashed changes:client/src/pages/Event/EventView.js
                             </div>
                         )
                         }
@@ -125,6 +129,9 @@ const EventView = (props) => {
                     <div id="Wrapper_Container">
                         <div class="Container_Host Container_EventDetails">
                             <h4>Host</h4>
+                            <div id="">
+
+                            </div>
                         </div>
                         <div class="Container_Analytics Container_EventDetails">
                             <h4>
@@ -135,6 +142,7 @@ const EventView = (props) => {
                     
                 </div>
                 <div className="Wrapper_Right_Event_Details">
+<<<<<<< Updated upstream:client/src/layouts/Event/EventView.js
                     <div className="Container_EventDetails" id="Holder_Certificate_Event_Details">
                         <h4>Certificate</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, blanditiis?</p>
@@ -142,6 +150,18 @@ const EventView = (props) => {
                             <Button BtnType="Primary" Value="Test"/>
                         </div>
                     </div>
+=======
+                    {(EventCeritifcate)?
+                        <>
+                            <div className="Container_EventDetails" id="Holder_Certificate_Event_Details">
+                                <h4>Certificate</h4>
+                                <CertificateStatusChecker/>
+                            </div>
+                        </>:<>
+                        </>
+                    }
+        
+>>>>>>> Stashed changes:client/src/pages/Event/EventView.js
                     <div className="Container_EventDetails" id="Container_Multiple">
                         <div>
                             <h4>Event Type</h4>

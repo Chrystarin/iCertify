@@ -1,7 +1,7 @@
 import React from 'react'
 import './profile.scss'
 
-import UserPanelInfo from './../../components/UserPanelInfo';
+import UserPanelInfo from '../../components/UserPanelInfo';
 import UserImg from './../../images/Resources/Developers/Dianne.jpg'
 
 import LocationOnIcon from '@mui/icons-material/LocationOn';

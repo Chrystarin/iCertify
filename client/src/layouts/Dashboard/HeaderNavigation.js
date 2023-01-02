@@ -85,7 +85,7 @@ function DropdownItem(props){
               <div id='profile_Navigation'ref={menuRef}>
                 <img id='profilePicture_Navigation' src={PicLogo} alt="" onClick={()=>{(openDropdown==="Profile")?setopenDropdown(""): setopenDropdown("Profile")}}/>
                 <div className={(openDropdown==="Profile")?'dropdown-menu active':'dropdown-menu inactive'} >
-                  <a href="/profile">
+                  <a href="/member/profile">
                     <h4 className='BodyText2'>Dianne Chrystalin Brandez</h4>
                   </a>
                   <a href='/membership'>

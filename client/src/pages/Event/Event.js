@@ -4,7 +4,7 @@ import './../../routes/style-DashboardUser.scss';
 import './Event.scss';
 
 
-import EventCard from './EventCard.js';
+import EventCard from '../../layouts/Event/EventCard.js';
 import ImagePosterSample from './../../images/placeholder/PosterSample.jpg'
 
 function Event() {

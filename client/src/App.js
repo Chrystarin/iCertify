@@ -6,13 +6,14 @@ import ProtectedRoutes from './routes/ProtectedRoutes.js';
 
 // Public
 import Error404 from './pages/Errors/Error404.js';
-import Home from './pages/Home';
+import LandingPage from './pages/LandingPage/LandingPage';
 import GetStarted from './pages/GetStarted/GetStarted.js'
 
 // Member
 import MemberPanel from './routes/Member.js';
 import MemberView from './pages/Member/MemberView.js';
 import MemberEdit from './pages/Member/MemberEdit.js'
+<<<<<<< Updated upstream
 import Dashboard from './layouts/Dashboard/Dashboard';
 import Credential from './layouts/Credential/Credential';
 import Credential_View from './layouts/Credential/CredentialView.js';
@@ -21,11 +22,20 @@ import Event_View from './layouts/Event/EventView';
 import JoinEvent from './layouts/Event/JoinEvent';
 import Profile from './layouts/Profile/profile'
 import MintTransfer from './pages/MintTransfer/mintTransfer.js';
+=======
+import Dashboard from './pages/Dashboard/Dashboard';
+import Credential from './pages/Credential/Credential';
+import Credential_View from './pages/Credential/CredentialView.js';
+import Event from './pages/Event/Event';
+import Event_View from './pages/Event/EventView';
+import JoinEvent from './pages/Event/JoinEvent';
+import Profile from './pages/Profile/profile'
+>>>>>>> Stashed changes
 
 // Admin
 import AdminPanel from './routes/Admin.js';
-import A_Event from './layouts/Event/Admin/Event';
-import A_EventCreate from './layouts/Event/Admin/EventCreate.js'
+import A_Event from './pages/Event/Admin/Event';
+import A_EventCreate from './pages/Event/Admin/EventCreate.js'
 import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js'
 
 // const ROLES = {
@@ -38,11 +48,18 @@ function App() {
   return (
     <Routes>  
 
+<<<<<<< Updated upstream
     {/* Public Routes */}
     <Route path="*" element={<Error404/>}/>
     <Route path="/" element={<Home/>}/>
     <Route path="/getstarted" element={<GetStarted/>}/>
     <Route path="/certificate/generate" element={<CertificateGenerator/>}/>
+=======
+      {/* Public Routes */}
+      <Route path="*" element={<Error404/>}/>
+      <Route path="/" element={<LandingPage/>}/>
+      <Route path="/getstarted" element={<GetStarted/>}/>
+>>>>>>> Stashed changes
 
       <Route path='/member' element={<MemberPanel/>}>
         <Route path="dashboard" element={<Dashboard/>}/>
@@ -50,7 +67,7 @@ function App() {
         <Route path="credential/view" element={<Credential_View/>}/>
         <Route path="event" element={<Event/>}/>
         <Route path="event/:id" element={<Event_View/>}/>
-        <Route path='event/join' element={<JoinEvent/>}/>
+        <Route path='event/:id/join' element={<JoinEvent/>}/>
         <Route path=":id" element={<MemberView/>}/>
         <Route path="profile" element={<Profile/>}/>
         <Route path=":id/edit" element={<MemberEdit/>}/>
