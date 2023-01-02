@@ -1,9 +1,8 @@
 import React,{useState} from 'react';
-import './../../../routes/style-DashboardUser.scss'
-import './EventAdmin.scss';
+import './EventsAdmin.scss';
 
 import Analytics from '../../../layouts/Event/Admin/EventAnalytics'
-import EventCard from '../../../layouts/Event/EventCard.js';
+import EventCard from '../../../components//EventCard/EventCard.js';
 
 import Filter_Icon from './../../../images/icons/filter.png';
 

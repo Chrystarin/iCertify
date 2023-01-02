@@ -1,10 +1,10 @@
 import React,{useState} from 'react';
 
-import ModalLogin from '../../components/Login.js';
+import ModalLogin from '../../components/Login/Login.js';
 import WordMark from './../../images/iCertifyBranding//Whitehorizontal.png'
-import './Header.scss'
+import './NavBar.scss'
 
-export default function Header() {
+export default function NavBar() {
     const [isOpen , setIsOpen] = useState(false); 
     const [isOpenSignup , setIsOpenSignup] = useState(false); 
   return (

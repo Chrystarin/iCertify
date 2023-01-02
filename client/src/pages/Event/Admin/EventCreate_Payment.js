@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button'
 
-function EventCreate_Payement({StepValue,SetStepValue}) {
+function EventCreate_Payment({StepValue,SetStepValue}) {
     function backStep(){
         if(StepValue !== 0){
             SetStepValue(StepValue-1);
@@ -48,4 +48,4 @@ function EventCreate_Payement({StepValue,SetStepValue}) {
   )
 }
 
-export default EventCreate_Payement
+export default EventCreate_Payment

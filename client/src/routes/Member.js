@@ -1,18 +1,18 @@
 import React from 'react'
-import './style-DashboardUser.scss';
+import './../styles/Dashboard.scss';
 
 import { Outlet } from 'react-router-dom';
 
 // layouts
-import Navigation from '../layouts/Dashboard/DashboardNavigation.js';
-import HeaderNavigation from '../layouts/Dashboard/HeaderNavigation';
+import SideNavBar from '../layouts/SideNavBar/SideNavBar.js';
+import HeaderNavigation from '../layouts/Header/Header';
 
 
-function User() {
+function Member() {
   return (
     <div id='DashboardHolder'>
       <div id="Navigation">
-        <Navigation Type="Admin"/>
+        <SideNavBar Type="Admin"/>
       </div>
       <div id="Holder_Content">
         <HeaderNavigation/>
@@ -24,4 +24,4 @@ function User() {
   )
 }
 
-export default User
+export default Member

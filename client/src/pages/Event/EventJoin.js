@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 
 import './../../styles/Form.scss';
-import './JoinEvent.scss';
+import './EventJoin.scss';
 
 import Button from '@mui/material/Button';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
@@ -12,7 +12,7 @@ import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import PlaceHolder from '../../images/placeholder/placeholder.png';
 
 
-function JoinEvent() {
+function EventJoin() {
 
   // Stepper
   const [activeStep,setActiveStep] = useState(0);
@@ -133,4 +133,4 @@ function JoinEvent() {
   )
 }
 
-export default JoinEvent
+export default EventJoin

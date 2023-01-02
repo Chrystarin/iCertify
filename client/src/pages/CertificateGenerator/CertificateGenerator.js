@@ -3,7 +3,7 @@ import html2canvas from 'html2canvas';
 import QRCode from 'react-qr-code';
 import { ethers } from 'ethers'
 
-import './certificateStyle.css'
+import './CertificateGenerator.scss'
 
 import contractBuild from '../../CertificateNFT.json'
 import certificateBodyTemplate from './../../images/certificate_template_default.png'

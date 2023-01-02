@@ -1,6 +1,6 @@
 import React from 'react';
-import CredentialTab from '../../layouts/Credential/CredentialTab.js';
-import Table from '../../layouts/Credential/Table.js';
+import CredentialTab from '../../components/CredentialTab/CredentialTab.js';
+import Table from '../../components/Table/Table.js';
 
 function Credential() {
   return (

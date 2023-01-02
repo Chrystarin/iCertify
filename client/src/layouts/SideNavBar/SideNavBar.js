@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import Logo from './../../images/iCertifyBranding/icon.png';
 import {Link} from "react-router-dom";
-import './DashboardNavigation.scss'
+import './SideNavBar.scss'
 
-function DashboardNavigation(props) {
+function SideNavBar(props) {
   return (
     <div id='Navigation__Sticky'>
         <div id='Logo'>
@@ -62,7 +62,7 @@ function DashboardNavigation(props) {
   )
 }
 
-export default DashboardNavigation
+export default SideNavBar
 
 
 

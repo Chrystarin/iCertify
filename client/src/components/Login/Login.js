@@ -2,18 +2,17 @@ import React, { useEffect, useState, useRef } from 'react';
 import {Link, useNavigate, useLocation} from 'react-router-dom';
 import {ethers} from 'ethers';
 
-import useAuth from '../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 
-import axios from '../config/axios';
+import axios from '../../config/axios';
 
-import './Modal.scss';
-import './login.scss';
+import './Login.scss';
 
-import Pattern from './../images/Resources/Pattern1.png';
-import UserIcon from './../images/icons/user.png';
-import MetamaskIcon from './../images/icons/fox.png';
-import LockIcon from './../images/icons/lock.png';
-import CloseIcon from './../images/icons/close.png';
+import Pattern from './../../images/Resources/Pattern1.png';
+import UserIcon from './../../images/icons/user.png';
+import MetamaskIcon from './../../images/icons/fox.png';
+import LockIcon from './../../images/icons/lock.png';
+import CloseIcon from './../../images/icons/close.png';
 
 const LOGIN_URL = '/auth';
 

@@ -6,8 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import SearchInput from '../../../components/SearchInput.js'
-import ParticipantsList from "./../../../layouts/Event/Admin/ParticipantsList";
+import SearchInput from '../../../components/SearchInput/SearchInput.js'
+import ParticipantsList from "./../../../layouts/Event/Admin/EventParticipantsList";
 import Button from '@mui/material/Button'
 
 function EventCreate_SetParticipants({StepValue,SetStepValue}) {

@@ -16,7 +16,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import Button from '@mui/material/Button'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import FormHelperText from '@mui/material/FormHelperText';
-import Tags from '../../../components/Tags.js';
+import Tags from '../../../components/Tags/Tags.js';
 
 function EventCreate_EventDetails({StepValue,SetStepValue}) {
 

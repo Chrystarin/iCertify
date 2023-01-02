@@ -1,11 +1,11 @@
 import React from 'react';
-
 import {Route, Routes } from 'react-router-dom';
 
+// Routes
 import ProtectedRoutes from './routes/ProtectedRoutes.js';
 
 // Public
-import Error404 from './pages/Errors/Error404.js';
+import Error from './pages/Error/Error.js';
 import LandingPage from './pages/LandingPage/LandingPage';
 import GetStarted from './pages/GetStarted/GetStarted.js'
 
@@ -16,14 +16,14 @@ import MemberEdit from './pages/Member/MemberEdit.js'
 import Dashboard from './pages/Dashboard/Dashboard';
 import Credential from './pages/Credential/Credential';
 import Credential_View from './pages/Credential/CredentialView.js';
-import Event from './pages/Event/Event';
-import Event_View from './pages/Event/EventView';
-import JoinEvent from './pages/Event/JoinEvent';
-import Profile from './pages/Profile/profile'
+import Event from './pages/Event/Events.js';
+import Event_View from './pages/Event/EventView.js';
+import JoinEvent from './pages/Event/EventJoin.js';
+import Profile from './pages/Profile/Profile.js'
 
 // Admin
 import AdminPanel from './routes/Admin.js';
-import A_Event from './pages/Event/Admin/Event';
+import A_Event from './pages/Event/Admin/EventsAdmin.js';
 import A_EventCreate from './pages/Event/Admin/EventCreate.js'
 import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js'
 
@@ -38,7 +38,7 @@ function App() {
     <Routes>  
 
       {/* Public Routes */}
-      <Route path="*" element={<Error404/>}/>
+      <Route path="*" element={<Error/>}/>
       <Route path="/" element={<LandingPage/>}/>
       <Route path="/getstarted" element={<GetStarted/>}/>
 

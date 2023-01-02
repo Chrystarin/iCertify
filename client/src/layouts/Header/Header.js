@@ -1,11 +1,11 @@
 import React, {useEffect, useState,useRef}from 'react';
+import './Header.scss';
 import PicLogo from './../../images/iCertifyBranding/icon.png';
-import './HeaderNavigation.scss';
 
-import SearchInput from '../../components/SearchInput';
+import SearchInput from '../../components/SearchInput/SearchInput.js';
 import LogoutIcon from '@mui/icons-material/Logout';
 
-function HeaderNavigation() {
+function Header() {
 
   const [openDropdown, setopenDropdown] = useState("");
 
@@ -104,4 +104,4 @@ function DropdownItem(props){
     );
 }
 
-export default HeaderNavigation;
+export default Header;

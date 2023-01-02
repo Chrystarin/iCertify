@@ -1,11 +1,8 @@
 import React from 'react';
-import './../../routes/style-DashboardUser.scss';
 
 
-import CredentialTab from '../../layouts/Credential/CredentialTab.js';
-import EventCard from '../../layouts/Event/EventCard.js';
-
-
+import CredentialTab from '../../components/CredentialTab/CredentialTab.js';
+import EventCard from '../../components/EventCard/EventCard.js';
 
 
 function Dashboard() {

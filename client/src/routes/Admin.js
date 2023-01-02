@@ -1,20 +1,19 @@
 import React from 'react';
-import './style-DashboardUser.scss';
+import './../styles/Dashboard.scss';
 import { Outlet } from 'react-router-dom';
 
-import Navigation from '../layouts/Dashboard/DashboardNavigation.js';
-import HeaderNavigation from '../layouts/Dashboard/HeaderNavigation';
+import SideNavBar from '../layouts/SideNavBar/SideNavBar.js';
+import HeaderNavigation from '../layouts/Header/Header';
 
 
-function Dashboard(props) {
-  const carInfo = { name: "Ford", model: "Mustang" };
+function Admin(props) {
   return (
     <div id='DashboardHolder'>
       <div id="Navigation">
-        <Navigation UserType="Admin"/>
+        <SideNavBar UserType="Admin"/>
       </div>
       <div id="Holder_Content">
-        <HeaderNavigation dropdown={carInfo}/>
+        <HeaderNavigation/>
         <div id="Content">
           <Outlet/>
         </div>
@@ -24,7 +23,4 @@ function Dashboard(props) {
 }
 
 
-
-
-
-export default Dashboard;
+export default Admin;

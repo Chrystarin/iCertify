@@ -7,8 +7,8 @@ import DianneImg from './../../images/Resources/Developers/Dianne.jpg';
 import JonImg from './../../images/Resources/Developers/Jon.jpg';
 import HaroldImg from './../../images/Resources/Developers/Harold.jpg';
 
-import Header from '../../layouts/LandingPage/Header.js';
-import Footer from '../../layouts/LandingPage/Footer';
+import Header from '../../layouts/NavBar/NavBar.js';
+import Footer from '../../layouts/Footer/Footer';
 
 
 function LandingPage() {

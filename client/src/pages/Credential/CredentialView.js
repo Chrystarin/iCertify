@@ -1,8 +1,8 @@
 
 import React,{useState} from 'react';
-import './style-CredentialView.scss'
+import './CredentialView.scss'
 
-import Button from '../../components/Button';
+import Button from '../../components/Button/Button.js';
 import UserImg from './../../images/Resources/Developers/Dianne.jpg';
 
 function Credential() {

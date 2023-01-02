@@ -1,13 +1,13 @@
 import React from 'react'
 
-import './ParticipantsList.scss'
-import UserPanelInfo from "../../../components/UserPanelInfo";
+import './EventParticipantsList.scss'
+import UserPanelInfo from "../../../components/UserPanel/UserPanelInfo";
 import UserPicture from '../../../images/Resources/Developers/Dianne.jpg';
 
 import IconButton from '@mui/material/IconButton';
 import ClearIcon from '@mui/icons-material/Clear';
 
-function ParticipantsList() {
+function EventParticipantsList() {
 
     const ParticipantsRole = <>
         <option value="Member">Member</option>
@@ -48,4 +48,4 @@ function ParticipantsList() {
         )
 }
 
-export default ParticipantsList
+export default EventParticipantsList

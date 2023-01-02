@@ -1,7 +1,7 @@
 import React from 'react'
-import './profile.scss'
+import './Profile.scss'
 
-import UserPanelInfo from '../../components/UserPanelInfo';
+import UserPanelInfo from '../../components/UserPanel/UserPanelInfo.js';
 import UserImg from './../../images/Resources/Developers/Dianne.jpg'
 
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -9,8 +9,9 @@ import CallIcon from '@mui/icons-material/Call';
 import MetaMaskIcon from './../../images/icons/fox.png'
 import EmailIcon from '@mui/icons-material/Email';
 
-import EventCard from '../../layouts/Event/EventCard'
-import CredentialList from '../../layouts/Credential/Table'
+import EventCard from '../../components/EventCard/EventCard.js'
+import CredentialList from '../../components/Table/Table'
+
 function profile() {
 
     let user = {
