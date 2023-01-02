@@ -2,7 +2,7 @@ import React from 'react';
 import './style-DashboardUser.scss';
 import { Outlet } from 'react-router-dom';
 
-import Navigation from '../layouts/DashboardAdminNavigation/DashboardNavigationAdmin';
+import Navigation from '../layouts/Dashboard/DashboardNavigation.js';
 import HeaderNavigation from '../layouts/Dashboard/HeaderNavigation';
 
 
@@ -11,7 +11,7 @@ function Dashboard(props) {
   return (
     <div id='DashboardHolder'>
       <div id="Navigation">
-        <Navigation />
+        <Navigation UserType="Admin"/>
       </div>
       <div id="Holder_Content">
         <HeaderNavigation dropdown={carInfo}/>

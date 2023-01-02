@@ -14,6 +14,9 @@ const EventView = (props) => {
     const [event, setEvent] = useState(props)
     const [participants, setParticipants] = useState(null)
     const [memberAddress, setMemberAddress] = useState()
+    // Claim 
+    const [CertificateStatus, setCertificateStatus] = useState("Disabled");
+    const EventCeritifcate = true;
 
     const checkWallet = async () => {
         try{
@@ -83,9 +86,6 @@ const EventView = (props) => {
         checkWallet()
     }, [])
 
-    const [CertificateStatus, setCertificateStatus] = useState("Disabled");
-    const EventCeritifcate = true;
-
     function CertificateStatusChecker(){
 
         switch(CertificateStatus) {
@@ -149,12 +149,14 @@ const EventView = (props) => {
                     </div>
                     <div id="Holder_Button_Event">
                         { eventJoined(participants, memberAddress) ? (
+                            // If member has already joined
                             <div>
-                                <Button BtnType="Primary" Value="Joined"/>
+                                <Button BtnType="Primary" Value="Joined" disabled/>
                             </div>
                         ) : (
+                            // If member has not yet joined
                             <div>
-                                <Button variant="contained" href="/member/event/:id/join" endIcon={<EventAvailableIcon />}  onClick={() => joinEvent()}>Join</Button>
+                                <Button variant="contained" endIcon={<EventAvailableIcon />}>Join</Button>
                             </div>
                         )
                         }
@@ -184,7 +186,6 @@ const EventView = (props) => {
                             </h4>
                         </div>
                     </div>
-                    
                 </div>
                 <div className="Wrapper_Right_Event_Details">
                     {(EventCeritifcate)?
@@ -193,7 +194,9 @@ const EventView = (props) => {
                                 <h4>Certificate</h4>
                                 <CertificateStatusChecker/>
                             </div>
-                        </>:<>
+                        </>
+                        :
+                        <>
                         </>
                     }
         
