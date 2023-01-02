@@ -13,16 +13,6 @@ import GetStarted from './pages/GetStarted/GetStarted.js'
 import MemberPanel from './routes/Member.js';
 import MemberView from './pages/Member/MemberView.js';
 import MemberEdit from './pages/Member/MemberEdit.js'
-<<<<<<< Updated upstream
-import Dashboard from './layouts/Dashboard/Dashboard';
-import Credential from './layouts/Credential/Credential';
-import Credential_View from './layouts/Credential/CredentialView.js';
-import Event from './layouts/Event/Event';
-import Event_View from './layouts/Event/EventView';
-import JoinEvent from './layouts/Event/JoinEvent';
-import Profile from './layouts/Profile/profile'
-import MintTransfer from './pages/MintTransfer/mintTransfer.js';
-=======
 import Dashboard from './pages/Dashboard/Dashboard';
 import Credential from './pages/Credential/Credential';
 import Credential_View from './pages/Credential/CredentialView.js';
@@ -30,7 +20,6 @@ import Event from './pages/Event/Event';
 import Event_View from './pages/Event/EventView';
 import JoinEvent from './pages/Event/JoinEvent';
 import Profile from './pages/Profile/profile'
->>>>>>> Stashed changes
 
 // Admin
 import AdminPanel from './routes/Admin.js';
@@ -48,18 +37,10 @@ function App() {
   return (
     <Routes>  
 
-<<<<<<< Updated upstream
-    {/* Public Routes */}
-    <Route path="*" element={<Error404/>}/>
-    <Route path="/" element={<Home/>}/>
-    <Route path="/getstarted" element={<GetStarted/>}/>
-    <Route path="/certificate/generate" element={<CertificateGenerator/>}/>
-=======
       {/* Public Routes */}
       <Route path="*" element={<Error404/>}/>
       <Route path="/" element={<LandingPage/>}/>
       <Route path="/getstarted" element={<GetStarted/>}/>
->>>>>>> Stashed changes
 
       <Route path='/member' element={<MemberPanel/>}>
         <Route path="dashboard" element={<Dashboard/>}/>

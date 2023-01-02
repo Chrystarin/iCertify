@@ -3,12 +3,11 @@ import { useParams } from "react-router-dom";
 import {ethers} from 'ethers';
 
 import './EventView.scss'
-
-
-
-import Button from '../../components/Button.js';
-
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import Button from '@mui/material/Button';
+import CircularProgress from '@mui/material/CircularProgress';
 import axios from '../../config/axios';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 const EventView = (props) => {
     const { id } = useParams()
@@ -84,7 +83,57 @@ const EventView = (props) => {
         checkWallet()
     }, [])
 
-    
+    const [CertificateStatus, setCertificateStatus] = useState("Disabled");
+    const EventCeritifcate = true;
+
+    function CertificateStatusChecker(){
+
+        switch(CertificateStatus) {
+            case "ReadyToClaim":
+                return <>
+                    <div id="Certificate__Status">
+                        
+                        <p>Certificate is Ready to be Claim.</p>
+                        
+
+                    </div>
+                    <div id="CertificateButton">
+                        <Button variant="outlined" onClick={()=> setCertificateStatus("Pending")}>Claim</Button>
+                    </div>
+                </>
+            case 'Pending':
+                return <>
+                    <div id="Certificate__Status">
+                        <p>Certificate is Pending.</p>
+                        <CircularProgress size='20px'/>
+                    </div>
+                    <div id="CertificateButton">
+                        <Button variant="outlined" disabled>Claim</Button>
+                    </div>
+                </>
+            case 'Claimed':
+                return <>
+                    <div id="Certificate__Status">
+                        <p>Certificate is sent on your wallet</p>
+                        <CheckBoxIcon color="primary" />
+                    </div>
+                    <div id="CertificateButton">
+                        <Button variant="outlined" disabled>Claim</Button>
+                    </div>
+                </>
+            case 'Disabled':
+                return <>
+                    <div id="Certificate__Status">
+                        <p>Certificate is not up for release for now</p>
+                    </div>
+                    <div id="CertificateButton">
+                        <Button variant="outlined" disabled>Claim</Button>
+                    </div>
+                </>
+            default:
+                return "Certificate Error"
+        }
+    }
 
     if(!event || !participants) return <div>loading...</div>
 
@@ -105,11 +154,7 @@ const EventView = (props) => {
                             </div>
                         ) : (
                             <div>
-<<<<<<< Updated upstream:client/src/layouts/Event/EventView.js
-                                <Button BtnType="Primary" Value="Join Event" onClick={() => joinEvent()}/>
-=======
-                                <Button variant="contained" href="/member/event/:id/join" endIcon={<EventAvailableIcon />}>Join</Button>
->>>>>>> Stashed changes:client/src/pages/Event/EventView.js
+                                <Button variant="contained" href="/member/event/:id/join" endIcon={<EventAvailableIcon />}  onClick={() => joinEvent()}>Join</Button>
                             </div>
                         )
                         }
@@ -142,15 +187,6 @@ const EventView = (props) => {
                     
                 </div>
                 <div className="Wrapper_Right_Event_Details">
-<<<<<<< Updated upstream:client/src/layouts/Event/EventView.js
-                    <div className="Container_EventDetails" id="Holder_Certificate_Event_Details">
-                        <h4>Certificate</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, blanditiis?</p>
-                        <div>
-                            <Button BtnType="Primary" Value="Test"/>
-                        </div>
-                    </div>
-=======
                     {(EventCeritifcate)?
                         <>
                             <div className="Container_EventDetails" id="Holder_Certificate_Event_Details">
@@ -161,7 +197,6 @@ const EventView = (props) => {
                         </>
                     }
         
->>>>>>> Stashed changes:client/src/pages/Event/EventView.js
                     <div className="Container_EventDetails" id="Container_Multiple">
                         <div>
                             <h4>Event Type</h4>
