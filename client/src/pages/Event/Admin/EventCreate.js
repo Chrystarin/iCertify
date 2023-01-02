@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 
-import './EventCreate.scss'
+import './EventCreate.scss';
 
 // Stepper
 import Stepper from '@mui/material/Stepper';
@@ -10,9 +10,9 @@ import StepLabel from '@mui/material/StepLabel';
 
 
 // Forms
-import EventDetailsForm from '../../../layouts/Event/Admin/EventCreate_EventDetails';
-import EventSetParticipantsForm from '../../../layouts/Event/Admin/EventCreate_SetParticipants';
-import EventPaymentForm from '../../../layouts/Event/Admin/EventCreate_Payment';
+import EventDetailsForm from './EventCreate_EventDetails';
+import EventSetParticipantsForm from './EventCreate_SetParticipants';
+import EventPaymentForm from './EventCreate_Payment';
 
 
 export default function EventCreate() {
