@@ -17,22 +17,58 @@ const memberSchema = new Schema({
         default: false
     },
     name: {
-        firstName: String,
-        middleName: String,
-        lastName: String,
-        extension: String
+        firstName: {
+            type: String,
+            default: ''
+        },
+        middleName:  {
+            type: String,
+            default: ''
+        },
+        lastName:  {
+            type: String,
+            default: ''
+        },
+        extension:  {
+            type: String,
+            default: ''
+        }
     },
-    about: String,
-    occupation: String,
+    about:  {
+        type: String,
+        default: ''
+    },
+    occupation:  {
+        type: String,
+        default: ''
+    },
     contact: {
-        mobile: String,
-        telephone: String
+        mobile:  {
+            type: String,
+            default: ''
+        },
+        telephone:  {
+            type: String,
+            default: ''
+        }
     },
     location: {
-        barangay: String,
-        city: String,
-        province: String,
-        country: String
+        barangay:  {
+            type: String,
+            default: ''
+        },
+        city:  {
+            type: String,
+            default: ''
+        },
+        province:  {
+            type: String,
+            default: ''
+        },
+        country:  {
+            type: String,
+            default: ''
+        },
     },
     credentials: {
         nonce: {
@@ -45,7 +81,10 @@ const memberSchema = new Schema({
             index: true,
             sparse: true
         },
-        password: String
+        password:  {
+            type: String,
+            default: ''
+        },
 
     },
     joinedEvents: [{

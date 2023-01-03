@@ -76,40 +76,6 @@ function profile() {
                     <h5 className='Panel__Title'>Joined Events</h5>
                     <div className='Wrapper__EventCard'>
                         <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
-                        <EventCard/>
                     </div>
                 </section>
                 <section >

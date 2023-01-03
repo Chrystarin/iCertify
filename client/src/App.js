@@ -147,7 +147,6 @@ export default App;
 // /about
 // /dashboard
 // /event
-// /event/create
 // /event/:id
 // /member/:id
 // /credential

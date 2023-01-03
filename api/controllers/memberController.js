@@ -17,6 +17,27 @@ const memberAcceptedEntries = new Set([
 
 const roles = ['admin', 'member']
 
+const filterRequestBody = ({
+    isPremium,
+    name: { firstName, middleName, lastName, extension },
+    about,
+    occupation,
+    contact: { mobile, telephone },
+    location: { barangay, city, province, country }
+}) => {
+
+    var obj = {
+        isPremium,
+        name: { firstName, middleName, lastName, extension },
+        about,
+        occupation,
+        contact: { mobile, telephone },
+        location: { barangay, city, province, country }
+    }
+
+    return obj;
+}
+
 const loginMember = async (req, res, next) => {
     const { type, credentials } = req.body;
 
@@ -202,25 +223,25 @@ const updateMember = async (req, res, next) => {
 
     var obj = {};
 
-    addProperty(isPremium, { isPremium }, 'boolean');
-    addProperty(firstName, { name: { firstName } });
-    addProperty(middleName, { name: { middleName } });
-    addProperty(lastName, { name: { lastName } });
-    addProperty(extension, { name: { extension } });
-    addProperty(about, { about });
-    addProperty(occupation, { occupation })
-    addProperty(mobile, { contact: { mobile } });
-    addProperty(telephone, { contact: { telephone } });
-    addProperty(barangay, { location: { barangay } });
-    addProperty(city, { location: { city } });
-    addProperty(province, { location: { province } });
-    addProperty(country, { location: { country } });
+    // addProperty(isPremium, { isPremium }, 'boolean');
+    // addProperty(firstName, { name: { firstName } });
+    // addProperty(middleName, { name: { middleName } });
+    // addProperty(lastName, { name: { lastName } });
+    // addProperty(extension, { name: { extension } });
+    // addProperty(about, { about });
+    // addProperty(occupation, { occupation })
+    // addProperty(mobile, { contact: { mobile } });
+    // addProperty(telephone, { contact: { telephone } });
+    // addProperty(barangay, { location: { barangay } });
+    // addProperty(city, { location: { city } });
+    // addProperty(province, { location: { province } });
+    // addProperty(country, { location: { country } });
 
     try {
         const member = await Member.findOne({ walletAddress }).exec();
         if(!member) throw new NotFound('Member');
 
-        Object.assign(member, filterRequestBody(body, member.isStillAccountCreation));
+        Object.assign(member, filterRequestBody(req.body, member.isStillAccountCreation));
         member.isStillAccountCreation = false;
         await member.save();
 
@@ -229,13 +250,13 @@ const updateMember = async (req, res, next) => {
         next(error)
     }
 
-    function addProperty(string, output, type = 'string') {
-        if(string !== undefined) {
-            if(typeof string !== type)
-                throw new UnprocessableRequest();
-            Object.assign(obj, output);
-        }
-    }
+    // function addProperty(string, output, type = 'string') {
+    //     if(string !== undefined) {
+    //         if(typeof string !== type)
+    //             throw new UnprocessableRequest();
+    //         Object.assign(obj, output);
+    //     }
+    // }
 }
 
 const getJoinedEvents = async (req, res, next) => {
