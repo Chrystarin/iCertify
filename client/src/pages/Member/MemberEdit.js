@@ -14,20 +14,13 @@ const MemberEdit = (props) => {
 
     // Executes on load
     useEffect(() => {
+        // Retrieves Member Data
         const fetchMember = async () => {
-            const response = await fetch(`http://localhost:6787/members/${id}`)
-            const json = await response.json()
-            if(response.ok){
-                setMember(json)
-            }
+            const response = await axios.get(`members/${id}`)
+            .then((response)=>{
+                setMember(response.data)
+            })
         }
-        // const fetchMember = async () => {
-        //     const response = await axios.get(`members/${id}`)
-        //     const json = await response.json()
-        //     if(response.ok){
-        //         setMember(json)
-        //     }
-        // }
         
         fetchMember();
     }, [])
@@ -46,18 +39,15 @@ const MemberEdit = (props) => {
     });}
 
     // Submits Data
-    async function Submit(e, form) {
+    async function Submit(e) {
         e.preventDefault();
-        const newForm = { ...form };
-        await fetch(`http://localhost:6787/members/${id}`, {
-            method: "PATCH",
+        await axios.patch(`members/${id}`, JSON.stringify({...member}), {
             headers: {
                 "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newForm),
+            }
         })
-        .then(response => {
-            response.json();
+        .then((response) => {
+            console.log(response.data);
             navigate(`/member/${id}`);
         })
         .catch(error => {
@@ -66,6 +56,7 @@ const MemberEdit = (props) => {
         });
     }
 
+    // Returns if member is null
     if(!member) return <div>loading...</div>
 
     return (
@@ -181,7 +172,7 @@ const MemberEdit = (props) => {
             />
             <Button variant="contained" onClick={() => console.log(member)}>Check Member Data</Button>
             <Button variant="contained" onClick={() => console.log(JSON.stringify(member))}>Check Member JSON Data</Button>
-            <Button variant="contained" onClick={(e) => Submit(e, member)}>Submit</Button>
+            <Button variant="contained" onClick={(e) => Submit(e)}>Submit</Button>
         </div>
     )
 }
