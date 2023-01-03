@@ -19,13 +19,15 @@ import Credential_View from './pages/Credential/CredentialView.js';
 import Event from './pages/Event/Events.js';
 import Event_View from './pages/Event/EventView.js';
 import JoinEvent from './pages/Event/EventJoin.js';
-import Profile from './pages/Profile/Profile.js'
+import Profile from './pages/Profile/profile.js'
 
 // Admin
 import AdminPanel from './routes/Admin.js';
 import A_Event from './pages/Event/Admin/EventsAdmin.js';
 import A_EventCreate from './pages/Event/Admin/EventCreate.js'
-import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js'
+import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js';
+import MintTransfer from './pages/MintTransfer/MintTransfer.js';
+
 
 // const ROLES = {
 //   member: '46936',
@@ -56,11 +58,10 @@ function App() {
 
       <Route path='/admin' element={<AdminPanel/>}>
         <Route path="event" element={<A_Event/>}/>
+        <Route path="mintTransfer" element={<MintTransfer/>}/>
         <Route path="event/create" element={<A_EventCreate/>}/>
         <Route path="certificate/generate" element ={<CertificateGenerator/>}/>
       </Route>
-
-     
   </Routes>
 )}
 

@@ -1,0 +1,31 @@
+import React,{useState} from 'react';
+import './SelectEventPanel.scss';
+
+import EventCard from '../../components/EventCard/EventCard';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+
+function SelectEvent() {
+  const [Dropdown,setDropdown] = useState(false);
+  return (
+    <>
+        <div id='SelectEvent'>
+            <div id="Select__Div" onClick={()=> setDropdown(!Dropdown)}>
+                <h5  id='EventTitle'>Blockchain Technology 101</h5>
+                <ExpandLessIcon/>
+            </div>
+            <div id='SelectDropDown' className={Dropdown?"Panel__Container SelectDropDownActive": "Panel__Container SelectDropDownInactive"}>
+              <h3 id='SelectDropDown_h3'>Events to manage</h3>
+              <h5 id='SelectDropDown_h5'>Choose Event to manage</h5>
+              <div className='Wrapper__Card' >
+                <EventCard cardType="Admin"/>
+                <EventCard cardType="Admin"/>
+                <EventCard cardType="Admin"/>
+                <EventCard cardType="Admin"/>
+              </div>
+            </div>
+        </div>
+    </>
+  )
+}
+
+export default SelectEvent

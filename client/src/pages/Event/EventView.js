@@ -15,7 +15,7 @@ const EventView = (props) => {
     const [participants, setParticipants] = useState(null)
     const [memberAddress, setMemberAddress] = useState()
     // Claim 
-    const [CertificateStatus, setCertificateStatus] = useState("Disabled");
+    const [CertificateStatus, setCertificateStatus] = useState("ReadyToClaim");
     const EventCeritifcate = true;
 
     const checkWallet = async () => {

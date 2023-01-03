@@ -1,5 +1,5 @@
 import React from 'react'
-import './Profile.scss'
+import './profile.scss'
 
 import UserPanelInfo from '../../components/UserPanel/UserPanelInfo.js';
 import UserImg from './../../images/Resources/Developers/Dianne.jpg'
@@ -74,7 +74,7 @@ function profile() {
             <div id='Content__Div'>
                 <section >
                     <h5 className='Panel__Title'>Joined Events</h5>
-                    <div className='Wrapper__EventCard'>
+                    <div className='Wrapper__Card'>
                         <EventCard/>
                         <EventCard/>
                         <EventCard/>

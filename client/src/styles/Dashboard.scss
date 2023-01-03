@@ -17,11 +17,11 @@ $Maxwidth1 : 1920px;
     background-color: var(--light2);
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    padding: 1em 1em 0;
+    padding: 25px 1em 0;
     min-width: 1000px;
     
     #Content{
-      padding-top: 50px;
+      padding-top: 40px;
       #Alert{
         margin-bottom: 40px;
         ul{
@@ -54,22 +54,25 @@ $Maxwidth1 : 1920px;
       }
 
       section{
-        margin-bottom: 40px;
-        h4{
-            position: relative;
-            margin-bottom: 30px;
+        .SectionTitle{
+            color: var(--accent);
         }
-        h4::after{
-            content: "";
-            margin-left: 15px;
-            position: absolute;
-            top: 50%;
-            transform: translate(0,-50%);
-            width: 35px;
-            height: 5px;
-            border-radius: 100px;
-            background-color: black;
-        }
+        
+        // h4{
+        //     position: relative;
+        //     margin-bottom: 30px;
+        // }
+        // h4::after{
+        //     content: "";
+        //     margin-left: 15px;
+        //     position: absolute;
+        //     top: 50%;
+        //     transform: translate(0,-50%);
+        //     width: 35px;
+        //     height: 5px;
+        //     border-radius: 100px;
+        //     background-color: black;
+        // }
       } 
     }
 }

@@ -1,0 +1,36 @@
+#SelectEvent{
+    max-width: 500px;
+    position: relative;
+    #Select__Div{
+        cursor: pointer;
+        display: flex;
+        #EventTitle{
+            flex-grow: 1;
+        }
+        svg{
+            rotate: 90deg;
+        }
+    }
+    #SelectDropDown{
+        width: 200%;
+        max-width: 850px;
+        position: absolute;
+        top: 120%;
+        padding: 1em;
+        z-index: 5;
+        
+        #SelectDropDown_h3{
+            color: var(--accent);
+        }
+        #SelectDropDown_h5{
+            color: gray;
+            margin-bottom: 25px;
+        }
+    }
+    .SelectDropDownActive{
+        display: block;
+    }
+    .SelectDropDownInactive{
+        display: none;
+    }
+}
