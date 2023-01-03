@@ -49,7 +49,7 @@ function App() {
         <Route path="event" element={<Event/>}/>
         <Route path="event/:id" element={<Event_View/>}/>
         <Route path='event/:id/join' element={<JoinEvent/>}/>
-        <Route path=":id" element={<MemberView/>}/>
+        <Route path=":id" element={<Profile/>}/>
         <Route path="profile" element={<Profile/>}/>
         <Route path=":id/edit" element={<MemberEdit/>}/>
       </Route>

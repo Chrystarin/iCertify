@@ -19,6 +19,7 @@ const MemberEdit = (props) => {
             const response = await axios.get(`members/${id}`)
             .then((response)=>{
                 setMember(response.data)
+                
             })
         }
         
