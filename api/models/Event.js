@@ -47,6 +47,14 @@ const eventSchema = new Schema({
         default: false
     },
     tags: [String],
+    regularPrice: {
+        type: Number,
+        default: 0
+    },
+    premiumPrice:{
+        type: Number,
+        default: 0
+    },
     participants: [{
         member: {
             type: ObjectId,

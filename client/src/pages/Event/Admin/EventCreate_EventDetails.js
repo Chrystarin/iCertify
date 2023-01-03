@@ -18,60 +18,31 @@ import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import FormHelperText from '@mui/material/FormHelperText';
 import Tags from '../../../components/Tags/Tags.js';
 
-function EventCreate_EventDetails({StepValue,SetStepValue}) {
+function EventCreate_EventDetails({StepValue,SetStepValue,FormValue,SetFormValue}) {
 
- // Tags Predifined for help searching
+  // Tags Predifined for help searching
   const PredefinedTags = [ "Computer","Technology", "Blockchain", "Entertainment","UserInterface","UserExperience"]; 
-  const url = "http://localhost:6787/events/create"
-  const navigate = useNavigate();
-
-  // +================================================================================
-  //                      GET VALUES FROM SET Event Details INPUT FORM
-  
-  let TagsVal = [];
-
-  const [EventTypeVal, setEventTypeVal] = useState('');
-  const [startDateTimeVal, setstartDateTimeVal] = useState(null);
-  const [endDateTimeVal, setendDateTimeVal] = useState(null);
-  const [form, setForm] = useState({
-      eventId: '',
-      type: '',
-      title: '',
-      description: '',
-      link: ' ',
-      location: ' ',
-      date:{
-          start: '',
-          end: ''
-      },
-      canClaimCertificate: '',
-      status: '',
-      tags: ['']
-  });
 
   // Event Type
   const EventTypehandleChangeEvent = (event) => {
-    setEventTypeVal(event.target.value);
-    setForm({
-      ...form,
+    SetFormValue({
+      ...FormValue,
       type:event.target.value
     });
   };
 
   // Tags 
   function TagsValHandleChange(option, index){
-    TagsVal = index;
-    setForm({
-      ...form,
-      tags: TagsVal
+    SetFormValue({
+      ...FormValue,
+      tags: index
     });
   }
 
   // Start Date and Time
   const startDateTimeValhandleChange = (newValue) => {
-    setstartDateTimeVal(newValue);
-    setForm(prevState => ({
-      ...form,
+    SetFormValue(prevState => ({
+      ...FormValue,
       date:{
         ...prevState.date,
         start: Date.parse(newValue)
@@ -81,9 +52,8 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
 
   // End Date and Time
   const endDateTimeValhandleChange = (newValue) => {
-    setendDateTimeVal(newValue);
-    setForm(prevState => ({
-      ...form,
+    SetFormValue(prevState => ({
+      ...FormValue,
       date:{
         ...prevState.date,
         end: Date.parse(newValue)
@@ -100,57 +70,14 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
 
   // These methods will update the form data
   function updateForm(e) {
-      return setForm((prev) => {
+      return SetFormValue((prev) => {
           const [key, value] = Object.entries(e)[0];
           prev[key] = value;
-          console.log(form);
           return prev;
   });}
 
-  function validateFormData(){
-    form.type = form.type.toLowerCase();
-    form.date.start = Number(form.date.start);
-    form.date.end = Number(form.date.end);
-    form.canClaimCertificate = form.canClaimCertificate == 'on' ? true : false;
-    form.tags = form.tags ? [] : [form.tags];
-    console.log("data validated");
-  }
-
-  // This function will handle the submission.
-  async function onSubmit(e) {
-    e.preventDefault();
-    validateFormData();
-
-    form.status = "active";
-
-    // When a post request is sent to the create url, we'll add a new record to the database.
-    const newEvent = { ...form };
-
-    await fetch(url, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newEvent),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data);
-        navigate(`/member/event/${data.eventId}`);
-        console.log("Submitted")
-    })
-    .catch(error => {
-        console.log("Error:" + error);
-        return;
-    });
-
-    // nextStep();
-  }
-
-  // +================================================================================
-
   return (
-    <form onSubmit={(e)=>onSubmit(e)}>
+    <form>
         <div className="Subject_Seperator">
           <div className="holder_Subject">
               <h3>Event Type</h3>
@@ -160,19 +87,20 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
               <div className="Wrapper_2_Inputs">
                   <FormControl fullWidth required  helpertext="Select Event">
                       <InputLabel id="demo-simple-select-label" required>Event Type</InputLabel>
-                      <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventTypeVal} label="Event Type" onChange={EventTypehandleChangeEvent}>
+                      <Select labelId="demo-simple-select-label" id="demo-simple-select" value={FormValue.type} label="Event Type" onChange={EventTypehandleChangeEvent}>
                           <MenuItem value={"Online"}>Online</MenuItem>
                           <MenuItem value={"Onsite"}>Onsite</MenuItem>
                       </Select>
                       <FormHelperText>Select event type</FormHelperText>
                   </FormControl>
-                  {EventTypeVal == '' ? '' : 
-                    (EventTypeVal == 'Online' ? (
+                  {FormValue.type == '' ? '' : 
+                    (FormValue.type == 'Online' ? (
                       <TextField 
                         id="outlined-search" 
                         label="Link" 
                         type="text" 
                         required 
+                        defaultValue={FormValue.link}
                         onChange={(e) => updateForm({link: e.target.value})}
                       />
                     ) : (
@@ -181,6 +109,7 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
                         label="Location" 
                         type="text" 
                         required 
+                        defaultValue={FormValue.location}
                         onChange={(e) => updateForm({location: e.target.value})}
                       />
                     ))
@@ -198,8 +127,9 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
                 id="outlined-search" 
                 label="Event Name" 
                 type="text" 
+                defaultValue={FormValue.title}
                 required
-                onChange={(e) => updateForm({title: e.target.value})}
+                onInput={(e) => updateForm({title: e.target.value})}
               />
               <TextField 
                 id="outlined-search" 
@@ -207,13 +137,14 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
                 type="text" 
                 required 
                 multiline
+                defaultValue={FormValue.description}
                 onChange={(e) => updateForm({description: e.target.value})}
               />
               <div className='Wrapper_2_1_Inputs'>   
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     label="Start Date & Time"
-                    value={startDateTimeVal}
+                    value={FormValue.date.start}
                     onChange={startDateTimeValhandleChange}
                     renderInput={(params) => <TextField {...params} />}
                   />
@@ -221,22 +152,21 @@ function EventCreate_EventDetails({StepValue,SetStepValue}) {
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
                     label="End Date & Time"
-                    value={endDateTimeVal}
+                    value={FormValue.date.end}
                     onChange={endDateTimeValhandleChange}
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
-                <Tags PredefinedTags={PredefinedTags} HandleChange={TagsValHandleChange}/>
+                <Tags PredefinedTags={PredefinedTags} HandleChange={TagsValHandleChange} defaultValue={FormValue.tags}/>
               </div>
               <div >
-                <FormControlLabel control={<Switch defaultChecked />} label="Certificate" onChange={(e) => updateForm({canClaimCertificate: e.target.value})}/>
+                <FormControlLabel control={<Switch defaultChecked={FormValue.canClaimCertificate}/>} label="Certificate" onChange={(e) => updateForm({canClaimCertificate: e.target.checked})}/>
               </div>
           </div>
       </div>
       <div id="Holder_Button">
-          {/* <Button variant="outlined">Back</Button>
-          <Button variant="text">Save as draft</Button> */}
-          <Button variant="contained" onClick={(e)=>onSubmit(e)} endIcon={<NavigateNextIcon/>}>Next</Button>
+          <Button variant="text">Save as draft</Button>
+          <Button variant="contained" onClick={()=>nextStep()} endIcon={<NavigateNextIcon/>}>Next</Button>
       </div>
     </form>
   )

@@ -10,32 +10,20 @@ import ClearIcon from '@mui/icons-material/Clear';
 function EventParticipantsList() {
 
     const ParticipantsRole = <>
-        <option value="Member">Member</option>
+        <option value="Member">Participant</option>
         <option value="Host">Host</option>
-        <option value="Co_Host">Co-Host</option>
+        <option value="Speaker">Co-Host</option>
         <option value="Organizer">Organizer</option>
     </>
 
-
     return (
         <div id="ListofSetParticipants">
-            <h5 id>Participats:</h5>
+            <h5>Participants:</h5>
             <ul>
                 <li>
                     <UserPanelInfo Image={UserPicture}  Title="Dianne Chrystalin Brandez" />
                     <div id='ParticipantsAction'>
                         <select name="" id="">
-                            {ParticipantsRole}
-                        </select>
-                        <IconButton aria-label="delete" color='error' >
-                            <ClearIcon />
-                        </IconButton>
-                    </div>
-                </li>
-                <li>
-                    <UserPanelInfo Image={UserPicture}  Title="Dianne Chrystalin Brandez" />
-                    <div id='ParticipantsAction'>
-                        <select name="Role" id="">
                             {ParticipantsRole}
                         </select>
                         <IconButton aria-label="delete" color='error' >

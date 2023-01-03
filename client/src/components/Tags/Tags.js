@@ -9,6 +9,7 @@ function Tags(props) {
             multiple
             id="tags-outlined"
             options={props.PredefinedTags.map((option) => option)}
+            defaultValue={props.defaultValue}
             freeSolo
             renderTags={(value, getTagProps) =>
             value.map((option, index) => (

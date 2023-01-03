@@ -13,7 +13,9 @@ const filterRequestBody = ({
     canClaimCertificate,
     status,
     isAcceptingVolunteer,
-    tags
+    tags,
+    regularPrice,
+    premiumPrice
 }) => {
     // Validate required fields
     if(!(  type         && typeof type === 'string'         && new Set(['online', 'onsite']).has(type)
@@ -21,13 +23,17 @@ const filterRequestBody = ({
         && description  && typeof description === 'string'
         && start        && typeof start === 'number'
         && end          && typeof end === 'number'
+        && regularPrice && typeof regularPrice === 'number'
+        && premiumPrice && typeof premiumPrice === 'number'
     )) throw new UnprocessableRequest();
 
     var obj = {
         type,
         title,
         description,
-        date: {start, end}
+        date: {start, end},
+        regularPrice,
+        premiumPrice
     }
 
     // Validate optional fields

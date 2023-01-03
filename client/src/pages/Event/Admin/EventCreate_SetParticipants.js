@@ -10,7 +10,7 @@ import SearchInput from '../../../components/SearchInput/SearchInput.js'
 import ParticipantsList from "./../../../layouts/Event/Admin/EventParticipantsList";
 import Button from '@mui/material/Button'
 
-function EventCreate_SetParticipants({StepValue,SetStepValue}) {
+function EventCreate_SetParticipants({StepValue,SetStepValue,FormValue,SetFormValue}) {
 
     const [AcceptVlunteerVal, setAcceptVlunteerVal] = useState(false)
 
@@ -39,8 +39,8 @@ function EventCreate_SetParticipants({StepValue,SetStepValue}) {
 
     return (
         <div>
-            <form action="#">
-                <div className="Subject_Seperator">
+            <form>
+                {/* <div className="Subject_Seperator">
                     <div className="holder_Subject">
                         <h3>Participants Accessibility</h3>
                         <p>Adjust participants accessibility</p>
@@ -53,7 +53,7 @@ function EventCreate_SetParticipants({StepValue,SetStepValue}) {
                             label= {<h5>Accept Volunteer Request</h5>}
                         />
                         <div className="Wrapper_2_Inputs">
-                            <FormControl fullWidth required  helperText="Select Event">
+                            <FormControl fullWidth required  helpertext="Select Event">
                                 <InputLabel id="demo-simple-select-label" required>Available only on</InputLabel>
                                 <Select labelId="demo-simple-select-label" id="demo-simple-select" value={EventMembersAccessibility} label="Available only on" onChange={EventMembersAccessibilityhandleChangeEvent}>
                                     <MenuItem value={"All"}>All</MenuItem>
@@ -63,13 +63,27 @@ function EventCreate_SetParticipants({StepValue,SetStepValue}) {
                             </FormControl>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className="Subject_Seperator">
                     <div className="holder_Subject">
                         <h3>Set Participants</h3>
                         <p>Assign roles to any participants</p>
                     </div>
                     <div className="holder_Questions">
+                    <FormControlLabel
+                            control={
+                            <Switch 
+                                defaultChecked={FormValue.isAcceptingVolunteer} 
+                                onChange={(event) => {
+                                    SetFormValue({
+                                      ...FormValue,
+                                      isAcceptingVolunteer: event.target.checked
+                                    });
+                                  }} 
+                                name="Certificate" />
+                            }
+                            label= {<h5>Accept Volunteers</h5>}
+                        />
                         <div className="Wrapper_2_Inputs">
                             <SearchInput/>
                         </div>
