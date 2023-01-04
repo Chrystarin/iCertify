@@ -9,7 +9,8 @@ const EventCard = (props) => {
         eventId, 
         title,
         dateStart,
-        cardType
+        cardType,
+        role
     } = props;
 
     return (
@@ -45,6 +46,7 @@ const EventCard = (props) => {
                         <h6 className="EventTitle">{title}</h6>
                         {/* Add class DateDue if the date if near on happening */}
                         <p className='Date BodyText3'>{dateStart}</p>
+                        <p className='Date BodyText3'>{role}</p>
                     </div>
                 </Link>
             </div>

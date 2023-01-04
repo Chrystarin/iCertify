@@ -8,6 +8,9 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from '../../config/axios';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import EventCard from '../../components/EventCard/EventCard'
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+
 
 const EventView = (props) => {
     const { id } = useParams()
@@ -173,15 +176,26 @@ const EventView = (props) => {
                     <div id="Wrapper_Container">
                         <div class="Container_Host Container_EventDetails">
                             <h4>Host</h4>
-                            <div id="">
-
+                            <div id="Hosts_Wrapper" className="Wrapper__Card">             
+                                <EventCard title="Dianne Chrystalin Brandez" role="Host"/>
+                                <EventCard title="Dianne Chrystalin Brandez" role="Host"/>
                             </div>
                         </div>
-                        <div class="Container_Analytics Container_EventDetails">
-                            <h4>
-                                Going
-                            </h4>
+                        <div>
+                            <div id="Participants" class="Container_Analytics Container_EventDetails">
+                                <h4>Participants</h4>
+                                <div id="Participants_Div">
+                                    <div id="Participants_Texts">
+                                        <h1>25</h1>
+                                        <h3>Going</h3>
+                                    </div>
+                                    <div>
+                                        <Button id="Button" variant="outlined" endIcon={<PersonAddIcon/>}>Invite</Button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                        
                     </div>
                 </div>
                 <div className="Wrapper_Right_Event_Details">
