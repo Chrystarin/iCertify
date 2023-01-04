@@ -1,13 +1,14 @@
 import React, {useEffect, useState,useRef}from 'react';
 import './Header.scss';
 import PicLogo from './../../images/iCertifyBranding/icon.png';
-
+import {ethers} from 'ethers';
 import SearchInput from '../../components/SearchInput/SearchInput.js';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 function Header() {
 
   const [openDropdown, setopenDropdown] = useState("");
+  const [address, setAddress] = useState("");
 
   // For closing the dropdown when clicking outside of
   let menuRef = useRef();
@@ -17,6 +18,19 @@ function Header() {
         setopenDropdown("");
       }
     });
+
+    const checkWallet = async () => {
+      try{
+          const provider = new ethers.providers.Web3Provider(window.ethereum);
+          const signer = provider.getSigner();
+          setAddress(await signer.getAddress());
+      }
+      catch(err){
+          console.error(err.message);
+      }
+    }
+
+    checkWallet();
   })
   function Notificaton(){
     let img = ["PicLogo","PicLogo"];
@@ -85,8 +99,8 @@ function DropdownItem(props){
               <div id='profile_Navigation'ref={menuRef}>
                 <img id='profilePicture_Navigation' src={PicLogo} alt="" onClick={()=>{(openDropdown==="Profile")?setopenDropdown(""): setopenDropdown("Profile")}}/>
                 <div className={(openDropdown==="Profile")?'dropdown-menu active':'dropdown-menu inactive'} >
-                  <a href="/member/profile">
-                    <h4 className='BodyText2'>Dianne Chrystalin Brandez</h4>
+                  <a href={`/member/${address}`}>
+                    <h4 className='BodyText2'>{address}</h4>
                   </a>
                   <a href='/membership'>
                     <div id='Wrapper_MembershipType'>
