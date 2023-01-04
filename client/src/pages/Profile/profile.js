@@ -4,21 +4,24 @@ import { useParams } from "react-router-dom";
 import './Profile.scss'
 
 import UserPanelInfo from '../../components/UserPanel/UserPanelInfo.js';
-import UserImg from './../../images/Resources/Developers/Dianne.jpg'
+import UserIcon from './../../images/icons/user-round.png';
 
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import CallIcon from '@mui/icons-material/Call';
 import MetaMaskIcon from './../../images/icons/fox.png'
 import EmailIcon from '@mui/icons-material/Email';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import PremiumIcon from '@mui/icons-material/WorkspacePremium';
 
 import EventCard from '../../components/EventCard/EventCard.js'
 import CredentialList from '../../components/Table/Table'
 
 import axios from '../../config/axios';
 
-function Profile(props) {
+function Profile() {
     const { id } = useParams()
     const [member, setMember] = useState(null)
+    const [joinedEvents, setJoinedEvents] = useState(null)
 
     // Executes on load
     useEffect(() => {
@@ -29,27 +32,37 @@ function Profile(props) {
                 setMember(response.data)
             })
         }
+
+        // Retrives Joined Events Data
+        const fetchJoinedEvents = async () => {
+            const response = await axios.get(`members/${id}/events`)
+            .then((response)=>{
+                setJoinedEvents(response.data)
+            })
+        }
         
         fetchMember();
+        fetchJoinedEvents();
     }, [])
 
-    let user = {
-        Id:"",
-        FirstName: "Dianne Chrystalin",
-        LastName: "Brandez",
-        Image: UserImg,
-        MetamaskAddress:"0x6eWereasdD24A"
-    }
-
     // Returns if member is null
-    if(!member) return <div>loading...</div>
+    if(!member || !joinedEvents) return <div>loading...</div>
 
     return (
     <div id='Profile'>
         <div id='Profile__Container_Div'>
-            <img id='Profile__Img' src={user.Image} alt="" />
+            <img id='Profile__Img' src={UserIcon} alt="" />
             <div id='Profile__Div__Info__Container'>
-                <h3>{member.name.firstName + " " + member.name.lastName}</h3>
+                <h3>
+                    {member.name.firstName 
+                    + " " 
+                    + (member.name.middleName ? Array.from(member.name.middleName)[0] : '')
+                    + ". "
+                    + member.name.lastName
+                    + " "
+                    + (member.name.extension ? member.name.extension : '')}
+                    {member.isPremium ? <PremiumIcon/> : ''}
+                </h3>
                 <div id='User__Div_Info'>
                     <a href="/" >
                         <UserPanelInfo Title={member.walletAddress} Image={MetaMaskIcon}/>
@@ -70,12 +83,18 @@ function Profile(props) {
                             <li>
                                 <h5 className='Panel__Title'>Contact</h5>
                                 <div className='Panel__Content__IconText'>
-                                    <CallIcon/>
+                                    <PhoneAndroidIcon/>
                                     <p className='BodyText3'> {member.contact.mobile}</p>
                                 </div>
                                 <div className='Panel__Content__IconText'>
                                     <CallIcon/>
                                     <p className='BodyText3'> {member.contact.telephone}</p>
+                                </div>
+                                <div className='Panel__Content__IconText'>
+                                    <EmailIcon/>
+                                    <p className='BodyText3'> 
+                                        {/* {member.credentials.email ? member.credentials.email : 'N/A'}  */}
+                                    </p>
                                 </div>
                             </li>
                             <li>
@@ -91,13 +110,22 @@ function Profile(props) {
             </div>
             <div id='Content__Div'>
                 <section >
-                    <h5 className='Panel__Title'>Joined Events</h5>
+                    <h5 className='Panel__Title'>Events</h5>
                     <div className='Wrapper__EventCard'>
-                        <EventCard/>
+                        {joinedEvents.length > 0 && joinedEvents.map((joinedEvent) => {
+                            return(
+                                <EventCard 
+                                    title={joinedEvent.event.title} 
+                                    key={joinedEvent.event.eventId} 
+                                    eventId={joinedEvent.event.eventId} 
+                                    role={joinedEvent.role}
+                                />)
+                        })}
                     </div>
                 </section>
+
                 <section >
-                    <h5 className='Panel__Title'>Credential </h5>
+                    <h5 className='Panel__Title'>Certificates </h5>
                     <div className=''>
                         <CredentialList/>
                     </div>

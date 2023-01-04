@@ -24,7 +24,7 @@ function CertificateGenerator(){
     const [role, setRole] = useState('');
     const [event, setEvent] = useState('');
     const [date, setDate] = useState('');
-    const [location, setLocation] = useState('');
+    const [location, setLocation] = useState('');   
 
     // Values for QR Code
     const [value, setQRValue] = useState('');

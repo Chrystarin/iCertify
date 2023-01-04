@@ -9,16 +9,18 @@ const EventCard = (props) => {
         eventId, 
         title,
         dateStart,
+        role
     } = props;
 
     return (
         <div className='EventCardContainer'>
-            <Link to={`${eventId}`}>
+            <Link to={`/member/event/${eventId}`}>
                 <img className='EventName' src={ImagePlaceHolder} alt=""/>
                 <div>
                     <h6 className="EventTitle">{title}</h6>
                     {/* Add class DateDue if the date if near on happening */}
                     <p className='Date BodyText3'>{dateStart}</p>
+                    <p className='Date BodyText3'>{role}</p>
                 </div>
             </Link>
         </div>

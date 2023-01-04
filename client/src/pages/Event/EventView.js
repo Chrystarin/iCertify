@@ -153,7 +153,7 @@ const EventView = (props) => {
                         ) : (
                             // If member has not yet joined
                             <div>
-                                <Button variant="contained" endIcon={<EventAvailableIcon />}>Join</Button>
+                                <Button variant="contained" endIcon={<EventAvailableIcon />} onClick={()=>joinEvent()}>Join</Button>
                             </div>
                         )
                         }
