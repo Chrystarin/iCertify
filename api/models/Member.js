@@ -100,7 +100,7 @@ const memberSchema = new Schema({
     }],
     ownedDocuments: [{
         type: ObjectId,
-        ref: 'Document'
+        ref: 'Certificate'
     }],
     requests: [{
         type: ObjectId,

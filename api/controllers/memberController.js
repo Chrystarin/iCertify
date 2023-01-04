@@ -283,7 +283,7 @@ const getDocuments = async (req, res, next) => {
         const member = await Member
             .findOne({ walletAddress })
             .select('-ownedDocuments._id')
-            .populate('ownedDocuments', '-_id documentId code details')
+            .populate('ownedDocuments')
             .exec();
         if(!member) throw new NotFound('Member');
 

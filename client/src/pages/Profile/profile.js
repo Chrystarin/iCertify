@@ -22,6 +22,7 @@ function Profile() {
     const { id } = useParams()
     const [member, setMember] = useState(null)
     const [joinedEvents, setJoinedEvents] = useState(null)
+    const [ownedCertificates, setOwnedCertificates] = useState(null)
 
     // Executes on load
     useEffect(() => {
@@ -40,13 +41,21 @@ function Profile() {
                 setJoinedEvents(response.data)
             })
         }
+
+        const fetchOwnedCertificates = async () => {
+            const response = await axios.get(`members/${id}/documents`)
+            .then((response)=>{
+                setOwnedCertificates(response.data)
+            })
+        }
         
         fetchMember();
         fetchJoinedEvents();
+        fetchOwnedCertificates();
     }, [])
 
     // Returns if member is null
-    if(!member || !joinedEvents) return <div>loading...</div>
+    if(!member || !joinedEvents || !ownedCertificates) return <div>loading...</div>
 
     return (
     <div id='Profile'>
@@ -126,9 +135,19 @@ function Profile() {
 
                 <section >
                     <h5 className='Panel__Title'>Certificates </h5>
-                    <div className=''>
+                    {/* <div className=''>
                         <CredentialList/>
-                    </div>
+                    </div> */}
+                    <div className='Wrapper__EventCard'>
+                        {ownedCertificates.length > 0 && ownedCertificates.map((ownedCertificate) => {
+                            return(
+                                <EventCard 
+                                    key={ownedCertificate.certificateId} 
+                                    eventId={ownedCertificate.certificateId} 
+                                    image={`https://icertify.infura-ipfs.io/ipfs/${ownedCertificate.ipfsCID}`}
+                                />)
+                        })}
+                        </div>
                 </section>
             </div>
         </div>

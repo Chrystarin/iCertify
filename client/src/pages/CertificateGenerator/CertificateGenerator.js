@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import html2canvas from 'html2canvas';
 import QRCode from 'react-qr-code';
 import { ethers } from 'ethers'
+import { useParams } from "react-router-dom";
 
 import './CertificateGenerator.scss'
 
@@ -9,10 +10,14 @@ import contractBuild from '../../CertificateNFT.json'
 import certificateBodyTemplate from './../../images/certificate_template_default.png'
 import certificateFooterTemplate from './../../images/Certificatefooter.png'
 
+import axios from '../../config/axios';
+
 // import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from 'react-component-export-image';
 // import downloadjs from 'downloadjs';
 
 function CertificateGenerator(){
+    const { id } = useParams()
+    const [member, setMember] = useState(null)
     const exportRef = useRef();
     const [certificate, setCertificate] = useState(new FormData());
 
@@ -25,23 +30,16 @@ function CertificateGenerator(){
     const [event, setEvent] = useState('');
     const [date, setDate] = useState('');
     const [location, setLocation] = useState('');   
-
-    // Values for QR Code
     const [value, setQRValue] = useState('');
-    const [back, setQRBack] = useState('#FFFFFF');
-    const [fore, setQRFore] = useState('#000000');
-    const [size, setQRSize] = useState(60);
 
     // Excecutes upon page load
     useEffect(() => {
         async function requestAccount() {
             return await window.ethereum.request({ method: 'eth_requestAccounts' });
         }
-
         requestAccount();
         provider = new ethers.providers.Web3Provider(window.ethereum);
         signer = provider.getSigner();
-
         contract = new ethers.Contract('0x2834B7434983cBab156Bfea31024184B9e3CA1B4', contractBuild.abi, signer);
     });
 
@@ -97,8 +95,8 @@ function CertificateGenerator(){
             // Mint and transfer to owner
             const transaction = await contract.sendCertificate(
                 address,                                        // receiver
-                'Dignissim Nulla Sapien Leo Mollis',            // title
-                'n9L4NCLt',                                     // fromEvent
+                'Game Development Workshop',            // title
+                'uwp3NXes',                                     // fromEvent
                 `https://icertify.infura-ipfs.io/ipfs/${path}`  // uri
             )
 
@@ -111,7 +109,7 @@ function CertificateGenerator(){
                     ipfsCID: path,
                     hash: transaction.hash,
                     ownerAddress: address,
-                    eventId: 'n9L4NCLt'
+                    eventId: 'uwp3NXes'
                 })
             }).then(res => res.json());
             console.log(result);
@@ -153,9 +151,9 @@ function CertificateGenerator(){
                             <QRCode
                                 title="Bicol IT Certificate"
                                 value={value}
-                                bgColor={back}
-                                fgColor={fore}
-                                size={size === '' ? 0 : size}
+                                bgColor={'#FFFFFF'}
+                                fgColor={'#000000'}
+                                size={60 === '' ? 0 : 60}
                                 className="qrcode"
                                 id="qrcode"
                             />
