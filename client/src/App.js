@@ -19,7 +19,7 @@ import Credential_View from './pages/Credential/CredentialView.js';
 import Event from './pages/Event/Events.js';
 import Event_View from './pages/Event/EventView.js';
 import JoinEvent from './pages/Event/EventJoin.js';
-import Profile from './pages/Profile/Profile.js'
+import Profile from './pages/Profile/Profiles.js'
 
 // Admin
 import AdminPanel from './routes/Admin.js';
