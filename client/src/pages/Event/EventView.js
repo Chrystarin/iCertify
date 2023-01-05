@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
 import axios from '../../config/axios';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import EventCard from '../../components/EventCard/EventCard'
+import Card from '../../components/Card/Card'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 
@@ -178,8 +178,8 @@ const EventView = (props) => {
                         <div class="Container_Host Container_EventDetails">
                             <h4>Host</h4>
                             <div id="Hosts_Wrapper" className="Wrapper__Card">             
-                                <EventCard title="Dianne Chrystalin Brandez" role="Host"/>
-                                <EventCard title="Dianne Chrystalin Brandez" role="Host"/>
+                                <Card title="Dianne Chrystalin Brandez" role="Host"/>
+                                <Card title="Dianne Chrystalin Brandez" role="Host"/>
                             </div>
                         </div>
                         <div>

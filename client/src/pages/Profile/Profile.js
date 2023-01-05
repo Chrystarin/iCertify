@@ -120,7 +120,7 @@ function Profile() {
             <div id='Content__Div'>
                 <section >
                     <h5 className='Panel__Title'>Events</h5>
-                    <div className='Wrapper__EventCard'>
+                    <div className='Wrapper__Card' >
                         {joinedEvents.length > 0 && joinedEvents.map((joinedEvent) => {
                             return(
                                 <Card 
@@ -139,7 +139,7 @@ function Profile() {
                     {/* <div className=''>
                         <CredentialList/>
                     </div> */}
-                    <div className='Wrapper__EventCard'>
+                    <div className='Wrapper__Card'>
                         {ownedCertificates.length > 0 && ownedCertificates.map((ownedCertificate) => {
                             return(
                                 <Card 
@@ -147,9 +147,10 @@ function Profile() {
                                     id={ownedCertificate.certificateId} 
                                     type={'certificate'}
                                     image={`https://icertify.infura-ipfs.io/ipfs/${ownedCertificate.ipfsCID}`}
-                                />)
+                                />
+                            )
                         })}
-                        </div>
+                    </div>
                 </section>
             </div>
         </div>

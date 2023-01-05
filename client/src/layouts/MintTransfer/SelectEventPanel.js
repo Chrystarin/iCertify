@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import './SelectEventPanel.scss';
 
-import EventCard from '../../components/EventCard/EventCard';
+import Card from '../../components/Card/Card';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
 function SelectEvent() {
@@ -17,10 +17,10 @@ function SelectEvent() {
               <h3 id='SelectDropDown_h3'>Events to manage</h3>
               <h5 id='SelectDropDown_h5'>Choose Event to manage</h5>
               <div className='Wrapper__Card' >
-                <EventCard cardType="Admin"/>
-                <EventCard cardType="Admin"/>
-                <EventCard cardType="Admin"/>
-                <EventCard cardType="Admin"/>
+                <Card cardType="Admin"/>
+                <Card cardType="Admin"/>
+                <Card cardType="Admin"/>
+                <Card cardType="Admin"/>
               </div>
             </div>
         </div>
