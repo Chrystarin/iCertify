@@ -98,7 +98,7 @@ const memberSchema = new Schema({
             default: 'Participant'
         }
     }],
-    ownedDocuments: [{
+    ownedCertificates: [{
         type: ObjectId,
         ref: 'Certificate'
     }],

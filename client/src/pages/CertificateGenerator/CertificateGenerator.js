@@ -135,7 +135,7 @@ function CertificateGenerator(){
                 <li>Location: <input type="text" id="qrcode_input" onChange={e => setLocation(e.target.value)}/></li>
                 <li>Date:  <input type="date" id="event_date_input" onChange={e => setDate(e.target.value)}/></li>
                 <li>QR Content: <input type="text" id="qrcode_input" onChange={e => setQRValue(e.target.value)}/></li>
-                <button id="btn_download" onClick={() => mintAndTransfer()}>Download</button>
+                <button id="btn_download" onClick={() => mintAndTransfer()}>Generate</button>
             </ul>
 
             <div className="certificate" id="certificateContent" ref={exportRef}>

@@ -6,7 +6,7 @@ const {
     getMember,
     updateMember,
     getJoinedEvents,
-    getDocuments,
+    getCertificates,
     getRequests,
     registerUser,
     userExisting
@@ -28,7 +28,7 @@ router.use(authUser);
 router.get('/', getAllMembers);
 router.get('/:walletAddress', getMember);
 router.get('/:walletAddress/events', getJoinedEvents);
-router.get('/:walletAddress/certificates', getDocuments);
+router.get('/:walletAddress/certificates', getCertificates);
 router.get('/:walletAddress/requests', getRequests);
 
 // Members

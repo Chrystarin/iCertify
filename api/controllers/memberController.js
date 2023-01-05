@@ -276,18 +276,18 @@ const getJoinedEvents = async (req, res, next) => {
     }
 }
 
-const getDocuments = async (req, res, next) => {
+const getCertificates = async (req, res, next) => {
     const { walletAddress } = req.params;
 
     try {
         const member = await Member
             .findOne({ walletAddress })
-            .select('-ownedDocuments._id')
-            .populate('ownedDocuments')
+            .select('-ownedCertificates._id')
+            .populate('ownedCertificates')
             .exec();
         if(!member) throw new NotFound('Member');
 
-        res.status(200).json(member.ownedDocuments);
+        res.status(200).json(member.ownedCertificates);
     } catch (error) {
         next(error);
     }
@@ -317,7 +317,7 @@ module.exports = {
     getMember,
     updateMember,
     getJoinedEvents,
-    getDocuments,
+    getCertificates,
     getRequests,
     registerUser,
     userExisting

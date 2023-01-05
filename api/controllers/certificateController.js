@@ -68,7 +68,7 @@ const saveCertificate = async (req, res, next) => {
             event: event._id
         });
 
-        member.ownedDocuments.push(certificate._id);
+        member.ownedCertificates.push(certificate._id);
         await member.save();
 
         res.status(201).json({
