@@ -28,7 +28,7 @@ import A_EventCreate from './pages/Event/Admin/EventCreate.js'
 import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js';
 import MintTransfer from './pages/MintTransfer/MintTransfer.js';
 
-
+import CertificateComponent from './components/Certificate/Certificate.js'
 // const ROLES = {
 //   member: '46936',
 //   admin: '28537',
@@ -43,7 +43,8 @@ function App() {
       <Route path="*" element={<Error/>}/>
       <Route path="/" element={<LandingPage/>}/>
       <Route path="/getstarted" element={<GetStarted/>}/>
-
+      <Route path="/certificate" element={<CertificateComponent/>}/>
+      
       <Route path='/member' element={<MemberPanel/>}>
         <Route path="dashboard" element={<Dashboard/>}/>
         <Route path="certificate/:id" element={<CertificatePage/>}/>
@@ -58,6 +59,7 @@ function App() {
 
       <Route path='/admin' element={<AdminPanel/>}>
         <Route path="event" element={<A_Event/>}/>
+        <Route path="event/:id/certificate/generate" element={<MintTransfer/>}/>
         <Route path="mintTransfer" element={<MintTransfer/>}/>
         <Route path="event/create" element={<A_EventCreate/>}/>
         <Route path="certificate/generate" element ={<CertificateGenerator/>}/>
@@ -125,10 +127,6 @@ export default App;
         {/* Insert routes here */}
       {/* </Route> */}
 
-      
-
-    
-
     {/* --------------------TEST---------------------- */}
     {/* <Route path='/Credential/' element={<Credential/>}/>
     <Route path='/Credential/View' element={<CredentialView/>}/> */}
@@ -146,12 +144,29 @@ export default App;
 // /
 // /getstarted
 // /about
+// /events
+// /events/:id
+// /:id
+// /certificates/:id
+
+// Protected Routes Member
 // /dashboard
-// /event
-// /event/:id
-// /member/:id
-// /credential
-// /credential/:id
+// /:id/edit
+// /certificate
+
+// Protected Routes Admin
+// /dashboard
+// /event/create
+// /event/:id/edit
+// /members
+
+// /accountants
+// /accountant/create
+// /accountant/edit
+// /accountant/:id
+
+
+
 
 // Protected Routes Accountant
 // /dashboard

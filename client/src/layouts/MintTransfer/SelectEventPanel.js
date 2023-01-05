@@ -4,13 +4,14 @@ import './SelectEventPanel.scss';
 import Card from '../../components/Card/Card';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 
-function SelectEvent() {
+function SelectEvent(props) {
+  const {title} = props;
   const [Dropdown,setDropdown] = useState(false);
   return (
     <>
         <div id='SelectEvent'>
             <div id="Select__Div" onClick={()=> setDropdown(!Dropdown)}>
-                <h5  id='EventTitle'>Blockchain Technology 101</h5>
+                <h5  id='EventTitle'>{title}</h5>
                 <ExpandLessIcon/>
             </div>
             <div id='SelectDropDown' className={Dropdown?"Panel__Container SelectDropDownActive": "Panel__Container SelectDropDownInactive"}>
