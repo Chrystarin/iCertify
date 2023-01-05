@@ -40,6 +40,14 @@
                     bottom: 0;
                     right: 0;
                 }
+                #JoinButton__Container{
+                    display: flex;
+                    gap: 15px;
+                    align-items: center;
+                    h5{
+                        color: rgba(0, 0, 0, 0.468);
+                    }
+                }
             }
         }
         #Holder_Title_Event{
@@ -71,6 +79,27 @@
                 display: grid;
                 grid-template-columns: 1fr .4fr;
                 gap: 30px;
+
+                #Participants{
+                    #Participants_Div{
+                        display: flex;
+                        flex-direction: column;
+                        min-height: 220px;
+                        #Participants_Texts{
+                            flex-grow: 1;
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                        }
+                        #Button{
+                            
+                            float: right;
+                            width: 100px;
+                        }
+                        
+                    }
+                }
             }
         }
         // .Wrapper_Left_Event_Details {  

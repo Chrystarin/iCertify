@@ -1,8 +1,10 @@
 .EventCardContainer{
     background-color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.077);
     border-radius: 10px;
     padding: .5em;
-    opacity: .85;
+    opacity: 1;
+    border: 1px solid rgba(128, 128, 128, 0.122);
     max-width: 249px;
 
     a{
@@ -25,35 +27,20 @@
         .DateDue{
             color:red;
         }
-        // .Container_Participants{
-        //     display: flex;
-        //     align-items: center;
-        //     .Wrapper_Participants{
-        //         margin-right: 4px;
-        //         img{
-        //             width: 25px;
-        //             height: 25px;
-        //             border-radius: 100px;
-        //         }
-        //         img:nth-child(1){
-        //             transform: translateX(0px);
-        //         }
-        //         img:nth-child(2){
-        //             transform: translateX(-12px);
-        //         }
-        //         img:nth-child(3){
-        //             transform: translateX(-24px);
-        //         }
-        //     }
-        //     p{
-        //         transform: translateX(-22px);
-        //         font-size: 11px;
-        //         font-weight: 600;
-        //         color: rgb(61, 61, 61);
-        //     }
-        // }
+    }
+    #EvenCardAdminInfo{
+        padding-top: 15px;
+        color: black;
+        border-top: 1px solid rgba(0, 0, 0, 0.147);
+        display: flex;
+        .AdminInfo__Container{
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            flex-grow: 1;
+        }
     }
 }
 .EventCardContainer:hover{
-    opacity: 1;
+    border: 1px solid rgba(128, 128, 128, 0.403);
 }

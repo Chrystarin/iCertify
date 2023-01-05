@@ -6,10 +6,8 @@ $Maxwidth1 : 1920px;
     max-width: 1900px;
     height: 100vh;
     display: grid;
-    grid-template-columns: 4% 96%;
+    grid-template-columns: 60px 96%;
     #Navigation{
-        max-width:76px;
-        min-width: 40px;
     }
 }
 
@@ -17,11 +15,11 @@ $Maxwidth1 : 1920px;
     background-color: var(--light2);
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
-    padding: 1em 1em 0;
-    min-width: 1000px;
+    padding: 25px 1em 25px;
+    min-width: 800px;
     
     #Content{
-      padding-top: 50px;
+      padding-top: 40px;
       #Alert{
         margin-bottom: 40px;
         ul{
@@ -54,22 +52,25 @@ $Maxwidth1 : 1920px;
       }
 
       section{
-        margin-bottom: 40px;
-        h4{
-            position: relative;
-            margin-bottom: 30px;
+        .SectionTitle{
+            color: var(--accent);
         }
-        h4::after{
-            content: "";
-            margin-left: 15px;
-            position: absolute;
-            top: 50%;
-            transform: translate(0,-50%);
-            width: 35px;
-            height: 5px;
-            border-radius: 100px;
-            background-color: black;
-        }
+        
+        // h4{
+        //     position: relative;
+        //     margin-bottom: 30px;
+        // }
+        // h4::after{
+        //     content: "";
+        //     margin-left: 15px;
+        //     position: absolute;
+        //     top: 50%;
+        //     transform: translate(0,-50%);
+        //     width: 35px;
+        //     height: 5px;
+        //     border-radius: 100px;
+        //     background-color: black;
+        // }
       } 
     }
 }

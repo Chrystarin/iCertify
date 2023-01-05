@@ -1,77 +1,120 @@
 
 import React,{useState} from 'react';
 import './CredentialView.scss'
-
-import Button from '../../components/Button/Button.js';
+import Button from '@mui/material/Button';
 import UserImg from './../../images/Resources/Developers/Dianne.jpg';
+import ShareIcon from '@mui/icons-material/Share';
+import DownloadIcon from '@mui/icons-material/Download';
+import UserPanel from '../../components/UserPanel/UserPanelInfo.js'
+
+import Fab from '@mui/material/Fab';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import Backdrop from '@mui/material/Backdrop';
+
+import ShareCredentialModal from '../../layouts/Credential/ShareCredentialModal';
 
 function Credential() {
-  const [openDetails, setopenDetails] = useState(false);
-  const [openFullView, setopenFullView] = useState(false);
+  const [ModalToOpen,setModalToOpen] = useState("wew")
+  const [open, setOpen] = React.useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggleFull = (ToOpen) => {
+    setOpen(!open);
+    setModalToOpen("full");
+  };
+  const handleToggleShare = (ToOpen) => {
+    setOpen(!open);
+    setModalToOpen("share");
+  };
+
+  function SetBackrop(){
+    switch (ModalToOpen) {
+      case "full":
+        return <>
+          <div id='FullViewModal' >
+            <div id='FullView__Container' className='Panel__Container'>
+              <h1>I love you wife </h1>
+            </div>
+            <div id='FullView__Buttons'>
+              <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={handleToggleFull}>
+                <FullscreenExitIcon />
+              </Fab> 
+              <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }}>
+                <DownloadIcon />
+              </Fab> 
+            </div>
+            
+          </div>
+        </>
+        break;
+      case "share":
+        return <ShareCredentialModal ChangeHandler={handleToggleShare}/>
+        break;
+      default:
+        break;
+    }
+  }
+
+
   return (
-    <section id='CredentialView' className={openDetails?"DetailsActive":"DetailsInactive"}>
-      <div className='Container_CredentialView' id='Container_Document_Credential'>                  
-        <div>
-          {/* You can put the credential */}
-        </div>
-        {/*Button */}
-        <div id='Full' className='ContainerButton' onClick={() => setopenFullView(!openFullView)}>
-          <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 306.8 306.05"><defs><style></style></defs><polygon class="cls-1" points="0 123.05 40 123.05 40 40 123.05 40 123.05 0 0 0 0 123.05"/><polygon class="cls-1" points="183.75 0 183.75 40 266.8 40 266.8 123.05 306.8 123.05 306.8 0 183.75 0"/><polygon class="cls-1" points="266.8 266.05 183.75 266.05 183.75 306.05 306.8 306.05 306.8 183 266.8 183 266.8 266.05"/><polygon class="cls-1" points="40 183 0 183 0 306.05 123.05 306.05 123.05 266.05 40 266.05 40 183"/></svg>
-        </div>
-        {/* Full View Pannel fixed */}
-        <div id='Container_FullView_Credential'  className={openFullView?"Active_Container_FullView_Credential":"Inactive_Container_FullView_Credential"}>
-          <div id='Container_Background'  onClick={() => setopenFullView(!openFullView)}></div>  
-          <div id='holder_FullView_Credential'>
-            <div id='Container_FullView_Credential'>
-              {/* You can put the credential for ful screen*/}
+    <section id='CredentialViewPage_Wrapper'>
+      <div id='CredentialView_Container'>
+        <div id='CredentialViewingPanel__Container' className='Panel__Container'>
+          <div id='FullView__Container'>
+            <div>
             </div>
-            <div id='Full' className='ContainerButton' >
-              <svg id="Download" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 306.8 306.05"><defs><style></style></defs><polygon class="cls-1" points="0 123.05 40 123.05 40 40 123.05 40 123.05 0 0 0 0 123.05"/><polygon class="cls-1" points="183.75 0 183.75 40 266.8 40 266.8 123.05 306.8 123.05 306.8 0 183.75 0"/><polygon class="cls-1" points="266.8 266.05 183.75 266.05 183.75 306.05 306.8 306.05 306.8 183 266.8 183 266.8 266.05"/><polygon class="cls-1" points="40 183 0 183 0 306.05 123.05 306.05 123.05 266.05 40 266.05 40 183"/></svg>
-              <svg id="Layer_1" onClick={() => setopenFullView(!openFullView)} data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 327.1 327.1"><defs><style></style></defs><polygon class="cls-1" points="213.05 163.55 327.1 277.6 277.6 327.1 114.05 163.55 277.6 0 327.1 49.5 213.05 163.55"/><rect class="cls-1" x="1005.48" y="311.87" width="161.29" height="70" transform="translate(-931.51 768.05) rotate(-45)"/><rect class="cls-1" x="1051.12" y="102.68" width="70" height="161.29" transform="translate(-815.86 720.15) rotate(-45)"/></svg>
-            </div>
+            <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={handleToggleFull}>
+                <FullscreenIcon />
+            </Fab>
           </div>
         </div>
       </div>
-      <div  id='Container_Information_Credential'>
-        {/* Details of the credential */}
-        <div className='Container_CredentialView'id='Holder_Information_Credential'>
-          <div id='Hide' className='ContainerButton' onClick={() => setopenDetails(!openDetails)}>
-            <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 327.1 327.1"><defs><style></style></defs><polygon class="cls-1" points="213.05 163.55 327.1 277.6 277.6 327.1 114.05 163.55 277.6 0 327.1 49.5 213.05 163.55"/><rect class="cls-1" x="1005.48" y="311.87" width="161.29" height="70" transform="translate(-931.51 768.05) rotate(-45)"/><rect class="cls-1" x="1051.12" y="102.68" width="70" height="161.29" transform="translate(-815.86 720.15) rotate(-45)"/></svg>
+      <div id='CredentialViewSideBar_Container'>
+        <div className='Panel__Container' id='CredentialDetails__Container'>
+          <h4>Credential Details</h4>
+          <ul id='ListofDetails'>
+            <li>
+              <h5 className="Details__Title">Event</h5>
+              <p className='BodyText1 Details__Content'>Blockchain Technology</p>
+            </li>
+            <li>
+              <h5 className="Details__Title">Certificate Type</h5>
+              <p className='BodyText1 Details__Content'>Certificate of Completion</p>
+            </li>
+            <li>
+              <h5 className="Details__Title">Description</h5>
+              <p className='BodyText1 Details__Content'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam hic voluptates placeat id iusto quae minus, nulla non. Veritatis libero eos nam dolorum voluptates incidunt.</p>
+            </li>
+            <li>
+            </li>
+          </ul>
+          <div id='SenderReciever__Container' className='Panel__Container'>
+            <a href="#">
+              <UserPanel Image={UserImg} SubTitle="Owner" Title="Dianne Chrystalin Brandez"/>
+            </a>
           </div>
-          <div id='Holder_Details_CredentialView'>
-            <h3>Details</h3>
-            <h6 className='Title_Information_Credential'>Title: </h6>
-            <p className="Content_Information_Credential">Accelerated Program in Euthereum</p>
-            <h6 className='Title_Information_Credential'>Document Type: </h6>
-            <p className="Content_Information_Credential">Accelerated Program in Euthereum</p>
-            <h6 className='Title_Information_Credential'>Description: </h6>
-            <p className="Content_Information_Credential">Accelerated Program in Euthereum</p>
-            <h6 className='Title_Information_Credential'>Txn Hash: </h6>
-            <p className="Content_Information_Credential">#0x6e512d26...D24A</p>
-            <div className='Container_userInvolve'>
-              <a href="http://">
-                <img src={UserImg} alt="" />
-                <div>
-                  <h6>Dianne Chrystalin M. Brandez</h6>
-                  <p>Owner</p>
-                </div>
-              </a>
-            </div>
-            <div className='Container_userInvolve'>
-              <a href="http://">
-                <img src={UserImg} alt="" />
-                <div>
-                  <h6>Bicol IT</h6>
-                  <p>Organization</p>
-                </div>
-              </a>
-            </div>
-            <div id='Container_Button_Details'>
-              <Button Action="Link" Link="/" BtnType="Primary2" Value="Share"/>
-              <Button Action="Link" Link="/" BtnType="Primary" Value="Download"/>
-            </div>
+          <div id='SenderReciever__Container' className='Panel__Container'>
+            <a href="#">
+              <UserPanel Image={UserImg} SubTitle="Admin" Title="Bicol IT Organization"/>
+            </a>
+          </div>
+          <div id='Button__Wrapper'> 
+            <Button variant="outlined" startIcon={<ShareIcon/>} onClick={handleToggleShare}> Share</Button>
+            <Button variant="contained" startIcon={<DownloadIcon/>}>Download</Button>
           </div>
         </div>
+      </div>
+
+
+      <Backdrop
+      sx={{ color: '#fff', zIndex: 98 }}
+      open={open}
+      onClick={handleClose}>
+      </Backdrop>
+      <div className='Modal'>
+        {(open)? <SetBackrop/>:""}
       </div>
     </section>
   )

@@ -1,0 +1,36 @@
+.MintTransfer__Card{
+    background-color: white;
+    max-width: 400px;
+    border: 1px solid rgba(197, 197, 197, 0.358);
+    cursor: pointer;
+    ul{
+        margin-top: 20px;
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        li{
+            display: flex;
+            gap: 5px;
+            .Card__Title{
+                color: gray;
+            }
+            .Card__Title::after{
+                content: " :";
+            }
+            .Card__Content{
+                color: rgb(53, 53, 53);
+            }
+        }
+    }
+    #MintTransfer__Button{
+        margin-top: 15px;
+        display: flex;
+        gap: 15px;
+        justify-content: start;
+    }
+}
+.MintTransfer__Card:hover{
+    border: 1px solid rgb(197, 197, 197);
+
+}

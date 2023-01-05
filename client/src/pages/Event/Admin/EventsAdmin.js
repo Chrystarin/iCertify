@@ -11,7 +11,10 @@ function Dashboard() {
   return (
     <div id='AdminDasboard'>
         <section id='Events'>
-            <h4>Events</h4>
+            <div className='Title__Div'>
+              <h2 className='SectionTitle'>Event</h2>
+              <h5 className='SectionSubTitle'>All Event in the Organization</h5>
+            </div>
             
             <div className='Navigation_Event'>
                 <button className={(isOpenPanel_Events === "All")? "Selected":""} onClick={() => setIsOpenPanel_Events("All")}>All</button>

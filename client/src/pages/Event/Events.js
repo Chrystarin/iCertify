@@ -13,7 +13,10 @@ function Event() {
 
   return (
     <section id='Events'>
-       <h4>Events</h4>
+       <div className='Title__Div'>
+          <h2 className='SectionTitle'>Events</h2>
+          <h5 className='SectionSubTitle'>Collections of Events</h5>
+        </div>
         <div className="Navigation_Event">
           <button id="FeaturedEvents" className={(isOpenPanel_Events === "FeaturedEvents")? "Selected":""}  onClick={() => setIsOpenPanel_Events("FeaturedEvents")}>Featured Events</button>
           <button id="JoinedEvents" className={(isOpenPanel_Events === "JoinedEvents")? "Selected":""} onClick={() => setIsOpenPanel_Events("JoinedEvents")}>Joined Events</button>
