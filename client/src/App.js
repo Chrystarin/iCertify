@@ -15,7 +15,7 @@ import MemberView from './pages/Member/MemberView.js';
 import MemberEdit from './pages/Member/MemberEdit.js'
 import Dashboard from './pages/Dashboard/Dashboard';
 import Credential from './pages/Credential/Credential';
-import Credential_View from './pages/Credential/CredentialView.js';
+import CertificatePage from './pages/Credential/CredentialView.js';
 import Event from './pages/Event/Events.js';
 import Event_View from './pages/Event/EventView.js';
 import JoinEvent from './pages/Event/EventJoin.js';
@@ -46,8 +46,8 @@ function App() {
 
       <Route path='/member' element={<MemberPanel/>}>
         <Route path="dashboard" element={<Dashboard/>}/>
+        <Route path="certificate/:id" element={<CertificatePage/>}/>
         <Route path="credential" element={<Credential/>}/>
-        <Route path="credential/view" element={<Credential_View/>}/>
         <Route path="event" element={<Event/>}/>
         <Route path="event/:id" element={<Event_View/>}/>
         <Route path='event/:id/join' element={<JoinEvent/>}/>

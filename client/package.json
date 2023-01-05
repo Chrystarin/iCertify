@@ -16,6 +16,7 @@
     "dotenv": "^16.0.3",
     "downloadjs": "^1.4.7",
     "ethers": "^5.7.2",
+    "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
     "moment": "^2.29.4",
     "react": "^18.2.0",

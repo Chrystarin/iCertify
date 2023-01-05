@@ -1,11 +1,16 @@
 
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
+import { useParams } from "react-router-dom";
+import { saveAs } from 'file-saver'
+
 import './CredentialView.scss'
 import Button from '@mui/material/Button';
 import UserImg from './../../images/Resources/Developers/Dianne.jpg';
 import ShareIcon from '@mui/icons-material/Share';
 import DownloadIcon from '@mui/icons-material/Download';
 import UserPanel from '../../components/UserPanel/UserPanelInfo.js'
+import ImagePlaceHolder from './../../images/placeholder/image_placeholder.jpg';
+import UserIcon from './../../images/icons/user-round.png';
 
 import Fab from '@mui/material/Fab';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
@@ -14,9 +19,27 @@ import Backdrop from '@mui/material/Backdrop';
 
 import ShareCredentialModal from '../../layouts/Credential/ShareCredentialModal';
 
+import axios from '../../config/axios';
+
 function Credential() {
+  const { id } = useParams()
   const [ModalToOpen,setModalToOpen] = useState("wew")
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [certificate, setCertificate] = useState(null);
+
+  // Executes on load
+  useEffect(() => {
+    const fetchCertificate = async () => {
+      const response = await axios.get(`/certificates/${id}`)
+      .then((response)=>{
+        setCertificate(response.data)
+      })
+    }
+    
+    fetchCertificate();
+  }, [])
+
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -35,17 +58,16 @@ function Credential() {
         return <>
           <div id='FullViewModal' >
             <div id='FullView__Container' className='Panel__Container'>
-              <h1>I love you wife </h1>
+            <img className='EventName' src={`https://icertify.infura-ipfs.io/ipfs/${certificate.ipfsCID}`} alt=""/>
             </div>
             <div id='FullView__Buttons'>
               <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={handleToggleFull}>
                 <FullscreenExitIcon />
               </Fab> 
               <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }}>
-                <DownloadIcon />
+                <DownloadIcon onClick={()=>saveAs(`https://icertify.infura-ipfs.io/ipfs/${certificate.ipfsCID}`, 'image.jpg')}/>
               </Fab> 
             </div>
-            
           </div>
         </>
         break;
@@ -57,13 +79,17 @@ function Credential() {
     }
   }
 
+  if(!certificate) return <div>loading...</div>
 
   return (
     <section id='CredentialViewPage_Wrapper'>
       <div id='CredentialView_Container'>
         <div id='CredentialViewingPanel__Container' className='Panel__Container'>
+        <img className='EventName' src={`https://icertify.infura-ipfs.io/ipfs/${certificate.ipfsCID}`} alt=""/>
           <div id='FullView__Container'>
+            
             <div>
+            
             </div>
             <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={handleToggleFull}>
                 <FullscreenIcon />
@@ -77,32 +103,32 @@ function Credential() {
           <ul id='ListofDetails'>
             <li>
               <h5 className="Details__Title">Event</h5>
-              <p className='BodyText1 Details__Content'>Blockchain Technology</p>
+              <p className='BodyText1 Details__Content'>{certificate.event.title}</p>
             </li>
             <li>
               <h5 className="Details__Title">Certificate Type</h5>
-              <p className='BodyText1 Details__Content'>Certificate of Completion</p>
+              <p className='BodyText1 Details__Content'>{certificate.title}</p>
             </li>
             <li>
-              <h5 className="Details__Title">Description</h5>
-              <p className='BodyText1 Details__Content'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam hic voluptates placeat id iusto quae minus, nulla non. Veritatis libero eos nam dolorum voluptates incidunt.</p>
+              <h5 className="Details__Title">Transaction Hash</h5>
+              <p className='BodyText1 Details__Content'>{certificate.hash}</p>
             </li>
             <li>
             </li>
           </ul>
           <div id='SenderReciever__Container' className='Panel__Container'>
-            <a href="#">
-              <UserPanel Image={UserImg} SubTitle="Owner" Title="Dianne Chrystalin Brandez"/>
+            <a href={`/member/${certificate.owner.walletAddress}`}>
+              <UserPanel Image={UserIcon} SubTitle="Owner" Title={`${certificate.owner.name.firstName}`}/>
             </a>
           </div>
           <div id='SenderReciever__Container' className='Panel__Container'>
             <a href="#">
-              <UserPanel Image={UserImg} SubTitle="Admin" Title="Bicol IT Organization"/>
+              <UserPanel Image={UserIcon} SubTitle="Admin" Title="Bicol IT Organization"/>
             </a>
           </div>
           <div id='Button__Wrapper'> 
             <Button variant="outlined" startIcon={<ShareIcon/>} onClick={handleToggleShare}> Share</Button>
-            <Button variant="contained" startIcon={<DownloadIcon/>}>Download</Button>
+            <Button variant="contained" startIcon={<DownloadIcon/>} onClick={()=>saveAs(`https://icertify.infura-ipfs.io/ipfs/${certificate.ipfsCID}`, 'image.jpg')}>Download</Button>
           </div>
         </div>
       </div>

@@ -19,7 +19,7 @@ import Switch from '@mui/material/Switch';
 
 function ShareCredentialModal(props) {
 
-    const link = "iCertify/Document/Linkme";
+    const link = window.location.href;
     const handleClickCopyLink = (event) => {
         alert("Link copied : "+ link)
     };
@@ -87,7 +87,7 @@ function ShareCredentialModal(props) {
                 <InputAdornment position="end">
                     <IconButton
                     aria-label="toggle password visibility"
-                    onClick={handleClickCopyLink}
+                    onClick={() => {navigator.clipboard.writeText(link)}}
                     edge="end"
                     >
                         <ContentCopyIcon/>
