@@ -2,7 +2,7 @@ import React from 'react';
 
 
 import CredentialTab from '../../components/CredentialTab/CredentialTab.js';
-import EventCard from '../../components/EventCard/EventCard.js';
+import Card from '../../components/Card/Card.js';
 
 
 function Dashboard() {
@@ -43,8 +43,8 @@ function Dashboard() {
         <h4 className='SectionTitle'>Upcoming Events</h4>
         <div id='Holder_EventCard'>
           <div id='Wrapper_EventCard' style={{display: 'flex' , gap: '10px'}}>
-            <EventCard/>
-            <EventCard/>
+            <Card/>
+            <Card/>
           </div>
           <div>
               

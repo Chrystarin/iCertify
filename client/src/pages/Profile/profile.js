@@ -13,7 +13,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import PremiumIcon from '@mui/icons-material/WorkspacePremium';
 
-import EventCard from '../../components/EventCard/EventCard.js'
+import Card from '../../components/Card/Card.js'
 import CredentialList from '../../components/Table/Table'
 
 import axios from '../../config/axios';
@@ -43,7 +43,7 @@ function Profile() {
         }
 
         const fetchOwnedCertificates = async () => {
-            const response = await axios.get(`members/${id}/documents`)
+            const response = await axios.get(`members/${id}/certificates`)
             .then((response)=>{
                 setOwnedCertificates(response.data)
             })
@@ -123,11 +123,12 @@ function Profile() {
                     <div className='Wrapper__EventCard'>
                         {joinedEvents.length > 0 && joinedEvents.map((joinedEvent) => {
                             return(
-                                <EventCard 
+                                <Card 
                                     title={joinedEvent.event.title} 
                                     key={joinedEvent.event.eventId} 
-                                    eventId={joinedEvent.event.eventId} 
+                                    id={joinedEvent.event.eventId} 
                                     role={joinedEvent.role}
+                                    type={'event'}
                                 />)
                         })}
                     </div>
@@ -141,9 +142,10 @@ function Profile() {
                     <div className='Wrapper__EventCard'>
                         {ownedCertificates.length > 0 && ownedCertificates.map((ownedCertificate) => {
                             return(
-                                <EventCard 
+                                <Card 
                                     key={ownedCertificate.certificateId} 
-                                    eventId={ownedCertificate.certificateId} 
+                                    id={ownedCertificate.certificateId} 
+                                    type={'certificate'}
                                     image={`https://icertify.infura-ipfs.io/ipfs/${ownedCertificate.ipfsCID}`}
                                 />)
                         })}

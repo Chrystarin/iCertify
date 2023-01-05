@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import './Events.scss';
 
 
-import EventCard from '../../components//EventCard/EventCard.js';
+import Card from '../../components/Card/Card.js';
 import ImagePosterSample from './../../images/placeholder/PosterSample.jpg'
 
 function Event() {
@@ -62,7 +62,7 @@ function Panel_Events(props){
             <div id="Wrapper_Upcoming_FeaturedEvents">
               {events.length > 0 && events.map((event) => {
                 if(event.status == 'active'){
-                  return(<EventCard title={event.title} key={event.eventId} eventId={event.eventId} dateStart={event.date.start}/>)
+                  return(<Card title={event.title} key={event.eventId} id={event.eventId} date={event.date.start} type={'event'}/>)
                 }
               }
               )}
@@ -76,11 +76,11 @@ function Panel_Events(props){
       <div id='Container_JoinedEvents'>
           <div className="EventPerMonths">
             <span>October 2022</span>
-            <EventCard/>
+            <Card/>
           </div>
           <div className="EventPerMonths">
             <span>October 2022</span>
-            <EventCard/>
+            <Card/>
           </div>
       </div>
     );

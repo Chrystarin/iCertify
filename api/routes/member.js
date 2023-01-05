@@ -28,7 +28,7 @@ router.use(authUser);
 router.get('/', getAllMembers);
 router.get('/:walletAddress', getMember);
 router.get('/:walletAddress/events', getJoinedEvents);
-router.get('/:walletAddress/documents', getDocuments);
+router.get('/:walletAddress/certificates', getDocuments);
 router.get('/:walletAddress/requests', getRequests);
 
 // Members

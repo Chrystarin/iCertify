@@ -2,7 +2,7 @@ import React,{useState} from 'react';
 import './EventsAdmin.scss';
 
 import Analytics from '../../../layouts/Event/Admin/EventAnalytics'
-import EventCard from '../../../components//EventCard/EventCard.js';
+import Card from '../../../components/Card/Card.js';
 
 import Filter_Icon from './../../../images/icons/filter.png';
 
@@ -42,27 +42,27 @@ function Panel_Events(props){
             <div className='Container_All_Overview' id='Container_Ongoing_Events'>
                 <h5>Ongoing Events</h5>
                 <div className='Wrapper_Eventcard'>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
                 </div>
             </div>
             <div id='Container_Ongoing Events'> 
                 <h5>Upcoming Events</h5>
                 <div className='Wrapper_Eventcard'>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
-                    <EventCard/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
+                    <Card/>
                 </div>
             </div>
         </div>
@@ -71,48 +71,56 @@ function Panel_Events(props){
     else if(props.open === "Ongoing"){
         return <div id='Container_Ongoing Events'> 
             <div className='Wrapper_Eventcard'>
-                <EventCard/>
-                <EventCard/>
-                <EventCard/>
-                <EventCard/>
-                <EventCard/>
-                <EventCard/>
-                <EventCard/>
-                <EventCard/>
+                <Card/>
+                <Card/>
+                <Card/>
+                <Card/>
+                <Card/>
+                <Card/>
+                <Card/>
+                <Card/>
             </div>
          </div>
     }
     else if(props.open === "Upcoming"){
         return <div id='Container_Ongoing Events'> 
         <div className='Wrapper_Eventcard'>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
         </div>
      </div>
     }
     else if(props.open === "Done"){
         return <div id='Container_Ongoing Events'> 
         <div className='Wrapper_Eventcard'>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
         </div>
      </div>
     }
     else if(props.open === "Drafts"){
         return <div id='Container_Ongoing Events'> 
         <div className='Wrapper_Eventcard'>
-            <EventCard/>
-            <EventCard/>
-            <EventCard/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
+            <Card/>
         </div>
      </div>
     }
