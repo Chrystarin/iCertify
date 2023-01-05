@@ -1,0 +1,11 @@
+#ViewRequestorModal{
+    display: flex;
+    gap: 25px;
+    #ViewRequestorModal__Container__View{
+        min-width: 50vw;
+        min-height: 70vh;
+    }
+    #ViewRequestorModal__Container__Info {
+        width: 20vw;
+    }
+}

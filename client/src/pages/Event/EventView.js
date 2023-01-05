@@ -155,7 +155,8 @@ const EventView = (props) => {
                             </div>
                         ) : (
                             // If member has not yet joined
-                            <div>
+                            <div id="JoinButton__Container">
+                                <h5>( ₱ <span>200</span> )</h5>
                                 <Button variant="contained" endIcon={<EventAvailableIcon />}>Join</Button>
                             </div>
                         )

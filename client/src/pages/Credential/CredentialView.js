@@ -11,7 +11,6 @@ import Fab from '@mui/material/Fab';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 
 import ShareCredentialModal from '../../layouts/Credential/ShareCredentialModal';
 

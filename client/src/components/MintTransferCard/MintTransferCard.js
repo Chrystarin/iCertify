@@ -18,7 +18,13 @@ function MintTransferCard(props) {
         </ul>
         <div id='MintTransfer__Button'>
 
-          {(props.Status === "Pending")?<Button variant='contained'>Process</Button>: ""}
+          {(props.Status === "Pending")?
+          <>
+            <Button variant='outlined' onClick={props.handler}>View</Button>
+            <Button variant='contained' >Process</Button>
+          </>
+          
+          : <Button variant='outlined' onClick={props.handler}>View</Button>}
           
         </div>
     </div>

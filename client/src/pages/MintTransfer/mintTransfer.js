@@ -12,18 +12,30 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import SelectEvent from '../../layouts/MintTransfer/SelectEventPanel';
 
+import Fab from '@mui/material/Fab';
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import Backdrop from '@mui/material/Backdrop';
+import ViewRequestorModal from '../../layouts/MintTransfer/ViewRequestorModal';
 
 function MintTransfer() {
   const [TabActive, setTabActive] = useState("Pending");
+  const [open, setOpen] = React.useState(false);
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleToggleModal = (ToOpen) => {
+    setOpen(!open);
+  };
+
+  
+  
   function TabView(){
     switch (TabActive) {
       case "Pending":
         return <>
-          <MintTransferCard Status="Pending"/>
-          <MintTransferCard Status="Pending"/>
-          <MintTransferCard Status="Pending"/>
-          <MintTransferCard Status="Pending"/>
-          <MintTransferCard Status="Pending"/>
+          <MintTransferCard Status="Pending" handler={handleToggleModal}/>
         </>
         break;
       case "OnProgress":
@@ -141,6 +153,17 @@ function MintTransfer() {
           <h5>Analytics</h5>
         </div>
       </div>
+    </div>
+
+
+    <Backdrop
+    sx={{ color: '#fff', zIndex: 98 }}
+    open={open}
+    onClick={handleClose}>
+    </Backdrop>
+
+    <div className='Modal'>
+      {(open)? <ViewRequestorModal setter={setOpen}/>:""}
     </div>
   </>
 

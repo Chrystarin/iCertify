@@ -40,6 +40,14 @@
                     bottom: 0;
                     right: 0;
                 }
+                #JoinButton__Container{
+                    display: flex;
+                    gap: 15px;
+                    align-items: center;
+                    h5{
+                        color: rgba(0, 0, 0, 0.468);
+                    }
+                }
             }
         }
         #Holder_Title_Event{
