@@ -44,7 +44,7 @@ function Panel_Events(props){
         return <div id='Container_All_Events'>
             <div className='Container_All_Overview' id='Container_Ongoing_Events'>
                 <h5>Ongoing Events</h5>
-                <div className='Wrapper_Eventcard'>
+                <div className='Wrapper__Card'>
                     <Card/>
                     <Card/>
                     <Card/>
@@ -57,7 +57,7 @@ function Panel_Events(props){
             </div>
             <div id='Container_Ongoing Events'> 
                 <h5>Upcoming Events</h5>
-                <div className='Wrapper_Eventcard'>
+                <div className='Wrapper__Card'>
                     <Card/>
                     <Card/>
                     <Card/>
@@ -73,7 +73,7 @@ function Panel_Events(props){
     }
     else if(props.open === "Ongoing"){
         return <div id='Container_Ongoing Events'> 
-            <div className='Wrapper_Eventcard'>
+            <div className='Wrapper__Card'>
                 <Card/>
                 <Card/>
                 <Card/>
@@ -87,7 +87,7 @@ function Panel_Events(props){
     }
     else if(props.open === "Upcoming"){
         return <div id='Container_Ongoing Events'> 
-        <div className='Wrapper_Eventcard'>
+        <div className='Wrapper__Card'>
             <Card/>
             <Card/>
             <Card/>
@@ -101,7 +101,7 @@ function Panel_Events(props){
     }
     else if(props.open === "Done"){
         return <div id='Container_Ongoing Events'> 
-        <div className='Wrapper_Eventcard'>
+        <div className='Wrapper__Card'>
             <Card/>
             <Card/>
             <Card/>
@@ -115,7 +115,7 @@ function Panel_Events(props){
     }
     else if(props.open === "Drafts"){
         return <div id='Container_Ongoing Events'> 
-        <div className='Wrapper_Eventcard'>
+        <div className='Wrapper__Card'>
             <Card/>
             <Card/>
             <Card/>

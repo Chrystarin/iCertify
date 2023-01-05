@@ -15,7 +15,7 @@ import PremiumIcon from '@mui/icons-material/WorkspacePremium';
 
 import Card from '../../components/Card/Card.js'
 import CredentialList from '../../components/Table/Table'
-
+import { Button } from '@mui/material';
 import axios from '../../config/axios';
 
 function Profile() {
@@ -77,6 +77,10 @@ function Profile() {
                         <UserPanelInfo Title={member.walletAddress} Image={MetaMaskIcon}/>
                     </a>
                 </div>
+            </div>
+            <div id='User__Div__Button'>
+                <Button href='profile/update' variant="contained">Update</Button>
+                
             </div>
         </div>
         <div id='Main_Div'>

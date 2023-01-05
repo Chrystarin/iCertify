@@ -20,6 +20,7 @@ import Event from './pages/Event/Events.js';
 import Event_View from './pages/Event/EventView.js';
 import JoinEvent from './pages/Event/EventJoin.js';
 import Profile from './pages/Profile/Profile.js'
+import ProfileUpdate from './pages/Profile/ProfileUpdate';
 
 // Admin
 import AdminPanel from './routes/Admin.js';
@@ -54,6 +55,7 @@ function App() {
         <Route path=":id" element={<Profile/>}/>
         <Route path="profile" element={<Profile/>}/>
         <Route path=":id/edit" element={<MemberEdit/>}/>
+        <Route path="profile/update" element={<ProfileUpdate/>}/>
       </Route>
 
       <Route path='/admin' element={<AdminPanel/>}>

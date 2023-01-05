@@ -14,16 +14,20 @@
             border-radius: 100px;
         }
         #Profile__Div__Info__Container{
+            flex-grow: 1;
             h3{
                 margin-bottom: 5px;
             }
-            #User__Div_Info{
+            #User__Div_Info{ 
                 display: flex;
                 gap: 25px;
                 a{
                     text-decoration: none;
                 }
             }
+        }
+        #User__Div__Button{
+            margin-right: 10px;
         }
     }
 
