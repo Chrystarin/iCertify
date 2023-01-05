@@ -6,7 +6,7 @@ $Maxwidth1 : 1920px;
     max-width: 1900px;
     height: 100vh;
     display: grid;
-    grid-template-columns: 60px 96%;
+    grid-template-columns: 60px auto;
     #Navigation{
     }
 }
