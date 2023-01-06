@@ -1,47 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>akj
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.1/ethers.umd.js" integrity="sha512-5aKPp0HCEu7N6Oc5/BbzR7WVqAOQ7OYUgoNCH/VB63mO32RKd/5ZhMPu/8mml3abAH+2EHYolKojYEaMlVbEqA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script>
-        async function connectMetamask() {
-            if(!window.ethereum) {
-                console.log('No crypto wallet found.');
-                return;
-            }
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			http-equiv="X-UA-Compatible"
+			content="IE=edge"
+		/>
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Document</title>
+	</head>
+	<body>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
 
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
+		<script
+			async
+			defer
+		>
+			async function connectMetamask() {
+				if (!window.ethereum) {
+					console.log('No crypto wallet found.');
+					return;
+				}
 
-            // Get address of signer
-            const address = await signer.getAddress();
+				await window.ethereum.request({
+					method: 'eth_requestAccounts'
+				});
+				const provider = new ethers.providers.Web3Provider(
+					window.ethereum
+				);
+				const signer = provider.getSigner();
 
-            // Get nonce of address
-            const nonceResponse = await fetch(`http://localhost:6787/api/members/${address}/nonce`);
-            const { nonce } = await nonceResponse.json();
+				// Get address of signer
+				const address = await signer.getAddress();
 
-            // Sign the message
-            const signature = await signer.signMessage('Nonce: ' + nonce);
+				// Get nonce of address
+				const nonceResponse = await fetch(
+					`http://localhost:6787/api/members/${address}/nonce`
+				);
+				const { nonce } = await nonceResponse.json();
 
-            // Login with the address and signature
-            const loginResponse = await fetch('http://localhost:6787/api/members/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ type: 'metamask', credentials: [address, signature] })
-            });
+				// Sign the message
+				const signature = await signer.signMessage('Nonce: ' + nonce);
 
-            console.log(await loginResponse.json());
-        }
+				// Login with the address and signature
+				const loginResponse = await fetch(
+					'http://localhost:6787/api/members/login',
+					{
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({
+							type: 'metamask',
+							credentials: [address, signature]
+						})
+					}
+				);
 
-        async function messageHashBytes(message) {
-            const hash = await ethers.utils.keccak256()
-        }
-    </script>
-</body>
+				console.log(await loginResponse.json());
+			}
+
+			async function messageHashBytes(message) {
+				const hash = await ethers.utils.keccak256();
+			}
+		</script>
+	</body>
 </html>
