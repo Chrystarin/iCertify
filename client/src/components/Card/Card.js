@@ -13,7 +13,8 @@ const Card = (props) => {
         title,
         date,
         role,
-        type
+        type,
+        link
     } = props;
 
     switch (type) {
@@ -33,6 +34,17 @@ const Card = (props) => {
                 <div className='EventCardContainer'>
                     <Link to={`/member/certificate/${id}`}>
                         <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
+                    </Link>
+                </div>
+            )
+        case 'event_mint':
+            return (
+                <div className='EventCardContainer'>
+                    <Link to={`/admin/event/${id}/certificate/generate`}>
+                        <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
+                        <div>
+                            <h6 className="EventTitle">{title}</h6>
+                        </div>
                     </Link>
                 </div>
             )

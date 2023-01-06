@@ -6,6 +6,8 @@ import './Events.scss';
 import Card from '../../components/Card/Card.js';
 import ImagePosterSample from './../../images/placeholder/PosterSample.jpg'
 
+import axios from '../../config/axios';
+
 function Event() {
 
   const [isOpenPanel_Events , setIsOpenPanel_Events] = useState("FeaturedEvents"); 
@@ -34,14 +36,13 @@ function Panel_Events(props){
   const [events, setEvents] = useState(null)
 
   useEffect(() => {
-      const fetchEvents = async () => {
-          const response  = await fetch('http://localhost:6787/events')
-          const json = await response.json()
-
-          if(response.ok){
-              setEvents(json)
-          }
-      }
+      // Retrieves All Events Data
+        const fetchEvents = async () => {
+            const response = await axios.get(`/events`)
+            .then((response)=>{
+                setEvents(response.data)
+            })
+        }
 
       fetchEvents()
   }, [])
