@@ -81,7 +81,7 @@ function Profile() {
                 </div>
             </div>
             <div id='User__Div__Button'>
-                <Button href='profile/update' variant="contained">Update</Button>
+                <Button href={`/member/${id}/edit`} variant="contained">Update</Button>
                 
             </div>
         </div>

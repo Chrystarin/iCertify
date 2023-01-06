@@ -55,7 +55,8 @@ function App() {
         <Route path='event/:id/join' element={<JoinEvent/>}/>
         <Route path=":id" element={<Profile/>}/>
         <Route path="profile" element={<Profile/>}/>
-        <Route path=":id/edit" element={<MemberEdit/>}/>
+        {/* <Route path=":id/edit" element={<MemberEdit/>}/> */}
+        <Route path=":id/edit" element={<ProfileUpdate/>}/>
         <Route path="profile/update" element={<ProfileUpdate/>}/>
       </Route>
 

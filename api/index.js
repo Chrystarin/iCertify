@@ -41,6 +41,9 @@ app.use('/transactions', transactionRoute);
 
 app.use((req, res, next) => next(new NotFound('Route')));
 app.use((err, req, res, next) => {
+
+    console.log(err);
+
 	if (err.name === 'ValidationError') {
 		err.status = 409;
 		err.message = {

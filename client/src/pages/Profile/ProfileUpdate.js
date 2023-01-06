@@ -1,4 +1,7 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router";
+
 import './ProfileUpdate.scss'
 import './../../styles/Form.scss'
 
@@ -24,6 +27,8 @@ import PhoneIphoneIcon from '@mui/icons-material/PhoneIphone';
 import PhoneIcon from '@mui/icons-material/Phone';
 import IconButton from '@mui/material/IconButton';
 
+import axios from '../../config/axios';
+
 function ProfileUpdate() {
     const [activeStep,setActiveStep] = useState(0);
     function nextStep(){
@@ -45,6 +50,58 @@ function ProfileUpdate() {
         event.preventDefault();
     };
 
+    const navigate = useNavigate();
+    const { id } = useParams()
+    const [member, setMember] = useState(null)
+
+    // Executes on load
+    useEffect(() => {
+        // Retrieves Member Data
+        const fetchMember = async () => {
+            const response = await axios.get(`members/${id}`)
+            .then((response)=>{
+                setMember(response.data)
+                
+            })
+        }
+        
+        fetchMember();
+    }, [])
+
+    // Updates form from input
+    function updateForm(e) {
+        return setMember((prev) => {
+            const [key, value] = Object.entries(e)[0];
+            if(key == 'name' || key == 'contact' || key == 'location') {
+                const [type, subValue] = Object.entries(value)[0];
+                prev[key][type] = subValue;
+            } else {
+                prev[key] = value;
+            }
+            return prev;
+    });}
+
+    // Submits Data
+    async function Submit(e) {
+        e.preventDefault();
+        await axios.patch(`members/${id}`, JSON.stringify({...member}), {
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+        .then((response) => {
+            console.log(response.data);
+            navigate(`/member/${id}`);
+        })
+        .catch(error => {
+            console.log("Error:" + error);
+            return;
+        });
+    }
+
+    // Returns if member is null
+    if(!member) return <div>loading...</div>
+
     function VIEWFORM(){
         switch (activeStep) {
             case 0:
@@ -62,32 +119,32 @@ function ProfileUpdate() {
                                         label="First Name" 
                                         type="text" 
                                         required 
-                                        // defaultValue={FormValue.description}
-                                        // onChange={(e) => updateForm({description: e.target.value})}
+                                        defaultValue={member.name.firstName}
+                                        onChange={(e)=>updateForm({  name: {firstName: e.target.value} })}
                                     />
                                     <TextField 
                                         id="outlined-search" 
                                         label="Middle Name" 
                                         type="text" 
                                         required 
-                                        // defaultValue={FormValue.description}
-                                        // onChange={(e) => updateForm({description: e.target.value})}
+                                        defaultValue={member.name.middleName}
+                                        onChange={(e)=>updateForm({  name: {middleName: e.target.value} })}
                                     />
                                     <TextField 
                                         id="outlined-search" 
                                         label="Last Name" 
                                         type="text" 
                                         required 
-                                        // defaultValue={FormValue.description}
-                                        // onChange={(e) => updateForm({description: e.target.value})}
+                                        defaultValue={member.name.lastName}
+                                        onChange={(e)=>updateForm({  name: {lastName: e.target.value} })}
                                     />
                                     <TextField 
                                         id="outlined-search" 
                                         label="Extension" 
                                         type="text" 
                                         required 
-                                        // defaultValue={FormValue.description}
-                                        // onChange={(e) => updateForm({description: e.target.value})}
+                                        defaultValue={member.name.extension}
+                                        onChange={(e)=>updateForm({  name: {extension: e.target.value} })}
                                     />
                                     
                                     
@@ -98,16 +155,19 @@ function ProfileUpdate() {
                                     type="text" 
                                     required 
                                     multiline
-                                    // defaultValue={FormValue.description}
-                                    // onChange={(e) => updateForm({description: e.target.value})}
+                                    defaultValue={member.about}
+                                    onChange={(e)=>updateForm({  about: e.target.value })}
                                 />
                                 <div className='Wrapper_1_2_Inputs'>
                                     <FormControl fullWidth required  helpertext="Select Event">
                                         <InputLabel id="demo-simple-select-label" required>Occupation</InputLabel>
-                                        <Select labelId="demo-simple-select-label" id="demo-simple-select"label="Event Type">
+                                        <Select labelId="demo-simple-select-label" id="demo-simple-select"label="Event Type"
+                                            defaultValue={member.occupation}
+                                            onChange={(e)=>updateForm({  occupation: e.target.value })}
+                                        >
                                         <MenuItem value={"None"}>None</MenuItem>
-                                            <MenuItem value={"Mrs."}>Student</MenuItem>
-                                            <MenuItem value={"Ms."}>Professional</MenuItem>
+                                            <MenuItem value={"Student"}>Student</MenuItem>
+                                            <MenuItem value={"Professional"}>Professional</MenuItem>
                                         </Select>
                                     </FormControl>
                                     <TextField 
@@ -117,8 +177,8 @@ function ProfileUpdate() {
                                         InputProps={{
                                             startAdornment: <InputAdornment position="start"><PhoneIcon/></InputAdornment>,
                                         }}
-                                        // defaultValue={FormValue.description}
-                                        // onChange={(e) => updateForm({description: e.target.value})}
+                                        defaultValue={member.contact.telephone}
+                                        onChange={(e)=>updateForm({  contact: {telephone: e.target.value} })}
                                     />
                                     <TextField 
                                         id="outlined-search" 
@@ -127,8 +187,8 @@ function ProfileUpdate() {
                                         InputProps={{
                                             startAdornment: <InputAdornment position="start"><PhoneIphoneIcon/></InputAdornment>,
                                         }}
-                                        // defaultValue={FormValue.description}
-                                        // onChange={(e) => updateForm({description: e.target.value})}
+                                        defaultValue={member.contact.mobile}
+                                        onChange={(e)=>updateForm({  contact: {mobile: e.target.value} })}
                                     />
                                 </div>
                                 <div className='Wrapper_4_Inputs'>
@@ -137,39 +197,39 @@ function ProfileUpdate() {
                                         label="Barangay" 
                                         type="text" 
                                         required 
-                                        // defaultValue={FormValue.description}
-                                        // onChange={(e) => updateForm({description: e.target.value})}
+                                        defaultValue={member.location.barangay}
+                                        onChange={(e)=>updateForm({  location: {barangay: e.target.value} })}
                                     />
                                     <TextField 
                                         id="outlined-search" 
                                         label="City" 
                                         type="text" 
                                         required 
-                                        // defaultValue={FormValue.description}
-                                        // onChange={(e) => updateForm({description: e.target.value})}
+                                        defaultValue={member.location.city}
+                                        onChange={(e)=>updateForm({  location: {city: e.target.value} })}
                                     />
                                     <TextField 
                                         id="outlined-search" 
                                         label="Province" 
                                         type="text" 
                                         required 
-                                        // defaultValue={FormValue.description}
-                                        // onChange={(e) => updateForm({description: e.target.value})}
+                                        defaultValue={member.location.province}
+                                        onChange={(e)=>updateForm({  location: {province: e.target.value} })}
                                     />
                                     <TextField 
                                         id="outlined-search" 
                                         label="Country" 
                                         type="text" 
                                         required 
-                                        // defaultValue={FormValue.description}
-                                        // onChange={(e) => updateForm({description: e.target.value})}
+                                        defaultValue={member.location.country}
+                                        onChange={(e)=>updateForm({  location: {country: e.target.value} })}
                                     />
                                 </div>
                             </div>
                         </div>
                         <div id="Holder_Button">
                             <Button variant="outlined">cancel</Button>
-                            <Button variant="contained" endIcon={<NavigateNextIcon/>}>Update</Button>
+                            <Button variant="contained" endIcon={<NavigateNextIcon/>} onClick={(e) => Submit(e)}>Update</Button>
                         </div>
                     </form>
                 </>
@@ -235,6 +295,7 @@ function ProfileUpdate() {
                         </div>
                         <div id="Holder_Button">
                             <Button variant="outlined">cancel</Button>
+                            {/* <Button variant="contained" endIcon={<NavigateNextIcon/>}>Update</Button> */}
                             <Button variant="contained" endIcon={<NavigateNextIcon/>}>Update</Button>
                         </div>
                     </form>

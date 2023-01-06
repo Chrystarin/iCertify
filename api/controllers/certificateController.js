@@ -8,8 +8,10 @@ const Event = require('../models/Event');
 const Member = require('../models/Member');
 const { UnprocessableRequest, NotFound, Forbidden } = require('../miscellaneous/errors');
 
-const provider = new ethers.providers.JsonRpcProvider('http://127.0.0.1:7545');
+const provider = new ethers.providers.JsonRpcProvider(process.env.TEST_PROVIDER + ':7545');
 const interface = new ethers.utils.Interface(require('../build/contracts/CertificateNFT.json').abi);
+
+
 
 /**
  * Monitors the transaction every 30 secs
