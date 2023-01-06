@@ -1,19 +1,21 @@
-import React, {useRef, useEffect} from 'react'
+import React, {useRef, useEffect,useState} from 'react'
 import './MintTransferCard.scss';
 
 import UserPanelInfo from '../../components/UserPanel/UserPanelInfo';
 import UserIcon from './../../images/icons/user-round.png';
 import { Button } from '@mui/material';
 
-import Certificate from '../../components/Certificate/Certificate';
 
 import QRCode from 'react-qr-code';
 import html2canvas from 'html2canvas';
 import contractBuild from '../../CertificateNFT.json'
 import { ethers } from 'ethers'
 
+import ViewRequestorModal from '../../layouts/MintTransfer/ViewRequestorModal';
+
 function MintTransferCard(props) {
   const exportRef = useRef();
+
 
   const {
     name,
@@ -31,6 +33,7 @@ function MintTransferCard(props) {
     console.log(eventId)
     console.log(eventTitle)
     exportAsImage(exportRef.current, "Certificate_");
+    setOpenModal(true);
   }
 
   // Values for metamask credentials
@@ -106,26 +109,19 @@ function MintTransferCard(props) {
         }
     }
 
+
+  const [OpenModal,setOpenModal] = useState(false);
+
   return (
-    <div className="MintTransfer__Card Panel__Container">
-      <div ref={exportRef}>
-        <Certificate
-          name={name}
-          address={address}
-          role={role}
-        />
-      </div>
-      
+    <>
+      <div className="MintTransfer__Card Panel__Container">
         <UserPanelInfo Image={img ? img : UserIcon}  Title={name}/> 
         <ul>
           <li>
-              <h6 className='Card__Title'>Event Role</h6>
-              <h6 className='Card__Content'>{role}</h6>
-              
+            <h6 className='Card__Title'>Event Role</h6>
+            <h6 className='Card__Content'>{role}</h6>
           </li>
-          
         </ul>
-        
         <div id='MintTransfer__Button'>
         <Button variant='outlined' onClick={()=>CreateCertificate()}>TEST</Button>
           {(status === "Pending")?
@@ -133,11 +129,11 @@ function MintTransferCard(props) {
             <Button variant='outlined' onClick={props.handler}>View</Button>
             <Button variant='contained' onClick={()=>CreateCertificate()}>Process</Button>
           </>
-          
           : <Button variant='outlined' onClick={props.handler}>View</Button>}
-          
         </div>
-    </div>
+      </div>
+      <ViewRequestorModal status={OpenModal}  setter={setOpenModal}/>
+    </>
   )
 }
 

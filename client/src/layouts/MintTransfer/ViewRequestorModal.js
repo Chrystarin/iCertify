@@ -10,6 +10,10 @@ import html2canvas from 'html2canvas';
 import contractBuild from '../../CertificateNFT.json'
 import { ethers } from 'ethers'
 
+
+import Backdrop from '@mui/material/Backdrop';
+
+
 function ViewRequestorModal(props, {setter}) {
   const {data} = props;
 
@@ -51,26 +55,42 @@ function ViewRequestorModal(props, {setter}) {
 
   };
 
+  const handleClose = () => {
+    props.setter(false);
+  };
+
   return (
-    <div id='ViewRequestorModal'>
-        <div id='ViewRequestorModal__Container__View' className='Panel__Container'>
-          <Certificate
-            address={address}
-            eventId={eventId}
-            eventTitle={eventTitle}
-            name={name}
-          />
+    <>
+      <div id='ModalRequestor' className={(props.status)?"active":"inactive"}>
+        <div id='ViewRequestorModal'>
+          <div id='ViewRequestorModal__Container__View' className='Panel__Container'>
+            <Certificate
+              id=""
+              address={address}
+              eventId={eventId}
+              eventTitle={eventTitle}
+              name={name}
+            />
+          </div>
+          <div id='ViewRequestorModal__Container__Info' className='Panel__Container'>
+              <h4>Info</h4>
+              <Button variant='contained' onClick={()=>console.log()}>Process</Button>
+          </div>
+          <div id='FullView__Buttons'>
+            <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={handleClose}>
+                <CloseIcon />
+            </Fab> 
+          </div>
         </div>
-        <div id='ViewRequestorModal__Container__Info' className='Panel__Container'>
-            <h4>Info</h4>
-            <Button variant='contained' onClick={()=>console.log()}>Process</Button>
-        </div>
-        <div id='FullView__Buttons'>
-          <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={()=>setter(false)}>
-              <CloseIcon />
-          </Fab> 
-        </div>
-    </div>
+      </div>
+
+
+      <Backdrop
+      sx={{ color: '#fff', zIndex: 98 }}
+      open={props.status}
+      onClick={handleClose}>
+      </Backdrop>
+    </>
   )
 }
 

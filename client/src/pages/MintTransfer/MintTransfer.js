@@ -70,6 +70,7 @@ function MintTransfer() {
     
   }, [])
   
+  
   const handleClose = () => {
     setOpen(false);
   };
@@ -82,46 +83,7 @@ function MintTransfer() {
     switch (TabActive) {
       case "Pending":
         return <>
-          {/* <MintTransferCard status="Pending" handler={handleToggleModal}/> */}
-          {participants.length > 0 && participants.map((participant) => {
-              return(<>
-                <MintTransferCard 
-                  key={participant.member.walletAddress}
-                  address={participant.member.walletAddress}
-                  name={participant.member.name.firstName + " " + participant.member.name.lastName + " " + participant.member.walletAddress}
-                  status="Pending" 
-                  role={participant.role}
-                  eventId={event.eventId}
-                  eventTitle={event.title}
-                  handler={()=>handleToggleModal(participant, event)}
-                  // handler={()=>console.log(participant)}
-                  // process={()=>childRef.current.CreateCertificate()}
-                  // process={()=>console.log(participant.member.walletAddress)}
-                  // certificate={<Certificate
-                  //   name={participant.member.name.firstName + " " + participant.member.name.lastName}
-                  // />}
-                />
-                <Backdrop
-                sx={{ color: '#fff', zIndex: 98 }}
-                open={open}
-                onClick={handleClose}>
-                </Backdrop>
-
-                <div className='Modal'>
-                  {(open) ? 
-                  <ViewRequestorModal 
-                    setter={setOpen}
-                    key={participant.member.walletAddress}
-                    address={participant.member.walletAddress}
-                    name={participant.member.name.firstName + " " + participant.member.name.lastName + " " + participant.member.walletAddress}
-                    role={participant.role}
-                    eventId={event.eventId}
-                    eventTitle={event.title}
-                  />:""}
-                </div>
-              </>
-              )
-          })}
+          <MintTransferCard/>
           
         </>
         break;
