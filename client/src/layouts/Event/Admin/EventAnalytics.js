@@ -8,11 +8,8 @@ function Analytics() {
       <div id='AnalyticsTitle'>
         <div>
           <h5>Analytics</h5>
-          <select name="cars" id="cars" className='SelectDropdown'>
-            <option value="volvo">Overview of this year</option>
-            <option value="saab">Saab</option>
-            <option value="mercedes">Mercedes</option>
-            <option value="audi">Audi</option>
+          <select className='SelectDesign SelectDropdown'>
+            <option value="Overview">Overview of this year</option>
           </select>
         </div>
         <div>

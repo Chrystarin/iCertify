@@ -93,8 +93,6 @@ p{
 }
 
 
-
-
 // SideBar Content
 .AdminPanelContainer{
     display: grid;
@@ -123,4 +121,18 @@ p{
     left: 50%;
     transform: translate(-50%,-50%);
     z-index: 99;
+}
+
+
+select{
+    cursor: pointer;
+    -webkit-appearance: button;
+    -webkit-border-radius: 2px;
+    color: #555;
+    font-size: inherit;
+    outline: none;
+    border: none;
+}
+.SelectDesign{
+    background-attachment: red;
 }
