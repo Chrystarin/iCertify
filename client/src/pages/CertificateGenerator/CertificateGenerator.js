@@ -42,7 +42,7 @@ function CertificateGenerator(){
         provider = new ethers.providers.Web3Provider(window.ethereum);
         signer = provider.getSigner();
 
-        contract = new ethers.Contract('0x2834B7434983cBab156Bfea31024184B9e3CA1B4', contractBuild.abi, signer);
+        contract = new ethers.Contract('0xa6E714d68ED63a84746E91F30c32fC072527c2ED', contractBuild.abi, signer);
     });
 
     // Export canvas into image
@@ -98,7 +98,7 @@ function CertificateGenerator(){
             const transaction = await contract.sendCertificate(
                 address,                                        // receiver
                 'Dignissim Nulla Sapien Leo Mollis',            // title
-                'n9L4NCLt',                                     // fromEvent
+                'uwp3NXes',                                     // fromEvent
                 `https://icertify.infura-ipfs.io/ipfs/${path}`  // uri
             )
 
@@ -111,7 +111,7 @@ function CertificateGenerator(){
                     ipfsCID: path,
                     hash: transaction.hash,
                     ownerAddress: address,
-                    eventId: 'n9L4NCLt'
+                    eventId: 'uwp3NXes'
                 })
             }).then(res => res.json());
             console.log(result);
@@ -137,7 +137,7 @@ function CertificateGenerator(){
                 <li>Location: <input type="text" id="qrcode_input" onChange={e => setLocation(e.target.value)}/></li>
                 <li>Date:  <input type="date" id="event_date_input" onChange={e => setDate(e.target.value)}/></li>
                 <li>QR Content: <input type="text" id="qrcode_input" onChange={e => setQRValue(e.target.value)}/></li>
-                <button id="btn_download" onClick={() => mintAndTransfer()}>Download</button>
+                <button id="btn_download" onClick={() => mintAndTransfer()}>Generate</button>
             </ul>
 
             <div className="certificate" id="certificateContent" ref={exportRef}>

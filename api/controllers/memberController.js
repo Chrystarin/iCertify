@@ -205,25 +205,25 @@ const updateMember = async (req, res, next) => {
 
 	var obj = {};
 
-	addProperty(isPremium, { isPremium }, 'boolean');
-	addProperty(firstName, { name: { firstName } });
-	addProperty(middleName, { name: { middleName } });
-	addProperty(lastName, { name: { lastName } });
-	addProperty(extension, { name: { extension } });
-	addProperty(about, { about });
-	addProperty(occupation, { occupation });
-	addProperty(mobile, { contact: { mobile } });
-	addProperty(telephone, { contact: { telephone } });
-	addProperty(barangay, { location: { barangay } });
-	addProperty(city, { location: { city } });
-	addProperty(province, { location: { province } });
-	addProperty(country, { location: { country } });
+	// addProperty(isPremium, { isPremium }, 'boolean');
+	// addProperty(firstName, { name: { firstName } });
+	// addProperty(middleName, { name: { middleName } });
+	// addProperty(lastName, { name: { lastName } });
+	// addProperty(extension, { name: { extension } });
+	// addProperty(about, { about });
+	// addProperty(occupation, { occupation });
+	// addProperty(mobile, { contact: { mobile } });
+	// addProperty(telephone, { contact: { telephone } });
+	// addProperty(barangay, { location: { barangay } });
+	// addProperty(city, { location: { city } });
+	// addProperty(province, { location: { province } });
+	// addProperty(country, { location: { country } });
 
 	try {
 		const member = await Member.findOne({ walletAddress }).exec();
 		if (!member) throw new NotFound('Member');
 
-		Object.assign(member, obj);
+		Object.assign(member, req.body);
 		await member.save();
 
 		res.sendStatus(204);
@@ -231,12 +231,12 @@ const updateMember = async (req, res, next) => {
 		next(error);
 	}
 
-	function addProperty(string, output, type = 'string') {
-		if (string !== undefined) {
-			if (typeof string !== type) throw new UnprocessableRequest();
-			Object.assign(obj, output);
-		}
-	}
+	// function addProperty(string, output, type = 'string') {
+	// 	if (string !== undefined) {
+	// 		if (typeof string !== type) throw new UnprocessableRequest();
+	// 		Object.assign(obj, output);
+	// 	}
+	// }
 };
 
 const getJoinedEvents = async (req, res, next) => {
@@ -264,7 +264,7 @@ const getCertificates = async (req, res, next) => {
 			.exec();
 		if (!member) throw new NotFound('Member');
 
-		res.status(200).json(member.ownedDocuments);
+		res.status(200).json(member.ownedCertificates);
 	} catch (error) {
 		next(error);
 	}

@@ -55,7 +55,9 @@ function Profile() {
     }, [])
 
     // Returns if member is null
-    if(!member || !joinedEvents || !ownedCertificates) return <div>loading...</div>
+    if(!member) return <div>loading... No Member Found</div>
+    if(!joinedEvents) return <div>loading... No JoinedEvents Found</div>
+    if(!ownedCertificates) return <div>loading... No OwnedCertificates Found</div>
 
     return (
     <div id='Profile'>
