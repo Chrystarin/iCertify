@@ -1,36 +1,34 @@
-
-#Profile{
-    #Profile__Container_Div{
-        background-color: white;
-        padding: 1em 1em;
-        border-radius: 8px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.074);
-        height: 130px;
-        display: flex;
-        gap: 25px;
-        align-items: center;
-        #Profile__Img{
-            height: 95%;
-            border-radius: 100px;
-        }
-        #Profile__Div__Info__Container{
-            flex-grow: 1;
-            h3{
-                margin-bottom: 5px;
-            }
-            #User__Div_Info{ 
-                display: flex;
-                gap: 25px;
-                a{
-                    text-decoration: none;
-                }
-            }
-        }
+#Profile {
+	#Profile__Container_Div {
+		background-color: white;
+		padding: 1em 1em;
+		border-radius: 8px;
+		box-shadow: 0 0 15px rgba(0, 0, 0, 0.074);
+		height: 130px;
+		display: flex;
+		gap: 25px;
+		align-items: center;
+		#Profile__Img {
+			height: 95%;
+			border-radius: 100px;
+		}
+		#Profile__Div__Info__Container {
+			h3 {
+				margin-bottom: 5px;
+			}
+			#User__Div_Info {
+				display: flex;
+				gap: 25px;
+				a {
+					text-decoration: none;
+				}
+			}
+		}
         #User__Div__Button{
             margin-right: 10px;
         }
     }
-
+    
     #Main_Div{
         margin-top: 25px;
         display: flex;

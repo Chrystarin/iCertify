@@ -22,11 +22,9 @@ const monitorTransaction = (hash) => {
         const receipt = await provider.getTransactionReceipt(hash);
         if(receipt) {
             const certificate = await Certificate.findOne({ hash });
-
-            // certificate.nftId = interface.parseLog(receipt.logs[2]).args.tokenId.toNumber();
+            
             const nftId = interface.parseLog(receipt.logs[2]).args.tokenId.toNumber();
             console.log(nftId);
-
             certificate.nftId = nftId;
             await certificate.save();
 
@@ -72,7 +70,7 @@ const saveCertificate = async (req, res, next) => {
             event: event._id
         });
 
-        member.ownedCertificates.push(certificate._id);
+        member.ownedDocuments.push(certificate._id);
         await member.save();
 
         res.status(201).json({
