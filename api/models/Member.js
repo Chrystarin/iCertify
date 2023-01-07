@@ -13,58 +13,22 @@ const memberSchema = new Schema({
 		default: false
 	},
 	name: {
-		firstName: {
-            type: String,
-            default: ''
-        },
-		middleName: {
-            type: String,
-            default: ''
-        },
-		lastName: {
-            type: String,
-            default: ''
-        },
-		extension: {
-            type: String,
-            default: ''
-        }
+		firstName: String,
+		middleName: String,
+		lastName: String,
+		extension: String
 	},
-	about: {
-        type: String,
-        default: ''
-    },
-	occupation: {
-        type: String,
-        default: ''
-    },
+	about: String,
+	occupation: String,
 	contact: {
-		mobile: {
-            type: String,
-            default: ''
-        },
-		telephone: {
-            type: String,
-            default: ''
-        }
+		mobile: String,
+		telephone: String
 	},
 	location: {
-		barangay: {
-            type: String,
-            default: ''
-        },
-		city: {
-            type: String,
-            default: ''
-        },
-		province: {
-            type: String,
-            default: ''
-        },
-		country: {
-            type: String,
-            default: ''
-        }
+		barangay: String,
+		city: String,
+		province: String,
+		country: String
 	},
 	credentials: {
 		nonce: {

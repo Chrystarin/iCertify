@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 
 import './../../../styles/Form.scss';
@@ -13,10 +14,12 @@ import StepLabel from '@mui/material/StepLabel';
 import EventDetailsForm from './EventCreate_EventDetails';
 import EventSetParticipantsForm from './EventCreate_SetParticipants';
 import EventPaymentForm from './EventCreate_Payment';
+import { Button } from "@mui/material";
+
+import axios from '../../../config/axios';
 
 export default function EventCreate() {
-
-
+    const { id } = useParams()
     const [form, setForm] = useState({
         // Event Details
         type: '',
@@ -43,6 +46,8 @@ export default function EventCreate() {
         status: ''
     });
 
+    const [isEdit, setIsEdit] = useState(null);
+
     // Stepper
     const [activeStep,setActiveStep] = useState(0);
     function nextStep(){
@@ -55,6 +60,27 @@ export default function EventCreate() {
             setActiveStep(activeStep-1);
         }
     }
+
+    // Executes on load
+    useEffect(() => {
+        if(!id) {
+            setIsEdit(false);
+        }
+        else {
+            setIsEdit(true);
+
+            // Fetches event data
+            const fetchEvent = async () => {
+                const response = await axios.get(`/events/${id}`)
+                .then((response)=>{
+                    setForm(response.data)
+                })
+            }
+
+            fetchEvent();
+        }
+        
+    }, [])
 
     function VIEWFORM(){
        switch (activeStep) {
@@ -91,6 +117,8 @@ export default function EventCreate() {
             </div>
             <VIEWFORM />
         </section>
+
+        
     )
 }
 

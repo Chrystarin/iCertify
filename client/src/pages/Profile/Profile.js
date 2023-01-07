@@ -65,13 +65,13 @@ function Profile() {
             <img id='Profile__Img' src={UserIcon} alt="" />
             <div id='Profile__Div__Info__Container'>
                 <h3>
-                    {member.name.firstName 
+                    {member.name?.firstName ?? ''
                     + " " 
-                    + (member.name.middleName ? Array.from(member.name.middleName)[0] : '')
+                    + (member.name?.middleName ? [...member.name.middleName][0] : '')
                     + ". "
-                    + member.name.lastName
+                    + member.name?.lastName ?? ''
                     + " "
-                    + (member.name.extension ? member.name.extension : '')}
+                    + member.name?.extension ?? ''}
                     {member.isPremium ? <PremiumIcon/> : ''}
                 </h3>
                 <div id='User__Div_Info'>
@@ -90,8 +90,8 @@ function Profile() {
                 <div id="sticky">
                     <div className='Panel__Container' id='AboutMe__Div'>
                         <h5 className='Panel__Title'>About me</h5>
-                        <p className='BodyText3'>{member.occupation}</p>
-                        <p className='BodyText3'>{member.about}</p>
+                        <p className='BodyText3'>{member.occupation ?? ''}</p>
+                        <p className='BodyText3'>{member.about ?? ''}</p>
                     </div>
                     <div className='Panel__Container' id='Contact__Div'>
                         <ul className='Panel__MultipleContent'>
@@ -99,11 +99,11 @@ function Profile() {
                                 <h5 className='Panel__Title'>Contact</h5>
                                 <div className='Panel__Content__IconText'>
                                     <PhoneAndroidIcon/>
-                                    <p className='BodyText3'> {member.contact.mobile}</p>
+                                    <p className='BodyText3'> {member.contact?.mobile ?? ''}</p>
                                 </div>
                                 <div className='Panel__Content__IconText'>
                                     <CallIcon/>
-                                    <p className='BodyText3'> {member.contact.telephone}</p>
+                                    <p className='BodyText3'> {member.contact?.telephone ?? ''}</p>
                                 </div>
                                 <div className='Panel__Content__IconText'>
                                     <EmailIcon/>
@@ -116,7 +116,7 @@ function Profile() {
                                 <h5 className='Panel__Title'>Location</h5>
                                 <div className='Panel__Content__IconText'>
                                     <LocationOnIcon/>
-                                    <p className='BodyText3'> {member.location.city}  {member.location.province}, {member.location.country}</p>
+                                    <p className='BodyText3'> {member.location?.city ?? ''}  {member.location?.province ?? ''}, {member.location?.country ?? ''}</p>
                                 </div>
                             </li>
                         </ul>

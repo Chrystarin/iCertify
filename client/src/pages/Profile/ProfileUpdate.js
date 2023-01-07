@@ -58,11 +58,7 @@ function ProfileUpdate() {
     useEffect(() => {
         // Retrieves Member Data
         const fetchMember = async () => {
-            const response = await axios.get(`members/${id}`)
-            .then((response)=>{
-                setMember(response.data)
-                
-            })
+            setMember((await axios.get(`members/${id}`)).data)
         }
         
         fetchMember();
@@ -74,7 +70,7 @@ function ProfileUpdate() {
             const [key, value] = Object.entries(e)[0];
             if(key == 'name' || key == 'contact' || key == 'location') {
                 const [type, subValue] = Object.entries(value)[0];
-                prev[key][type] = subValue;
+                Object.assign(prev, { [key]: { [type]: subValue } })
             } else {
                 prev[key] = value;
             }
@@ -119,7 +115,7 @@ function ProfileUpdate() {
                                         label="First Name" 
                                         type="text" 
                                         required 
-                                        defaultValue={member.name.firstName}
+                                        defaultValue={member.name?.firstName ?? ''}
                                         onChange={(e)=>updateForm({  name: {firstName: e.target.value} })}
                                     />
                                     <TextField 
@@ -127,7 +123,7 @@ function ProfileUpdate() {
                                         label="Middle Name" 
                                         type="text" 
                                         required 
-                                        defaultValue={member.name.middleName}
+                                        defaultValue={member.name?.middleName ?? ''}
                                         onChange={(e)=>updateForm({  name: {middleName: e.target.value} })}
                                     />
                                     <TextField 
@@ -135,7 +131,7 @@ function ProfileUpdate() {
                                         label="Last Name" 
                                         type="text" 
                                         required 
-                                        defaultValue={member.name.lastName}
+                                        defaultValue={member.name?.lastName ?? ''}
                                         onChange={(e)=>updateForm({  name: {lastName: e.target.value} })}
                                     />
                                     <TextField 
@@ -143,10 +139,9 @@ function ProfileUpdate() {
                                         label="Extension" 
                                         type="text" 
                                         required 
-                                        defaultValue={member.name.extension}
+                                        defaultValue={member.name?.extension ?? ''} 
                                         onChange={(e)=>updateForm({  name: {extension: e.target.value} })}
                                     />
-                                    
                                     
                                 </div>
                                 <TextField 
@@ -155,14 +150,14 @@ function ProfileUpdate() {
                                     type="text" 
                                     required 
                                     multiline
-                                    defaultValue={member.about}
+                                    defaultValue={member.about ?? ''}
                                     onChange={(e)=>updateForm({  about: e.target.value })}
                                 />
                                 <div className='Wrapper_1_2_Inputs'>
                                     <FormControl fullWidth required  helpertext="Select Event">
                                         <InputLabel id="demo-simple-select-label" required>Occupation</InputLabel>
                                         <Select labelId="demo-simple-select-label" id="demo-simple-select"label="Event Type"
-                                            defaultValue={member.occupation}
+                                            defaultValue={member.occupation ?? ''}
                                             onChange={(e)=>updateForm({  occupation: e.target.value })}
                                         >
                                         <MenuItem value={"None"}>None</MenuItem>
@@ -177,7 +172,7 @@ function ProfileUpdate() {
                                         InputProps={{
                                             startAdornment: <InputAdornment position="start"><PhoneIcon/></InputAdornment>,
                                         }}
-                                        defaultValue={member.contact.telephone}
+                                        defaultValue={member.contact?.telephone ?? ''}
                                         onChange={(e)=>updateForm({  contact: {telephone: e.target.value} })}
                                     />
                                     <TextField 
@@ -187,7 +182,7 @@ function ProfileUpdate() {
                                         InputProps={{
                                             startAdornment: <InputAdornment position="start"><PhoneIphoneIcon/></InputAdornment>,
                                         }}
-                                        defaultValue={member.contact.mobile}
+                                        defaultValue={member.contact?.mobile ?? ''}
                                         onChange={(e)=>updateForm({  contact: {mobile: e.target.value} })}
                                     />
                                 </div>
@@ -197,7 +192,7 @@ function ProfileUpdate() {
                                         label="Barangay" 
                                         type="text" 
                                         required 
-                                        defaultValue={member.location.barangay}
+                                        defaultValue={member.location?.barangay ?? ''}
                                         onChange={(e)=>updateForm({  location: {barangay: e.target.value} })}
                                     />
                                     <TextField 
@@ -205,7 +200,7 @@ function ProfileUpdate() {
                                         label="City" 
                                         type="text" 
                                         required 
-                                        defaultValue={member.location.city}
+                                        defaultValue={member.location?.city ?? ''}
                                         onChange={(e)=>updateForm({  location: {city: e.target.value} })}
                                     />
                                     <TextField 
@@ -213,7 +208,7 @@ function ProfileUpdate() {
                                         label="Province" 
                                         type="text" 
                                         required 
-                                        defaultValue={member.location.province}
+                                        defaultValue={member.location?.province ?? ''}
                                         onChange={(e)=>updateForm({  location: {province: e.target.value} })}
                                     />
                                     <TextField 
@@ -221,7 +216,7 @@ function ProfileUpdate() {
                                         label="Country" 
                                         type="text" 
                                         required 
-                                        defaultValue={member.location.country}
+                                        defaultValue={member.location?.country ?? ''} 
                                         onChange={(e)=>updateForm({  location: {country: e.target.value} })}
                                     />
                                 </div>

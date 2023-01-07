@@ -65,6 +65,7 @@ function App() {
         <Route path="event/:id/certificate/generate" element={<MintTransfer/>}/>
         <Route path="mintTransfer" element={<MintTransfer/>}/>
         <Route path="event/create" element={<A_EventCreate/>}/>
+        <Route path="event/:id/edit" element={<A_EventCreate/>}/>
         <Route path="certificate/generate" element ={<CertificateGenerator/>}/>
       </Route>
   </Routes>
