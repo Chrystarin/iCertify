@@ -94,6 +94,7 @@ function ViewRequestorModal(props, {setter}) {
                 })
             }).then(res => res.json());
             console.log(result);
+            window.location.reload();
 
         } catch ({ name, message }) {
             console.log(name, message);

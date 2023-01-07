@@ -6,11 +6,12 @@ import './EventView.scss'
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
-import axios from '../../config/axios';
+
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Card from '../../components/Card/Card'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
+import axios from '../../config/axios';
 
 const EventView = (props) => {
     const { id } = useParams()
@@ -20,23 +21,12 @@ const EventView = (props) => {
     // Claim 
     const [CertificateStatus, setCertificateStatus] = useState("ReadyToClaim");
     const EventCeritifcate = true;
+    const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-    const checkWallet = async () => {
-        try{
-            const accounts = await window.ethereum.request({method: 'eth_requestAccounts'}); 
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const address = await signer.getAddress();
-            setMemberAddress(address);
-        }
-        catch(err){
-            console.error(err.message);
-        }
-    }
 
+    // Member join event function
     const joinEvent = async () => {
         try{
-            
             const response = await axios.post(`events/${id}/join`,
             JSON.stringify({ eventId: id, walletAddress: memberAddress, role: 'Participant' }),
             {
@@ -47,6 +37,7 @@ const EventView = (props) => {
             })
             .then(response => {
                 console.log("event joined!");
+                window.location.reload();
             });
         }
         catch (err){
@@ -54,6 +45,7 @@ const EventView = (props) => {
         }
     };
 
+    // Checks if member has already joined the event
     function eventJoined(json, value) {
         let contains = false;
         Object.keys(json).some(key => {
@@ -63,25 +55,36 @@ const EventView = (props) => {
         return contains;
      }
 
+    // Excecutes on page load
     useEffect(() => {
-        const fetchEvent = async () => {
-            const response  = await fetch(`http://localhost:6787/events/${id}`)
-
-            const json = await response.json()
-
-            if(response.ok){
-                setEvent(json)
+        // Checks currently connected wallet
+        const checkWallet = async () => {
+            try{
+                const accounts = await window.ethereum.request({method: 'eth_requestAccounts'}); 
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+                const address = await signer.getAddress();
+                setMemberAddress(address);
+            }
+            catch(err){
+                console.error(err.message);
             }
         }
 
-        const fetchParticipants = async () =>{
-            const response = await fetch(`http://localhost:6787/events/${id}/participants`)
+        // Fetches event data
+        const fetchEvent = async () => {
+            const response = await axios.get(`/events/${id}`)
+            .then((response)=>{
+                setEvent(response.data)
+            })
+        }
 
-            const json = await response.json()
-
-            if(response.ok){
-                setParticipants(json)
-            }
+        // Fetches event participants data
+        const fetchParticipants = async () => {
+            const response = await axios.get(`/events/${id}/participants`)
+            .then((response)=>{
+                setParticipants(response.data)
+            })
         }
 
         fetchParticipants()
@@ -89,8 +92,8 @@ const EventView = (props) => {
         checkWallet()
     }, [])
 
+    // Returns a view depending on certificate status
     function CertificateStatusChecker(){
-
         switch(CertificateStatus) {
             case "ReadyToClaim":
                 return <>
@@ -144,8 +147,8 @@ const EventView = (props) => {
                 </div>
                 <div id="Holder_DateButton_Event">
                     <div id="Holder_Date_Event">
-                        <h3>{event.date ? event.date.start : '...'}</h3>
-                        <p>{event.date ? event.date.start : '...'}</p>
+                        <h3>{event.date ? (new Date(event.date.start)).getDate() : '...'}</h3>
+                        <p>{event.date ? month[(new Date(event.date.start)).getMonth()] : '...'}</p>
                     </div>
                     <div id="Holder_Button_Event">
                         { eventJoined(participants, memberAddress) ? (
@@ -164,7 +167,7 @@ const EventView = (props) => {
                     </div>
                 </div>
                 <div id="Holder_Title_Event">
-                    <h5 id="Date_Event">{event.date ? (event.date.start) : '...'}</h5>
+                    <h5 id="Date_Event">{event.date ? (new Date(event.date.start)).toDateString() + " " + (new Date(event.date.start)).toTimeString() : '...'}</h5>
                     <h3 id="Title_Event">{event.title}</h3>
                 </div>
             </div>
@@ -187,7 +190,7 @@ const EventView = (props) => {
                                 <h4>Participants</h4>
                                 <div id="Participants_Div">
                                     <div id="Participants_Texts">
-                                        <h1>25</h1>
+                                        <h1>{participants.length}</h1>
                                         <h3>Going</h3>
                                     </div>
                                     <div>
@@ -218,23 +221,6 @@ const EventView = (props) => {
                             <p>{event.type}</p>
                         </div>
                         <div>
-                            <h4>Contact</h4>
-                            <ul>
-                                <li>
-                                    <p>0908-265-7587</p>
-                                </li>
-                                <li>
-                                    02-942 3307
-                                </li>
-                            </ul>
-                        </div>
-                        <div>
-                            <h4>
-                                Email
-                            </h4>
-                            <p>YourEmail@mail.com</p>
-                        </div>
-                        <div>
                             <h4>Location</h4>
                             <p>{event.location}</p>
                         </div>
@@ -246,9 +232,6 @@ const EventView = (props) => {
                     
                 </div>
             </div>
-            {participants.length > 0 && participants.map((participant) => {
-                return(<h5>Participant: {participant.member.walletAddress}</h5>)
-            })}
         </div>
     )
 }
