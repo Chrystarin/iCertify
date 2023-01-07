@@ -37,7 +37,7 @@ function ViewRequestorModal(props, {setter}) {
         requestAccount();
         provider = new ethers.providers.Web3Provider(window.ethereum);
         signer = provider.getSigner();
-        contract = new ethers.Contract('0x2834B7434983cBab156Bfea31024184B9e3CA1B4', contractBuild.abi, signer);
+        contract = new ethers.Contract('0xa6E714d68ED63a84746E91F30c32fC072527c2ED', contractBuild.abi, signer);
     });
 
     // Export canvas into image
@@ -55,9 +55,9 @@ function ViewRequestorModal(props, {setter}) {
             u8arr[i] = decodedData.charCodeAt(i);
         }
 
-        console.log(image);
+        // console.log(image);
         // Create a new File and pass it to sendDocument()
-        // sendDocument(new File([u8arr], 'certificate.png', { type: data.match(/:(.*?);/)[1] }));
+        sendDocument(new File([u8arr], 'certificate.png', { type: data.match(/:(.*?);/)[1] }));
 
     };
 
