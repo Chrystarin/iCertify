@@ -1,74 +1,74 @@
-$Width : 100vw;
-$Maxwidth1 : 1920px;
+$Width: 100vw;
+$Maxwidth1: 1920px;
 
-#DashboardHolder{
-    margin: auto;
-    max-width: 1900px;
-    height: 100vh;
-    display: grid;
-    grid-template-columns: 60px auto;
+#DashboardHolder {
+	margin: auto;
+	max-width: 1900px;
+	height: 100vh;
+	display: grid;
+	grid-template-columns: 60px auto;
 }
 
-#Holder_Content{
-    background-color: var(--light2);
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    padding: 25px 1em 25px;
-    min-width: 800px;
-    
-    #Content{
-      padding-top: 40px;
-      #Alert{
-        margin-bottom: 40px;
-        ul{
-            list-style: none;
-            display: grid;
-            grid-template-columns: repeat(2,1fr);
-            gap: 25px;
-            li{
-                background-color: var(--accent);
-                border-radius: 10px;
-                display: grid;
-                grid-template-columns: repeat(1fr); 
-                color: white; 
-                position: relative;
-                a{
-                    padding: .7em 1em;
-                    color: white;    
-                    text-decoration: none;
-                      
-                }
-                .Close{
-                    position: absolute;
-                    cursor: pointer;
-                    top: 50%;
-                    right: 1em;
-                    transform: translate(0,-50%);
-                }
-            }
-        }
-      }
+#Holder_Content {
+	display: block;
+	background-color: var(--light2);
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+	padding: 25px 1em 25px;
+	min-width: 800px;
 
-      section{
-        .SectionTitle{
-            color: var(--accent);
-        }
-        
-        // h4{
-        //     position: relative;
-        //     margin-bottom: 30px;
-        // }
-        // h4::after{
-        //     content: "";
-        //     margin-left: 15px;
-        //     position: absolute;
-        //     top: 50%;
-        //     transform: translate(0,-50%);
-        //     width: 35px;
-        //     height: 5px;
-        //     border-radius: 100px;
-        //     background-color: black;
-        // }
-      } 
-    }
+	#Content {
+		padding-top: 40px;
+		#Alert {
+			margin-bottom: 40px;
+			ul {
+				list-style: none;
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				gap: 25px;
+				li {
+					background-color: var(--accent);
+					border-radius: 10px;
+					display: grid;
+					grid-template-columns: repeat(1fr);
+					color: white;
+					position: relative;
+					a {
+						padding: 0.7em 1em;
+						color: white;
+						text-decoration: none;
+					}
+					.Close {
+						position: absolute;
+						cursor: pointer;
+						top: 50%;
+						right: 1em;
+						transform: translate(0, -50%);
+					}
+				}
+			}
+		}
+
+		section {
+			.SectionTitle {
+				color: var(--accent);
+			}
+
+			// h4{
+			//     position: relative;
+			//     margin-bottom: 30px;
+			// }
+			// h4::after{
+			//     content: "";
+			//     margin-left: 15px;
+			//     position: absolute;
+			//     top: 50%;
+			//     transform: translate(0,-50%);
+			//     width: 35px;
+			//     height: 5px;
+			//     border-radius: 100px;
+			//     background-color: black;
+			// }
+		}
+	}
 }

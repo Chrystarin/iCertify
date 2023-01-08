@@ -57,14 +57,14 @@ const eventSchema = new Schema({
 		default: false
 	},
 	tags: [String],
-    regularPrice: {
-        type: Number,
-        default: 0
-    },
-    premiumPrice:{
-        type: Number,
-        default: 0
-    },
+	regularPrice: {
+		type: Number,
+		default: 0
+	},
+	premiumPrice: {
+		type: Number,
+		default: 0
+	},
 	participants: [
 		{
 			member: {
@@ -80,8 +80,11 @@ const eventSchema = new Schema({
 					'Volunteer',
 					'Participant'
 				],
-				default: 'Participant',
-				required: true
+				default: 'Participant'
+			},
+			certificateProcessed: {
+				type: Boolean,
+				default: false
 			}
 		}
 	],

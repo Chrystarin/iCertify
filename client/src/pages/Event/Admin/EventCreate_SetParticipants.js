@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
@@ -6,41 +6,45 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import SearchInput from '../../../components/SearchInput/SearchInput.js'
-import ParticipantsList from "./../../../layouts/Event/Admin/EventParticipantsList";
-import Button from '@mui/material/Button'
+import SearchParticipant_EventCreate from '../../../components/SearchParticipant_EventCreate/SearchParticipant_EventCreate.js';
+import ParticipantsList from './../../../layouts/Event/Admin/EventParticipantsList';
+import Button from '@mui/material/Button';
 
-function EventCreate_SetParticipants({StepValue,SetStepValue,FormValue,SetFormValue}) {
+function EventCreate_SetParticipants({
+	StepValue,
+	SetStepValue,
+	FormValue,
+	SetFormValue
+}) {
+	const [AcceptVlunteerVal, setAcceptVlunteerVal] = useState(false);
 
-    const [AcceptVlunteerVal, setAcceptVlunteerVal] = useState(false)
+	function AcceptVlunteerValHandleChange() {
+		setAcceptVlunteerVal(!AcceptVlunteerVal);
+	}
 
-    function AcceptVlunteerValHandleChange(){
-        setAcceptVlunteerVal(!AcceptVlunteerVal);
-    };
+	const [EventMembersAccessibility, setEventMembersAccessibility] =
+		React.useState('');
 
-    const [EventMembersAccessibility, setEventMembersAccessibility] = React.useState('');
-    
-    const EventMembersAccessibilityhandleChangeEvent = (event) => {
-        setEventMembersAccessibility(event.target.value);
-    };
+	const EventMembersAccessibilityhandleChangeEvent = (event) => {
+		setEventMembersAccessibility(event.target.value);
+	};
 
+	// Button Next
+	function nextStep() {
+		if (StepValue !== 2) {
+			SetStepValue(StepValue + 1);
+		}
+	}
+	function backStep() {
+		if (StepValue !== 0) {
+			SetStepValue(StepValue - 1);
+		}
+	}
 
-    // Button Next
-    function nextStep(){
-        if(StepValue !== 2){
-        SetStepValue(StepValue+1);
-        }
-    }
-    function backStep(){
-        if(StepValue !== 0){
-            SetStepValue(StepValue-1);
-        }
-    }
-
-    return (
-        <div>
-            <form>
-                {/* <div className="Subject_Seperator">
+	return (
+		<div>
+			<form>
+				{/* <div className="Subject_Seperator">
                     <div className="holder_Subject">
                         <h3>Participants Accessibility</h3>
                         <p>Adjust participants accessibility</p>
@@ -64,42 +68,56 @@ function EventCreate_SetParticipants({StepValue,SetStepValue,FormValue,SetFormVa
                         </div>
                     </div>
                 </div> */}
-                <div className="Subject_Seperator">
-                    <div className="holder_Subject">
-                        <h3>Set Participants</h3>
-                        <p>Assign roles to any participants</p>
-                    </div>
-                    <div className="holder_Questions">
-                    <FormControlLabel
-                            control={
-                            <Switch 
-                                defaultChecked={FormValue.isAcceptingVolunteer} 
-                                onChange={(event) => {
-                                    SetFormValue({
-                                      ...FormValue,
-                                      isAcceptingVolunteer: event.target.checked
-                                    });
-                                  }} 
-                                name="Certificate" />
-                            }
-                            label= {<h5>Accept Volunteers</h5>}
-                        />
-                        <div className="Wrapper_2_Inputs">
-                            <SearchInput/>
-                        </div>
-                        <div className="Wrapper_2_Inputs">
-                            <ParticipantsList/>
-                        </div>
-                    </div>
-                </div>
-                <div id="Holder_Button">
-                    <Button variant="text">Save as draft</Button>
-                    <Button variant="outlined" onClick={backStep}>Back</Button>
-                    <Button variant="contained" onClick={nextStep}>Next</Button>
-                </div>
-            </form>
-        </div>
-    )
+				<div className='Subject_Seperator'>
+					<div className='holder_Subject'>
+						<h3>Set Participants</h3>
+						<p>Assign roles to any participants</p>
+					</div>
+					<div className='holder_Questions'>
+						<FormControlLabel
+							control={
+								<Switch
+									defaultChecked={
+										FormValue.isAcceptingVolunteer
+									}
+									onChange={(event) => {
+										SetFormValue({
+											...FormValue,
+											isAcceptingVolunteer:
+												event.target.checked
+										});
+									}}
+									name='Certificate'
+								/>
+							}
+							label={<h5>Accept Volunteers</h5>}
+						/>
+						<div className='Wrapper_25_Inputs'>
+							<SearchParticipant_EventCreate />
+						</div>
+						<div className='Wrapper_25_Inputs'>
+							<ParticipantsList />
+						</div>
+					</div>
+				</div>
+				<div id='Holder_Button'>
+					<Button variant='text'>Save as draft</Button>
+					<Button
+						variant='outlined'
+						onClick={backStep}
+					>
+						Back
+					</Button>
+					<Button
+						variant='contained'
+						onClick={nextStep}
+					>
+						Next
+					</Button>
+				</div>
+			</form>
+		</div>
+	);
 }
 
-export default EventCreate_SetParticipants
+export default EventCreate_SetParticipants;

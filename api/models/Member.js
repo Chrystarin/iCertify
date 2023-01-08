@@ -25,24 +25,14 @@ const memberSchema = new Schema({
 		telephone: String
 	},
 	location: {
-		barangay: String,
 		city: String,
 		province: String,
 		country: String
 	},
-	credentials: {
-		nonce: {
-			type: Number,
-			default: generateNonce()
-		},
-		email: {
-			type: String,
-			unique: true,
-			index: true,
-			sparse: true
-		},
-		password: String
-	},
+    nonce: {
+        type: Number,
+        default: generateNonce()
+    },
 	joinedEvents: [
 		{
 			event: { type: ObjectId, ref: 'Event' },

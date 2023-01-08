@@ -10,39 +10,39 @@ module.exports = async (req, res, next) => {
 	const { 'access-token': token } = req.cookies;
 	if (!token) return next();
 
+	req.user = {};
+
 	try {
 		// Verify token
 		const { id, walletAddress } = jwt.verify(token, process.env.JWT_SECRET);
+		req.user.walletAddress = walletAddress;
 
 		// Admin
 		if (walletAddress === ADMIN_WALLET_ADDRESS) {
-			req.user = roles.ADMIN;
+			req.user.role = roles.ADMIN;
 			return next();
 		}
 
 		// Find member
 		const member = await Member.findById(id).exec();
 
-		// Not existing
-		if (!member) throw new NotFound('Member');
-
 		// Accountant
 		if (await Accountant.findOne({ member: id }).exec()) {
-			req.user = roles.ACCOUNTANT;
+			req.user.role = roles.ACCOUNTANT;
 			return next();
 		}
 
 		// Organizer
 		if (
-			member.joinedEvents.filter(({ role }) => role === roles.ORGANIZER)
-				.length > 0
+			member.joinedEvents &&
+			member.joinedEvents.some((e) => e.role === roles.ORGANIZER)
 		) {
-			req.user = roles.ORGANIZER;
+			req.user.role = roles.ORGANIZER;
 			return next();
 		}
 
 		// Member
-		req.user = roles.MEMBER;
+		req.user.role = roles.MEMBER;
 		next();
 	} catch (error) {
 		if (error.name === 'TokenExpiredError')

@@ -52,7 +52,11 @@
                     grid-template-columns: 1fr 1fr;
                     gap: 25px;
                 }
-
+                .Wrapper_25_Inputs{
+                    display: grid;
+                    grid-template-columns: 1.5fr .5fr;
+                    gap: 25px;
+                }
                 
                 .Wrapper_3_Inputs{
                     display: grid;

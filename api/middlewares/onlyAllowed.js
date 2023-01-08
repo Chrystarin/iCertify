@@ -2,36 +2,40 @@ const { Unauthorized } = require('../miscellaneous/errors');
 const { roles } = require('../miscellaneous/tools');
 
 const adminOnly = async (res, res, next) => {
-    if(res.user && res.user !== roles.ADMIN)
-        return next(new Unauthorized('Not an Admin'));
+	if (res.user && res.user.role == roles.ADMIN) return next();
 
-    next();
-}
+	next(new Unauthorized('Not an Admin'));
+};
 
 const accountantOnly = async (res, res, next) => {
-    if(res.user && res.user !== roles.ACCOUNTANT)
-        return next(new Unauthorized('Not an Accountant'));
+	if (
+		res.user &&
+		(res.user.role == roles.ACCOUNTANT || res.user.role == roles.ADMIN)
+	)
+		return next();
 
-    next();
-}
+	next(new Unauthorized('Not an Accountant'));
+};
 
 const organizerOnly = async (res, res, next) => {
-    if(res.user && res.user !== roles.ORGANIZER)
-        return next(new Unauthorized('Not an Organizer'));
+	if (
+		res.user &&
+		(res.user.role == roles.ORGANIZER || res.user.role == roles.ADMIN)
+	)
+		return next();
 
-    next();
-}
+	next(new Unauthorized('Not an Organizer'));
+};
 
 const memberOnly = async (res, res, next) => {
-    if(res.user && res.user !== roles.MEMBER)
-        return next(new Unauthorized('Not a Member'));
+	if (res.user) return next();
 
-    next();
-}
+	next(new Unauthorized('Not a Member'));
+};
 
 module.exports = {
-    adminOnly,
-    accountantOnly,
-    organizerOnly,
-    memberOnly
-}
+	adminOnly,
+	accountantOnly,
+	organizerOnly,
+	memberOnly
+};

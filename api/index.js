@@ -30,6 +30,7 @@ app.use(
 	})
 );
 app.use(helmet());
+app.use(authUser);
 
 // Routes
 app.use('/members', memberRoute);
@@ -78,30 +79,32 @@ mongoose
 	.connect(process.env.MONGO_URI)
 	.then(() => {
 		// Run server
-		if (process.env.NODE_ENV === 'DEVELOPMENT') {
-			https
-				.createServer(
-					{
-						key: fs.readFileSync('./test/localhost.key'),
-						cert: fs.readFileSync('./test/localhost.crt')
-					},
-					app
-				)
-				.listen(process.env.PORT, (err) => {
-					if (err) return console.log('Error', err);
-					console.log(
-						'Connected to database\nListening on port',
-						process.env.PORT
-					);
-				});
-		} else {
-			app.listen(process.env.PORT, (err) => {
-				if (err) return console.log('Error', err);
-				console.log(
-					'Connected to database\nListening on port',
-					process.env.PORT
-				);
-			});
-		}
+		// if (process.env.NODE_ENV === 'DEVELOPMENT') {
+		// 	https
+		// 		.createServer(
+		// 			{
+		// 				key: fs.readFileSync('./test/localhost.key'),
+		// 				cert: fs.readFileSync('./test/localhost.crt')
+		// 			},
+		// 			app
+		// 		)
+		// 		.listen(process.env.PORT, (err) => {
+		// 			if (err) return console.log('Error', err);
+		// 			console.log(
+		// 				'Connected to database\nListening on port',
+		// 				process.env.PORT
+		// 			);
+		// 		});
+
+        //     return;
+		// }
+
+        app.listen(process.env.PORT, (err) => {
+            if (err) return console.log('Error', err);
+            console.log(
+                'Connected to database\nListening on port',
+                process.env.PORT
+            );
+        });
 	})
 	.catch((error) => console.log(error.message));

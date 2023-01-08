@@ -10,7 +10,8 @@ const certificateSchema = new Schema({
     ipfsCID: {
         type: String,
         unique: true,
-        require: true
+        index: true,
+        sparse: true
     },
     nftId: {
         type: Number,
@@ -18,28 +19,21 @@ const certificateSchema = new Schema({
         index: true,
         sparse: true
     },
-    title: {
-        type: String,
-        required: true
-    },
+    title: String,
     hash: {
         type: String,
         unique: true,
-        required: true
+        index: true,
+        sparse: true
     },
-    dateReceived: {
-        type: Number,
-        required: true
-    },
+    dateReceived: Number,
     owner: {
         type: ObjectId,
-        ref: 'Member',
-        required: true
+        ref: 'Member'
     },
     event: {
         type: ObjectId,
-        ref: 'Event',
-        required: true
+        ref: 'Event'
     }
 });
 

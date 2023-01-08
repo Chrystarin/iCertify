@@ -6,12 +6,18 @@ const ethers = require('ethers');
 const Certificate = require('../models/Certificate');
 const Event = require('../models/Event');
 const Member = require('../models/Member');
-const { UnprocessableRequest, NotFound, Forbidden } = require('../miscellaneous/errors');
+const {
+	UnprocessableRequest,
+	NotFound,
+	Forbidden
+} = require('../miscellaneous/errors');
 
-const provider = new ethers.providers.JsonRpcProvider(process.env.TEST_PROVIDER + ':7545');
-const interface = new ethers.utils.Interface(require('../build/contracts/CertificateNFT.json').abi);
-
-
+const provider = new ethers.providers.JsonRpcProvider(
+	process.env.TEST_PROVIDER + ':7545'
+);
+const interface = new ethers.utils.Interface(
+	require('../build/contracts/CertificateNFT.json').abi
+);
 
 /**
  * Monitors the transaction every 30 secs
@@ -20,119 +26,170 @@ const interface = new ethers.utils.Interface(require('../build/contracts/Certifi
  * Otherwise, continue to monitor
  */
 const monitorTransaction = (hash) => {
-    setTimeout(async () => {
-        const receipt = await provider.getTransactionReceipt(hash);
-        if(receipt) {
-            const certificate = await Certificate.findOne({ hash });
-            
-            const nftId = interface.parseLog(receipt.logs[2]).args.tokenId.toNumber();
-            console.log(nftId);
-            certificate.nftId = nftId;
-            await certificate.save();
+	setTimeout(async () => {
+		const receipt = await provider.getTransactionReceipt(hash);
+		if (receipt) {
+			await Certificate.findOneAndUpdate(
+				{ hash },
+				{
+					nftId: interface
+						.parseLog(receipt.logs[2])
+						.args.tokenId.toNumber()
+				}
+			);
 
-            return;
-        }
-        monitorTransaction(hash);
-    }, 30 * 1000);
-}
+			return;
+		}
+		monitorTransaction(hash);
+	}, 30 * 1000);
+};
 
 const saveCertificate = async (req, res, next) => {
-    const { ipfsCID, title, hash, ownerAddress, eventId } = req.body;
+	const { certificateId } = req.body;
 
-    try {
-        if(!(  title            && typeof title === 'string'
-            && ipfsCID          && typeof ipfsCID === 'string'
-            && hash             && typeof hash === 'string'
-            && ownerAddress     && typeof ownerAddress === 'string'
-            && eventId          && typeof eventId === 'string'
-        )) throw new UnprocessableRequest();
+	try {
+		// Check if certificateId is not included from the request body
+		if (!certificateId) {
+			const { _id, certificateId } = await Certificate.create({
+				certificateId: nanoid(8)
+			});
 
-        // Find member
-        const member = await Member.findOne({ walletAddress: ownerAddress });
-        if(!member) throw new NotFound('Address is not a member');
+			// Check if generated certificateId was updated with info
+			setTimeout(async () => {
+				const certificate = await Certificate.findById(_id).exec();
 
-        // Find event
-        const event = await Event.findOne({ eventId });
-        if(!event) throw new NotFound('Event is not created yet');
+				// If the ipfsCID of the generated certificate is empty, delete that certificate
+				if (!certificate.ipfsCID) await certificate.delete();
+			}, 1 * 60 * 1000);
 
-        // Check if hash is valid
-        const transactionHash = await provider.getTransaction(hash);
-        if(!transactionHash) throw new Forbidden('Transaction not existing');
+			return res.status(201).json({ certificateId });
+		}
 
-        // Monitor transaction
-        monitorTransaction(hash);
+		const { ipfsCID, title, hash, ownerAddress, eventId } = req.body;
+		if (
+			!(
+				certificateId &&
+				typeof certificateId === 'string' &&
+				title &&
+				typeof title === 'string' &&
+				ipfsCID &&
+				typeof ipfsCID === 'string' &&
+				hash &&
+				typeof hash === 'string' &&
+				ownerAddress &&
+				typeof ownerAddress === 'string' &&
+				eventId &&
+				typeof eventId === 'string'
+			)
+		)
+			throw new UnprocessableRequest();
 
-        const certificate = await Certificate.create({
-            certificateId: nanoid(8),
-            ipfsCID,
-            title,
-            hash,
-            dateReceived: Date.now(),
-            owner: member._id,
-            event: event._id
-        });
+		// Find member
+		const member = await Member.findOne({ walletAddress: ownerAddress });
+		if (!member) throw new NotFound('Address is not a member');
 
-        member.ownedCertificates.push(certificate._id);
-        await member.save();
+		// Find event
+		const event = await Event.findOne({ eventId });
+		if (!event) throw new NotFound('Event is not created yet');
 
-        res.status(201).json({
-            message: 'Certificate recorded',
-            certificateId: certificate.certificateId,
-            uri: 'https://icertify.infura-ipfs.io/ipfs/' + ipfsCID
-        })
-    } catch (error) {
-        next(error);
-    }
-}
+		// Check if the member already owned a certificate from the event
+		if (await Certificate.findOne({ owner: member._id, event: event._id }))
+			throw new Forbidden(
+				'Member already owned a certificate from this event'
+			);
+
+		// Check if hash is valid
+		if (!(await provider.getTransaction(hash)))
+			throw new Forbidden('Transaction not existing');
+
+		// Monitor transaction
+		monitorTransaction(hash);
+
+		const { _id } = await Certificate.findOneAndUpdate(
+			{ certificateId },
+			{
+				ipfsCID,
+				title,
+				hash,
+				dateReceived: Date.now(),
+				owner: member._id,
+				event: event._id
+			}
+		);
+
+		member.ownedCertificates.push(_id);
+
+		event.participants.find((p) =>
+			p.member.equals(member._id)
+		).certificateProcessed = true;
+
+		await member.save();
+		await event.save();
+
+		res.json({
+			message: 'Certificate recorded',
+			certificateId,
+			uri: 'https://icertify.infura-ipfs.io/ipfs/' + ipfsCID
+		});
+	} catch (error) {
+		next(error);
+	}
+};
 
 const certificateIPFS = async (req, res, next) => {
-    try {
-        const { certificate: { mimetype, data } } = req.files;
+	try {
+		const {
+			certificate: { mimetype, data }
+		} = req.files;
 
-        // Check file type
-        if(mimetype !== 'image/png') throw new UnprocessableRequest();
+		// Check file type
+		if (mimetype !== 'image/png') throw new UnprocessableRequest();
 
-        const imageHash = await Hash.of(data);
+		const imageHash = await Hash.of(data);
 
-        // Check if certificate is already saved
-        const certificate = await Certificate.findOne({ ipfsCID: imageHash })
-        if(certificate) throw new Forbidden('Certificate already saved');
+		// Check if certificate is already saved
+		const certificate = await Certificate.findOne({ ipfsCID: imageHash });
+		if (certificate) throw new Forbidden('Certificate already saved');
 
-        // Create ipfs instance
-        const ipfsClient = create({
-            host: 'ipfs.infura.io',
-            port: 5001,
-            protocol: 'https',
-            headers: { authorization: 'Basic ' + Buffer.from(process.env.IPFS_ID + ':' + process.env.IPFS_SECRET).toString('base64') }
-        });
+		// Create ipfs instance
+		const ipfsClient = create({
+			host: 'ipfs.infura.io',
+			port: 5001,
+			protocol: 'https',
+			headers: {
+				authorization:
+					'Basic ' +
+					Buffer.from(
+						process.env.IPFS_ID + ':' + process.env.IPFS_SECRET
+					).toString('base64')
+			}
+		});
 
-        res.json(await ipfsClient.add({ content: data }));
-        
-    } catch (error) {
-        next(error);
-    }
-}
+		res.json(await ipfsClient.add({ content: data }));
+	} catch (error) {
+		next(error);
+	}
+};
 
 const getCertificate = async (req, res, next) => {
-    const { certificateId } = req.params;
+	const { certificateId } = req.params;
 
-    try {
-        const certificate = await Certificate
-            .findOne({ certificateId })
-            .select('-_id -__v')
-            .populate('owner', '-_id walletAddress name')
-            .populate('event', '-_id eventId title')
-            .exec();
-        if(!certificate) throw new NotFound('Certificate is not created yet');
+	try {
+		const certificate = await Certificate.findOne({ certificateId })
+			.select('-_id -__v')
+			.populate('owner', '-_id walletAddress name')
+			.populate('event', '-_id eventId title')
+			.exec();
+		if (!certificate) throw new NotFound('Certificate is not created yet');
 
-        res.status(200).json(certificate);
-    } catch (error) {
-        next(error);
-    }
-}
+		res.status(200).json(certificate);
+	} catch (error) {
+		next(error);
+	}
+};
 
 module.exports = {
-    getCertificate,
-    certificateIPFS,
-    saveCertificate
-}
+	getCertificate,
+	certificateIPFS,
+	saveCertificate
+};

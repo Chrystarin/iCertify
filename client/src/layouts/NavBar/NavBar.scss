@@ -1,50 +1,58 @@
-$Width : 100vw;
-$Maxwidth1 : 1920px;
+$Width: 100vw;
+$Maxwidth1: 1920px;
 
-header{
-    background-color: var(--dark1);
-    position: sticky;
-    top: 0;
-    z-index: 99;
-    #Wrapper_Header{
-        max-width: $Maxwidth1;
-        padding: 1em 2em;
-        margin: auto;
-        height: 80px;
-        #Home_nav{
-            img{
-                height: 100%;
-            }
-        }
-        nav{
-            float: right;
-            height: 100%;
-            ul{
-                list-style-type: none;
-                margin: 0;
-                height: 100%;
-                padding: 0;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-            li{
-                display: inline;
-                margin-left: 50px;
-                font-style: none;
-                font-size: 21px;
-                a{
-
-                    text-decoration: none;
-                    color: white;
-                    font-weight: 500;
-                }
-                #GetStarted{
-                    background-color: var(--accent);
-                    padding: .4em .7em;
-                    border-radius: 8px;
-                }
-            }
-        }
-    }
+header {
+	background-color: var(--dark1);
+	position: sticky;
+	top: 0;
+	z-index: 99;
+	#Wrapper_Header {
+		max-width: $Maxwidth1;
+		padding: 1.2em 2em;
+		margin: auto;
+		height: 80px;
+		#Home_nav {
+			img {
+				height: 100%;
+			}
+		}
+		nav {
+			float: right;
+			height: 100%;
+			ul {
+				list-style-type: none;
+				margin: 0;
+				height: 100%;
+				padding: 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				gap: 25px;
+			}
+			li {
+				display: inline;
+				font-style: none;
+				font-size: 17px;
+				a {
+					text-decoration: none;
+					color: white;
+					font-weight: 500;
+				}
+				#GetStarted {
+					background-color: var(--accent);
+					padding: 0.4em 0.7em;
+					border-radius: 8px;
+				}
+				#Button {
+					color: white;
+					font-size: 17px;
+				}
+			}
+			#divider {
+				width: 2px;
+				height: 80%;
+				background-color: rgba(255, 255, 255, 0.26);
+			}
+		}
+	}
 }
