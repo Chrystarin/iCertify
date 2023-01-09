@@ -1,12 +1,16 @@
-import React,{useState} from 'react';
+import React,{useEffect,useState} from 'react';
 import './Credential.scss'
 
-import CredentialTab from '../../components/CredentialTab/CredentialTab.js';
-import Table from '../../components/Table/Table.js';
+import { useParams } from 'react-router-dom';
+
+import Empty from '../../images/icons/empty-folder.png'
+import Card from '../../components/Card/Card.js';
+
+import axios from '../../config/axios';
 
 
 function Credential() {
-  const [TabActive, setTabActive] = useState("Documents");
+ 
   return (
     <div id='Credential'>
       <section>
@@ -14,18 +18,14 @@ function Credential() {
           <h2 className='SectionTitle'>Credential</h2>
           <h5 className='SectionSubTitle'>Collection of your Certificates</h5>
         </div>
-        <CredentialTab Active={TabActive} Setter={setTabActive}/>
-        <div id='CredentialVIewPanel'>
-          {(TabActive === "Documents")?<>
-            Documents
-            <Table />
-          </>
-          :
-          <>
-            Requests
-            <Table />
-          </>
-          }
+        
+        <div className='Wrapper__Card'>
+          <Card/>
+          <Card/>
+          <Card/>
+          <Card/>
+          <Card/>
+          <Card/>
         </div>
       </section>
     </div>

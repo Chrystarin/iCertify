@@ -7,8 +7,11 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import IconButton from '@mui/material/IconButton';
-function Header() {
+import AdminLogo from '../../images/Resources/Client/Logo.png'
 
+import Avatar from '@mui/material/Avatar';
+
+function Header(props) {
   const [openDropdown, setopenDropdown] = useState("");
   const [address, setAddress] = useState("");
 
@@ -71,7 +74,7 @@ function DropdownItem(props){
           <div id='Navigation_Content'> 
               <div id="NotificatonHolder"ref={menuRef}>
                 <IconButton color="primary" aria-label="add to shopping cart">
-                  <Badge badgeContent={26} color="primary" onClick={()=>(openDropdown==="Notification")?setopenDropdown(""): setopenDropdown("Notification")}>
+                  <Badge badgeContent={2} color="primary" onClick={()=>(openDropdown==="Notification")?setopenDropdown(""): setopenDropdown("Notification")}>
                     <NotificationsIcon color="action" sx={{ fontSize: 30 ,cursor:"pointer"}}/>
                   </Badge>
                 </IconButton>
@@ -85,14 +88,14 @@ function DropdownItem(props){
                         <ul>
                             <li >
                                 <a href='/' className='unread'>
-                                <img src={PicLogo} alt=""/>
-                                <p className="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
+                                  <Avatar id="profilePicture_Navigation"  />
+                                  <p className="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
                                 </a>
                             </li>
                             <li>
                                 <a href='/'>
-                                <img src={PicLogo} alt=""/>
-                                <p className="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
+                                  <Avatar id="profilePicture_Navigation"  />
+                                  <p className="BodyText3">Lorem ipsum dolor sit amet, consectet adipisicing elit. Aliquamque similique alias ullam a accusantium voprehenderit leniti eos. Eos?</p>
                                 </a>
                             </li>
                         </ul>
@@ -100,10 +103,10 @@ function DropdownItem(props){
                 </div>
               </div>           
               <div id='profile_Navigation'ref={menuRef}>
-                <img id='profilePicture_Navigation' src={PicLogo} alt="" onClick={()=>{(openDropdown==="Profile")?setopenDropdown(""): setopenDropdown("Profile")}}/>
+                <Avatar id="profilePicture_Navigation"  src={(props.User==="Admin")?AdminLogo:""} onClick={()=>{(openDropdown==="Profile")?setopenDropdown(""): setopenDropdown("Profile")}}/>
                 <div className={(openDropdown==="Profile")?'dropdown-menu active':'dropdown-menu inactive'} >
                   <a href={`/member/${address}`}>
-                    <h4 className='BodyText2'>{address}</h4>
+                    <h5 >{(props.User==="Admin")?"Admin":address} </h5>
                   </a>
                   <a href='/membership'>
                     <div id='Wrapper_MembershipType'>

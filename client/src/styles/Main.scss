@@ -1,6 +1,7 @@
 $Width : 100vw;
 $maxwdth : calc(1920px - 10%);
 
+  
 :root {
     // Color to set up "var(--accent)"
     --accent: #017CC9;
@@ -86,7 +87,19 @@ p{
     gap: 10px;
     flex-wrap: wrap;
 }
-
+.EmtpyCard{
+    width: 100%;
+    height: 30vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    div{
+        text-align: center;
+    }
+    img{
+        width: 90px;
+    }
+}
 
 .Panel__Title{
     margin-bottom: 10px;

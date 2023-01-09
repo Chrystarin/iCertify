@@ -1,6 +1,5 @@
 import React from 'react';
-
-
+import './Dashboard.scss'
 import CredentialTab from '../../components/CredentialTab/CredentialTab.js';
 import Card from '../../components/Card/Card.js';
 
@@ -23,23 +22,28 @@ function Dashboard() {
               */}
           <li>
             <a href='/ProileUpdate'>
-              <h5 className="AlertMessage">Update Account</h5>
+              <h6 className="AlertMessage">Update Account</h6>
             </a>
-            <h5 className="Close">X</h5>
+            <h6 className="Close">X</h6>
           </li>
           <li>
               <a href='/ProileUpdate'>
-                <h5 className="AlertMessage">Update Account</h5>
+                <h6 className="AlertMessage">Have a tour</h6>
               </a>
-              <h5 className="Close">X</h5>
+              <h6 className="Close">X</h6>
           </li> 
         </ul>
       </div>
-      <section>
-        <h4 className='SectionTitle'>Quick Access</h4>
-        <CredentialTab/>
+      <section className='DashBoard__Container'>
+        <h4 className='SectionTitle'>Owned Certificates</h4>
+        <div className="Wrapper__Card">
+          <Card/>
+          <Card/>
+          <Card/>
+          <Card/>
+        </div>
       </section>
-      <section>
+      <section className='DashBoard__Container'>
         <h4 className='SectionTitle'>Upcoming Events</h4>
         <div id='Holder_EventCard'>
           <div id='Wrapper_EventCard' style={{display: 'flex' , gap: '10px'}}>

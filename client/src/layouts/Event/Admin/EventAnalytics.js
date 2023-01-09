@@ -1,19 +1,20 @@
 import React from 'react'
 import './EventAnalytics.scss';
 import PicNotification from './../../../images/iCertifyBranding/icon.png';
+import DownloadIcon from '@mui/icons-material/Download';
 
 function Analytics() {
   return (
     <div id='Container_Analytics'>
       <div id='AnalyticsTitle'>
-        <div>
+        <div id='Title__container'>
           <h5>Analytics</h5>
           <select className='SelectDesign SelectDropdown'>
             <option value="Overview">Overview of this year</option>
           </select>
         </div>
-        <div>
-          <img src={PicNotification} alt="" />
+        <div id='Download__container'>
+          <DownloadIcon/>
         </div>
       </div>
 

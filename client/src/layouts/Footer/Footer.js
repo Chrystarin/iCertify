@@ -27,9 +27,8 @@ function Footer() {
                     <div>
                         <h5>Menu</h5>
                         <ul>
-                            <li><a href="#About">About</a></li>
-                            <li><a href="#FAQ's">FAQ's</a></li>
-                            <li><a href="#Login">Login</a></li>
+                            
+                            <li><a href="#Login">Login to metamask</a></li>
                             <li><a href="#Getstarted">Get Started</a></li>
                         </ul>
                     </div>
@@ -40,7 +39,6 @@ function Footer() {
                             <li><a href="#FAQ's">Bicol IT</a></li>
                             <li><a href="#Metamask">Metamask</a></li>
                             <li><a href="#Developer">Developers</a></li>
-                            <li><a href="#news">News</a></li>
                             <li><a href="#Terms & Condition">Terms & Condition</a></li>
                         </ul>
                     </div>

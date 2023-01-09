@@ -5,9 +5,9 @@ import './Events.scss';
 
 import Card from '../../components/Card/Card.js';
 import ImagePosterSample from './../../images/placeholder/PosterSample.jpg';
-
+import ImageAds from '../../images/Resources/Ads.png'
 import axios from '../../config/axios';
-
+import Empty from '../../images/icons/empty-folder.png'
 function Event() {
 	const [isOpenPanel_Events, setIsOpenPanel_Events] =
 		useState('FeaturedEvents');
@@ -108,7 +108,7 @@ function Panel_Events(props) {
 						</a>
 					</div>
 					<div id='Ads_FeaturedEvents'>
-						<span>Advertisement</span>
+						<img src={ImageAds} alt="" />
 					</div>
 				</div>
 				<div id='Container_Upcoming_FeaturedEvents'>
@@ -146,7 +146,15 @@ function Panel_Events(props) {
 			</div>
 		);
 	} else if (props.open === 'ManageEvents') {
-		return <div id='Container_ManageEvents'>ManageEvents</div>;
+		return <div id='Container_ManageEvents'>
+			<div className='EmtpyCard'>
+				<div>
+					<img src={Empty} alt="" />
+					<p>You dont have any EVENTS to manage!</p>
+				</div>
+				
+			</div>
+		</div>;
 	}
 }
 export default Event;

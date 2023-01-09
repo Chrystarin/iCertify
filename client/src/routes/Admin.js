@@ -13,7 +13,7 @@ function Admin(props) {
         <SideNavBar UserType="Admin"/>
       </div>
       <div id="Holder_Content">
-        <HeaderNavigation/>
+        <HeaderNavigation User="Admin"/>
         <div id="Content">
           <Outlet/>
         </div>

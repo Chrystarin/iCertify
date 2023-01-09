@@ -1,0 +1,40 @@
+#Alert {
+    margin-bottom: 40px;
+    ul {
+        list-style: none;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+        li {
+            background-color: var(--accent);
+            opacity: .9;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(1fr);
+            color: white;
+            position: relative;
+            a {
+                padding: 0.7em 1em;
+                color: white;
+                text-decoration: none;
+            }
+            .Close {
+                position: absolute;
+                cursor: pointer;
+                top: 50%;
+                right: 1em;
+                transform: translate(0, -50%);
+            }
+        }
+        li:hover{
+            opacity: 1;
+        }
+    }
+}
+
+.DashBoard__Container{
+    margin-top: 50px;
+    .SectionTitle{
+        margin-bottom: 25px;
+    }
+}
