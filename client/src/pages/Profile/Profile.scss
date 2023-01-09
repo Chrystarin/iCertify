@@ -48,12 +48,20 @@
         }
         #Content__Div{
             flex-grow: 1;
-
+            
             section{
                 margin-bottom: 25px;
             }
         }
         
         
+    }
+}
+.Panel__MultipleContent{
+    display: flex;
+}
+#Contact__Div{
+    .Panel__Content__IconText{
+
     }
 }

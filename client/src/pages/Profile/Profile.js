@@ -18,6 +18,7 @@ import CredentialList from '../../components/Table/Table';
 import { Button } from '@mui/material';
 import axios from '../../config/axios';
 
+import Empty from '../../images/icons/empty-folder.png'
 function Profile() {
 	const { id } = useParams();
 	const [member, setMember] = useState(null);
@@ -117,19 +118,17 @@ function Profile() {
 							id='Contact__Div'
 						>
 							<ul className='Panel__MultipleContent'>
-								<li>
+								<li className='Panel__MultipleContent'>
 									<h5 className='Panel__Title'>Contact</h5>
 									<div className='Panel__Content__IconText'>
 										<PhoneAndroidIcon />
 										<p className='BodyText3'>
-											{' '}
-											{member.contact?.mobile ?? ''}
+											{member.contact?.mobile ?? 'None'}
 										</p>
 									</div>
 									<div className='Panel__Content__IconText'>
 										<CallIcon />
 										<p className='BodyText3'>
-											{' '}
 											{member.contact?.telephone ?? ''}
 										</p>
 									</div>
@@ -158,20 +157,35 @@ function Profile() {
 				<div id='Content__Div'>
 					<section>
 						<h5 className='Panel__Title'>Events</h5>
-						<div className='Wrapper__Card'>
-							{joinedEvents.length > 0 &&
-								joinedEvents.map((joinedEvent) => {
-									return (
-										<Card
-											title={joinedEvent.event.title}
-											key={joinedEvent.event.eventId}
-											id={joinedEvent.event.eventId}
-											role={joinedEvent.role}
-											type={'event'}
-										/>
-									);
-								})}
-						</div>
+						{(joinedEvents.length === 0 )?
+							<>
+								<div className='EmtpyCard'>
+									<div>
+										<img src={Empty} alt="" />
+										<p>You dont have any joined Events Yet!</p>
+									</div>
+									
+								</div>
+							</>
+							:
+							<>
+								<div className='Wrapper__Card'>
+									{joinedEvents.length > 0 &&
+										joinedEvents.map((joinedEvent) => {
+										return (
+											<Card
+												title={joinedEvent.event.title}
+												key={joinedEvent.event.eventId}
+												id={joinedEvent.event.eventId}
+												role={joinedEvent.role}
+												type={'event'}
+											/>
+										);
+									})}
+								</div>
+							</>
+						}
+							
 					</section>
 
 					<section>
@@ -179,19 +193,34 @@ function Profile() {
 						{/* <div className=''>
                         <CredentialList/>
                     </div> */}
-						<div className='Wrapper__Card'>
-							{ownedCertificates.length > 0 &&
-								ownedCertificates.map((ownedCertificate) => {
-									return (
-										<Card
-											key={ownedCertificate.certificateId}
-											id={ownedCertificate.certificateId}
-											type={'certificate'}
-											image={`https://icertify.infura-ipfs.io/ipfs/${ownedCertificate.ipfsCID}`}
-										/>
-									);
-								})}
-						</div>
+
+					{(ownedCertificates.length === 0 )?
+							<>
+								<div className='EmtpyCard'>
+									<div>
+										<img src={Empty} alt="" />
+										<p>You dont have any Certificates Yet!</p>
+									</div>
+								</div>
+							</>
+							:
+							<>
+								<div className='Wrapper__Card'>
+									{ownedCertificates.length > 0 &&
+										ownedCertificates.map((ownedCertificate) => {
+											return (
+												<Card
+													key={ownedCertificate.certificateId}
+													id={ownedCertificate.certificateId}
+													type={'certificate'}
+													image={`https://icertify.infura-ipfs.io/ipfs/${ownedCertificate.ipfsCID}`}
+												/>
+											);
+										})}
+								</div>
+							</>
+						}			
+						
 					</section>
 				</div>
 			</div>
