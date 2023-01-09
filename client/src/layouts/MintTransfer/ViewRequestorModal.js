@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import html2canvas from 'html2canvas';
 
@@ -27,22 +27,20 @@ function ViewRequestorModal(props, { setter }) {
 		eventTitle,
 		date,
 		location,
-		qr,
-		certificateId
+		qr
 	} = props;
 
 	// Values for metamask credentials
 	let provider, signer, contract;
+	const [certificateId, setCertificateId] = useState(null);
 
-	// const GenerateCertificateID = async () => {
-	// 	const certificateId = await axios
-	// 		.post('certificates/save', {
-	// 			headers: { 'Content-Type': 'application/json' }
-	// 		})
-	// 		.then(({ data }) => data.certificateId);
-	// 	console.log(certificateId);
-	// 	return certificateId;
-	// };
+	const GenerateCertificateID = async () => {
+		const response = await axios
+			.post('certificates/save', {
+				headers: { 'Content-Type': 'application/json' }
+			})
+			.then(({ data }) => setCertificateId(data.certificateId));
+	};
 
 	useEffect(() => {
 		async function requestAccount() {
@@ -58,7 +56,9 @@ function ViewRequestorModal(props, { setter }) {
 			contractBuild.abi,
 			signer
 		);
-	});
+
+		GenerateCertificateID();
+	}, []);
 
 	// Export canvas into image
 	const exportAsImage = async (element, imageFileName) => {
@@ -133,6 +133,40 @@ function ViewRequestorModal(props, { setter }) {
 	const handleClose = () => {
 		props.setter(false);
 	};
+	
+	if(!certificateId) return (
+		<>
+			<div
+				id='ModalRequestor'
+				className={props.status ? 'active' : 'inactive'}
+			>
+				<div id='ViewRequestorModal'>
+					<div
+						id='ViewRequestorModal__Container__View'
+						className='Panel__Container'
+					>
+						Loading....
+					</div>
+					<div id='FullView__Buttons'>
+						<Fab
+							size='small'
+							color='white'
+							aria-label='full'
+							sx={{ zIndex: 97 }}
+							onClick={handleClose}
+						>
+							<CloseIcon />
+						</Fab>
+					</div>
+				</div>
+			</div>
+			<Backdrop
+				sx={{ color: '#fff', zIndex: 98 }}
+				open={props.status}
+				onClick={handleClose}
+			></Backdrop>
+		</>
+	)
 
 	return (
 		<>
@@ -146,7 +180,7 @@ function ViewRequestorModal(props, { setter }) {
 						className='Panel__Container'
 					>
 						<div ref={exportRef}>
-							<Certificate
+								<Certificate
 								address={address}
 								eventId={eventId}
 								eventTitle={eventTitle}
@@ -155,7 +189,7 @@ function ViewRequestorModal(props, { setter }) {
 								location={location}
 								role={role}
 								certificateId={certificateId}
-							/>
+							/>				
 						</div>
 					</div>
 					<div
@@ -168,12 +202,6 @@ function ViewRequestorModal(props, { setter }) {
 							onClick={() => CreateCertificate()}
 						>
 							Generate Certificate
-						</Button>
-						<Button
-							variant='contained'
-							onClick={() => console.log(certificateId)}
-						>
-							Check Certificate
 						</Button>
 					</div>
 					<div id='FullView__Buttons'>

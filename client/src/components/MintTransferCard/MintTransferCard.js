@@ -26,22 +26,22 @@ function MintTransferCard(props) {
 		type
 	} = props;
 
-	const certificateId = axios
-		.post('certificates/save', {
-			headers: { 'Content-Type': 'application/json' }
-		})
-		.then(({ data }) => data.certificateId);
+	// const certificateId = axios
+	// 	.post('certificates/save', {
+	// 		headers: { 'Content-Type': 'application/json' }
+	// 	})
+	// 	.then(({ data }) => data.certificateId);
 
 	// const certificateId = null;
 
-	// const GenerateCertificateID = () => {
-	// 	// let certificateId;
-	// 	axios
+	// const GenerateCertificateID = async () => {
+	// 	const certificateId = await axios
 	// 		.post('certificates/save', {
 	// 			headers: { 'Content-Type': 'application/json' }
 	// 		})
-	// 		.then(console.log);
-	// 	// return certificateId;
+	// 		.then(({ data }) => data.certificateId);
+	// 		console.log(certificateId);
+	// 	return certificateId;
 	// };
 
 	// function OpenProcess() {
@@ -72,8 +72,7 @@ function MintTransferCard(props) {
 							{/* <Button variant='outlined' onClick={()=>setOpenModal(true)}>View</Button> */}
 							<Button
 								variant='contained'
-								// onClick={() => GenerateCertificateID()
-								// }
+								
 							>
 								Check CertID
 							</Button>
@@ -104,7 +103,7 @@ function MintTransferCard(props) {
 				setter={setOpenModal}
 				date={date}
 				location={location}
-				certificateId={certificateId}
+				// certificateId={null}
 			/>
 		</>
 	);

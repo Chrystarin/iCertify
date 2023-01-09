@@ -35,8 +35,7 @@ function Certificate(props) {
 				>
 					{name}
 				</h1>
-				<h2 className='cert_description'>
-					{certificateId}
+				<h2 className='cert_description'>	
 					For active and invaluable participation during "{eventTitle}
 					" <br />
 					as a {role} at {location} on {dateObject.toLocaleString()}
@@ -54,7 +53,7 @@ function Certificate(props) {
 					{certificateId && (
 						<QRCode
 							title='Bicol IT Certificate'
-							value={certificateId}
+							value={`http://localhost:3000/certificate/${certificateId}`}
 							bgColor={'#FFFFFF'}
 							fgColor={'#000000'}
 							size={100 === '' ? 0 : 100}
