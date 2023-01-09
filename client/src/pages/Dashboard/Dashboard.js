@@ -1,5 +1,5 @@
 import React from 'react';
-
+import './Dashboard.scss'
 
 import CredentialTab from '../../components/CredentialTab/CredentialTab.js';
 import Card from '../../components/Card/Card.js';
@@ -29,7 +29,7 @@ function Dashboard() {
           </li>
           <li>
               <a href='/ProileUpdate'>
-                <h5 className="AlertMessage">Update Account</h5>
+                <h5 className="AlertMessage">Have a tour</h5>
               </a>
               <h5 className="Close">X</h5>
           </li> 

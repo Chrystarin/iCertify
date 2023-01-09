@@ -187,7 +187,7 @@ function Signup() {
             <h2>WELCOME TO</h2>
             <img src={logo} alt="" id='LogoImg'/>
           </div>
-          <h6>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam illum unde temporibus obcaecati, molestiae consequatur? Deleniti doloribus itaque quam numquam, nesciunt illo esse obcaecati distinctio sequi recusandae doloremque necessitatib</h6>
+          <h6>We provide online digital certificates through implementing NFT and Blockchain technology to ensure both employees and employers that their certificates are authentic and free from falsification.</h6>
           <img id='Certificate' src={CertifiicatImg} alt="" />
         </div>
         <div id='Container_Signup_Panel'>

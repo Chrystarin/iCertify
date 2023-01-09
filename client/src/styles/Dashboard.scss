@@ -19,56 +19,10 @@ $Maxwidth1: 1920px;
 
 	#Content {
 		padding-top: 40px;
-		#Alert {
-			margin-bottom: 40px;
-			ul {
-				list-style: none;
-				display: grid;
-				grid-template-columns: repeat(2, 1fr);
-				gap: 25px;
-				li {
-					background-color: var(--accent);
-					border-radius: 10px;
-					display: grid;
-					grid-template-columns: repeat(1fr);
-					color: white;
-					position: relative;
-					a {
-						padding: 0.7em 1em;
-						color: white;
-						text-decoration: none;
-					}
-					.Close {
-						position: absolute;
-						cursor: pointer;
-						top: 50%;
-						right: 1em;
-						transform: translate(0, -50%);
-					}
-				}
-			}
-		}
-
 		section {
 			.SectionTitle {
 				color: var(--accent);
 			}
-
-			// h4{
-			//     position: relative;
-			//     margin-bottom: 30px;
-			// }
-			// h4::after{
-			//     content: "";
-			//     margin-left: 15px;
-			//     position: absolute;
-			//     top: 50%;
-			//     transform: translate(0,-50%);
-			//     width: 35px;
-			//     height: 5px;
-			//     border-radius: 100px;
-			//     background-color: black;
-			// }
 		}
 	}
 }
