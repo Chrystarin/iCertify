@@ -9,7 +9,7 @@ import axios from '../../config/axios';
 import './GetStarted.scss'
 
 import logo from '../../images/iCertifyBranding/icertify_footer.png';
-import CertifiicatImg from '../../images/Resources/Certificate.jpg';
+import Certificate from '../../images/Resources/Certificate.png';
 import MetamaskImg from '../../images/Resources/Metamask.png';
 
 import TextField from '@mui/material/TextField';
@@ -188,7 +188,7 @@ function Signup() {
             <img src={logo} alt="" id='LogoImg'/>
           </div>
           <h6>We provide online digital certificates through implementing NFT and Blockchain technology to ensure both employees and employers that their certificates are authentic and free from falsification.</h6>
-          <img id='Certificate' src={CertifiicatImg} alt="" />
+          <img id='Certificate' src={Certificate} alt="" />
         </div>
         <div id='Container_Signup_Panel'>
           <div id='Container_Signup_Form'>

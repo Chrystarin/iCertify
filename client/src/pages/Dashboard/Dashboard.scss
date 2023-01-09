@@ -7,6 +7,7 @@
         gap: 25px;
         li {
             background-color: var(--accent);
+            opacity: .9;
             border-radius: 10px;
             display: grid;
             grid-template-columns: repeat(1fr);
@@ -25,5 +26,15 @@
                 transform: translate(0, -50%);
             }
         }
+        li:hover{
+            opacity: 1;
+        }
+    }
+}
+
+.DashBoard__Container{
+    margin-top: 50px;
+    .SectionTitle{
+        margin-bottom: 25px;
     }
 }

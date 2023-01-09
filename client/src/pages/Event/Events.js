@@ -5,7 +5,7 @@ import './Events.scss';
 
 import Card from '../../components/Card/Card.js';
 import ImagePosterSample from './../../images/placeholder/PosterSample.jpg';
-
+import ImageAds from '../../images/Resources/Ads.png'
 import axios from '../../config/axios';
 
 function Event() {
@@ -108,7 +108,7 @@ function Panel_Events(props) {
 						</a>
 					</div>
 					<div id='Ads_FeaturedEvents'>
-						<span>Advertisement</span>
+						<img src={ImageAds} alt="" />
 					</div>
 				</div>
 				<div id='Container_Upcoming_FeaturedEvents'>

@@ -15,7 +15,7 @@ import MemberPanel from './routes/Member.js';
 import MemberView from './pages/Member/MemberView.js';
 import MemberEdit from './pages/Member/MemberEdit.js';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Credential from './pages/Credential/Credential';
+import Certificate from './pages/Credential/Credential';
 import CertificatePage from './pages/Credential/CredentialView.js';
 import Event from './pages/Event/Events.js';
 import Event_View from './pages/Event/EventView.js';
@@ -74,8 +74,8 @@ function App() {
 					element={<CertificatePage />}
 				/>
 				<Route
-					path='credential'
-					element={<Credential />}
+					path='Certificate'
+					element={<Certificate />}
 				/>
 				<Route
 					path='event'
