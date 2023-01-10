@@ -18,6 +18,8 @@ import axios from '../../config/axios';
 function ViewRequestorModal(props, { setter }) {
 	const { data } = props;
 	const exportRef = useRef();
+    const [contract, setContract] = useState(null);
+    const [certImage, setCertImage] = useState(null);
 
 	const {
 		name,
@@ -31,7 +33,7 @@ function ViewRequestorModal(props, { setter }) {
 	} = props;
 
 	// Values for metamask credentials
-	let provider, signer, contract;
+	let provider, signer;
 	const [certificateId, setCertificateId] = useState(null);
 
 	const GenerateCertificateID = async () => {
@@ -40,6 +42,8 @@ function ViewRequestorModal(props, { setter }) {
 				headers: { 'Content-Type': 'application/json' }
 			})
 			.then(({ data }) => setCertificateId(data.certificateId));
+
+        console.log('gen cert id', contract)
 	};
 
 	useEffect(() => {
@@ -51,40 +55,19 @@ function ViewRequestorModal(props, { setter }) {
 		requestAccount();
 		provider = new ethers.providers.Web3Provider(window.ethereum);
 		signer = provider.getSigner();
-		contract = new ethers.Contract(
-			'0xa6E714d68ED63a84746E91F30c32fC072527c2ED',
+		setContract(new ethers.Contract(
+			'0xb1d80683eB29d2075451Bb20b49fc1FbeAD3552C',
 			contractBuild.abi,
 			signer
-		);
+		))
+
+        console.log('onload', contract)
+        console.log(certImage)
 
 		GenerateCertificateID();
 	}, []);
 
-	// Export canvas into image
-	const exportAsImage = async (element, imageFileName) => {
-		const canvas = await html2canvas(element);
-		const image = canvas.toDataURL('image/png', 1.0);
-
-		// Extract information from base64 data
-		var [data, bytes] = image.split(',');
-		var decodedData = atob(bytes);
-		var u8arr = new Uint8Array(decodedData.length);
-
-		// Convert each byte to its corresponding charCode()
-		for (var i = 0; i < decodedData.length; i++) {
-			u8arr[i] = decodedData.charCodeAt(i);
-		}
-
-		// console.log(image);
-		// Create a new File and pass it to sendDocument()
-		sendDocument(
-			new File([u8arr], 'certificate.png', {
-				type: data.match(/:(.*?);/)[1]
-			})
-		);
-	};
-
-	// Send Document
+    // Send Document
 	const sendDocument = async (file) => {
 		const formData = new FormData();
 		formData.append('certificate', file);
@@ -94,6 +77,9 @@ function ViewRequestorModal(props, { setter }) {
 			const { path } = (await axios.post(`certificates/ipfs`, formData))
 				.data;
 
+            console.log(path)
+            console.log(contract)
+
 			// Mint and transfer to owner
 			const transaction = await contract.sendCertificate(
 				address, // receiver
@@ -101,6 +87,8 @@ function ViewRequestorModal(props, { setter }) {
 				eventId, // fromEvent
 				`https://icertify.infura-ipfs.io/ipfs/${path}` // uri
 			);
+
+            console.log(transaction)
 
 			// Save the certificate
 			const result = await axios
@@ -126,7 +114,35 @@ function ViewRequestorModal(props, { setter }) {
 		}
 	};
 
+	// Export canvas into image
+	const exportAsImage = async (element, imageFileName) => {
+        console.log('export image', contract)
+		const canvas = await html2canvas(element);
+		const image = canvas.toDataURL('image/png', 1.0);
+
+		// Extract information from base64 data
+		var [data, bytes] = image.split(',');
+		var decodedData = atob(bytes);
+		var u8arr = new Uint8Array(decodedData.length);
+
+		// Convert each byte to its corresponding charCode()
+		for (var i = 0; i < decodedData.length; i++) {
+			u8arr[i] = decodedData.charCodeAt(i);
+		}
+
+        // console.log(sendDocument);
+
+		// console.log(image);
+		// Create a new File and pass it to sendDocument()
+		sendDocument(
+			new File([u8arr], 'certificate.png', {
+				type: data.match(/:(.*?);/)[1]
+			})
+		);
+	};
+
 	function CreateCertificate() {
+        console.log('create cert', contract)
 		exportAsImage(exportRef.current, 'Certificate_');
 	}
 
@@ -180,7 +196,7 @@ function ViewRequestorModal(props, { setter }) {
 						className='Panel__Container'
 					>
 						<div ref={exportRef}>
-								<Certificate
+							<Certificate
 								address={address}
 								eventId={eventId}
 								eventTitle={eventTitle}
@@ -189,7 +205,10 @@ function ViewRequestorModal(props, { setter }) {
 								location={location}
 								role={role}
 								certificateId={certificateId}
-							/>				
+                                // SetCertImageValue={setCertImage}
+							/>
+                            {/* Make image data state */}
+                            {/* Get image data. Then resize */}
 						</div>
 					</div>
 					<div

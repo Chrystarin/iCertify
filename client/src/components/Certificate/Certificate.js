@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import QRCode from 'react-qr-code';
+import html2canvas from 'html2canvas';
 
 import './Certificate.scss';
 
 import certificateBodyTemplate from './../../images/certificate_template_default.png';
 import certificateFooterTemplate from './../../images/Certificatefooter.png';
 
-function Certificate(props) {
+function Certificate(props, {SetCertImageValue}) {
+    const exportRef = useRef();
 	const {
 		name,
 		address,
@@ -19,10 +21,25 @@ function Certificate(props) {
 	} = props;
 	const dateObject = new Date(date);
 
+    
+
+    // const exportAsImage = async (element, imageFileName) => {
+	// 	const canvas = await html2canvas(element);
+	// 	const image = canvas.toDataURL('image/png', 1.0);
+    //     return image;
+	// };
+
+    useEffect(() => {
+        // SetCertImageValue(
+        //     exportAsImage(exportRef.current, 'Certificate_')
+        // )
+    }, []);
+
 	return (
 		<div
 			className='certificate'
 			id='certificateContent'
+            ref={exportRef}
 		>
 			<div className='main_body'>
 				<img
@@ -75,7 +92,7 @@ function Certificate(props) {
                     } */}
 				</div>
 			</div>
-		</div>
+        </div>
 	);
 }
 

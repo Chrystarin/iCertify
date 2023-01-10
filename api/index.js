@@ -76,7 +76,7 @@ app.use((err, req, res, next) => {
 
 // Connect to database
 mongoose
-	.connect(process.env.MONGO_URI)
+	.connect(process.env.TEST_MONGO)
 	.then(() => {
 		// Run server
 		// if (process.env.NODE_ENV === 'DEVELOPMENT') {

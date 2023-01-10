@@ -72,7 +72,6 @@ function MintTransferCard(props) {
 							{/* <Button variant='outlined' onClick={()=>setOpenModal(true)}>View</Button> */}
 							<Button
 								variant='contained'
-								
 							>
 								Check CertID
 							</Button>
