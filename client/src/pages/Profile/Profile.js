@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import {ethers} from 'ethers';
 
 import './Profile.scss';
 
@@ -24,6 +25,7 @@ function Profile() {
 	const [member, setMember] = useState(null);
 	const [joinedEvents, setJoinedEvents] = useState(null);
 	const [ownedCertificates, setOwnedCertificates] = useState(null);
+    const [address, setAddress] = useState(null);
 
 	// Executes on load
 	useEffect(() => {
@@ -53,6 +55,18 @@ function Profile() {
 				});
 		};
 
+        const checkWallet = async () => {
+            try{
+                const provider = new ethers.providers.Web3Provider(window.ethereum);
+                const signer = provider.getSigner();
+                setAddress(await signer.getAddress());
+            }
+            catch(err){
+                console.error(err.message);
+            }
+        }
+    
+        checkWallet();
 		fetchMember();
 		fetchJoinedEvents();
 		fetchOwnedCertificates();
@@ -92,12 +106,16 @@ function Profile() {
 					</div>
 				</div>
 				<div id='User__Div__Button'>
-					<Button
-						href={`/member/${id}/edit`}
-						variant='contained'
-					>
-						Update
-					</Button>
+                    {(address==id) ?
+                        <Button
+                            href={`/member/${id}/edit`}
+                            variant='contained'
+                        >
+                            Update
+                        </Button>
+                    : <></>
+                    }
+					
 				</div>
 			</div>
 			<div id='Main_Div'>

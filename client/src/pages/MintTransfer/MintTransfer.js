@@ -40,7 +40,7 @@ function MintTransfer() {
 		provider = new ethers.providers.Web3Provider(window.ethereum);
 		signer = provider.getSigner();
 		contract = new ethers.Contract(
-			'0x2834B7434983cBab156Bfea31024184B9e3CA1B4',
+			'0x121c4600A84F5624e86AfC869dbaC39E535Dd26C',
 			contractBuild.abi,
 			signer
 		);

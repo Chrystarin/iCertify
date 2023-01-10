@@ -19,6 +19,7 @@ export default function NavBar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isOpenSignup, setIsOpenSignup] = useState(false);
 	const [walletAddress, setWalletAddress] = useState('');
+	const adminAddress = '0xA68fF9Ffc75185aaC6D90b6Da29A464d2006a3d5';
 
 	useEffect(() => {
 		addWalletListener();
@@ -43,8 +44,16 @@ export default function NavBar() {
 			const { isExisting } = (
 				await axios.get(`members/${address}/exists`)
 			).data;
-			console.log(isExisting);
+
+			// Check if address belongs to admin
+			// if (address == adminAddress){
+			// 	navigate(`/member/${address}`);
+			// }
+
+			// Executes if address does not exist in database	
 			if (!isExisting) {
+				// alert("You aren't registered yet!");
+				// navigate('getstarted');
 				// Register address
 				await axios.post(
 					`members/register`,
