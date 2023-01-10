@@ -24,6 +24,7 @@ import Profile from './pages/Profile/Profile.js';
 import ProfileUpdate from './pages/Profile/ProfileUpdate';
 
 // Admin
+import DashboardAdmin from './pages/Dashboard/DashboardAdmin';
 import AdminPanel from './routes/Admin.js';
 import A_Event from './pages/Event/Admin/EventsAdmin.js';
 import A_EventCreate from './pages/Event/Admin/EventCreate.js';
@@ -103,6 +104,10 @@ function App() {
 				path='/admin'
 				element={<AdminPanel />}
 			>
+				<Route
+					path='dashboard'
+					element={<DashboardAdmin />}
+				/>
 				<Route
 					path='event'
 					element={<A_Event />}
