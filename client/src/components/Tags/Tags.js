@@ -25,6 +25,8 @@ function Tags(props) {
                 {...params}
                 label="Event Tags"
                 placeholder="Tags"
+                error={(props.errorhandling=="")?false:true}
+                helperText={(props.errorhandling=="")?"":props.errorhandling}
                 
             />
             )}

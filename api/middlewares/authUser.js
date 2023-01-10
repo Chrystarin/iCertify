@@ -33,13 +33,13 @@ module.exports = async (req, res, next) => {
 		}
 
 		// Organizer
-		if (
-			member.joinedEvents &&
-			member.joinedEvents.some((e) => e.role === roles.ORGANIZER)
-		) {
-			req.user.role = roles.ORGANIZER;
-			return next();
-		}
+		// if (
+		// 	member.joinedEvents &&
+		// 	member.joinedEvents.some((e) => e.role === roles.ORGANIZER)
+		// ) {
+		// 	req.user.role = roles.ORGANIZER;
+		// 	return next();
+		// }
 
 		// Member
 		req.user.role = roles.MEMBER;

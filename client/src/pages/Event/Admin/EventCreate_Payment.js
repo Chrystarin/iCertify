@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import Button from '@mui/material/Button';
@@ -25,7 +25,10 @@ function EventCreate_Payment({
 			SetStepValue(StepValue - 1);
 		}
 	}
+	function Upload(e, form){
+		Submit(e, FormValue)
 
+	}
 	async function Submit(e, form) {
 		e.preventDefault();
 
@@ -74,10 +77,20 @@ function EventCreate_Payment({
 				});
 		}
 	}
+	function updateForm(e) {
+		return SetFormValue((prev) => {
+			const [key, value] = Object.entries(e)[0];
 
+			prev[key] = value;
+
+			console.log(e)
+			console.log(prev)
+			return prev;
+		});
+	}
 	return (
 		<div>
-			<form action='#'>
+			<form action='#' onSubmit={Upload}>
 				<div className='Subject_Seperator'>
 					<div className='holder_Subject'>
 						<h3>Price & Discount</h3>
@@ -86,9 +99,11 @@ function EventCreate_Payment({
 					<div className='holder_Questions'>
 						<div className='Wrapper_2_Inputs'>
 							<TextField
+								id='outlined-search'
 								label='Regular Price'
-								id='outlined-start-adornment'
-								type='Number'
+								type='number'
+								required
+								defaultValue={FormValue.regularPrice}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position='start'>
@@ -96,18 +111,16 @@ function EventCreate_Payment({
 										</InputAdornment>
 									)
 								}}
-								defaultValue={FormValue.regularPrice}
-								onChange={(event) => {
-									SetFormValue({
-										...FormValue,
-										regularPrice: event.target.value
-									});
-								}}
+								onChange={(e) =>
+									updateForm({ regularPrice: e.target.value })
+								}
 							/>
 							<TextField
+								id='outlined-search'
 								label='Premium Price'
-								id='outlined-start-adornment'
-								type='Number'
+								type='number'
+								required
+								defaultValue={FormValue.premiumPrice}
 								InputProps={{
 									startAdornment: (
 										<InputAdornment position='start'>
@@ -115,13 +128,9 @@ function EventCreate_Payment({
 										</InputAdornment>
 									)
 								}}
-								defaultValue={FormValue.premiumPrice}
-								onChange={(event) => {
-									SetFormValue({
-										...FormValue,
-										premiumPrice: event.target.value
-									});
-								}}
+								onChange={(e) =>
+									updateForm({ premiumPrice: e.target.value })
+								}
 							/>
 						</div>
 					</div>
@@ -136,7 +145,7 @@ function EventCreate_Payment({
 					</Button>
 					<Button
 						variant='contained'
-						onClick={(e, form) => Submit(e, FormValue)}
+						type="submit"
 					>
 						Create Event
 					</Button>
