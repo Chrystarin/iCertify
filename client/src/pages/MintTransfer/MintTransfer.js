@@ -166,11 +166,11 @@ function MintTransfer() {
 
 								<div className='InfoLeft__Div'>
 									<div className='Pending__VerifiedRequest__Container'>
-										<h4>25</h4>
+										<h4>{participants.length}</h4>
 										<h6>Pending Request</h6>
 									</div>
 									<div className='Pending__VerifiedRequest__Container'>
-										<h4>25</h4>
+										<h4>--</h4>
 										<h6>Complete</h6>
 									</div>
 								</div>
@@ -181,7 +181,7 @@ function MintTransfer() {
 										<h6 className='HeaderTitle'>
 											Event Status
 										</h6>
-										<h6>Ended in 3 days</h6>
+										<h6>---</h6>
 									</div>
 									<div id='Organizers__Div'>
 										<div>

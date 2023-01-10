@@ -18,14 +18,12 @@ function LandingPage() {
 	const [openTab, setopenTab] = useState('');
 	return (
 		<>
-			<Header />
 			<div id='LandingPage'>
 				<div id='Container_LandingPage'>
 					<div id='Main'>
 						<div id='MainBackground'>
 							
 						</div>
-
 						<div id='Container_Content_Main'>
 							<div>
 								<h3 className='Title'>iCertify is a safe authentic way to provide digital certification</h3>

@@ -50,7 +50,7 @@ function EventCreate_Payment({
 				})
 				.then((response) => {
 					console.log(response.data);
-					navigate(`/member/event/${id}`);
+					navigate(`/a/events/${id}`);
 				})
 				.catch((error) => {
 					console.log('Error:' + error);
@@ -65,7 +65,7 @@ function EventCreate_Payment({
 				})
 				.then((response) => {
 					console.log(response.data);
-					navigate(`/member/event/${response.data.eventId}`);
+					navigate(`/a/events/${response.data.eventId}`);
 					console.log('Submitted');
 				})
 				.catch((error) => {

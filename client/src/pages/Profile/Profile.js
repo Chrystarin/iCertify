@@ -180,7 +180,7 @@ function Profile() {
 								<div className='EmtpyCard'>
 									<div>
 										<img src={Empty} alt="" />
-										<p>You dont have any joined Events Yet!</p>
+										<p>No joined events available!</p>
 									</div>
 									
 								</div>
@@ -217,7 +217,7 @@ function Profile() {
 								<div className='EmtpyCard'>
 									<div>
 										<img src={Empty} alt="" />
-										<p>You dont have any Certificates Yet!</p>
+										<p>No certificates available!</p>
 									</div>
 								</div>
 							</>

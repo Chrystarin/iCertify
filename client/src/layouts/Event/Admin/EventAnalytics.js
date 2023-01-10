@@ -23,16 +23,16 @@ function Analytics() {
         {/* Event Analytics */}
         <div id='Event_AnalyticsOverview' className=''>
             <div id='Holder_TotalEvent_Analytics'>
-              <h3>23</h3>
+              <h3>[ ]</h3>
               <p>Total Events</p>
             </div>
             <div id='Holder_OngoingEvents_Analytics'>
-              <h3>23</h3>
-              <p>Ongoing Events</p>
+              <h3>[ ]</h3>
+              <p>Upcoming Events</p>
             </div>
             <div id='holder_UpcomingEvents_Analytics'>
-              <h3>23</h3>
-              <p>Upcoming Events</p>
+              <h3>[ ]</h3>
+              <p>Completed Events</p>
             </div>
         </div>
         {/* Accountant Analytics */}
@@ -78,7 +78,7 @@ function Analytics() {
             
           </div>
           <div className='Container_Percentage_Panel'>
-            <h3>23%</h3>
+            <h3>[]%</h3>
           </div>
         </div>
       </div>
@@ -97,7 +97,7 @@ function Analytics() {
             
           </div>
           <div className='Container_Percentage_Panel'>
-            <h3>23%</h3>
+            <h3>[]%</h3>
           </div>
         </div>
       </div>

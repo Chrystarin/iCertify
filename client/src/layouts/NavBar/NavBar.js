@@ -45,15 +45,10 @@ export default function NavBar() {
 				await axios.get(`members/${address}/exists`)
 			).data;
 
-			// Check if address belongs to admin
-			// if (address == adminAddress){
-			// 	navigate(`/member/${address}`);
-			// }
-
 			// Executes if address does not exist in database	
 			if (!isExisting) {
-				// alert("You aren't registered yet!");
-				// navigate('getstarted');
+				alert("You aren't registered yet!");
+				navigate('getstarted');
 				// Register address
 				await axios.post(
 					`members/register`,
@@ -89,8 +84,12 @@ export default function NavBar() {
 				)
 				.then((response) => {
 					// setAuth({user, roles, accessToken});
-					console.log(response.data);
-					navigate(`/member/${address}`);
+                    // Check if address belongs to admin
+                    if (address == adminAddress){
+                        navigate(`/a/dashboard`);
+                    } else{
+                        navigate(`/m/${address}`);
+                    }
 				});
 		} catch (err) {
 			console.error(err.message);

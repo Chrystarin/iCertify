@@ -13,10 +13,12 @@ import Avatar from '@mui/material/Avatar';
 
 function Header(props) {
   const [openDropdown, setopenDropdown] = useState("");
-  const [address, setAddress] = useState("");
+  
 
   // For closing the dropdown when clicking outside of
   let menuRef = useRef();
+
+  const [address, setAddress] = useState("");
   useEffect(() => {
     
 
@@ -105,7 +107,7 @@ function DropdownItem(props){
               <div id='profile_Navigation'ref={menuRef}>
                 <Avatar id="profilePicture_Navigation"  src={(props.User==="Admin")?AdminLogo:""} onClick={()=>{(openDropdown==="Profile")?setopenDropdown(""): setopenDropdown("Profile")}}/>
                 <div className={(openDropdown==="Profile")?'dropdown-menu active':'dropdown-menu inactive'} >
-                  <a href={`/member/${address}`}>
+                  <a href={`/m/${address}`}>
                     <h5 >{(props.User==="Admin")?"Admin":address} </h5>
                   </a>
                   <a href='/membership'>

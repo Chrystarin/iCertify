@@ -29,6 +29,7 @@ import A_Event from './pages/Event/Admin/EventsAdmin.js';
 import A_EventCreate from './pages/Event/Admin/EventCreate.js';
 import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js';
 import MintTransfer from './pages/MintTransfer/MintTransfer.js';
+import CertificateGenerateEventsList from './pages/CertificateGenerator/CertificateGenerateEventsList.js';
 
 import CertificateComponent from './components/Certificate/Certificate.js';
 
@@ -43,101 +44,43 @@ function App() {
 	return (
 		<Routes>
 			{/* Public Routes */}
-			<Route
-				path='*'
-				element={<Error />}
-			/>
-			<Route
-				path='/'
-				element={<LandingPage />}
-			/>
-			<Route
-				path='/getstarted'
-				element={<GetStarted />}
-			/>
-
-			<Route
-				path='/certificate'
-				element={<CertificateComponent />}
-			/>
-
-			<Route
-				path='/member'
-				element={<MemberPanel />}
-			>
-				<Route
-					path='dashboard'
-					element={<Dashboard />}
-				/>
-				<Route
-					path='certificate/:id'
-					element={<CertificatePage />}
-				/>
-				<Route
-					path='Certificate'
-					element={<Certificate />}
-				/>
-				<Route
-					path='event'
-					element={<Event />}
-				/>
-				<Route
-					path='event/:id'
-					element={<Event_View />}
-				/>
-				<Route
-					path='event/:id/join'
-					element={<JoinEvent />}
-				/>
-				<Route
-					path=':id'
-					element={<Profile />}
-				/>
-				<Route
-					path=':id/edit'
-					element={<ProfileUpdate />}
-				/>
+            <Route path='/' element={<PublicPanel/>}>
+                <Route path='*' element={<Error />}/>
+                <Route path='home' element={<LandingPage/>}/>
+                <Route path='getstarted' element={<GetStarted/>}/>
+				<Route path='event/:id' element={<Event_View />}/>
+                <Route path='certificate/:id' element={<CertificatePage/>}/>
+                <Route path='user/:id' element={<Profile />}/>
 			</Route>
 
-			<Route
-				path='/admin'
-				element={<AdminPanel />}
-			>
-				<Route
-					path='event'
-					element={<A_Event />}
-				/>
-				<Route
-					path='event/:id/certificate/generate'
-					element={<MintTransfer />}
-				/>
-				<Route
-					path='mintTransfer'
-					element={<MintTransfer />}
-				/>
-				<Route
-					path='event/create'
-					element={<A_EventCreate />}
-				/>
-				<Route
-					path='event/:id/edit'
-					element={<A_EventCreate />}
-				/>
-				<Route
-					path='certificate/generate'
-					element={<CertificateGenerator />}
-				/>
+            {/* Member Routes */}
+			<Route path='/m' element={<MemberPanel />}>
+                <Route path='*' element={<Error />}/>
+				<Route path='dashboard' element={<Dashboard />}/>
+                <Route path='certificate' element={<Certificate />} />
+				<Route path='certificate/:id' element={<CertificatePage />} />
+				<Route path='event' element={<Event />}/>
+				<Route path='event/:id' element={<Event_View />} />
+				<Route path='event/:id/join' element={<JoinEvent />} />
+				<Route path=':id' element={<Profile />} />
+				<Route path=':id/edit' element={<ProfileUpdate />}/>
 			</Route>
 
-			<Route
-				path='/Public'
-				element={<PublicPanel />}
-			>
-				<Route
-					path='event/:id'
-					element={<Event_View />}
-				/>
+            {/* Admin Routes */}
+			<Route path='/a' element={<AdminPanel />} >
+                <Route path='*' element={<Error />}/>
+                <Route path='dashboard' element={<Dashboard />}/>
+				<Route path='events' element={<A_Event />} />
+                <Route path='events/create' element={<A_EventCreate />} />
+                <Route path='events/:id' element={<Event_View/>} />
+                <Route path='events/:id/edit' element={<A_EventCreate />} />
+                <Route path='events/:id/certgen' element={<MintTransfer />} />
+                <Route path='certificates' element={<CertificateGenerateEventsList />} />
+                <Route path='certificates/event/:id' element={<MintTransfer />} />
 			</Route>
+
+            <Route path='*' element={<Error />}/>
+
 		</Routes>
 	);
 }

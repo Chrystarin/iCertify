@@ -21,7 +21,18 @@ const Card = (props) => {
         case 'event':
             return (
                 <div className='EventCardContainer'>
-                    <Link to={`/member/event/${id}`}>
+                    <Link to={`/m/event/${id}`}>
+                        <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
+                        <div>
+                            <h6 className="EventTitle">{title}</h6>
+                        </div>
+                    </Link>
+                </div>
+            )
+        case 'event_admin':
+            return (
+                <div className='EventCardContainer'>
+                    <Link to={`/a/events/${id}`}>
                         <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
                         <div>
                             <h6 className="EventTitle">{title}</h6>
@@ -32,15 +43,15 @@ const Card = (props) => {
         case 'certificate':
             return (
                 <div className='EventCardContainer'>
-                    <Link to={`/member/certificate/${id}`}>
+                    <Link to={`/m/certificate/${id}`}>
                         <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
                     </Link>
                 </div>
             )
         case 'event_mint':
             return (
-                <div className='EventCardContainer'>
-                    <Link to={`/admin/event/${id}/certificate/generate`}>
+                <div className='EventCardContainer' onClick={()=>(window.location.reload())}>
+                    <Link to={`/a/certificates/event/${id}`}>
                         <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
                         <div>
                             <h6 className="EventTitle">{title}</h6>
