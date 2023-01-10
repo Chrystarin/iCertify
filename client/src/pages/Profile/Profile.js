@@ -74,13 +74,24 @@ function Profile() {
 				/>
 				<div id='Profile__Div__Info__Container'>
 					<h3>
-						{(member.name?.firstName ?? '') + ' '}
-						{member.name?.middleName
-							? [...member.name.middleName][0]
-							: ''}
-						.{' ' + (member.name?.lastName ?? '')}
-						{' ' + (member.name?.extension ?? '')}
-						{member.isPremium ? <PremiumIcon /> : ''}
+						{(member.name?.firstName && member.name?.middleName && member.name?.lastName && member.name?.extension)?
+						
+							<>
+								{(member.name?.firstName ?? '') + ' '}
+								{member.name?.middleName
+									? [...member.name.middleName][0]
+									: ''}
+								.{' ' + (member.name?.lastName ?? '')}
+								{' ' + (member.name?.extension ?? '')}
+								{member.isPremium ? <PremiumIcon /> : ''}
+							</>
+							:
+							<>
+								Update Profile Name
+							</>
+					
+						}
+						
 					</h3>
 					<div id='User__Div_Info'>
 						<a href='/'>
@@ -108,10 +119,11 @@ function Profile() {
 							id='AboutMe__Div'
 						>
 							<h5 className='Panel__Title'>About me</h5>
+							<p className='BodyText3'>{member.about ?? ''}</p>
+							<h5 className='Panel__Title' style={{marginTop: "15px"}}>Occupation</h5>
 							<p className='BodyText3'>
 								{member.occupation ?? ''}
 							</p>
-							<p className='BodyText3'>{member.about ?? ''}</p>
 						</div>
 						<div
 							className='Panel__Container'
@@ -120,24 +132,31 @@ function Profile() {
 							<ul className='Panel__MultipleContent'>
 								<li className='Panel__MultipleContent'>
 									<h5 className='Panel__Title'>Contact</h5>
+
+
+									{(!member.contact?.mobile)? <>
+									</>:
+									<>
 									<div className='Panel__Content__IconText'>
 										<PhoneAndroidIcon />
 										<p className='BodyText3'>
-											{member.contact?.mobile ?? 'None'}
+											{member.contact?.mobile}
 										</p>
 									</div>
-									<div className='Panel__Content__IconText'>
-										<CallIcon />
-										<p className='BodyText3'>
-											{member.contact?.telephone ?? ''}
-										</p>
-									</div>
-									<div className='Panel__Content__IconText'>
-										<EmailIcon />
-										<p className='BodyText3'>
-											{/* {member.credentials.email ? member.credentials.email : 'N/A'}  */}
-										</p>
-									</div>
+									</>
+									}
+									
+									{(!member.contact?.telephone)? <>
+									</>:
+									<>
+										<div className='Panel__Content__IconText'>
+											<CallIcon />
+											<p className='BodyText3'>
+												{member.contact?.telephone}
+											</p>
+										</div>
+									</>
+									}
 								</li>
 								<li>
 									<h5 className='Panel__Title'>Location</h5>
