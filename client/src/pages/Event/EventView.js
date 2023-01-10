@@ -10,9 +10,9 @@ import CircularProgress from '@mui/material/CircularProgress';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Card from '../../components/Card/Card'
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
-
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import axios from '../../config/axios';
-
+import { IconButton } from "@mui/material";
 const EventView = (props) => {
     const { id } = useParams()
     const [event, setEvent] = useState(props)
@@ -23,7 +23,7 @@ const EventView = (props) => {
     const EventCeritifcate = true;
     const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
-
+    const [moreButtonAdmin,setMoreButtonAdmin] = useState(false);
     // Member join event function
     const joinEvent = async () => {
         try{
@@ -151,6 +151,7 @@ const EventView = (props) => {
                         <p>{event.date ? month[(new Date(event.date.start)).getMonth()] : '...'}</p>
                     </div>
                     <div id="Holder_Button_Event">
+
                         { eventJoined(participants, memberAddress) ? (
                             // If member has already joined
                             <div>
@@ -163,6 +164,23 @@ const EventView = (props) => {
                                 <Button variant="contained" endIcon={<EventAvailableIcon />} onClick={()=>joinEvent()}>Join</Button>
                             </div>
                         )
+                        }
+                        {("admin" === "admin")?<>
+                            <div id="AdminDropDownEvent__Container">
+                                <IconButton aria-label="delete" onClick={()=>setMoreButtonAdmin(!moreButtonAdmin)}>
+                                    <MoreVertIcon />
+                                </IconButton>
+                                <div id="AdminDropDownEvent" className={(moreButtonAdmin)?"Panel__Container active":"Panel__Container inactive"}>
+                                    <Button variant="text" startIcon={<EventAvailableIcon />}>Update</Button>
+                                    <Button variant="text" startIcon={<EventAvailableIcon />}>Generate Certificate</Button>
+                                    <Button variant="text" startIcon={<EventAvailableIcon />}>Archive</Button>
+                                </div>
+                            </div>
+                        </>
+                        :
+                        <>
+                        
+                        </>
                         }
                     </div>
                 </div>

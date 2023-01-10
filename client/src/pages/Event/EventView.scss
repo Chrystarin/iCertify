@@ -34,12 +34,23 @@
             }
             #Holder_Button_Event{
                 align-items: flex-end;
-                position: relative;
-                div{
-                    position: absolute;
-                    bottom: 0;
-                    right: 0;
+                display: flex;
+                gap: 5px;
+                justify-content: end;
+                align-items: flex-end;
+                #AdminDropDownEvent__Container{
+                    position: relative;
+                    #AdminDropDownEvent{
+                        display: flex;
+                        gap: 10px;
+                        flex-direction: column;
+                        width: 260px;
+                        position: absolute;
+                        right: 0;
+                        top: calc(100% + 10px);
+                    }
                 }
+                
                 #JoinButton__Container{
                     display: flex;
                     gap: 15px;
