@@ -86,7 +86,7 @@ function ProfileUpdate() {
 			})
 			.then((response) => {
 				console.log(response.data);
-				navigate(`/member/${id}`);
+				navigate(`/m/${id}`);
 			})
 			.catch((error) => {
 				console.log('Error:' + error);
@@ -164,7 +164,7 @@ function ProfileUpdate() {
 											id='outlined-search'
 											label='Extension'
 											type='text'
-											required
+											
 											defaultValue={
 												member.name?.extension ?? ''
 											}

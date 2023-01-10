@@ -88,7 +88,7 @@ function Profile() {
 				/>
 				<div id='Profile__Div__Info__Container'>
 					<h3>
-						{(member.name?.firstName && member.name?.middleName && member.name?.lastName && member.name?.extension)?
+						{(member.name?.firstName || member.name?.lastName)?
 						
 							<>
 								{(member.name?.firstName ?? '') + ' '}
@@ -119,7 +119,7 @@ function Profile() {
 				<div id='User__Div__Button'>
                     {(address==id) ?
                         <Button
-                            href={`/member/${id}/edit`}
+                            href={`/m/${id}/edit`}
                             variant='contained'
                         >
                             Update

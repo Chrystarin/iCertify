@@ -30,7 +30,7 @@ import A_EventCreate from './pages/Event/Admin/EventCreate.js';
 import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js';
 import MintTransfer from './pages/MintTransfer/MintTransfer.js';
 import CertificateGenerateEventsList from './pages/CertificateGenerator/CertificateGenerateEventsList.js';
-
+import DashboardAdmin from './pages/Dashboard/DashboardAdmin';
 import CertificateComponent from './components/Certificate/Certificate.js';
 
 import PublicPanel from './routes/Public.js';
@@ -69,7 +69,7 @@ function App() {
             {/* Admin Routes */}
 			<Route path='/a' element={<AdminPanel />} >
                 <Route path='*' element={<Error />}/>
-                <Route path='dashboard' element={<Dashboard />}/>
+                <Route path='dashboard' element={<DashboardAdmin />}/>
 				<Route path='events' element={<A_Event />} />
                 <Route path='events/create' element={<A_EventCreate />} />
                 <Route path='events/:id' element={<Event_View/>} />
