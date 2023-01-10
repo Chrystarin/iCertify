@@ -56,11 +56,53 @@ function EventCreate_EventDetails({
 	);
 	const [endDateTimeVal, setEndDateTimeVal] = useState(FormValue.date.end);
 
-	// ==================================== TEST ====================================
+	const [ErrorHandling, setErrorHandling] = useState({
+		type:"",
+		title:"",
+		description:"",
+		link:"",
+		location:"",
+		date:{
+			start:'',
+			end:""
+		},
+		tags:"",
+		canClaimCertificate: ""
+	});
+
+	function EmptyInputChecker(e){
+		let EmptyErrorMessage = "This Field is Required"
+		
+		// return setErrorHandling((prev) => {
+		// 	const [key, value] = Object.entries(e)[0];
+		// 	if(value==''){
+		// 		prev[key] = EmptyErrorMessage;
+		// 	} else{
+		// 		prev[key] = '';
+		// 	}
+		// 	prev[key] = value;
+		// 	return prev;
+		// });
+
+	}
+
+	// const endDateTimeValhandleChange = (newValue) => {
+	// 	SetFormValue(prevState => ({
+	// 	  ...FormValue,
+	// 	  date:{
+	// 		...prevState.date,
+	// 		end: Date.parse(newValue)
+	// 	  }
+	// 	}));
+	// };
 
 	// Button Next
-	function nextStep() {
+	function nextStep(e) {
+		e.preventDefault();
+
+		// EmptyInputChecker();
 		console.log(FormValue);
+		console.log(ErrorHandling);
 		if (StepValue !== 2) {
 			SetStepValue(StepValue + 1);
 		}
@@ -80,16 +122,13 @@ function EventCreate_EventDetails({
 			} else {
 				prev[key] = value;
 			}
-
-			console.log(prev);
-			console.log('DATE START' + FormValue.date.start);
-			console.log('DATE END' + FormValue.date.end);
+			console.log(e)
+			console.log(prev)
 			return prev;
 		});
 	}
-
 	return (
-		<form>
+		<form onSubmit={nextStep}>
 			<div className='Subject_Seperator'>
 				<div className='holder_Subject'>
 					<h3>Event Type</h3>
@@ -101,6 +140,7 @@ function EventCreate_EventDetails({
 							fullWidth
 							required
 							helpertext='Select Event'
+							error={(ErrorHandling.type=="")?false:true}
 						>
 							<InputLabel
 								id='demo-simple-select-label'
@@ -118,16 +158,23 @@ function EventCreate_EventDetails({
 								<MenuItem value={'Online'}>Online</MenuItem>
 								<MenuItem value={'Onsite'}>Onsite</MenuItem>
 							</Select>
-							<FormHelperText>Select event type</FormHelperText>
+							<FormHelperText>
+								{(ErrorHandling.type=="")?"Select event type":ErrorHandling.type}
+								
+
+
+							</FormHelperText>
 						</FormControl>
 						{FormValue.type == '' ? (
 							''
 						) : FormValue.type == 'Online' ? (
 							<TextField
-								id='outlined-search'
+								id={(ErrorHandling.link=="")?"outlined":"outlined-error-helper-text"}
 								label='Link'
 								type='text'
 								required
+								error={(ErrorHandling.link=="")?false:true}
+								helperText={(ErrorHandling.link=="")?"":ErrorHandling.link}
 								defaultValue={FormValue.link}
 								onChange={(e) =>
 									updateForm({ link: e.target.value })
@@ -140,6 +187,8 @@ function EventCreate_EventDetails({
 								type='text'
 								required
 								defaultValue={FormValue.location}
+								error={(ErrorHandling.location=="")?false:true}
+								helperText={(ErrorHandling.location=="")?"":ErrorHandling.title}
 								onChange={(e) =>
 									updateForm({ location: e.target.value })
 								}
@@ -156,10 +205,12 @@ function EventCreate_EventDetails({
 				<div className='holder_Questions'>
 					<TextField
 						id='outlined-search'
-						label='Event Name'
+						label='Event Title'
 						type='text'
 						defaultValue={FormValue.title}
 						required
+						error={(ErrorHandling.title=="")?false:true}
+						helperText={(ErrorHandling.title=="")?"":ErrorHandling.title}
 						onInput={(e) => updateForm({ title: e.target.value })}
 					/>
 					<TextField
@@ -168,20 +219,21 @@ function EventCreate_EventDetails({
 						type='text'
 						required
 						multiline
+						error={(ErrorHandling.description=="")?false:true}
+						helperText={(ErrorHandling.description=="")?"":ErrorHandling.description}
 						defaultValue={FormValue.description}
 						onChange={(e) =>
 							updateForm({ description: e.target.value })
 						}
 					/>
 
-					{/*  TEST */}
-
 					<div className='Wrapper_2_1_Inputs'>
-						<LocalizationProvider dateAdapter={AdapterDayjs}>
+						<LocalizationProvider dateAdapter={AdapterDayjs} >
 							<DateTimePicker
 								label='Start Date & Time'
 								// defaultValue={FormValue.date.start}
 								value={startDateTimeVal}
+								
 								onChange={(newValue) => {
 									updateForm({
 										date: { start: Date.parse(newValue) }
@@ -189,7 +241,11 @@ function EventCreate_EventDetails({
 									setStartDateTimeVal(FormValue.date.start);
 								}}
 								renderInput={(params) => (
-									<TextField {...params} />
+									<TextField {...params} 
+										error={(ErrorHandling.date.start=="")?false:true}
+										helperText={(ErrorHandling.date.start=="")?"":ErrorHandling.date.start}
+										required
+									/>
 								)}
 							/>
 						</LocalizationProvider>
@@ -198,6 +254,7 @@ function EventCreate_EventDetails({
 								label='End Date & Time'
 								defaultValue={FormValue.date.end}
 								value={endDateTimeVal}
+								minDate={startDateTimeVal}
 								onChange={(newValue) => {
 									updateForm({
 										date: { end: Date.parse(newValue) }
@@ -205,7 +262,11 @@ function EventCreate_EventDetails({
 									setEndDateTimeVal(FormValue.date.end);
 								}}
 								renderInput={(params) => (
-									<TextField {...params} />
+									<TextField {...params} 
+									error={(ErrorHandling.date.end=="")?false:true}
+									helperText={(ErrorHandling.date.end=="")?"":ErrorHandling.date.end}
+									required
+									/>
 								)}
 							/>
 						</LocalizationProvider>
@@ -214,6 +275,7 @@ function EventCreate_EventDetails({
 							PredefinedTags={PredefinedTags}
 							HandleChange={TagsValHandleChange}
 							defaultValue={FormValue.tags}
+							errorhandling={ErrorHandling.tags}
 						/>
 					</div>
 					<div>
@@ -231,6 +293,10 @@ function EventCreate_EventDetails({
 									canClaimCertificate: e.target.checked
 								})
 							}
+							error={(ErrorHandling.canClaimCertificate=="")?false:true}
+							helperText={(ErrorHandling.canClaimCertificate=="")?"":ErrorHandling.canClaimCertificate}
+									
+							
 						/>
 					</div>
 				</div>
@@ -239,8 +305,9 @@ function EventCreate_EventDetails({
 				<Button variant='text'>Save as draft</Button>
 				<Button
 					variant='contained'
-					onClick={() => nextStep()}
+					// onClick={() => nextStep()}
 					endIcon={<NavigateNextIcon />}
+					type="submit"
 				>
 					Next
 				</Button>

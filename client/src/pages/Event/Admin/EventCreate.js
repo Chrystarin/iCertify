@@ -24,8 +24,8 @@ export default function EventCreate() {
 		type: '',
 		title: '',
 		description: '',
-		link: ' ',
-		location: ' ',
+		link: '',
+		location: '',
 		date: {
 			start: null,
 			end: null

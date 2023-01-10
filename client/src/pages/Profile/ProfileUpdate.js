@@ -102,7 +102,7 @@ function ProfileUpdate() {
 			case 0:
 				return (
 					<>
-						<form>
+						<form onSubmit={(e) => Submit(e)}>
 							<div className='Subject_Seperator'>
 								<div className='holder_Subject'>
 									<h3>User Details</h3>
@@ -339,7 +339,7 @@ function ProfileUpdate() {
 								<Button
 									variant='contained'
 									endIcon={<NavigateNextIcon />}
-									onClick={(e) => Submit(e)}
+									type="submit"
 								>
 									Update
 								</Button>
@@ -440,14 +440,14 @@ function ProfileUpdate() {
 								User Details
 							</StepLabel>
 						</Step>
-						<Step>
+						{/* <Step>
 							<StepLabel
 								className='StepperLabel'
 								onClick={() => setActiveStep(1)}
 							>
 								Login Details
 							</StepLabel>
-						</Step>
+						</Step> */}
 					</Stepper>
 				</div>
 			</div>
