@@ -78,7 +78,7 @@ const loginMember = async (req, res, next) => {
 };
 
 const registerUser = async (req, res, next) => {
-	const { walletAddress } = req.body;
+	const { walletAddress, name: { firstName, middleName, lastName } } = req.body;
 
 	try {
 		// Check if valid wallet address
@@ -86,14 +86,24 @@ const registerUser = async (req, res, next) => {
 			!(
 				walletAddress &&
 				typeof walletAddress === 'string' &&
-				ethers.utils.isAddress(walletAddress)
+				ethers.utils.isAddress(walletAddress) &&
+                firstName &&
+                typeof firstName === 'string' &&
+                lastName &&
+                typeof lastName === 'string'
 			)
 		)
-			throw new Unauthorized('Invalid wallet address');
+			throw new UnprocessableRequest();
+
+        if(middleName !== undefined) {
+            if(typeof middleName !== 'string')
+                throw new UnprocessableRequest();
+        }
 
 		// Create member
 		const member = await Member.create({
-			walletAddress: ethers.utils.getAddress(walletAddress)
+			walletAddress: ethers.utils.getAddress(walletAddress),
+            name: { firstName, middleName, lastName }
 		});
 
 		res.status(201).json({
@@ -132,7 +142,7 @@ const getNonce = async (req, res, next) => {
 const getAllMembers = async (req, res, next) => {
 	try {
 		const members = await Member.find()
-			.select(Array.from(memberAcceptedEntries).join(' '))
+			.select(memberPublicInfo.join(' '))
 			.exec();
 
 		res.status(200).json(members);

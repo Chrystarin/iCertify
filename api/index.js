@@ -33,6 +33,9 @@ app.use(helmet());
 app.use(authUser);
 
 // Routes
+app.get('/abi', (req, res, next) => {
+    res.json(require('./build/contracts/CertificateNFT.json').abi)
+})
 app.use('/members', memberRoute);
 app.use('/events', eventRoute);
 app.use('/certificates', certificateRoute);
@@ -42,10 +45,7 @@ app.use('/transactions', transactionRoute);
 
 app.use((req, res, next) => next(new NotFound('Route')));
 app.use((err, req, res, next) => {
-
-    console.log(err);
-
-	if (err.name === 'ValidationError') {
+    if (err.name === 'ValidationError') {
 		err.status = 409;
 		err.message = {
 			message: err._message,
