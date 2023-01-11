@@ -70,6 +70,7 @@ function App() {
 			<Route path='/a' element={<AdminPanel />} >
                 <Route path='*' element={<Error />}/>
                 <Route path='dashboard' element={<DashboardAdmin />}/>
+                <Route path='member/:id' element={<Profile />} />
 				<Route path='events' element={<A_Event />} />
                 <Route path='events/create' element={<A_EventCreate />} />
                 <Route path='events/:id' element={<Event_View/>} />

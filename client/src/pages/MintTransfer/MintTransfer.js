@@ -131,7 +131,7 @@ function MintTransfer() {
 												date={event.date.start}
 												handler={() =>
 													navigate(
-														`/member/${participant.member.walletAddress}`
+														`/m/${participant.member.walletAddress}`
 													)
 												}
 											/>
