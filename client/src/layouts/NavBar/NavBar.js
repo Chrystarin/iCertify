@@ -19,7 +19,7 @@ export default function NavBar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isOpenSignup, setIsOpenSignup] = useState(false);
 	const [walletAddress, setWalletAddress] = useState('');
-	const adminAddress = '0xA68fF9Ffc75185aaC6D90b6Da29A464d2006a3d5';
+	const adminAddress = '0x089F3C534a04f472950BF07B5614f16A706CD445';
 
 	useEffect(() => {
 		addWalletListener();

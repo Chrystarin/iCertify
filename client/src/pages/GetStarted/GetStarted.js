@@ -111,7 +111,7 @@ function Signup() {
                     }
                 )
                 .then((response) => {
-                    navigate(`/member/${address}`);
+                    navigate(`/m/${address}`);
                 });
                 }
             

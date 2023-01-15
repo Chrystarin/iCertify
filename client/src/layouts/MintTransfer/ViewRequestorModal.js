@@ -56,7 +56,7 @@ function ViewRequestorModal(props, { setter }) {
 		provider = new ethers.providers.Web3Provider(window.ethereum);
 		signer = provider.getSigner();
 		setContract(new ethers.Contract(
-			'0x121c4600A84F5624e86AfC869dbaC39E535Dd26C',
+			'0x5AE7d1d82cEef6eE9745F9C27CE98Ea57c51F5C2',
 			contractBuild.abi,
 			signer
 		))

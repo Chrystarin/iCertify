@@ -24,12 +24,14 @@ const eventSchema = new Schema({
 	link: {
 		type: String,
 		required: function () {
+            console.log('link:', this.type)
 			return this.type == 'online';
 		}
 	},
 	location: {
 		type: String,
 		required: function () {
+            console.log('location:', this.type)
 			return this.type == 'onsite';
 		}
 	},

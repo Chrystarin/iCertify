@@ -53,13 +53,13 @@ const filterRequestBody = ({
 	};
 
 	// Validate optional fields
-	if (link !== undefined) {
+	if (link !== undefined && type === 'online') {
 		if (!(link && typeof link === 'string'))
 			throw new UnprocessableRequest();
 		Object.assign(obj, { link });
 	}
 
-	if (location !== undefined) {
+	if (location !== undefined && type === 'onsite') {
 		if (!(location && typeof location === 'string'))
 			throw new UnprocessableRequest();
 		Object.assign(obj, { location });
@@ -96,7 +96,7 @@ const filterRequestBody = ({
 
 const createEvent = async (req, res, next) => {
 	try {
-		console.log(req.body);
+		// console.log(req.body);
 
 		const event = await Event.create({
 			eventId: nanoid(8),

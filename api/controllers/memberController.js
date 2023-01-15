@@ -78,7 +78,9 @@ const loginMember = async (req, res, next) => {
 };
 
 const registerUser = async (req, res, next) => {
+    console.log(req.body)
 	const { walletAddress, name: { firstName, middleName, lastName } } = req.body;
+
 
 	try {
 		// Check if valid wallet address
