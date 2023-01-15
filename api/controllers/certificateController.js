@@ -19,33 +19,23 @@ const interface = new ethers.utils.Interface(
 	require('../build/contracts/CertificateNFT.json').abi
 );
 
-/**
- * Monitors the transaction every 30 secs
- * If transaction is mined, update the certificate
- *      with the nftID
- * Otherwise, continue to monitor
- */
-const monitorTransaction = (hash) => {
-	setTimeout(async () => {
-		const receipt = await provider.getTransactionReceipt(hash);
-		if (receipt) {
-			await Certificate.findOneAndUpdate(
-				{ hash },
-				{
-					nftId: interface
-						.parseLog(receipt.logs[2])
-						.args.tokenId.toNumber()
-				}
-			);
-
-			return;
-		}
-		monitorTransaction(hash);
-	}, 30 * 1000);
-};
+// Create ipfs instance
+const ipfsClient = create({
+	host: 'ipfs.infura.io',
+	port: 5001,
+	protocol: 'https',
+	headers: {
+		authorization:
+			'Basic ' +
+			Buffer.from(
+				process.env.IPFS_ID + ':' + process.env.IPFS_SECRET
+			).toString('base64')
+	}
+});
 
 const saveCertificate = async (req, res, next) => {
 	const { certificateId } = req.body;
+	let ipfsCID;
 
 	try {
 		// Check if certificateId is not included from the request body
@@ -65,7 +55,9 @@ const saveCertificate = async (req, res, next) => {
 			return res.status(201).json({ certificateId });
 		}
 
-		const { ipfsCID, title, hash, ownerAddress, eventId } = req.body;
+		const { title, hash, ownerAddress, eventId } = req.body;
+		({ ipfsCID } = req.body);
+
 		if (
 			!(
 				certificateId &&
@@ -99,11 +91,16 @@ const saveCertificate = async (req, res, next) => {
 			);
 
 		// Check if hash is valid
-		if (!(await provider.getTransaction(hash)))
-			throw new Forbidden('Transaction not existing');
+		const transaction = await provider.getTransaction(hash);
+		if (!transaction) throw new Forbidden('Transaction not existing');
 
 		// Monitor transaction
-		monitorTransaction(hash);
+		transaction.wait().then(({ logs: [log] }) => {
+			Certificate.findOneAndUpdate(
+				{ hash },
+				{ nftId: interface.parseLog(log).args.tokenId.toNumber() }
+			);
+		});
 
 		const { _id } = await Certificate.findOneAndUpdate(
 			{ certificateId },
@@ -132,6 +129,14 @@ const saveCertificate = async (req, res, next) => {
 			uri: 'https://icertify.infura-ipfs.io/ipfs/' + ipfsCID
 		});
 	} catch (error) {
+		if (ipfsCID) {
+			// Unpin image
+			await ipfsClient.pin.rm(ipfsCID);
+            
+			// Garbage collect
+			ipfsClient.repo.gc();
+		}
+
 		next(error);
 	}
 };
@@ -150,20 +155,6 @@ const certificateIPFS = async (req, res, next) => {
 		// Check if certificate is already saved
 		const certificate = await Certificate.findOne({ ipfsCID: imageHash });
 		if (certificate) throw new Forbidden('Certificate already saved');
-
-		// Create ipfs instance
-		const ipfsClient = create({
-			host: 'ipfs.infura.io',
-			port: 5001,
-			protocol: 'https',
-			headers: {
-				authorization:
-					'Basic ' +
-					Buffer.from(
-						process.env.IPFS_ID + ':' + process.env.IPFS_SECRET
-					).toString('base64')
-			}
-		});
 
 		res.json(await ipfsClient.add({ content: data }));
 	} catch (error) {

@@ -15,8 +15,7 @@ contract CertificateNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable
 	// Certificate data
 	struct CertificateMetadata
 	{
-		string title;
-		string fromEvent;
+		string eventId;
 		address owner;
 		address sender;
 		string uri;
@@ -36,22 +35,21 @@ contract CertificateNFT is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable
 
 	// Handles the minting and transferring of the certificate to its owner
 	function sendCertificate(
-		address _receiver,
-		string memory _title,
-		string memory _fromEvent,
-		string memory _uri
+		address receiver,
+		string memory eventId,
+		string memory uri
 	) public sendingRestriction
 	{
 		// Generate a unique, new certificate id
 		uint256 newCertificateId = certificateIds.current();
 
 		// Create a CertificateMetadata instance and store it to the certificates mapping
-		certificates[newCertificateId] = CertificateMetadata(_title, _fromEvent, _receiver, msg.sender, _uri);
+		certificates[newCertificateId] = CertificateMetadata(eventId, receiver, msg.sender, uri);
 
 		_mint(msg.sender, newCertificateId);                 // mint
-        _setTokenURI(newCertificateId, _uri);
+        _setTokenURI(newCertificateId, uri);
 
-		_transfer(msg.sender, _receiver, newCertificateId);  // transfer
+		_transfer(msg.sender, receiver, newCertificateId);  // transfer
 
 		certificateIds.increment();
 	}
