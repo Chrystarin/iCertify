@@ -78,8 +78,10 @@ const loginMember = async (req, res, next) => {
 };
 
 const registerUser = async (req, res, next) => {
-    console.log(req.body)
-	const { walletAddress, name: { firstName, middleName, lastName } } = req.body;
+	const {
+		walletAddress,
+		name: { firstName, middleName, lastName }
+	} = req.body;
 
 
 	try {
@@ -89,23 +91,23 @@ const registerUser = async (req, res, next) => {
 				walletAddress &&
 				typeof walletAddress === 'string' &&
 				ethers.utils.isAddress(walletAddress) &&
-                firstName &&
-                typeof firstName === 'string' &&
-                lastName &&
-                typeof lastName === 'string'
+				firstName &&
+				typeof firstName === 'string' &&
+				lastName &&
+				typeof lastName === 'string'
 			)
 		)
 			throw new UnprocessableRequest();
 
-        if(middleName !== undefined) {
-            if(typeof middleName !== 'string')
-                throw new UnprocessableRequest();
-        }
+		if (middleName !== undefined) {
+			if (typeof middleName !== 'string')
+				throw new UnprocessableRequest();
+		}
 
 		// Create member
 		const member = await Member.create({
 			walletAddress: ethers.utils.getAddress(walletAddress),
-            name: { firstName, middleName, lastName }
+			name: { firstName, middleName, lastName }
 		});
 
 		res.status(201).json({
