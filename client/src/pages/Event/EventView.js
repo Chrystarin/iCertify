@@ -100,9 +100,9 @@ const EventView = (props) => {
                     <div id="Certificate__Status">
                         <p>Certificate is Ready to be Claim.</p>
                     </div>
-                    <div id="CertificateButton">
+                    {/* <div id="CertificateButton">
                         <Button variant="outlined" onClick={()=> setCertificateStatus("Pending")}>Claim</Button>
-                    </div>
+                    </div> */}
                 </>
             case 'Pending':
                 return <>

@@ -11,8 +11,6 @@ import { Button } from '@mui/material';
 
 import Certificate from '../../components/Certificate/Certificate.js';
 
-import contractBuild from '../../CertificateNFT.json';
-
 import axios from '../../config/axios';
 
 function ViewRequestorModal(props, { setter }) {
@@ -48,18 +46,22 @@ function ViewRequestorModal(props, { setter }) {
 
 	useEffect(() => {
 		async function requestAccount() {
-			return await window.ethereum.request({
+			await window.ethereum.request({
 				method: 'eth_requestAccounts'
 			});
 		}
 		requestAccount();
+
 		provider = new ethers.providers.Web3Provider(window.ethereum);
 		signer = provider.getSigner();
-		setContract(new ethers.Contract(
-			'0x5AE7d1d82cEef6eE9745F9C27CE98Ea57c51F5C2',
-			contractBuild.abi,
-			signer
-		))
+
+        axios.get('/abi').then(({ data }) => setContract(new ethers.Contract('0x7b9f7cBc43DAE6f1B11528Fadf48609995FE42f0', data, signer)))
+
+		// setContract(new ethers.Contract(
+		// 	'0x7b9f7cBc43DAE6f1B11528Fadf48609995FE42f0',
+		// 	contractBuild.abi,
+		// 	signer
+		// ))
 
         console.log('onload', contract)
         console.log(certImage)
@@ -74,8 +76,7 @@ function ViewRequestorModal(props, { setter }) {
 
 		try {
 			// Upload the file to ipfs and get CID
-			const { path } = (await axios.post(`certificates/ipfs`, formData))
-				.data;
+			const { data: { path } } = await axios.post(`certificates/ipfs`, formData)
 
             console.log(path)
             console.log(contract)
@@ -83,7 +84,6 @@ function ViewRequestorModal(props, { setter }) {
 			// Mint and transfer to owner
 			const transaction = await contract.sendCertificate(
 				address, // receiver
-				eventTitle, // title
 				eventId, // fromEvent
 				`https://icertify.infura-ipfs.io/ipfs/${path}` // uri
 			);

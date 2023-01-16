@@ -32,6 +32,7 @@ const ipfsClient = create({
 			).toString('base64')
 	}
 });
+// const ipfsClient = create('http://127.0.0.1:5001');
 
 const saveCertificate = async (req, res, next) => {
 	const { certificateId } = req.body;
@@ -134,7 +135,7 @@ const saveCertificate = async (req, res, next) => {
 			await ipfsClient.pin.rm(ipfsCID);
             
 			// Garbage collect
-			ipfsClient.repo.gc();
+			// ipfsClient.repo.gc();
 		}
 
 		next(error);

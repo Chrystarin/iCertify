@@ -19,7 +19,7 @@ export default function NavBar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isOpenSignup, setIsOpenSignup] = useState(false);
 	const [walletAddress, setWalletAddress] = useState('');
-	const adminAddress = '0x089F3C534a04f472950BF07B5614f16A706CD445';
+	const adminAddress = '0x5AE7d1d82cEef6eE9745F9C27CE98Ea57c51F5C2';
 
 	useEffect(() => {
 		addWalletListener();
@@ -48,16 +48,8 @@ export default function NavBar() {
 			// Executes if address does not exist in database	
 			if (!isExisting) {
 				alert("You aren't registered yet!");
-				navigate('getstarted');
-				// Register address
-				await axios.post(
-					`members/register`,
-					JSON.stringify({ walletAddress: address }),
-					{
-						headers: { 'Content-Type': 'application/json' }
-					}
-				);
-			}
+				return navigate('/getstarted');
+            }
 
 			// Get nonce of address
 			const { nonce } = (await axios.get(`members/${address}/nonce`))
