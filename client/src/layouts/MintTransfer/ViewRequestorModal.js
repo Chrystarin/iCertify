@@ -16,19 +16,11 @@ import axios from '../../config/axios';
 function ViewRequestorModal(props, { setter }) {
 	const { data } = props;
 	const exportRef = useRef();
-    const [contract, setContract] = useState(null);
-    const [certImage, setCertImage] = useState(null);
+	const [contract, setContract] = useState(null);
+	const [certImage, setCertImage] = useState(null);
 
-	const {
-		name,
-		address,
-		role,
-		eventId,
-		eventTitle,
-		date,
-		location,
-		qr
-	} = props;
+	const { name, address, role, eventId, eventTitle, date, location, qr } =
+		props;
 
 	// Values for metamask credentials
 	let provider, signer;
@@ -41,7 +33,7 @@ function ViewRequestorModal(props, { setter }) {
 			})
 			.then(({ data }) => setCertificateId(data.certificateId));
 
-        console.log('gen cert id', contract)
+		console.log('gen cert id', contract);
 	};
 
 	useEffect(() => {
@@ -55,7 +47,17 @@ function ViewRequestorModal(props, { setter }) {
 		provider = new ethers.providers.Web3Provider(window.ethereum);
 		signer = provider.getSigner();
 
-        axios.get('/abi').then(({ data }) => setContract(new ethers.Contract('0x7b9f7cBc43DAE6f1B11528Fadf48609995FE42f0', data, signer)))
+		axios
+			.get('/abi')
+			.then(({ data }) =>
+				setContract(
+					new ethers.Contract(
+						'0x897dF59ceae72cE972De9972D7A355572F482E95',
+						data,
+						signer
+					)
+				)
+			);
 
 		// setContract(new ethers.Contract(
 		// 	'0x7b9f7cBc43DAE6f1B11528Fadf48609995FE42f0',
@@ -63,23 +65,25 @@ function ViewRequestorModal(props, { setter }) {
 		// 	signer
 		// ))
 
-        console.log('onload', contract)
-        console.log(certImage)
+		console.log('onload', contract);
+		console.log(certImage);
 
 		GenerateCertificateID();
 	}, []);
 
-    // Send Document
+	// Send Document
 	const sendDocument = async (file) => {
 		const formData = new FormData();
 		formData.append('certificate', file);
 
 		try {
 			// Upload the file to ipfs and get CID
-			const { data: { path } } = await axios.post(`certificates/ipfs`, formData)
+			const {
+				data: { path }
+			} = await axios.post(`certificates/ipfs`, formData);
 
-            console.log(path)
-            console.log(contract)
+			console.log(path);
+			console.log(contract);
 
 			// Mint and transfer to owner
 			const transaction = await contract.sendCertificate(
@@ -88,7 +92,7 @@ function ViewRequestorModal(props, { setter }) {
 				`https://icertify.infura-ipfs.io/ipfs/${path}` // uri
 			);
 
-            console.log(transaction)
+			console.log(transaction);
 
 			// Save the certificate
 			const result = await axios
@@ -116,7 +120,7 @@ function ViewRequestorModal(props, { setter }) {
 
 	// Export canvas into image
 	const exportAsImage = async (element, imageFileName) => {
-        console.log('export image', contract)
+		console.log('export image', contract);
 		const canvas = await html2canvas(element);
 		const image = canvas.toDataURL('image/png', 1.0);
 
@@ -130,7 +134,7 @@ function ViewRequestorModal(props, { setter }) {
 			u8arr[i] = decodedData.charCodeAt(i);
 		}
 
-        // console.log(sendDocument);
+		// console.log(sendDocument);
 
 		// console.log(image);
 		// Create a new File and pass it to sendDocument()
@@ -142,47 +146,48 @@ function ViewRequestorModal(props, { setter }) {
 	};
 
 	function CreateCertificate() {
-        console.log('create cert', contract)
+		console.log('create cert', contract);
 		exportAsImage(exportRef.current, 'Certificate_');
 	}
 
 	const handleClose = () => {
 		props.setter(false);
 	};
-	
-	if(!certificateId) return (
-		<>
-			<div
-				id='ModalRequestor'
-				className={props.status ? 'active' : 'inactive'}
-			>
-				<div id='ViewRequestorModal'>
-					<div
-						id='ViewRequestorModal__Container__View'
-						className='Panel__Container'
-					>
-						Loading....
-					</div>
-					<div id='FullView__Buttons'>
-						<Fab
-							size='small'
-							color='white'
-							aria-label='full'
-							sx={{ zIndex: 97 }}
-							onClick={handleClose}
+
+	if (!certificateId)
+		return (
+			<>
+				<div
+					id='ModalRequestor'
+					className={props.status ? 'active' : 'inactive'}
+				>
+					<div id='ViewRequestorModal'>
+						<div
+							id='ViewRequestorModal__Container__View'
+							className='Panel__Container'
 						>
-							<CloseIcon />
-						</Fab>
+							Loading....
+						</div>
+						<div id='FullView__Buttons'>
+							<Fab
+								size='small'
+								color='white'
+								aria-label='full'
+								sx={{ zIndex: 97 }}
+								onClick={handleClose}
+							>
+								<CloseIcon />
+							</Fab>
+						</div>
 					</div>
 				</div>
-			</div>
-			<Backdrop
-				sx={{ color: '#fff', zIndex: 98 }}
-				open={props.status}
-				onClick={handleClose}
-			></Backdrop>
-		</>
-	)
+				<Backdrop
+					sx={{ color: '#fff', zIndex: 98 }}
+					open={props.status}
+					onClick={handleClose}
+				></Backdrop>
+			</>
+		);
 
 	return (
 		<>
@@ -205,10 +210,10 @@ function ViewRequestorModal(props, { setter }) {
 								location={location}
 								role={role}
 								certificateId={certificateId}
-                                // SetCertImageValue={setCertImage}
+								// SetCertImageValue={setCertImage}
 							/>
-                            {/* Make image data state */}
-                            {/* Get image data. Then resize */}
+							{/* Make image data state */}
+							{/* Get image data. Then resize */}
 						</div>
 					</div>
 					<div

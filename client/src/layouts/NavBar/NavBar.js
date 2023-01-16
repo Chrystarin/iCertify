@@ -19,7 +19,7 @@ export default function NavBar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isOpenSignup, setIsOpenSignup] = useState(false);
 	const [walletAddress, setWalletAddress] = useState('');
-	const adminAddress = '0x5AE7d1d82cEef6eE9745F9C27CE98Ea57c51F5C2';
+	const adminAddress = '0x8B72721DE2E85CC7634801D09448b99dcB66d354';
 
 	useEffect(() => {
 		addWalletListener();
@@ -45,11 +45,11 @@ export default function NavBar() {
 				await axios.get(`members/${address}/exists`)
 			).data;
 
-			// Executes if address does not exist in database	
+			// Executes if address does not exist in database
 			if (!isExisting) {
 				alert("You aren't registered yet!");
 				return navigate('/getstarted');
-            }
+			}
 
 			// Get nonce of address
 			const { nonce } = (await axios.get(`members/${address}/nonce`))
@@ -63,8 +63,8 @@ export default function NavBar() {
 				.post(
 					'/members/login',
 					JSON.stringify({
-                        walletAddress: address,
-                        signature
+						walletAddress: address,
+						signature
 					}),
 					{
 						method: 'POST',
@@ -76,12 +76,12 @@ export default function NavBar() {
 				)
 				.then((response) => {
 					// setAuth({user, roles, accessToken});
-                    // Check if address belongs to admin
-                    if (address == adminAddress){
-                        navigate(`/a/dashboard`);
-                    } else{
-                        navigate(`/m/${address}`);
-                    }
+					// Check if address belongs to admin
+					if (address == adminAddress) {
+						navigate(`/a/dashboard`);
+					} else {
+						navigate(`/m/${address}`);
+					}
 				});
 		} catch (err) {
 			console.error(err.message);

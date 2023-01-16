@@ -164,7 +164,6 @@ function ProfileUpdate() {
 											id='outlined-search'
 											label='Extension'
 											type='text'
-											
 											defaultValue={
 												member.name?.extension ?? ''
 											}
@@ -180,9 +179,8 @@ function ProfileUpdate() {
 									</div>
 									<TextField
 										id='outlined-search'
-										label='Event Description'
+										label='About Me'
 										type='text'
-										required
 										multiline
 										defaultValue={member.about ?? ''}
 										onChange={(e) =>
@@ -339,7 +337,7 @@ function ProfileUpdate() {
 								<Button
 									variant='contained'
 									endIcon={<NavigateNextIcon />}
-									type="submit"
+									type='submit'
 								>
 									Update
 								</Button>

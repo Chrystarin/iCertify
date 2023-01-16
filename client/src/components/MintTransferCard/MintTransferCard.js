@@ -70,11 +70,11 @@ function MintTransferCard(props) {
 					{type === 'pending' ? (
 						<>
 							{/* <Button variant='outlined' onClick={()=>setOpenModal(true)}>View</Button> */}
-							<Button
+							{/* <Button
 								variant='contained'
 							>
 								Check CertID
-							</Button>
+							</Button> */}
 							<Button
 								variant='contained'
 								onClick={() => setOpenModal(true)}

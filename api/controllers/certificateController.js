@@ -99,7 +99,8 @@ const saveCertificate = async (req, res, next) => {
 		transaction.wait().then(({ logs: [log] }) => {
 			Certificate.findOneAndUpdate(
 				{ hash },
-				{ nftId: interface.parseLog(log).args.tokenId.toNumber() }
+				{ nftId: interface.parseLog(log).args.tokenId.toNumber() },
+                { new: true }
 			);
 		});
 
@@ -133,7 +134,7 @@ const saveCertificate = async (req, res, next) => {
 		if (ipfsCID) {
 			// Unpin image
 			await ipfsClient.pin.rm(ipfsCID);
-            
+
 			// Garbage collect
 			// ipfsClient.repo.gc();
 		}

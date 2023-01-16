@@ -131,12 +131,12 @@ function MintTransfer() {
 												date={event.date.start}
 												handler={() =>
 													navigate(
-														`/m/${participant.member.walletAddress}`
+														`/a/member/${participant.member.walletAddress}`
 													)
 												}
 											/>
 										) : (
-											'No Completed Yet'
+											''
 										)}
 									</>
 								);
