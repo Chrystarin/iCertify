@@ -1,5 +1,5 @@
 import React from 'react'
-import './ShareCredentialModal.scss'
+import './ShareDocumentModal.scss'
 import Fab from '@mui/material/Fab';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
@@ -17,7 +17,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
 
-function ShareCredentialModal(props) {
+function ShareDocumentModal(props) {
 
     const link = window.location.href;
     const handleClickCopyLink = (event) => {
@@ -118,4 +118,4 @@ function ShareCredentialModal(props) {
     )
 }
 
-export default ShareCredentialModal
+export default ShareDocumentModal

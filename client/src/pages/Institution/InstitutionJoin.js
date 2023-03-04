@@ -1,7 +1,7 @@
 import React,{useState} from 'react'
 
 import './../../styles/Form.scss';
-import './EventJoin.scss';
+import './InstitutionJoin.scss';
 
 import Button from '@mui/material/Button';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';

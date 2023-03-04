@@ -108,7 +108,7 @@ function DropdownItem(props){
                 <Avatar id="profilePicture_Navigation"  src={(props.User==="Admin")?AdminLogo:""} onClick={()=>{(openDropdown==="Profile")?setopenDropdown(""): setopenDropdown("Profile")}}/>
                 <div className={(openDropdown==="Profile")?'dropdown-menu active':'dropdown-menu inactive'} >
                   <a href={(props.User==="Admin")?"/a/dashboard":`/m/${address}`}>
-                    <h5>{(props.User==="Admin")?"Admin":address} </h5>
+                    <h6>{(props.User==="Admin")?"Admin":address} </h6>
                   </a>
                   <a href='/membership'>
                     <div id='Wrapper_MembershipType'>

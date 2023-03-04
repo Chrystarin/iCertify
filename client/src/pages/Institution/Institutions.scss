@@ -1,46 +1,37 @@
-#Events{
-    .Navigation_Event{
-        button{
-            background: none;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 400;
-            margin-right: 30px;
-            font-size: 15px;
-        }
+#institutions{
+    .Navigation_Institution{
+        margin-bottom: 25px;
+        display: flex;
         .Selected{
             padding: .5em 1em;
             background-color: var(--accent);
             font-weight: 700;
             color: white;
         }
-        span{
-            padding: .5em 0;
-            display: inline-block;
-            color: gray;
-            background-color: gray;
-            height: 100%;
-            width: 3px;
-            margin-right: 30px;
-            border-radius: 25px;
-            opacity: .2;
+        .Navigation_Left{
+            flex-grow: 1;
+            display: flex;
+            gap: 15px;
+        }
+        .Navigation_Right{
+            display: flex;
+            gap: 15px;
         }
     }    
 }
 
-#Panel_Events{
+#Panel_institutions{
     margin-top: 20px;
     width: 100%;
 
 
-    #Container_FeaturedEvents{
+    #Container_Featuredinstitutions{
 
-        #Container_Ads_FeaturedEvents{
+        #Container_Ads_Featuredinstitutions{
             display: grid;
             grid-template-columns: 1fr .4fr;
             gap: 25px;
-            #Slider_FeaturedEvents{
+            #Slider_Featuredinstitutions{
                 overflow: hidden;
                 border-radius: 10px;
                 img{
@@ -48,7 +39,7 @@
                     height: 100%;
                 }
             }
-            #Ads_FeaturedEvents{
+            #Ads_Featuredinstitutions{
                 overflow: hidden;
                 border-radius: 10px;
                 background-color: gray;
@@ -59,12 +50,12 @@
                 }
             }
         }
-        #Container_Upcoming_FeaturedEvents{
+        #Container_Upcoming_Featuredinstitutions{
             margin-top: 25px; 
             h5{
                 margin-bottom: 20px;
             }
-            #Wrapper_Upcoming_FeaturedEvents{
+            #Wrapper_Upcoming_Featuredinstitutions{
                 display: grid;
                 grid-template-columns: repeat(7,1fr);
                 gap: 15px;
@@ -72,7 +63,7 @@
         }
         
     }
-    #Container_JoinedEvents{
+    #Container_JoinedInstitutions{
         
         .EventPerMonths{
             padding: 1.5em 0;
@@ -90,6 +81,6 @@
         }
         
     }
-    #Container_ManageEvents{
+    #Container_Manageinstitutions{
     }
 } 

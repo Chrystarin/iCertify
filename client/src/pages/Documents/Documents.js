@@ -1,7 +1,6 @@
 import React,{useEffect,useState} from 'react';
-import './Credential.scss'
+import './Documents.scss'
 import {ethers} from 'ethers';
-import { useParams } from 'react-router-dom';
 
 import Empty from '../../images/icons/empty-folder.png'
 import Card from '../../components/Card/Card.js';
@@ -9,7 +8,7 @@ import Card from '../../components/Card/Card.js';
 import axios from '../../config/axios';
 
 
-function Credential() {
+function Documents() {
     const [address, setAddress] = useState("");
     const [ownedCertificates, setOwnedCertificates] = useState(null);
 
@@ -40,13 +39,13 @@ function Credential() {
 		return <div>loading... No OwnedCertificates Found</div>;
 
     return (
-        <div id='Credential'>
+        <div id='Documents'>
         <section>
             <div className='Title__Div'>
-            <h2 className='SectionTitle'>Credential</h2>
-            <h5 className='SectionSubTitle'>Collection of your Certificates</h5>
+                <h2 className='SectionTitle'>Documents</h2>
+                <h5 className='SectionSubTitle'>My Collections of Documents</h5>
             </div>
-            
+
             <div className='Wrapper__Card'>
             {(ownedCertificates.length === 0 )?
                 <>
@@ -78,6 +77,6 @@ function Credential() {
     )
 }
 
-export default Credential
+export default Documents
 
 

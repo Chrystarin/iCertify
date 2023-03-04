@@ -23,16 +23,17 @@
                 margin-top: 20px;
                 display: flex;
                 flex-direction: column;
-                gap: 20px;
+                gap: 25px;
                 li{
                     .Details__Title{
                         color: rgb(42, 42, 42);
-                        margin-bottom: 15px;
+                        margin-bottom: 10px;
                     } 
                     .Details__Title::after{
                         content: " :";
                     } 
                     .Details__Content{
+                        overflow: hidden;
                         color: rgb(42, 42, 42);
                     }
                 }

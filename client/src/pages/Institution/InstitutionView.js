@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {ethers} from 'ethers';
 
-import './EventView.scss'
+import './InstitutionView.scss'
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';

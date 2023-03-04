@@ -1,9 +1,8 @@
-
 import React,{useEffect, useState} from 'react';
 import { useParams } from "react-router-dom";
 import { saveAs } from 'file-saver'
 
-import './CredentialView.scss'
+import './DocumentView.scss';
 import Button from '@mui/material/Button';
 import UserImg from './../../images/Resources/Developers/Dianne.jpg';
 import ShareIcon from '@mui/icons-material/Share';
@@ -17,11 +16,11 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import Backdrop from '@mui/material/Backdrop';
 
-import ShareCredentialModal from '../../layouts/Credential/ShareCredentialModal';
+import ShareCredentialModal from '../../layouts/Documents/ShareDocumentModal';
 
 import axios from '../../config/axios';
 
-function Credential() {
+function DocumentView() {
   const { id } = useParams()
   const [ModalToOpen,setModalToOpen] = useState("wew")
   const [open, setOpen] = useState(false);
@@ -87,7 +86,6 @@ function Credential() {
         <div id='CredentialViewingPanel__Container' className='Panel__Container'>
         <img className='EventName' src={`https://icertify.infura-ipfs.io/ipfs/${certificate.ipfsCID}`} alt=""/>
           <div id='FullView__Container'>
-            
             <div>
             
             </div>
@@ -99,7 +97,7 @@ function Credential() {
       </div>
       <div id='CredentialViewSideBar_Container'>
         <div className='Panel__Container' id='CredentialDetails__Container'>
-          <h4>Credential Details</h4>
+          <h4>Document Details</h4>
           <ul id='ListofDetails'>
             <li>
               <h5 className="Details__Title">Event</h5>
@@ -138,14 +136,15 @@ function Credential() {
       sx={{ color: '#fff', zIndex: 98 }}
       open={open}
       onClick={handleClose}>
+        <div className='Modal'>
+          {(open)? <SetBackrop/>:""}
+        </div>
       </Backdrop>
-      <div className='Modal'>
-        {(open)? <SetBackrop/>:""}
-      </div>
+      
     </section>
   )
 }
 
-export default Credential
+export default DocumentView
 
 
