@@ -13,13 +13,15 @@ import './NavBar.scss';
 import Button from '@mui/material/Button';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 
+import '../../config/config.js'; 
+
 export default function NavBar() {
 	const { setAuth } = useAuth();
 	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = useState(false);
 	const [isOpenSignup, setIsOpenSignup] = useState(false);
 	const [walletAddress, setWalletAddress] = useState('');
-	const adminAddress = '0x089F3C534a04f472950BF07B5614f16A706CD445';
+	const adminAddress = global.config.admin_address;
 
 	useEffect(() => {
 		addWalletListener();
