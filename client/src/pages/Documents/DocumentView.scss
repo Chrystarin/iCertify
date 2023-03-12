@@ -55,19 +55,32 @@
 }
 
 
-
+.Modal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99;
+}
 
 #FullViewModal{
     display: flex;
     gap: 25px;
+    
     #FullView__Container{
-        width: 80vw;
-        height: 80vh;
-       
+        max-height: 90vh;
     }
     #FullView__Buttons{
         display: flex;
         flex-direction: column;
         gap: 15px;
+        
     }
+}
+
+.CredentialViewingPanel__Image{
+    width: 100%;
+}
+.CredentialViewingPanel__FullImage{
+    height: 100%;
 }

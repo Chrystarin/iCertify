@@ -1,6 +1,7 @@
 #ShareModal{
     display: flex;
     gap: 25px;
+    z-index: 99;
     #ShareModal__Container{
         width: 600px;
         height: 400px;

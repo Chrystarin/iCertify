@@ -1,0 +1,44 @@
+#EventCard{
+    width: 300px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.053);
+    padding: 1em;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    #EventResourcesDesign{
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    #Avatar__Container{
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        #Avatar{
+            width: 106px;
+            height: 106px;
+            border: 5px solid white;
+        }
+        
+    }
+    
+    #EventCard__Address{
+        display: flex;
+        margin-bottom: 20px;
+    }
+    #EventCard__Footer{
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        button{
+            flex-grow: 1;
+        }
+    }
+    
+}
+#EventCard:hover{
+    opacity: .9;
+}

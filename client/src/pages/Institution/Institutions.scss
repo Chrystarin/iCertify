@@ -52,7 +52,7 @@
         }
         #Container_Upcoming_Featuredinstitutions{
             margin-top: 25px; 
-            h5{
+            h5:nth-child(1){
                 margin-bottom: 20px;
             }
             #Wrapper_Upcoming_Featuredinstitutions{
@@ -81,6 +81,5 @@
         }
         
     }
-    #Container_Manageinstitutions{
-    }
+    
 } 

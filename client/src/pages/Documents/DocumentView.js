@@ -57,7 +57,7 @@ function DocumentView() {
         return <>
           <div id='FullViewModal' >
             <div id='FullView__Container' className='Panel__Container'>
-            <img className='EventName' src={`https://icertify.infura-ipfs.io/ipfs/${certificate.ipfsCID}`} alt=""/>
+            <img className='CredentialViewingPanel__FullImage' src={`https://icertify.infura-ipfs.io/ipfs/${certificate.ipfsCID}`} alt=""/>
             </div>
             <div id='FullView__Buttons'>
               <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={handleToggleFull}>
@@ -84,7 +84,7 @@ function DocumentView() {
     <section id='CredentialViewPage_Wrapper'>
       <div id='CredentialView_Container'>
         <div id='CredentialViewingPanel__Container' className='Panel__Container'>
-        <img className='EventName' src={`https://icertify.infura-ipfs.io/ipfs/${certificate.ipfsCID}`} alt=""/>
+        <img className='CredentialViewingPanel__Image' src={`https://icertify.infura-ipfs.io/ipfs/${certificate.ipfsCID}`} alt=""/>
           <div id='FullView__Container'>
             <div>
             
@@ -136,11 +136,10 @@ function DocumentView() {
       sx={{ color: '#fff', zIndex: 98 }}
       open={open}
       onClick={handleClose}>
-        <div className='Modal'>
+      </Backdrop>
+      <div className='Modal'>
           {(open)? <SetBackrop/>:""}
         </div>
-      </Backdrop>
-      
     </section>
   )
 }

@@ -7,13 +7,14 @@ import Card from '../../components/Card/Card.js';
 import ImagePosterSample from './../../images/placeholder/PosterSample.jpg';
 import ImageAds from '../../images/Resources/Ads.png'
 import axios from '../../config/axios';
-import Empty from '../../images/icons/empty-folder.png'
 import Button from '@mui/material/Button';
+import InstitutionCard from '../../components/Card/InstitutionCard.js'
+
 
 function Institutions() {
-	const [isOpenPanel_Institution, seOpenPanel_Institution] =
-		useState('FeaturedInstitutions');
-	
+	const [isOpenPanel_Institution, seOpenPanel_Institution] = useState('FeaturedInstitutions');
+		
+
 	return (
 		<section id='institutions'>
 			<div className='Title__Div'>
@@ -51,6 +52,8 @@ function Institutions() {
 		</section>
 	);
 }
+
+
 
 function Panel_institutions(props) {
 	const [JoinedInstitutions, setJoinedInstitutions] = useState(null);
@@ -90,61 +93,69 @@ function Panel_institutions(props) {
 	if (!institutions) return <div>loading...</div>;
 	// if (!joinedinstitutions) return <div>loading... No Joined institutions</div>;
 
-	if (props.open === 'FeaturedInstitutions') {
-		return (
-			<div id='Container_Featuredinstitutions'>
-				<div id='Container_Ads_Featuredinstitutions'>
-					<div id='Slider_Featuredinstitutions'>
-						<a href='http://'>
-							<img
-								src={ImagePosterSample}
-								alt=''
-							/>
-						</a>
-					</div>
-					<div id='Ads_Featuredinstitutions'>
-						<img src={ImageAds} alt="" />
-					</div>
+
+	switch (props.open) {
+		case "FeaturedInstitutions":
+			return  <FeaturedInstitution/>
+
+		case "JoinedInstitutions":
+			return (
+				<div id='Container_JoinedInstitutions' className='Wrapper__Card'>
+					<Card />
+					<Card />
 				</div>
-				<div id='Container_Upcoming_Featuredinstitutions'>
-					<h5>Newest Institutions</h5>
-					<div id='Wrapper_Upcoming_Featuredinstitutions'>
-						{institutions.length > 0 &&
-							institutions.map((institution) => {
-								if (institution.status == 'active') {
-									return (
-										<Card
-											title={institution.title}
-											key={institution.eventId}
-											id={institution.eventId}
-											date={institution.date.start}
-											type={'institution'}
-										/>
-									);
-								}
-							})}
-					</div>
+			);
+		
+		default:
+			break;
+	}
+}
+function FeaturedInstitution(){
+
+	const Institutions = [
+		{ name : 'STI College Marikina', address:"L. De Guzman St, Marikina, Metro Manila", totalMembers:"450", totalDocument:"3000",joinStatus: false},
+		{ name : 'Ateneo de Manila', address:"L. De Guzman St, Marikina, Metro Manila", totalMembers:"450", totalDocument:"3000",joinStatus: false},
+		{ name : 'OLOPSC', address:"L. De Guzman St, Marikina, Metro Manila", totalMembers:"450", totalDocument:"3000",joinStatus: true},
+		{ name : 'APEC', address:"L. De Guzman St, Marikina, Metro Manila", totalMembers:"450", totalDocument:"3000",joinStatus: false},
+		{ name : 'OLFU', address:"L. De Guzman St, Marikina, Metro Manila", totalMembers:"450", totalDocument:"3000",joinStatus: true},
+	];
+
+	return<>
+		<div id='Container_Featuredinstitutions'>
+			<div id='Container_Ads_Featuredinstitutions'>
+				<div id='Slider_Featuredinstitutions'>
+					<a href='http://'>
+						<img
+							src={ImagePosterSample}
+							alt=''
+						/>
+					</a>
+				</div>
+				<div id='Ads_Featuredinstitutions'>
+					<img src={ImageAds} alt="" />
 				</div>
 			</div>
-		);
-	} else if (props.open === 'JoinedInstitutions') {
-		return (
-			<div id='Container_JoinedInstitutions' className='Wrapper__Card'>
-				<Card />
-				<Card />
+			<div id='Container_Upcoming_Featuredinstitutions'>
+				<h5>Newest Institutions</h5>
+				<div  className='Wrapper__Card'> 
+						{Institutions.map((Institution) => (
+							<InstitutionCard name={Institution.name} address={Institution.address} totalDocuments={Institution.totalDocument}  totalMembers={Institution.totalMembers} joinStatus={Institution.joinStatus}/>
+						))}
+					{/* {institutions.length > 0 &&
+						institutions.map((institution) => {
+							if (institution.status == 'active') {
+								return (
+									{Vehicles.map((Vehicle) => (
+										<Card type="Vehicles" title={Vehicle.plateNumber} subTitle1={Vehicle.model} subTitle2={Vehicle.brand} url="viewvisitor" />
+									))}
+									<InstitutionCard/>
+								);
+							}
+						})} */}
+				</div>
 			</div>
-		);
-	} 
-	// else if (props.open === 'Manageinstitutions') {
-	// 	return <div id='Container_Manageinstitutions'>
-	// 		<div className='EmtpyCard'>
-	// 			<div>
-	// 				<img src={Empty} alt="" />
-	// 				<p>You dont have any institutions to manage!</p>
-	// 			</div>
-				
-	// 		</div>
-	// 	</div>;
-	// }
+			
+		</div>
+	</>
 }
 export default Institutions;
