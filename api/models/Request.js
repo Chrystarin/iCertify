@@ -1,38 +1,36 @@
 const { Schema, model } = require('mongoose');
 const { ObjectId } = Schema.Types;
 
-const requestSchema = new Schema({
-    requestId: {
-        type: String,
-        unique: true,
-        required: true
-    },
-    requestType: {
-        type: String,
-        enum: ['event', 'certificate', 'volunteer'],
-        required: true
-    },
-    date: {
-        requested: {
-            type: Number,
-            default: Date.now()
-        },
-        completed: String
-    },
-    status: {
-        type: String,
-        required: true
-    },
-    requestor: {
-        type: ObjectId,
-        ref: 'Member',
-        required: true
-    },
-    event: {
-        type: ObjectId,
-        ref: 'Event',
-        required: true
-    }
-});
-
-module.exports = model('Request', requestSchema);
+module.exports = model(
+	'Request',
+	new Schema(
+		{
+			requestId: {
+				type: String,
+				unique: true,
+				required: true
+			},
+			requestType: {
+				type: String,
+				enum: ['insitution', 'document'],
+				required: true
+			},
+			status: {
+				type: String,
+				enum: ['pending', 'approved', 'rejected'],
+				required: true
+			},
+			requestor: {
+				type: ObjectId,
+				ref: 'User',
+				required: true
+			},
+			institution: {
+				type: ObjectId,
+				ref: 'Institution',
+				required: true
+			}
+		},
+		{ timeseries: true }
+	)
+);

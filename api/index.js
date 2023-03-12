@@ -7,6 +7,8 @@ const https = require('https');
 const fs = require('fs');
 require('dotenv/config');
 
+const { abi } = require('./build/contracts/CertificateNFT.json');
+
 const { NotFound } = require('./miscellaneous/errors');
 const authUser = require('./middlewares/authUser');
 
@@ -34,8 +36,8 @@ app.use(authUser);
 
 // Routes
 app.get('/abi', (req, res, next) => {
-    res.json(require('./build/contracts/CertificateNFT.json').abi)
-})
+	res.status(200).json(abi);
+});
 app.use('/members', memberRoute);
 app.use('/events', eventRoute);
 app.use('/certificates', certificateRoute);
@@ -45,8 +47,8 @@ app.use('/transactions', transactionRoute);
 
 app.use((req, res, next) => next(new NotFound('Route')));
 app.use((err, req, res, next) => {
-    console.log(err)
-    if (err.name === 'ValidationError') {
+	console.log(err);
+	if (err.name === 'ValidationError') {
 		err.status = 409;
 		err.message = {
 			message: err._message,
@@ -97,15 +99,15 @@ mongoose
 		// 			);
 		// 		});
 
-        //     return;
+		//     return;
 		// }
 
-        app.listen(process.env.PORT, (err) => {
-            if (err) return console.log('Error', err);
-            console.log(
-                'Connected to database\nListening on port',
-                process.env.PORT
-            );
-        });
+		app.listen(process.env.PORT, (err) => {
+			if (err) return console.log('Error', err);
+			console.log(
+				'Connected to database\nListening on port',
+				process.env.PORT
+			);
+		});
 	})
 	.catch((error) => console.log(error.message));

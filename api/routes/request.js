@@ -1,14 +1,20 @@
-const express = require('express');
-const { createRequest, getAllReqeusts, getRequest, updateStatus } = require('../controllers/requestController');
+const router = require('express').Router();
 
-const router = express.Router();
+/**
+ * Get requests
+ * 
+ * type [join | document]
+ * walletAddress
+ */
+router.get('/');
 
-// Members
-router.get('/', getAllReqeusts);
-router.get('/:requestId', getRequest);
-
-router.post('/create', createRequest);
-
-router.patch('/:requestId/status', updateStatus);
+/**
+ * Process request
+ * 
+ * type [join | document]
+ * requestId
+ * status [approved | rejected]
+ */
+router.patch('/');
 
 module.exports = router;
