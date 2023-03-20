@@ -1,127 +1,182 @@
+const { create } = require('ipfs-http-client');
 const {
-	UnprocessableRequest,
-	NotFound,
-	Unauthorized
-} = require('../miscellaneous/errors');
-const Accountant = require('../models/Accountant');
-const Event = require('../models/Event');
-const Member = require('../models/Member');
+	utils: { Interface },
+	providers: { JsonRpcProvider }
+} = require('ethers');
+
+const User = require('../models/User');
+const Institution = require('../models/Institution');
 const Transaction = require('../models/Transaction');
 
-const saveTransaction = async (req, res, next) => {
-	const {
-		senderAddress,
-		receiverAddress,
-		eventId,
-		txInfo: { hash, fee }
-	} = req.body;
+const { CustomError } = require('../miscellaneous/errors');
+const calculateHash = require('../miscellaneous/calculateHash');
+
+const { abi } = require('../build/contracts/CertificateNFT.json');
+
+const provider = new JsonRpcProvider(process.env.TEST_PROVIDER + ':7545');
+const interface = new Interface(abi);
+
+const getTransactions = async (req, res, next) => {
+	const { walletAddress } = req.query;
 
 	try {
-		if (
-			!(
-				senderAddress &&
-				typeof senderAddress === 'string' &&
-				receiverAddress &&
-				typeof receiverAddress === 'string' &&
-				eventId &&
-				typeof eventId === 'string' &&
-				hash &&
-				typeof hash === 'string' &&
-				fee &&
-				typeof fee === 'number'
-			)
-		)
-			throw new UnprocessableRequest();
+		let transactionQuery;
 
-		// Check if accountant is a member
-		const accountantMember = await Member.findOne({
-			walletAddress: senderAddress
-		}).exec();
-		if (!accountantMember)
-			throw new NotFound('Accountant must be a member');
+		// Identify user type
+		if (req.user.type == 'user') {
+			// Create a transaction query
+			transactionQuery = { user: req.user.id };
+		} else {
+			// Validate input
+			isString(walletAddress, 'Wallet Address', true);
 
-		const sender = await Accountant.findOne({
-			member: accountantMember._id
-		}).exec();
-		if (!sender) throw new Unauthorized('Accountant is not registered');
+			// Find Institution
+			const institution = await Institution.findById(req.user.id)
+				.populate('members.user')
+				.exec();
 
-		const receiver = await Member.findOne({
-			walletAddress: receiverAddress
-		}).exec();
-		if (!receiver) throw new NotFound('Address is not a member');
+			// Check if user is member of institution
+			const member = institution.members.find(
+				({ user: { walletAddress: wa } }) => walletAddress == wa
+			);
+			if (!member)
+				throw new CustomError(
+					'Member Not Found',
+					'There is no such member with that wallet address',
+					404
+				);
 
-		const event = await Event.findOne({ eventId }).exec();
-		if (!event) throw new NotFound('Event is not created yet');
+			// Create a transaction query
+			transactionQuery = { user: member.user.walletAddress };
+		}
 
-		const transaction = await Transaction.create({
-			hash,
-			fee,
-			event: event._id,
-			sender: sender._id,
-			receiver: receiver._id
+		// Get transactions
+		const transactions = await Transaction.find(transactionQuery);
+
+		res.status(200).json(transactions);
+	} catch (error) {
+		next(error);
+	}
+};
+
+const saveIpfs = async (req, res, next) => {
+	try {
+		const {
+			certificate: { mimetype, data }
+		} = req.files;
+
+		// Calculate hash of image
+		const imageHash = await calculateHash(data);
+
+		// Check if image is already saved
+		const checkIpfs = await fetch(
+			`https://icertify.infura-ipfs.io/ipfs/${imageHash}`
+		);
+		if (checkIpfs.ok)
+			throw new CustomError(
+				'Duplicate Document',
+				'Image already minted and owned by another user',
+				409
+			);
+
+		// Create ipfs instance
+		const ipfsClient = create({
+			host: 'ipfs.infura.io',
+			port: 5001,
+			protocol: 'https',
+			headers: {
+				authorization:
+					'Basic ' +
+					Buffer.from(
+						process.env.IPFS_ID + ':' + process.env.IPFS_SECRET
+					).toString('base64')
+			}
 		});
+
+		// Upload the image to ipfs
+		const ipfsData = await ipfsClient.add({ content: data });
 
 		res.status(201).json({
-			message: 'Transaction saved',
-			id: transaction._id,
-			hash
+			message: 'Image uploaded',
+			cid: ipfsData.cid
 		});
 	} catch (error) {
 		next(error);
 	}
 };
 
-const getAllTransactions = async (req, res, next) => {
-	try {
-		res.status(200).json(
-			await Transaction.find()
-				.select('-_id -__v')
-				.populate('event', '-_id eventId title')
-				.populate({
-					path: 'sender',
-					populate: {
-						path: 'member',
-						model: 'Member',
-						select: '-_id walletAddress name'
-					},
-					select: '-_id member'
-				})
-				.populate('receiver', '-_id walletAddress name')
-				.exec()
-		);
-	} catch (error) {
-		next(error);
-	}
-};
-
-const getTransaction = async (req, res, next) => {
-	const { hash } = req.params;
+const saveTransaction = async (req, res, next) => {
+	const { txHash, ownerAddress } = req.body;
 
 	try {
-		const transaction = await Transaction.findOne({ hash })
-			.select('-_id -__v')
-			.populate('event', '-_id eventId title')
-			.populate({
-				path: 'sender',
-				populate: {
-					path: 'member',
-					model: 'Member',
-					select: '-_id walletAddress name'
-				},
-				select: '-_id member'
-			})
-			.populate('receiver', '-_id walletAddress name')
+		// Validate inputs
+		isString(txHash, 'Transaction Hash');
+		isString(ownerAddress, 'Owner Wallet Address');
+
+		// Get the institution
+		const institution = await Institution.findById(req.user.id)
+			.populate('members.user')
 			.exec();
-		if (!transaction) throw new NotFound('Transaction is not saved yet');
 
-		res.status(200).json(transaction);
+		// Check if user is member of institution
+		const member = institution.members.find(
+			({ user: { walletAddress } }) =>
+				walletAddress == institution.walletAddress
+		);
+		if (!member)
+			throw new CustomError(
+				'Member Not Found',
+				'There is no such member with that wallet address',
+				404
+			);
+
+		// Check if transaction is valid
+		const transaction = await provider.getTransaction(txHash);
+		if (!transaction)
+			throw new CustomError(
+				'Invalid Transaction',
+				'Transaction Hash is not existing',
+				404
+			);
+
+		// Create transaction
+		await Transaction.create({
+			hash: txHash,
+			institution: institution._id,
+			user: member._id
+		});
+
+		// Monitor transaction (async)
+		transaction
+			.wait()
+			.then(({ logs: [log] }) =>
+				// Add record to documents owned by user
+				User.findByIdAndUpdate(
+					member._id,
+					{
+						$push: {
+							documents: {
+								nftId: interface
+									.parseLog(log)
+									.args.tokenId.toNumber()
+							}
+						}
+					},
+					{ new: true }
+				)
+			)
+			.then(({ walletAddress }) =>
+				console.log('Document saved.', walletAddress)
+			);
+
+		res.status(201).json({ message: 'Transaction saved' });
 	} catch (error) {
 		next(error);
 	}
 };
 
 module.exports = {
-	saveTransaction,
-	getAllTransactions,
-	getTransaction
+	getTransactions,
+	saveIpfs,
+	saveTransaction
 };

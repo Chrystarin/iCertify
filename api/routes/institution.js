@@ -1,24 +1,25 @@
+const { getInstitutions, getMembers, updateInstitution, registerInstitution, loginInstitution, joinInstitution } = require('../controllers/institutionController');
+
 const router = require('express').Router();
 
 /**
  * Get institutions
  *
- * [user]
- * institutionId - optional [many | one]
+ * walletAddress - optional [many | one]
  */
-router.get('/');
+router.get('/', getInstitutions);
 
 /**
  * Get members of institutions
  * 
  * walletAddress - optional [many | one]
  */
-router.get('/members');
+router.get('/members', getMembers);
 
 /**
  * Edit institution details
  */
-router.patch('/');
+router.patch('/', updateInstitution);
 
 /**
  * Register institution
@@ -26,13 +27,19 @@ router.patch('/');
  * walletAddress
  * name
  */
-router.post('/');
+router.post('/register', registerInstitution);
+
+/**
+ * Login institution
+ * 
+ * signature
+ * walletAddress
+ */
+router.post('/login', loginInstitution);
 
 /**
  * Join institution
- * 
- * walletAddress
  */
-router.post('/join');
+router.post('/join', joinInstitution);
 
 module.exports = router;

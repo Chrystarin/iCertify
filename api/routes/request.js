@@ -3,15 +3,14 @@ const router = require('express').Router();
 /**
  * Get requests
  * 
- * type [join | document]
- * walletAddress
+ * type [institution | document]
+ * walletAddress - optional [many | one]
  */
 router.get('/');
 
 /**
  * Process request
  * 
- * type [join | document]
  * requestId
  * status [approved | rejected]
  */

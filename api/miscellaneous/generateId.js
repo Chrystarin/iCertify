@@ -46,17 +46,17 @@ const randomBuffer = () => {
 	return pool;
 };
 
-let institutionNonce = 0;
 /**
- * Generates a unique id exclusive for Institutions
+ * Generates a unique id from a given nonce
  *
+ * @param {number} nonce Given nonce
  * @returns {string}
  */
-const genInstitutionId = () =>
+const generateId = (nonce) =>
 	bufferToString(
 		Buffer.concat([
 			randomBuffer(),
-			toNonceBuffer(++institutionNonce),
+			toNonceBuffer(nonce),
 			toHexBuffer(Math.floor(Date.now() / 1000))
 		])
 	);
@@ -67,16 +67,6 @@ let requestNonce = 0;
  *
  * @returns {string}
  */
-const genRequestId = () =>
-	bufferToString(
-		Buffer.concat([
-			randomBuffer(),
-			toNonceBuffer(++requestNonce),
-			toHexBuffer(Math.floor(Date.now() / 1000))
-		])
-	);
+const genRequestId = () => generateId(++requestNonce);
 
-module.exports = {
-	genInstitutionId,
-	genRequestId
-};
+module.exports = { genRequestId };

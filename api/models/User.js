@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose');
 
+const createNonce = require('../miscellaneous/createNonce');
+
 module.exports = model(
 	'User',
 	new Schema(
@@ -12,9 +14,9 @@ module.exports = model(
 			name: {
 				firstName: { type: String, required: true },
 				lastName: { type: String, required: true },
-				extension: { type: String, required: true }
+				extension: String
 			},
-			about: { type: String, required: true },
+			about: String,
 			documents: [
 				{
 					nftId: {
@@ -24,7 +26,12 @@ module.exports = model(
 					},
 					accessCodes: [{ type: String, unique: true }]
 				}
-			]
+			],
+			nonce: {
+				type: Number,
+				unique: true,
+				default: createNonce()
+			}
 		},
 		{ timestamps: true }
 	)

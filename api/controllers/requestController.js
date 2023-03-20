@@ -1,104 +1,66 @@
-const { nanoid } = require('nanoid');
+const Institution = require('../models/Institution');
 const Request = require('../models/Request');
-const Event = require('../models/Event');
-const Member = require('../models/Member');
-const { UnprocessableRequest, NotFound } = require('../miscellaneous/errors');
+const User = require('../models/User');
 
-const createRequest = async (req, res, next) => {
-    const { requestorAddress, eventId, requestType, status } = req.body;
+const getRequests = async (req, res, next) => {
+	const { type, walletAddress } = req.query;
 
-    try {
-        if(!(  requestorAddress && typeof requestorAddress === 'string'
-            && eventId          && typeof eventId === 'string'
-            && requestType      && typeof requestType === 'string'      && new Set(['event', 'document', 'volunteer']).has(requestType)
-            && status           && typeof status === 'string'
-        )) throw new UnprocessableRequest();
+	try {
+		// Validate input
+		isString(type, 'Request Type');
+		isString(walletAddress, 'Wallet Address', true);
 
-        const requestor = await Member.findOne({ walletAddress: requestorAddress }).exec();
-        if(!requestor) throw new NotFound('Requestor is not a member');
+		let requestQuery = {
+			institution: req.user.id,
+			type
+		};
 
-        const event = await Event.findOne({ eventId }).exec();
-        if(!event) throw new NotFound('Event is not created yet');
+		if (walletAddress) {
+			// Find user with wallet address
+			const user = await User.findOne({ walletAddress });
+			if (!user)
+				throw new CustomError(
+					'User Not Found',
+					'There is no such user with that wallet address',
+					404
+				);
 
-        const request = await Request.create({
-            requestId: nanoid(8),
-            requestType,
-            status,
-            requestor: requestor._id,
-            event: event._id
-        });
+			// Add requestor property to the query
+			requestQuery.requestor = user._id;
+		}
 
-        requestor.requests.push(request._id);
-        await requestor.save();
+		// Get the requests
+		const requests = await Request.find(requestQuery)
+			.populate('requestor institution')
+			.exec();
 
-        event.requests.push(request._id);
-        await event.save();
+		res.status(200).json(requests);
+	} catch (error) {
+		next(error);
+	}
+};
 
-        res.status(201).json({
-            message: 'Request submitted',
-            requestId: request.requestId
-        });
-    } catch (error) {
-        next(error);
-    }
-}
+const processRequest = async (req, res, next) => {
+	const { requestId, status } = req.body;
 
-const getAllReqeusts = async (req, res, next) => {
-    try {
-        res.status(200).json(
-            await Request
-                .find()
-                .select('-_id -__v')
-                .populate('requestor', '-_id walletAddress name')
-                .populate('event', '-_id eventId title')
-                .exec()
-        );
-    } catch (error) {
-        next(error);
-    }
-}
+	try {
+		// Validate inputs
+		isString(requestId, 'Request ID');
+		isString(status, 'Request Status');
 
-const getRequest = async (req, res, next) => {
-    const { requestId } = req.params;
+		// Find request and update
+		await Request.findOneAndUpdate(
+			{ requestId, status: 'pending' },
+			{ status }
+		);
 
-    try {
-        const request = await Request
-            .findOne({ requestId })
-            .select('-_id -__v')
-            .populate('requestor', '-_id walletAddress name')
-            .populate('event', '-_id eventId title')
-            .exec();
-        if(!request) throw new NotFound('Request is not created yet');
-
-        res.status(200).json(request);
-    } catch (error) {
-        next(error);
-    }
-}
-
-const updateStatus = async (req, res, next) => {
-    const { requestId } = req.params;
-    const { status } = req.body;
-
-    try {
-        if(!(status && typeof status === 'string'))
-            throw new UnprocessableEntity();
-
-        const request = await Request.findOne({ requestId }).exec();
-        if(!request) throw new NotFound('Request is not created yet');
-
-        request.status = status;
-        await request.save();
-
-        res.sendStatus(204);
-    } catch (error) {
-        next(error)
-    }
-}
+		res.status(200).json({ message: 'Request processed' });
+	} catch (error) {
+		next(error);
+	}
+};
 
 module.exports = {
-    createRequest,
-    getAllReqeusts,
-    getRequest,
-    updateStatus
-}
+	getRequests,
+	processRequest
+};

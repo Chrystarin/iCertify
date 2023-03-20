@@ -12,7 +12,7 @@ module.exports = model(
 			},
 			requestType: {
 				type: String,
-				enum: ['insitution', 'document'],
+				enum: ['institution', 'document'],
 				required: true
 			},
 			status: {

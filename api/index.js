@@ -10,13 +10,10 @@ require('dotenv/config');
 const { abi } = require('./build/contracts/CertificateNFT.json');
 
 const { NotFound } = require('./miscellaneous/errors');
-const authUser = require('./middlewares/authUser');
 
 // Route imports
-const eventRoute = require('./routes/event');
-const memberRoute = require('./routes/member');
-const certificateRoute = require('./routes/certificate');
-const accountantRoute = require('./routes/accountant');
+const userRoute = require('./routes/user');
+const institutionRoute = require('./routes/institution');
 const requestRoute = require('./routes/request');
 const transactionRoute = require('./routes/transaction');
 
@@ -32,16 +29,11 @@ app.use(
 	})
 );
 app.use(helmet());
-app.use(authUser);
 
 // Routes
-app.get('/abi', (req, res, next) => {
-	res.status(200).json(abi);
-});
-app.use('/members', memberRoute);
-app.use('/events', eventRoute);
-app.use('/certificates', certificateRoute);
-app.use('/accountants', accountantRoute);
+app.get('/abi', (req, res, next) => res.status(200).json(abi));
+app.use('/users', userRoute);
+app.use('/institutions', institutionRoute);
 app.use('/requests', requestRoute);
 app.use('/transactions', transactionRoute);
 
@@ -80,34 +72,21 @@ app.use((err, req, res, next) => {
 // Connect to database
 mongoose
 	.connect(process.env.TEST_MONGO)
-	.then(() => {
-		// Run server
-		// if (process.env.NODE_ENV === 'DEVELOPMENT') {
-		// 	https
-		// 		.createServer(
-		// 			{
-		// 				key: fs.readFileSync('./test/localhost.key'),
-		// 				cert: fs.readFileSync('./test/localhost.crt')
-		// 			},
-		// 			app
-		// 		)
-		// 		.listen(process.env.PORT, (err) => {
-		// 			if (err) return console.log('Error', err);
-		// 			console.log(
-		// 				'Connected to database\nListening on port',
-		// 				process.env.PORT
-		// 			);
-		// 		});
-
-		//     return;
-		// }
-
-		app.listen(process.env.PORT, (err) => {
-			if (err) return console.log('Error', err);
-			console.log(
-				'Connected to database\nListening on port',
-				process.env.PORT
-			);
-		});
-	})
+	.then(() =>
+		https
+			.createServer(
+				{
+					key: fs.readFileSync('./test/localhost.key'),
+					cert: fs.readFileSync('./test/localhost.crt')
+				},
+				app
+			)
+			.listen(process.env.PORT, (err) => {
+				if (err) return console.log('Error', err);
+				console.log(
+					'Connected to database\nListening on port',
+					process.env.PORT
+				);
+			})
+	)
 	.catch((error) => console.log(error.message));
