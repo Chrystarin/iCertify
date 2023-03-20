@@ -72,11 +72,12 @@ p{
     .Panel__Content__IconText{
         display: flex;
         gap: 10px;
+        margin-bottom: 10px;
     }
     .Panel__MultipleContent{
         display: flex;
         flex-direction: column;
-        gap: 20px;
+        gap: 15px;
         list-style: none;
     }
 }
@@ -89,6 +90,7 @@ a{
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+    align-items: start;
 }
 .EmtpyCard{
     width: 100%;
@@ -131,8 +133,6 @@ a{
     margin-bottom: 35px;
 }
 
-
-
 select{
     cursor: pointer;
     -webkit-appearance: button;
@@ -144,4 +144,57 @@ select{
 }
 .SelectDesign{
     background-attachment: red;
+}
+.Mansory__List{
+    display: grid;
+    grid-gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+}
+
+.grid {
+    columns: 18rem;
+    gap: 1rem;
+    counter-reset: grid;
+}
+
+
+.item + .item {
+    margin-top: 1rem;
+}
+
+
+
+#Content{
+    #AdminDasboard{
+        display: grid;
+        grid-template-columns: 1fr .3fr;
+        gap: 25px;
+        #Container_Event{
+            background-color: red;
+            
+        }
+        
+        #AddEventBtn{
+            padding: .49em 1em;
+            background-color: var(--accent);
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+        }
+        .Container_Filer{
+            height: 35px;
+            margin-right: 15px;
+            background-color: white;
+            border-radius: 8px;
+            float: right;
+            padding: .5em .5em;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.144);
+            img{
+                height: 100%;
+                cursor: pointer;
+            }
+            
+        }
+    } 
 }

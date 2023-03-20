@@ -97,7 +97,7 @@ function Header(props) {
           <div id='Navigation_Content'> 
               <div id="NotificatonHolder"ref={menuRef}>
                 <React.Fragment id="ProfileDropdown">
-                  <Tooltip title="Account settings">
+                  <Tooltip title="Notification">
                     <IconButton
                       onClick={handleClickNotification}
                       size="small"

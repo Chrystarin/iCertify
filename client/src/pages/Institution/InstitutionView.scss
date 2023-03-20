@@ -1,163 +1,183 @@
-#Event-View{
-    #Container_Event_Header{
-        #Holder_Wallpaper_Event{
+#Institutioin__View{
+    #Institution__Header{
+        #Institution__Wallpaper__Container{
             background-color: white;
             border-radius: 12px;
             min-height: 250px;
             max-height: 300px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.048);
         }
-        #Holder_DateButton_Event{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            transform: translateY(-35px);
-            #Holder_Date_Event{
-                margin-left: 4%;
-                padding: 2em 1em 1em;
-                border-radius: 12px;
-                max-width: 100px;
-                text-align: center;
-                background-color: white;
-                box-shadow: 0 0 15px rgba(0, 0, 0, 0.068);
-                position: relative;
+        #Institution__AvatarProfileButtons__Container{
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            transform: translate(0,-30px);
+            #AvatarProfile__Holder{
+                padding-left: 40px;
+                #AvatarProfile__Avatar{
+                    height: 140px;
+                    width: 140px;
+                    border: 5px solid white;
+                    box-shadow: 0 0 15px rgba(0, 0, 0, 0.064);
+                }
             }
-            #Holder_Date_Event::after{
-                content: "";
-                height: 20%;
-                position: absolute;
-                top: 0;
-                left: 0;
-                background-color: rgb(211, 16, 16);
-                width: 100%;
-                border-top-left-radius: 12px;
-                border-top-right-radius: 12px;
-            }
-            #Holder_Button_Event{
-                align-items: flex-end;
+            #InstitutionInformationNavigation__Container{
+                flex-grow: 1;
                 display: flex;
-                gap: 5px;
-                justify-content: end;
-                align-items: flex-end;
-                #AdminDropDownEvent__Container{
-                    position: relative;
-                    #AdminDropDownEvent{
+                transform:translate(0,15px);
+                align-items: end;
+                #InstitutionInformation__Container{
+                    flex-grow: 1;
+                    ul{
+                        list-style: none;
                         display: flex;
-                        gap: 10px;
-                        flex-direction: column;
-                        width: 260px;
-                        position: absolute;
-                        right: 0;
-                        top: calc(100% + 10px);
+                        gap: 15px;
+                        li{
+                            color: rgb(80, 80, 80);
+                            display: flex;
+                            align-items: center;
+                            gap: 5px;
+                        }
                     }
                 }
-                
-                #JoinButton__Container{
-                    display: flex;
-                    gap: 15px;
-                    align-items: center;
-                    h5{
-                        color: rgba(0, 0, 0, 0.468);
-                    }
+                #Buttons__Container{
+
                 }
-            }
-        }
-        #Holder_Title_Event{
-            margin-bottom: 25px;
-            #Date_Event{
-                color: rgb(211, 16, 16);
             }
         }
     }
-    #Container_Event_Details{
-        display: grid;
-        grid-template-columns: 1fr .3fr;
-        gap: 30px;
-
-        h4{
-            margin-bottom: 5px;
-        }
-        .Container_EventDetails{
-            background-color: white;
-            border-radius: 12px;
-            padding: 1em;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.048);
-        }
-        .Wrapper_Left_Event_Details{
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-            #Wrapper_Container{
-                display: grid;
-                grid-template-columns: 1fr .4fr;
-                gap: 30px;
-
-                #Participants{
-                    #Participants_Div{
-                        display: flex;
-                        flex-direction: column;
-                        min-height: 220px;
-                        #Participants_Texts{
-                            flex-grow: 1;
-                            display: flex;
-                            flex-direction: column;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                        #Button{
-                            
-                            float: right;
-                            width: 100px;
-                        }
-                        
-                    }
-                }
-            }
-        }
-        // .Wrapper_Left_Event_Details {  
-        //     display: grid;
-        //     grid-template-columns: 1fr 1fr 1fr;
-        //     grid-template-rows: 1fr 1fr;
-        //     gap: 25px 30px;
-        //     grid-auto-flow: row;
-        //     margin-bottom: 40px;
-
-        //     grid-template-areas:
-        //         "Container_Details Container_Details Container_Details"
-        //         "Container_Host Container_Host Container_Analytics";
-        //     .Container_Details { 
-        //         grid-area: Container_Details; 
-                
-        //     }
-        //     .Container_Host { grid-area: Container_Host; }
-        //     .Container_Analytics { grid-area: Container_Analytics; }
-        // }
-        .Wrapper_Right_Event_Details{
-            display: flex;
-            flex-direction: column ;
-            gap: 25px;
-            margin-bottom: 40px;
-
-            #Holder_Certificate_Event_Details{
-               #CertificateButton{
-                margin-top: 25px;
-                display: flex;
-                justify-content: end;
-               }
-               #Certificate__Status{
-                display: flex;
-                align-items: center;
-                gap: 10px;
-               }
-            }
-            ul{
-                list-style: none;
-            }
-
-            #Container_Multiple{
+    #InstitutionBody{
+        display: flex;
+        gap: 25px;
+        grid-area: 25px;
+        #InstitutionBody__Sidepanel{
+            width: 350px;
+            #Sticky{
+                position: sticky;
+                top: 25px;
                 display: flex;
                 flex-direction: column;
-                gap: 15px;
+                gap: 25px;
+            }
+        }
+        #InstitutionBody__Content{
+            flex-grow: 1;
+            
+            .InstitutionBody__Content__Containers{
+                .InstitutionBody__Content__Containers__Title{
+                    margin-bottom: 15px;
+                }
+                
             }
         }
     }
+    // #Container_Event_Details{
+    //     display: grid;
+    //     grid-template-columns: 1fr .3fr;
+    //     gap: 30px;
+
+    //     h4{
+    //         margin-bottom: 5px;
+    //     }
+    //     .Container_EventDetails{
+    //         background-color: white;
+    //         border-radius: 12px;
+    //         padding: 1em;
+    //         box-shadow: 0 0 15px rgba(0, 0, 0, 0.048);
+    //     }
+    //     .Wrapper_Left_Event_Details{
+    //         display: flex;
+    //         flex-direction: column;
+    //         gap: 25px;
+    //         #Wrapper_Container{
+    //             display: grid;
+    //             grid-template-columns: 1fr .4fr;
+    //             gap: 30px;
+
+    //             #Participants{
+    //                 #Participants_Div{
+    //                     display: flex;
+    //                     flex-direction: column;
+    //                     min-height: 220px;
+    //                     #Participants_Texts{
+    //                         flex-grow: 1;
+    //                         display: flex;
+    //                         flex-direction: column;
+    //                         align-items: center;
+    //                         justify-content: center;
+    //                     }
+    //                     #Button{
+                            
+    //                         float: right;
+    //                         width: 100px;
+    //                     }
+                        
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     // .Wrapper_Left_Event_Details {  
+    //     //     display: grid;
+    //     //     grid-template-columns: 1fr 1fr 1fr;
+    //     //     grid-template-rows: 1fr 1fr;
+    //     //     gap: 25px 30px;
+    //     //     grid-auto-flow: row;
+    //     //     margin-bottom: 40px;
+
+    //     //     grid-template-areas:
+    //     //         "Container_Details Container_Details Container_Details"
+    //     //         "Container_Host Container_Host Container_Analytics";
+    //     //     .Container_Details { 
+    //     //         grid-area: Container_Details; 
+                
+    //     //     }
+    //     //     .Container_Host { grid-area: Container_Host; }
+    //     //     .Container_Analytics { grid-area: Container_Analytics; }
+    //     // }
+    //     .Wrapper_Right_Event_Details{
+    //         display: flex;
+    //         flex-direction: column ;
+    //         gap: 25px;
+    //         margin-bottom: 40px;
+
+    //         #Holder_Certificate_Event_Details{
+    //            #CertificateButton{
+    //             margin-top: 25px;
+    //             display: flex;
+    //             justify-content: end;
+    //            }
+    //            #Certificate__Status{
+    //             display: flex;
+    //             align-items: center;
+    //             gap: 10px;
+    //            }
+    //         }
+    //         ul{
+    //             list-style: none;
+    //         }
+
+    //         #Container_Multiple{
+    //             display: flex;
+    //             flex-direction: column;
+    //             gap: 15px;
+    //         }
+    //     }
+    // }
 }
+.my-masonry-grid {
+    display: -webkit-box; /* Not needed if autoprefixing */
+    display: -ms-flexbox; /* Not needed if autoprefixing */
+    display: flex;
+    margin-left: -30px; /* gutter size offset */
+    width: auto;
+  }
+  .my-masonry-grid_column {
+    padding-left: 30px; /* gutter size */
+    background-clip: padding-box;
+  }
+  
+  /* Style your items */
+  .my-masonry-grid_column > div { /* change div to reference your elements you put in <Masonry> */
+    background: grey;
+    margin-bottom: 30px;
+  }

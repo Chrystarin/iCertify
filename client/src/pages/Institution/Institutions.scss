@@ -24,9 +24,7 @@
     margin-top: 20px;
     width: 100%;
 
-
     #Container_Featuredinstitutions{
-
         #Container_Ads_Featuredinstitutions{
             display: grid;
             grid-template-columns: 1fr .4fr;
@@ -50,7 +48,7 @@
                 }
             }
         }
-        #Container_Upcoming_Featuredinstitutions{
+        .InstitutionList{
             margin-top: 25px; 
             h5:nth-child(1){
                 margin-bottom: 20px;
@@ -64,7 +62,6 @@
         
     }
     #Container_JoinedInstitutions{
-        
         .EventPerMonths{
             padding: 1.5em 0;
             border-top: 1px solid rgba(0, 0, 0, 0.11);

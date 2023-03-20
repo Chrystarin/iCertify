@@ -63,15 +63,15 @@
             padding: 1em;
             background-color: white;
             padding-bottom: 25px;
-            border-top-left-radius: 25px;
-            border-top-right-radius: 25px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.127);
             position: relative;
 
             #ImageHolder__Div{
                 display: flex;
                 justify-content: center;
-                padding: 5em 0;
+                padding: 5em 0 3em;
                 #Image{
                     width: 30%;
                 }
@@ -79,6 +79,7 @@
             #EventTitle{
                 text-align: center;
                 padding: 0 1em;
+                color: var(--accent);
             }
         }
        
@@ -87,8 +88,8 @@
             color: white;
             position: relative;
             padding: 1em;
-            border-bottom-left-radius: 25px;
-            border-bottom-right-radius: 25px;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
             display: flex;
 
             #Total{

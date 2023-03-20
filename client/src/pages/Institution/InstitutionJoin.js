@@ -9,7 +9,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import PlaceHolder from '../../images/placeholder/placeholder.png';
+import PlaceHolder from '../../images/icons/DocumentIcon.png';
 
 
 function EventJoin() {
@@ -28,12 +28,11 @@ function EventJoin() {
   }
 
   const EventDetails = {
-    Title : "Blockchain Technology 101",
+    Title : "Transcript of Record",
     Certificate: true,
     Price: 400,
     Discount: "None"
   }
-
 
 
 
@@ -77,7 +76,7 @@ function EventJoin() {
                         <div id='ImageHolder__Div'>
                           <img id='Image' src={PlaceHolder} alt="" />
                         </div>
-                        <h5 id='EventTitle'>{EventDetails.Title}</h5>
+                        <h4 id='EventTitle'>{EventDetails.Title}</h4>
                         <ul>
                           <li>
                             <p>Certificate</p>
@@ -86,6 +85,10 @@ function EventJoin() {
                           <li>
                             <p>Price</p>
                             <p>500 Pesos</p>
+                          </li>
+                          <li className='ListSeperator'>
+                            <p>Discount</p>
+                            <p>50%</p>
                           </li>
                           <li className='ListSeperator'>
                             <p>Discount</p>
@@ -107,7 +110,7 @@ function EventJoin() {
             <div id="Holder_Button">
                 {/* <Button variant="outlined">Back</Button>
                 <Button variant="text">Save as draft</Button> */}
-                <Button variant="contained" endIcon={<NavigateNextIcon/>}>Next</Button>
+                <Button variant="contained" endIcon={<NavigateNextIcon/>} size="large">Request</Button>
             </div>
           </form>
         </>

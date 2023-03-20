@@ -4,7 +4,7 @@ import {ethers} from 'ethers';
 
 import Empty from '../../images/icons/empty-folder.png'
 import Card from '../../components/Card/Card.js';
-
+import DocumentCard from '../../components/Card/DocumentCard';
 import axios from '../../config/axios';
 
 
@@ -64,9 +64,16 @@ function Documents() {
                                 <Card
                                     key={ownedCertificate.certificateId}
                                     id={ownedCertificate.certificateId}
+                                    title={ownedCertificate.title}
                                     type={'certificate'}
                                     image={`https://icertify.infura-ipfs.io/ipfs/${ownedCertificate.ipfsCID}`}
                                 />
+                                // <Card
+                                //     key={ownedCertificate.certificateId}
+                                //     id={ownedCertificate.certificateId}
+                                //     type={'certificate'}
+                                //     image={`https://icertify.infura-ipfs.io/ipfs/${ownedCertificate.ipfsCID}`}
+                                // />
                             );
                     })}
                 </>

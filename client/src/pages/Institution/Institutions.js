@@ -3,7 +3,6 @@ import { ethers } from 'ethers';
 
 import './Institutions.scss';
 
-import Card from '../../components/Card/Card.js';
 import ImagePosterSample from './../../images/placeholder/PosterSample.jpg';
 import ImageAds from '../../images/Resources/Ads.png'
 import axios from '../../config/axios';
@@ -53,8 +52,6 @@ function Institutions() {
 	);
 }
 
-
-
 function Panel_institutions(props) {
 	const [JoinedInstitutions, setJoinedInstitutions] = useState(null);
 	const [walletAddress, setWalletAddress] = useState('');
@@ -93,17 +90,13 @@ function Panel_institutions(props) {
 	if (!institutions) return <div>loading...</div>;
 	// if (!joinedinstitutions) return <div>loading... No Joined institutions</div>;
 
-
 	switch (props.open) {
 		case "FeaturedInstitutions":
 			return  <FeaturedInstitution/>
 
 		case "JoinedInstitutions":
 			return (
-				<div id='Container_JoinedInstitutions' className='Wrapper__Card'>
-					<Card />
-					<Card />
-				</div>
+				<JoinedInstitution/>
 			);
 		
 		default:
@@ -122,7 +115,7 @@ function FeaturedInstitution(){
 
 	return<>
 		<div id='Container_Featuredinstitutions'>
-			<div id='Container_Ads_Featuredinstitutions'>
+			{/* <div id='Container_Ads_Featuredinstitutions'>
 				<div id='Slider_Featuredinstitutions'>
 					<a href='http://'>
 						<img
@@ -134,13 +127,13 @@ function FeaturedInstitution(){
 				<div id='Ads_Featuredinstitutions'>
 					<img src={ImageAds} alt="" />
 				</div>
-			</div>
-			<div id='Container_Upcoming_Featuredinstitutions'>
+			</div> */}
+			<div className='InstitutionList'>
 				<h5>Newest Institutions</h5>
 				<div  className='Wrapper__Card'> 
-						{Institutions.map((Institution) => (
-							<InstitutionCard name={Institution.name} address={Institution.address} totalDocuments={Institution.totalDocument}  totalMembers={Institution.totalMembers} joinStatus={Institution.joinStatus}/>
-						))}
+					{Institutions.map((Institution) => (
+						<InstitutionCard name={Institution.name} address={Institution.address} totalDocuments={Institution.totalDocument}  totalMembers={Institution.totalMembers} joinStatus={Institution.joinStatus}/>
+					))}
 					{/* {institutions.length > 0 &&
 						institutions.map((institution) => {
 							if (institution.status == 'active') {
@@ -154,7 +147,39 @@ function FeaturedInstitution(){
 						})} */}
 				</div>
 			</div>
-			
+			<div className='InstitutionList'>
+				<h5>Newest Institutions</h5>
+				<div  className='Wrapper__Card'> 
+					{Institutions.map((Institution) => (
+						<InstitutionCard name={Institution.name} address={Institution.address} totalDocuments={Institution.totalDocument}  totalMembers={Institution.totalMembers} joinStatus={Institution.joinStatus}/>
+					))}
+					{/* {institutions.length > 0 &&
+						institutions.map((institution) => {
+							if (institution.status == 'active') {
+								return (
+									{Vehicles.map((Vehicle) => (
+										<Card type="Vehicles" title={Vehicle.plateNumber} subTitle1={Vehicle.model} subTitle2={Vehicle.brand} url="viewvisitor" />
+									))}
+									<InstitutionCard/>
+								);
+							}
+						})} */}
+				</div>
+			</div>
+		</div>
+	</>
+}
+function JoinedInstitution(){
+	const JoinedInstitutions = [
+		{ name : 'OLOPSC', address:"L. De Guzman St, Marikina, Metro Manila", totalMembers:"450", totalDocument:"3000",joinStatus: true},
+		{ name : 'OLFU', address:"L. De Guzman St, Marikina, Metro Manila", totalMembers:"450", totalDocument:"3000",joinStatus: true},
+	];
+
+	return<>
+		<div id='Container_JoinedInstitutions' className='Wrapper__Card'>
+			{JoinedInstitutions.map((Institution) => (
+				<InstitutionCard name={Institution.name} address={Institution.address} totalDocuments={Institution.totalDocument}  totalMembers={Institution.totalMembers} joinStatus={Institution.joinStatus}/>
+			))}
 		</div>
 	</>
 }

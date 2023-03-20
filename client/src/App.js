@@ -25,7 +25,7 @@ import ProfileUpdate from './pages/Profile/ProfileUpdate';
 
 // Admin
 import AdminPanel from './routes/Admin.js';
-import DocumentsOffered from './pages/Institution/Admin/DocumentsOffered.js';
+import DocumentsOffered from './pages/Documents/DocumentsOffered.js';
 import A_EventCreate from './pages/Institution/Admin/EventCreate.js';
 import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js';
 import MintTransfer from './pages/MintTransfer/MintTransfer.js';
@@ -60,8 +60,9 @@ function App() {
                 <Route path='documents' element={<Document />} />
 				<Route path='document/:id' element={<DocumentPage />} />
 				<Route path='institutions' element={<Institutions />}/>
-				<Route path='institution/:id' element={<Institution_View />} />
-				<Route path='institution/:id/join' element={<JoinInstution />} />
+				{/* <Route path='institution/:id' element={<Institution_View />} /> */}
+				<Route path='institution/view' element={<Institution_View />} />
+				<Route path='institution/join' element={<JoinInstution/>} />
 				<Route path=':id' element={<Profile />} />
 				<Route path=':id/edit' element={<ProfileUpdate />}/>
 			</Route>

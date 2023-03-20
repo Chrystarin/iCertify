@@ -15,10 +15,9 @@ import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import PremiumIcon from '@mui/icons-material/WorkspacePremium';
 
 import Card from '../../components/Card/Card.js';
-import CredentialList from '../../components/Table/Table';
 import { Button } from '@mui/material';
 import axios from '../../config/axios';
-
+import InstitutionCard from '../../components/Card/InstitutionCard.js'
 import Empty from '../../images/icons/empty-folder.png'
 function Profile() {
 	const { id } = useParams();
@@ -191,45 +190,10 @@ function Profile() {
 						</div>
 					</div>
 				</div>
+				
 				<div id='Content__Div'>
-					<section>
-						<h5 className='Panel__Title'>Events</h5>
-						{(joinedEvents.length === 0 )?
-							<>
-								<div className='EmtpyCard'>
-									<div>
-										<img src={Empty} alt="" />
-										<p>No joined events available!</p>
-									</div>
-									
-								</div>
-							</>
-							:
-							<>
-								<div className='Wrapper__Card'>
-									{joinedEvents.length > 0 &&
-										joinedEvents.map((joinedEvent) => {
-										return (
-											<Card
-												title={joinedEvent.event.title}
-												key={joinedEvent.event.eventId}
-												id={joinedEvent.event.eventId}
-												role={joinedEvent.role}
-												type={'event'}
-											/>
-										);
-									})}
-								</div>
-							</>
-						}
-							
-					</section>
-
-					<section>
+				<section>
 						<h5 className='Panel__Title'>Certificates </h5>
-						{/* <div className=''>
-                        <CredentialList/>
-                    </div> */}
 
 					{(ownedCertificates.length === 0 )?
 							<>
@@ -259,6 +223,41 @@ function Profile() {
 						}			
 						
 					</section>
+					<section>
+						<h5 className='Panel__Title'>Institutions</h5>
+						{(joinedEvents.length === 0 )?
+							<>
+								<div className='EmtpyCard'>
+									<div>
+										<img src={Empty} alt="" />
+										<p>No joined events available!</p>
+									</div>
+									
+								</div>
+							</>
+							:
+							<>
+								<div className='Wrapper__Card'>
+									{joinedEvents.length > 0 &&
+										joinedEvents.map((joinedEvent) => {
+										return <>
+											
+											<InstitutionCard 
+												name={joinedEvent.event.title} 
+												address={"wewe"} 
+												totalDocuments={300}  
+												totalMembers={400} 
+												joinStatus={true}
+											/>
+										</>
+									})}
+								</div>
+							</>
+						}
+							
+					</section>
+
+					
 				</div>
 			</div>
 		</div>
