@@ -4,12 +4,14 @@ const {
 	saveIpfs,
 	saveTransaction
 } = require('../controllers/transactionController');
+const { onlyInstitution } = require('../middlewares/authorize');
 const router = require('express').Router();
 
 /**
  * Get the transactions
  *
  * walletAddress - optional
+ * hash - optional
  */
 router.get('/', getTransactions);
 
@@ -18,7 +20,7 @@ router.get('/', getTransactions);
  *
  * document (file)
  */
-router.post('/ipfs', fileUpload(), saveIpfs);
+router.post('/ipfs', fileUpload(), onlyInstitution, saveIpfs);
 
 /**
  * Save the transaction
@@ -26,6 +28,6 @@ router.post('/ipfs', fileUpload(), saveIpfs);
  * ownerAddress
  * txHash
  */
-router.post('/save', saveTransaction);
+router.post('/save', onlyInstitution, saveTransaction);
 
 module.exports = router;

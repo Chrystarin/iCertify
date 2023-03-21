@@ -12,13 +12,13 @@ module.exports = model(
 			},
 			requestType: {
 				type: String,
-				enum: ['institution', 'document'],
+				enum: ['join', 'document'],
 				required: true
 			},
 			status: {
 				type: String,
 				enum: ['pending', 'approved', 'rejected'],
-				required: true
+				default: 'pending'
 			},
 			requestor: {
 				type: ObjectId,
@@ -31,6 +31,6 @@ module.exports = model(
 				required: true
 			}
 		},
-		{ timeseries: true }
+		{ timestamps: true }
 	)
 );

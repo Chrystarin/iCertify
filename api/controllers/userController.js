@@ -9,6 +9,7 @@ const createToken = require('../miscellaneous/createToken');
 const { isString } = require('../miscellaneous/checkInput');
 const { CustomError } = require('../miscellaneous/errors');
 const verifySignature = require('../miscellaneous/verifySignature');
+const { USER } = require('../miscellaneous/userRoles');
 
 const registerUser = async (req, res, next) => {
 	const { walletAddress, firstName, lastName, extension, about } = req.body;
@@ -51,7 +52,7 @@ const registerUser = async (req, res, next) => {
 				'access-token',
 				createToken({
 					id: user._id,
-					type: 'user',
+					type: USER,
 					walletAddress
 				}),
 				{
@@ -86,7 +87,7 @@ const loginUser = async (req, res, next) => {
 				'access-token',
 				createToken({
 					id: user._id,
-					type: 'user',
+					type: USER,
 					walletAddress
 				}),
 				{
@@ -108,7 +109,7 @@ const getUser = async (req, res, next) => {
 		// Validate input
 		isString(walletAddress, 'Wallet Address');
 
-		// Find users
+		// Find user
 		const user = await User.findOne({ walletAddress });
 
 		res.status(200).json(user);

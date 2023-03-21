@@ -2,8 +2,10 @@ const {
 	registerUser,
 	getUser,
 	updateUser,
-    loginUser
+	loginUser
 } = require('../controllers/userController');
+const authenticate = require('../middlewares/authenticate');
+const { onlyUser } = require('../middlewares/authorize');
 
 const router = require('express').Router();
 
@@ -20,31 +22,29 @@ router.post('/register', registerUser);
 
 /**
  * Login user
- * 
+ *
  * signature
  * walletAddress
  */
 router.post('/login', loginUser);
 
+router.use(authenticate);
+
 /**
- * [REGISTERED - User]
- * 
  * Get user
  *
  * walletAddress - optional [other | self]
  */
-router.get('/', getUser);
+router.get('/', onlyUser, getUser);
 
 /**
- * [REGISTERED - Self]
- * 
  * Update user
- * 
+ *
  * firstName
  * lastName
  * extension
  * about
  */
-router.patch('/', updateUser);
+router.patch('/', onlyUser, updateUser);
 
 module.exports = router;

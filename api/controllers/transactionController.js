@@ -10,23 +10,25 @@ const Transaction = require('../models/Transaction');
 
 const { CustomError } = require('../miscellaneous/errors');
 const calculateHash = require('../miscellaneous/calculateHash');
+const { INSTITUTION } = require('../miscellaneous/userRoles');
 
 const { abi } = require('../build/contracts/CertificateNFT.json');
-
+const { isString } = require('../miscellaneous/checkInput');
 const provider = new JsonRpcProvider(process.env.TEST_PROVIDER + ':7545');
 const interface = new Interface(abi);
 
 const getTransactions = async (req, res, next) => {
-	const { walletAddress } = req.query;
+	const { walletAddress, txHash } = req.query;
 
 	try {
-		let transactionQuery;
+		// Validate input
+		isString(txHash, 'Transaction Hash', true);
 
-		// Identify user type
-		if (req.user.type == 'user') {
-			// Create a transaction query
-			transactionQuery = { user: req.user.id };
-		} else {
+		// Create transaction query (defaults to user)
+		let transactionQuery = { user: req.user.id, hash: txHash };
+
+		// User is institution
+		if (req.user.type == INSTITUTION) {
 			// Validate input
 			isString(walletAddress, 'Wallet Address', true);
 
@@ -35,19 +37,31 @@ const getTransactions = async (req, res, next) => {
 				.populate('members.user')
 				.exec();
 
-			// Check if user is member of institution
-			const member = institution.members.find(
-				({ user: { walletAddress: wa } }) => walletAddress == wa
-			);
-			if (!member)
-				throw new CustomError(
-					'Member Not Found',
-					'There is no such member with that wallet address',
-					404
+			// Check if member wallet address is given
+			if (walletAddress) {
+				// Check if the given wallet address is member of institution
+				const member = institution.members.find(
+					({ user: { walletAddress: wa } }) => walletAddress === wa
 				);
+				if (!member)
+					throw new CustomError(
+						'Member Not Found',
+						'There is no such member with that wallet address',
+						404
+					);
 
-			// Create a transaction query
-			transactionQuery = { user: member.user.walletAddress };
+				// Modify transaction query
+				transactionQuery = {
+					...transactionQuery,
+					user: member.user._id
+				};
+			}
+
+			// Modify transaction query
+			transactionQuery = {
+				...transactionQuery,
+				institution: institution._id
+			};
 		}
 
 		// Get transactions
@@ -143,7 +157,7 @@ const saveTransaction = async (req, res, next) => {
 		await Transaction.create({
 			hash: txHash,
 			institution: institution._id,
-			user: member._id
+			user: member.user._id
 		});
 
 		// Monitor transaction (async)
