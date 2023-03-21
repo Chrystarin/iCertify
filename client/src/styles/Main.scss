@@ -198,3 +198,12 @@ select{
         }
     } 
 }
+.NavigationSidetoSide{
+    display: flex;
+    margin-bottom: 25px;
+    .NavigationSidetoSide__Right__Container{
+        flex-grow: 1;
+        display: flex;
+        justify-content: end;
+    }
+}

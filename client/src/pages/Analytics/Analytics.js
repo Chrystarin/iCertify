@@ -1,5 +1,5 @@
 import React, { useState, useEffect }  from 'react'
-import './DashboardAdmin.scss'
+import './Analytics.scss'
 import UserPanelInfo from '../../components/UserPanel/UserPanelInfo'
 import SampleImage from '../../images/Resources/Developers/Dianne.jpg'
 import DashboardPlaceHolder from '../../images/placeholder/EventDashboard.JPG'

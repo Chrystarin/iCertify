@@ -30,9 +30,9 @@ import A_EventCreate from './pages/Institution/Admin/EventCreate.js';
 import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js';
 import MintTransfer from './pages/MintTransfer/MintTransfer.js';
 import CertificateGenerateEventsList from './pages/CertificateGenerator/CertificateGenerateEventsList.js';
-import DashboardAdmin from './pages/Dashboard/DashboardAdmin';
+import DashboardAdmin from './pages/Analytics/Analytics';
 import CertificateComponent from './components/Certificate/Certificate.js';
-
+import MemberList from './pages/Member/MemberList.js';
 import PublicPanel from './routes/Public.js';
 // const ROLES = {
 //   member: '46936',
@@ -70,7 +70,7 @@ function App() {
             {/* Admin Routes */}
 			<Route path='/a' element={<AdminPanel />} >
                 <Route path='*' element={<Error />}/>
-                <Route path='dashboard' element={<DashboardAdmin />}/>
+                <Route path='analytics' element={<DashboardAdmin />}/>
                 <Route path='member/:id' element={<Profile />} />
 				<Route path='documents' element={<DocumentsOffered />} />
                 <Route path='events/create' element={<A_EventCreate />} />
@@ -79,6 +79,7 @@ function App() {
                 <Route path='events/:id/certgen' element={<MintTransfer />} />
                 <Route path='certificates' element={<CertificateGenerateEventsList />} />
                 <Route path='certificates/event/:id' element={<MintTransfer />} />
+				<Route path='members' element={<MemberList />} />
 			</Route>
 
             <Route path='*' element={<Error />}/>
