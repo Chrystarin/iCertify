@@ -1,0 +1,32 @@
+const jwt = require('jsonwebtoken');
+const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } = process.env;
+
+const duration = {
+	access: 5 * 60 * 1000,           // 5 minutes
+	refresh: 7 * 24 * 60 * 60 * 1000 // 7 days
+};
+
+const cookieOptions = {
+	httpOnly: true,
+	sameSite: 'strict',
+	secure: true
+};
+
+// JWT signer
+const sign = (payload, secret, expiresIn) =>
+	jwt.sign({ ...payload, createdAt: new Date() }, secret, { expiresIn });
+
+// Sign an access-token
+const signAccess = async (payload) =>
+	sign(payload, JWT_ACCESS_SECRET, duration.access);
+
+// Sign a refresh-token
+const signRefresh = async (payload) =>
+	sign(payload, JWT_REFRESH_SECRET, duration.refresh);
+
+module.exports = {
+	duration,
+	cookieOptions,
+	signAccess,
+	signRefresh
+};

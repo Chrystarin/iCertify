@@ -1,25 +1,70 @@
 const { Schema, model } = require('mongoose');
 const { ObjectId } = Schema.Types;
 
-const createNonce = require('../miscellaneous/createNonce');
-
 module.exports = model(
 	'Institution',
 	new Schema(
 		{
-			walletAddress: { type: String, unique: true, required: true },
-			name: { type: String, required: true },
+			walletAddress: {
+				type: String,
+				unique: true,
+				required: [true, 'Wallet address is required']
+			},
+			name: { type: String, required: [true, 'Name is required'] },
+			instType: {
+				type: String,
+				enum: {
+					values: ['organization', 'school', 'corporation'],
+					message: "'{VALUE}' is not supported as institution type"
+				},
+				required: true
+			},
+			email: { type: String, required: [true, 'Email is required'] },
+			about: String,
+			address: String,
+			website: String,
+			contactNo: Number,
+			photos: { profile: String, cover: String },
+			needs: {
+				ID: { type: Boolean, default: false },
+				membership: { type: Boolean, default: false }
+			},
 			members: [
 				{
-					user: { type: ObjectId, ref: 'User', required: true },
+					user: {
+						type: ObjectId,
+						ref: 'User',
+						required: [true, 'User id is required']
+					},
+					idNumber: String,
 					joinedAt: { type: Date, default: new Date() }
 				}
 			],
-			nonce: {
-				type: Number,
-				unique: true,
-				default: createNonce()
-			}
+			docOffers: [
+				{
+					docId: {
+						type: String,
+						unique: true,
+						required: [true, 'docId is required']
+					},
+					title: {
+						type: String,
+						required: [true, 'Title is required']
+					},
+					description: {
+						type: String,
+						required: [true, 'Description is required']
+					},
+					price: {
+						type: Number,
+						required: [true, 'Price is required']
+					},
+					requirements: {
+						type: String,
+						required: [true, 'Requirements is required']
+					}
+				}
+			]
 		},
 		{ timestamps: true }
 	)

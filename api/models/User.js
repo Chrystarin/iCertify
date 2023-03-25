@@ -1,7 +1,5 @@
 const { Schema, model } = require('mongoose');
 
-const createNonce = require('../miscellaneous/createNonce');
-
 module.exports = model(
 	'User',
 	new Schema(
@@ -9,29 +7,42 @@ module.exports = model(
 			walletAddress: {
 				type: String,
 				unique: true,
-				required: true
+				required: [true, 'Wallet address is required']
 			},
 			name: {
-				firstName: { type: String, required: true },
-				lastName: { type: String, required: true },
-				extension: String
+				firstName: {
+					type: String,
+					required: [true, 'First name is required']
+				},
+				middleName: String,
+				lastName: {
+					type: String,
+					required: [true, 'Last name is required']
+				}
 			},
+			email: {
+				type: String,
+				unique: true,
+				required: [true, 'Email is required']
+			},
+			birthDate: {
+				type: Date,
+				required: [true, 'Birth date is required']
+			},
+			address: String,
+			contactNo: String,
+			photo: String,
 			about: String,
 			documents: [
 				{
 					nftId: {
 						type: Number,
-						required: true,
+						required: [true, 'NFT ID is required'],
 						unique: true
 					},
 					accessCodes: [{ type: String, unique: true }]
 				}
-			],
-			nonce: {
-				type: Number,
-				unique: true,
-				default: createNonce()
-			}
+			]
 		},
 		{ timestamps: true }
 	)

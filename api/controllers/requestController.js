@@ -2,174 +2,202 @@ const Institution = require('../models/Institution');
 const Request = require('../models/Request');
 const User = require('../models/User');
 
-const { isString } = require('../miscellaneous/checkInput');
-const { JOIN, DOCUMENT } = require('../miscellaneous/requestType');
+const {
+	requests: { JOIN, DOCUMENT },
+	roles: { USER, INSTITUTION }
+} = require('../miscellaneous/constants');
+const {
+	MemberNotFound,
+	NotFound,
+	InstitutionNotFound,
+	DuplicateEntry
+} = require('../miscellaneous/errors');
 const { genRequestId } = require('../miscellaneous/generateId');
-const { CustomError } = require('../miscellaneous/errors');
-const { USER, INSTITUTION } = require('../miscellaneous/userRoles');
+const { isString } = require('../miscellaneous/checkInput');
 
 const getRequests = async (req, res, next) => {
 	const { type, walletAddress, requestId } = req.query;
 
-	try {
-		// Validate inputs
-		isString(type, 'Request Type');
-		isString(requestId, 'Request ID', true);
+	// Validate inputs
+	isString(type, 'Request Type');
 
-		// Create request query
-		let requestQuery = { requestType: type };
+	// Create request query
+	let requestQuery = { requestType: type };
 
-		// Add requestId to query if it is given
-		if (requestId) requestQuery = { ...requestQuery, requestId };
-
-		if (req.user.type == USER)
-			requestQuery = { ...requestQuery, requestor: req.user.id };
-
-		if (req.user.type == INSTITUTION) {
-			// Validate input
-			isString(walletAddress, 'Member Wallet Address', true);
-
-			// Add insitution property to the request query
-			requestQuery = { ...requestQuery, institution: req.user.id };
-
-			// Check if member wallet address is given
-			if (walletAddress) {
-				// Get the institution
-				const institution = await Institution.findById(req.user.id)
-					.populate('members.user')
-					.exec();
-
-				// Check if member wallet address is member of institution
-				const member = institution.members.find(
-					({ user: { walletAddress: wa } }) => walletAddress === wa
-				);
-				if (!member)
-					throw new CustomError(
-						'Member Not Found',
-						'There is no such member with that wallet address',
-						404
-					);
-
-				// Add requestor property to the query
-				requestQuery = { ...requestQuery, requestor: member.user.id };
-			}
-		}
-
-		// Get the requests
-		const requests = await Request.find(requestQuery)
-			.populate('requestor institution')
-			.exec();
-
-		res.status(200).json(requests);
-	} catch (error) {
-		next(error);
+	// Add requestId to query if it is given
+	if (requestId) {
+		isString(requestId, 'Request ID');
+		requestQuery = { ...requestQuery, requestId };
 	}
+
+	if (req.user.type == USER)
+		requestQuery = { ...requestQuery, requestor: req.user.id };
+
+	if (req.user.type == INSTITUTION) {
+		// Validate input
+		isString(walletAddress, 'Member Wallet Address', true);
+
+		// Add insitution property to the request query
+		requestQuery = { ...requestQuery, institution: req.user.id };
+
+		// Check if member wallet address is given
+		if (walletAddress) {
+			// Get the institution
+			const institution = await Institution.findById(req.user.id)
+				.populate('members.user')
+				.exec();
+
+			// Check if member wallet address is member of institution
+			const member = institution.members.find(
+				({ user: { walletAddress: wa } }) => walletAddress === wa
+			);
+			if (!member) throw new MemberNotFound();
+
+			// Add requestor property to the query
+			requestQuery = { ...requestQuery, requestor: member.user.id };
+		}
+	}
+
+	// Get the requests
+	const requests = await Request.find(requestQuery)
+		.populate('requestor institution')
+		.exec();
+
+	res.status(200).json(requests);
 };
 
 const processRequest = async (req, res, next) => {
 	const { requestId, status } = req.body;
 
-	try {
-		// Validate inputs
-		isString(requestId, 'Request ID');
-		isString(status, 'Request Status');
+	// Validate inputs
+	isString(requestId, 'Request ID');
+	isString(status, 'Request Status');
 
-		// Find request
-		const request = await Request.findOne({ requestId, status: 'pending' });
-		if (!request)
-			throw new CustomError(
-				'Request Not Found',
-				'There is no such request with the given requestId that is pending',
-				404
-			);
+	// Find request
+	const request = await Request.findOne({ requestId, status: 'pending' })
+		.populate('institution')
+		.exec();
+	if (!request)
+		throw new NotFound(
+			'There is no such request with the given requestId that is pending'
+		);
 
-		// Update status
-		request.status = status;
-		await request.save();
+	if (status === 'approved') {
+		// Join the requestor to institution
+		if (request.requestType === JOIN) {
+			await Institution.findByIdAndUpdate(request.institution, {
+				$push: {
+					members: {
+						user: request.requestor,
+						idNumber: request.details.idNumber
+					}
+				}
+			});
+		}
 
-		res.status(200).json({ message: 'Request processed' });
-	} catch (error) {
-		next(error);
+		if (request.requestType === DOCUMENT) {
+		}
 	}
+
+	// Update status
+	request.status = status;
+	await request.save();
+
+	res.status(200).json({ message: 'Request processed' });
 };
 
 const createRequest = async (req, res, next) => {
 	const { type, walletAddress } = req.body;
 
-	try {
-		// Validate inputs
-		isString(type, 'Request Type');
-		isString(walletAddress, 'Institution Wallet Address');
+	// Validate inputs
+	isString(type, 'Request Type');
+	isString(walletAddress, 'Institution Wallet Address');
 
-		// Find institution
-		const institution = await Institution.findOne({ walletAddress });
-		if (!institution)
-			throw new CustomError(
-				'Institution Not Found',
-				'There is no such institution with that wallet address',
-				404
-			);
+	// Find institution
+	const institution = await Institution.findOne({ walletAddress });
+	if (!institution) throw new InstitutionNotFound();
 
-		// Find member
-		const member = institution.members.find(({ user }) =>
-			user.equals(req.user.id)
-		);
+	// Find member
+	const member = institution.members.find(({ user }) =>
+		user.equals(req.user.id)
+	);
 
-		let requestParams = {
-			requestId: genRequestId(),
-			requestor: req.user.id,
-			institution: institution._id
+	let requestParams = {
+		requestId: genRequestId(),
+		requestor: req.user.id,
+		institution: institution._id
+	};
+
+	if (type == JOIN) {
+		// Check if user is already a member of the institution
+		if (member)
+			new DuplicateEntry('User is already a member of the institution');
+
+		const requestDetails = {};
+
+		// Check if ID number is required
+		if (institution.needs.ID) {
+			const { idNumber } = req.body;
+
+			// Validate input
+			isString(idNumber, 'ID Number');
+
+			// Add idNumber to the request details
+			requestDetails = { ...requestDetails, idNumber };
+		}
+
+		// Check if proof of membership is required
+		if (institution.needs.membership) {
+			const { membership } = req.body;
+
+			// Validate input
+			isString(membership, 'Proof of Membership');
+
+			// Add membership to the request details
+			requestDetails = { ...requestDetails, membership };
+		}
+
+		// Add requestType to requestParams
+		requestParams = {
+			...requestParams,
+			requestType: JOIN,
+			details: requestDetails
 		};
+	}
 
-		if (type == JOIN) {
-			// Check if user is already a member of the institution
-			if (member)
-				throw new CustomError(
-					'Member Already',
-					'User is already a member of the institution',
-					409
-				);
+	if (type == DOCUMENT) {
+		// Check if user is a member of the institution
+		if (!member) throw new MemberNotFound();
 
-			// Add requestType to requestParams
-			requestParams = { ...requestParams, requestType: JOIN };
-		}
+		const { docId } = req.body;
 
-		if (type == DOCUMENT) {
-			// Check if user is a member of the institution
-			if (!member) {
-				throw new CustomError(
-					'Member Not Found',
-					'There is no such member with that wallet address',
-					404
-				);
-			}
+		// Validate input
+		isString(docId, 'Document ID');
 
-			// Add requestType to requestParams
-			requestParams = { ...requestParams, requestType: DOCUMENT };
-		}
-
-		// Check if requestParams has requestType
-		if (!requestParams.requestType)
-			throw new CustomError(
-				'Invalid Request Type',
-				'The given request type is not an option',
-				403
+		// Check if document is offered by the institution
+		const offeredDoc = institution.docOffers.find(
+			({ docId: di }) => docId === di
+		);
+		if (!offeredDoc)
+			throw new NotFound(
+				'The document is not offered by the institution'
 			);
 
-		// Create request
-		await Request.create(requestParams);
-
-		res.status(201).json({
-			message: 'Request saved',
-			requestId: requestParams.requestId
-		});
-	} catch (error) {
-		next(error);
+		// Add requestType to requestParams
+		requestParams = {
+			...requestParams,
+			requestType: DOCUMENT,
+			details: { docId }
+		};
 	}
+
+	// Create request
+	await Request.create(requestParams);
+
+	res.status(201).json({
+		message: 'Request saved',
+		requestId: requestParams.requestId
+	});
 };
 
-module.exports = {
-	getRequests,
-	createRequest,
-	processRequest
-};
+module.exports = { getRequests, createRequest, processRequest };

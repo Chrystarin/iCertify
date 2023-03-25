@@ -1,14 +1,17 @@
+const router = require('express').Router();
+
+const asyncHandler = require('../middlewares/asyncHandler');
+const authenticate = require('../middlewares/authenticate');
+const { onlyInstitution } = require('../middlewares/authorize');
 const {
 	getInstitutions,
 	getMembers,
 	updateInstitution,
 	registerInstitution,
-	loginInstitution
-} = require('../controllers/institutionController');
-const authenticate = require('../middlewares/authenticate');
-const { onlyInstitution, onlyUser } = require('../middlewares/authorize');
-
-const router = require('express').Router();
+	loginInstitution,
+	addOfferedDoc,
+	getOfferedDocs
+} = asyncHandler(require('../controllers/institutionController'));
 
 /**
  * Register institution
@@ -36,6 +39,13 @@ router.use(authenticate);
 router.get('/', getInstitutions);
 
 /**
+ * Edit institution details
+ *
+ * name
+ */
+router.patch('/', onlyInstitution, updateInstitution);
+
+/**
  * Get members of institutions
  *
  * walletAddress - optional [many | one]
@@ -43,10 +53,20 @@ router.get('/', getInstitutions);
 router.get('/members', onlyInstitution, getMembers);
 
 /**
- * Edit institution details
+ * Add an offered doc
  *
- * name
+ * title
+ * description
+ * price
+ * requirements
  */
-router.patch('/', onlyInstitution, updateInstitution);
+router.post('/offers', onlyInstitution, addOfferedDoc);
+
+/**
+ * Get all offered docs
+ *
+ * walletAddress - optional [user | institution]
+ */
+router.get('/offers', getOfferedDocs);
 
 module.exports = router;

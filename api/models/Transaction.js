@@ -8,17 +8,25 @@ module.exports = model(
 			hash: {
 				type: String,
 				unique: true,
-				required: true
+				required: [true, 'Transaction hash is required']
 			},
 			institution: {
 				type: ObjectId,
 				ref: 'Institution',
-				required: true
+				required: [true, 'Institution is required']
 			},
 			user: {
 				type: ObjectId,
 				ref: 'User',
-				required: true
+				required: [true, 'User is required']
+			},
+			status: {
+				type: String,
+				enum: {
+					values: ['pending', 'success', 'failed'],
+					message: "'{VALUE}' is not supported transaction status"
+				},
+				default: 'pending'
 			}
 		},
 		{ timestamps: true }

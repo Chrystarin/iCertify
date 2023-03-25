@@ -1,13 +1,11 @@
-const {
-	registerUser,
-	getUser,
-	updateUser,
-	loginUser
-} = require('../controllers/userController');
+const router = require('express').Router();
+
+const asyncHandler = require('../middlewares/asyncHandler');
 const authenticate = require('../middlewares/authenticate');
 const { onlyUser } = require('../middlewares/authorize');
-
-const router = require('express').Router();
+const { registerUser, getUser, updateUser, loginUser } = asyncHandler(
+	require('../controllers/userController')
+);
 
 /**
  * Register user

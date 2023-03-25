@@ -1,14 +1,14 @@
 const {
 	utils: { verifyMessage }
 } = require('ethers');
-const { CustomError } = require('./errors');
 
-module.exports = async (signature, walletAddress, Model) => {
-	const { nonce } = await Model.findOne({ walletAddress });
-	if (verifyMessage(`Nonce: ${nonce}`, signature) !== walletAddress)
-		throw new CustomError(
-			'Invalid Signature',
-			"Signer address doesn't much the wallet address",
-			401
+const { Unauthorized } = require('./errors');
+
+const message = 'Test message';
+
+module.exports = async (signature, walletAddress) => {
+	if (verifyMessage(message, signature) !== walletAddress)
+		throw new Unauthorized(
+			"Signer address doesn't much the wallet address"
 		);
 };

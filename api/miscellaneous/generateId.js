@@ -69,4 +69,12 @@ let requestNonce = 0;
  */
 const genRequestId = () => generateId(++requestNonce);
 
-module.exports = { genRequestId };
+let docNonce = 0;
+/**
+ * Generates a unique id exclusive for Requests
+ *
+ * @returns {string}
+ */
+const genDocId = () => generateId(++docNonce);
+
+module.exports = { genRequestId, genDocId };

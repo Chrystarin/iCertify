@@ -1,47 +1,68 @@
 class NotFound extends Error {
-    constructor(message) {
-        super(message);
-        this.name = 'NotFound';
-        this.status = 404;
-    }
-}
-
-class UnprocessableRequest extends Error {
-    constructor() {
-        super('Invalid request body')
-        this.name = 'UnprocessableRequest';
-        this.status = 422;
-    }
-}
-
-class Unauthorized extends Error {
-    constructor(message) {
-        super(message);
-        this.name = 'Unauthorized';
-        this.status = 401;
-    }
+	constructor(message) {
+		super(message);
+		this.name = 'NotFound';
+		this.status = 404;
+	}
 }
 
 class Forbidden extends Error {
-    constructor(message) {
-        super(message);
-        this.name = 'Forbidden';
-        this.status = 403;
-    }
+	constructor(message) {
+		super(message);
+		this.name = 'ForbiddenAction';
+		this.status = 403;
+	}
 }
 
-class CustomError extends Error {
-    constructor(name, message, status) {
-        super(message);
-        this.name = name;
-        this.status = status;
-    }
+class Unauthorized extends Error {
+	constructor(message) {
+		super(message);
+		this.name = 'UnauthorizedAction';
+		this.status = 401;
+	}
+}
+
+class InvalidInput extends Error {
+	constructor(message) {
+		super(message);
+		this.name = 'InvalidInput';
+		this.status = 422;
+	}
+}
+
+class InstitutionNotFound extends NotFound {
+	constructor() {
+		super('There is no such institution with that wallet address');
+	}
+}
+
+class UserNotFound extends NotFound {
+	constructor() {
+		super('There is no such user with that wallet address');
+	}
+}
+
+class MemberNotFound extends NotFound {
+	constructor() {
+		super('There is no such member with that wallet address');
+	}
+}
+
+class DuplicateEntry extends Error {
+	constructor(message) {
+		super(message);
+		this.name = 'DuplicateEntry';
+		this.status = 409;
+	}
 }
 
 module.exports = {
-    NotFound,
-    UnprocessableRequest,
-    Unauthorized,
-    Forbidden,
-    CustomError
-}
+	NotFound,
+	Forbidden,
+	Unauthorized,
+	InvalidInput,
+	DuplicateEntry,
+	InstitutionNotFound,
+	UserNotFound,
+	MemberNotFound
+};
