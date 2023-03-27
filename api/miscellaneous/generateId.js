@@ -53,13 +53,7 @@ const randomBuffer = () => {
  * @returns {string}
  */
 const generateId = (nonce) =>
-	bufferToString(
-		Buffer.concat([
-			randomBuffer(),
-			toNonceBuffer(nonce),
-			toHexBuffer(Math.floor(Date.now() / 1000))
-		])
-	);
+	bufferToString(Buffer.concat([randomBuffer(), toNonceBuffer(nonce)]));
 
 let requestNonce = 0;
 /**

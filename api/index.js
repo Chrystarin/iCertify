@@ -12,13 +12,14 @@ const { NODE_ENV, TEST_MONGO, PORT, MONGO_URI } = process.env;
 
 const { NotFound } = require('./miscellaneous/errors');
 const authenticate = require('./middlewares/authenticate');
+const errorHandler = require('./middlewares/errorHandler');
 
 // Route imports
 const userRoute = require('./routes/user');
 const institutionRoute = require('./routes/institution');
 const requestRoute = require('./routes/request');
 const transactionRoute = require('./routes/transaction');
-const errorHandler = require('./middlewares/errorHandler');
+const authRoute = requrie('./routes/auth');
 
 const app = express();
 
@@ -35,9 +36,10 @@ app.use(helmet());
 
 // Routes
 app.get('/abi', (req, res, next) => res.status(200).json(abi));
+app.use('/auth', authRoute);
+app.use(authenticate);
 app.use('/users', userRoute);
 app.use('/institutions', institutionRoute);
-app.use(authenticate);
 app.use('/requests', requestRoute);
 app.use('/transactions', transactionRoute);
 

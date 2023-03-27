@@ -1,20 +1,5 @@
-const {
-	utils: { getAddress }
-} = require('ethers');
-
-const User = require('../models/User');
 const Institution = require('../models/Institution');
 
-const {
-	signAccess,
-	cookieOptions,
-	duration,
-	signRefresh
-} = require('../miscellaneous/tokenUtils');
-const {
-	DuplicateEntry,
-	InstitutionNotFound
-} = require('../miscellaneous/errors');
 const {
 	isString,
 	isNumber,
@@ -22,31 +7,24 @@ const {
 	isBoolean
 } = require('../miscellaneous/checkInput');
 const {
-	roles: { INSTITUTION, USER }
+	roles: { USER }
 } = require('../miscellaneous/constants');
 const { genDocId } = require('../miscellaneous/generateId');
-const verifySignature = require('../miscellaneous/verifySignature');
+
+const { InstitutionNotFound } = require('../miscellaneous/errors');
 const waitTransaction = require('../miscellaneous/waitTransaction');
 
-const registerInstitution = async (req, res, next) => {
-	const { walletAddress, txHash, name, email, type } = req.body;
+const registerInstitution = async (body) => {
+	const {
+		walletAddress,
+		email,
+		details: { name, type, txHash }
+	} = body;
 
 	// Validate inputs
-	isString(walletAddress, 'Wallet Address');
 	isString(txHash, 'Transaction Hash');
 	isString(name, 'Institution Name');
-	isEmail(email);
 	isString(type, 'Institution Type');
-
-	// Check if wallet address is valid
-	walletAddress = getAddress(walletAddress);
-
-	// Check if walletAddress is already registered
-	if (
-		(await User.findOne({ walletAddress })) ||
-		(await Institution.findOne({ walletAddress }))
-	)
-		throw new DuplicateEntry('Wallet address already registered');
 
 	// Wait for transaction to be mined
 	await waitTransaction(
@@ -57,39 +35,6 @@ const registerInstitution = async (req, res, next) => {
 	res.status(201).json({
 		message: 'Institution registration waitinng to be mined'
 	});
-};
-
-const loginInstitution = async (req, res, next) => {
-	const { signature, walletAddress } = req.body;
-
-	// Validate inputs
-	isString(signature, 'Signature');
-	isString(walletAddress, 'Wallet Address');
-
-	// Find institution
-	const institution = await Institution.findOne({ walletAddress });
-	if (!institution) throw new InstitutionNotFound();
-
-	// Verify the signature
-	await verifySignature(signature, walletAddress);
-
-	// Payload
-	const payload = {
-		id: institution._id,
-		type: INSTITUTION,
-		walletAddress
-	};
-
-	res.status(200)
-		.cookie('access-token', signAccess(payload), {
-			...cookieOptions,
-			maxAge: duration.access
-		})
-		.cookie('refresh-token', signRefresh(payload), {
-			...cookieOptions,
-			maxAge: duration.refresh
-		})
-		.json({ message: 'Institution logged in' });
 };
 
 const updateInstitution = async (req, res, next) => {
@@ -143,7 +88,7 @@ const getInstitutions = async (req, res, next) => {
 	isString(walletAddress, 'Wallet Address', true);
 
 	// Find institutions
-	const institutions = await Institution.find(
+	let institutions = await Institution.find(
 		walletAddress ? { walletAddress } : {}
 	)
 		.populate('-members')
@@ -216,7 +161,6 @@ const getOfferedDocs = async (req, res, next) => {
 
 module.exports = {
 	registerInstitution,
-	loginInstitution,
 	updateInstitution,
 	getInstitutions,
 	getMembers,

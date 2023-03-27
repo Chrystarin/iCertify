@@ -1,35 +1,14 @@
 const router = require('express').Router();
 
 const asyncHandler = require('../middlewares/asyncHandler');
-const authenticate = require('../middlewares/authenticate');
 const { onlyInstitution } = require('../middlewares/authorize');
 const {
 	getInstitutions,
 	getMembers,
 	updateInstitution,
-	registerInstitution,
-	loginInstitution,
 	addOfferedDoc,
 	getOfferedDocs
 } = asyncHandler(require('../controllers/institutionController'));
-
-/**
- * Register institution
- *
- * walletAddress
- * name
- */
-router.post('/register', registerInstitution);
-
-/**
- * Login institution
- *
- * signature
- * walletAddress
- */
-router.post('/login', loginInstitution);
-
-router.use(authenticate);
 
 /**
  * Get institutions

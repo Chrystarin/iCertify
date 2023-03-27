@@ -1,32 +1,11 @@
 const router = require('express').Router();
 
 const asyncHandler = require('../middlewares/asyncHandler');
-const authenticate = require('../middlewares/authenticate');
 const { onlyUser } = require('../middlewares/authorize');
-const { registerUser, getUser, updateUser, loginUser } = asyncHandler(
+
+const { getUser, updateUser } = asyncHandler(
 	require('../controllers/userController')
 );
-
-/**
- * Register user
- *
- * walletAddress
- * firstName
- * lastName
- * extension
- * about
- */
-router.post('/register', registerUser);
-
-/**
- * Login user
- *
- * signature
- * walletAddress
- */
-router.post('/login', loginUser);
-
-router.use(authenticate);
 
 /**
  * Get user
