@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import {ethers} from 'ethers';
 
 import './Profile.scss';
 
+// Import Components
 import UserPanelInfo from '../../components/UserPanel/UserPanelInfo.js';
-import UserIcon from './../../images/icons/user-round.png';
+import Card from '../../components/Card/Card.js';
+import { Button } from '@mui/material';
+import InstitutionCard from '../../components/Card/InstitutionCard.js'
 
-import LocationOnIcon from '@mui/icons-material/LocationOn';
+// Import Icons & images 
+import UserIcon from './../../images/icons/user-round.png';
 import CallIcon from '@mui/icons-material/Call';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MetaMaskIcon from './../../images/icons/fox.png';
-import EmailIcon from '@mui/icons-material/Email';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import PremiumIcon from '@mui/icons-material/WorkspacePremium';
 
-import Card from '../../components/Card/Card.js';
-import { Button } from '@mui/material';
 import axios from '../../config/axios';
-import InstitutionCard from '../../components/Card/InstitutionCard.js'
 import Empty from '../../images/icons/empty-folder.png'
+import { useParams } from 'react-router-dom';
+import {ethers} from 'ethers';
+
 function Profile() {
 	const { id } = useParams();
 	const [member, setMember] = useState(null);
@@ -135,12 +137,8 @@ function Profile() {
 							className='Panel__Container'
 							id='AboutMe__Div'
 						>
-							<h5 className='Panel__Title'>About me</h5>
+							<h6 className='Panel__Title'>About</h6>
 							<p className='BodyText3'>{member.about ?? ''}</p>
-							<h5 className='Panel__Title' style={{marginTop: "15px"}}>Occupation</h5>
-							<p className='BodyText3'>
-								{member.occupation ?? ''}
-							</p>
 						</div>
 						<div
 							className='Panel__Container'
@@ -148,8 +146,7 @@ function Profile() {
 						>
 							<ul className='Panel__MultipleContent'>
 								<li className='Panel__MultipleContent'>
-									<h5 className='Panel__Title'>Contact</h5>
-
+									<h6 className='Panel__Title'>Contact Number</h6>
 
 									{(!member.contact?.mobile)? <>
 									</>:
@@ -162,21 +159,9 @@ function Profile() {
 									</div>
 									</>
 									}
-									
-									{(!member.contact?.telephone)? <>
-									</>:
-									<>
-										<div className='Panel__Content__IconText'>
-											<CallIcon />
-											<p className='BodyText3'>
-												{member.contact?.telephone}
-											</p>
-										</div>
-									</>
-									}
 								</li>
 								<li>
-									<h5 className='Panel__Title'>Location</h5>
+									<h6 className='Panel__Title'>Address</h6>
 									<div className='Panel__Content__IconText'>
 										<LocationOnIcon />
 										<p className='BodyText3'>

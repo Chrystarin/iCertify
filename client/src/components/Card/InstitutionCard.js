@@ -8,12 +8,11 @@ import { Button } from '@mui/material';
 function EventCard(props) {
   return (
     <div id='EventCard'>  
-      <img id='EventResourcesDesign' src={EventResourcesDesign} alt="" />
-      <a href=''>
+      <a id='EventCard__Container' href='institution/view'>
+        <img id='EventResourcesDesign' src={EventResourcesDesign} alt="" />
         <div id='Avatar__Container'>
           <Avatar id="Avatar"/>
         </div>
-
         <h6>{props.name}</h6>
         <p id='EventCard__Address' className='BodyText3'>{props.address}</p>
       </a>

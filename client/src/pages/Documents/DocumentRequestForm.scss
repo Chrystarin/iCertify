@@ -1,0 +1,114 @@
+#DocumentInformation{
+    width: 100%;
+    #DocumentInformation__Header{
+        background-color: var(--dark1);
+        width: 100%;
+        height: 60px;
+        border-radius: 8px;
+        position: relative;
+        margin-bottom: 180px;
+        #DocumentInformation__Header__Triangle{
+            height: 50px;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translate(-50%,0);
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 50px solid var(--dark1);
+        }
+        img{
+            position: absolute;
+            top: 102%;
+            left: 50%;
+            transform: translate(-50%,0);
+            width: 130px;
+        }
+    }
+    #DocumentInformation__Body{    
+        #DocumentInformation__Title{
+            text-align: center;
+            color: var(--accent);
+            margin-bottom: 70px;
+        }
+        #DocumentInformation__Details{
+            width: 100%;
+            max-width: 1300px;
+            margin: auto;
+            display: flex;
+            gap: 140px;
+            ul:nth-child(2){
+                width: 400px;
+            }
+            ul{
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 25px;
+                li{
+                    .DocumentInformation__Details__Title{
+                        margin-bottom: 15px;
+                        color: var(--dark1);
+                        opacity: .9;
+                    }
+                    .DocumentInformation__Details__Title::after{
+                        content: " :";
+                    }
+                    .DocumentInformation__Details__Value{
+                    }
+                    .DocumentInformation__Details__Value__Price::before{
+                        content:"₱ "
+                    }
+                }
+            }
+        }
+    }
+}
+
+#ModeOfPayement{
+        
+        #ModeOfPayement__Selection{
+        flex-grow: 1;
+        display: flex;
+        flex-direction:column;
+        #ModeOfPayement__Selection__List{
+            margin-bottom: 25px;
+            display: flex;
+            gap: 25px;
+            #ModeOfPayement__Selection__Cards{
+                background-color: white;
+                border-radius: 8px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.033);
+                padding: 1em;
+                cursor: pointer;
+            }
+            #ModeOfPayement__Selection__Cards.active{
+                border: 2px solid var(--accent);
+            }
+        }
+    }
+    #ModeOfPayement__Reciept{
+        background-color: white;
+        border-radius: 8px;
+        width: 400px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.033);
+        
+    }
+}
+#Confirmation{
+    #Confirmation__Container{
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 400px;
+        text-align: center;
+        gap: 25px;
+        h5{
+            color: var(--accent);
+        }
+        p{
+            margin-top: 15px;
+        }
+    }
+}

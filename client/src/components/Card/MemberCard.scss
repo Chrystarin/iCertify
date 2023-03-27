@@ -1,9 +1,11 @@
 #MemberCard{
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.075);
+    position: relative;
     width: 250px;
-    a{
+    cursor: pointer;
+    #MemberCard__Container{
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.075);
         padding: 1.5em 1em;
         display: flex;
         gap: 15px;
@@ -30,12 +32,31 @@
             }
         }
     }
-    
+    #MemberCard__Container.Buttons{
+        padding: 1.5em 1em 4.5em;
+    }
     #MemberCardID__Buttons{
-        padding: 0 1em 1.5em;
-        width: 100%;
+        position: absolute;
+        left: 50%;
+        bottom: 1em;
+        padding: 1em 0 0;
+        transform: translate(-50%,0);
+        width: calc(100% - 2em);
         display: grid;
         gap: 15px;
         grid-template-columns: 1fr 1fr;
+    }
+}
+#MemberCardModal{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    padding: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    img{
+        width: 40vw;
     }
 }

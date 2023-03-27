@@ -4,25 +4,22 @@ import { saveAs } from 'file-saver'
 
 import './DocumentView.scss';
 import Button from '@mui/material/Button';
-import UserImg from './../../images/Resources/Developers/Dianne.jpg';
-import ShareIcon from '@mui/icons-material/Share';
-import DownloadIcon from '@mui/icons-material/Download';
 import UserPanel from '../../components/UserPanel/UserPanelInfo.js'
-import ImagePlaceHolder from './../../images/placeholder/image_placeholder.jpg';
-import UserIcon from './../../images/icons/user-round.png';
-
 import Fab from '@mui/material/Fab';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import Backdrop from '@mui/material/Backdrop';
-
 import ShareCredentialModal from '../../layouts/Documents/ShareDocumentModal';
+
+import ShareIcon from '@mui/icons-material/Share';
+import DownloadIcon from '@mui/icons-material/Download';
+import UserIcon from './../../images/icons/user-round.png';
 
 import axios from '../../config/axios';
 
 function DocumentView() {
   const { id } = useParams()
-  const [ModalToOpen,setModalToOpen] = useState("wew")
+  const [ModalToOpen,setModalToOpen] = useState("")
   const [open, setOpen] = useState(false);
   const [certificate, setCertificate] = useState(null);
 
@@ -37,7 +34,7 @@ function DocumentView() {
     
     fetchCertificate();
   }, [])
-
+  
 
   const handleClose = () => {
     setOpen(false);
@@ -97,41 +94,46 @@ function DocumentView() {
       </div>
       <div id='CredentialViewSideBar_Container'>
         <div className='Panel__Container' id='CredentialDetails__Container'>
-          <h4>Document Details</h4>
+          <h5>Document Details</h5>
           <ul id='ListofDetails'>
             <li>
-              <h5 className="Details__Title">Event</h5>
+              <h6 className="Details__Title">Name</h6>
               <p className='BodyText1 Details__Content'>{certificate.event.title}</p>
             </li>
             <li>
-              <h5 className="Details__Title">Certificate Type</h5>
-              <p className='BodyText1 Details__Content'>{certificate.title}</p>
+              <h6 className="Details__Title">Description</h6>
+              <p className='BodyText1 Details__Content'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat perspiciatis quae doloribus, quo suscipit voluptate aperiam quas hic nam qui error vel. A assumenda corporis quod ut in nobis sequi.</p>
             </li>
             <li>
-              <h5 className="Details__Title">Transaction Hash</h5>
+              <h6 className="Details__Title">Transaction Hash</h6>
               <p className='BodyText1 Details__Content'>{certificate.hash}</p>
+            </li>
+            <li>
+              <h6 className="Details__Title">Date Created</h6>
+              <p className='BodyText1 Details__Content'>{certificate.title}</p>
             </li>
             <li>
             </li>
           </ul>
-          <div id='SenderReciever__Container' className='Panel__Container'>
-            <a href={`/member/${certificate.owner.walletAddress}`}>
-              <UserPanel Image={UserIcon} SubTitle="Owner" Title={`${certificate.owner.name.firstName}`}/>
-            </a>
-          </div>
-          <div id='SenderReciever__Container' className='Panel__Container'>
-            <a href="#">
-              <UserPanel Image={UserIcon} SubTitle="Admin" Title="Bicol IT Organization"/>
-            </a>
-          </div>
+          <a href={`/member/${certificate.owner.walletAddress}`}>
+            <div id='SenderReciever__Container' className='Panel__Container'>
+              
+                <UserPanel Image={UserIcon} SubTitle="Owner" Title={`${certificate.owner.name.firstName}`}/>
+            </div>
+          </a>
+          <a href="#">
+            <div id='SenderReciever__Container' className='Panel__Container'>
+                <UserPanel Image={UserIcon} SubTitle="Admin" Title="Bicol IT Organization"/>
+            </div>
+          </a>
+
           <div id='Button__Wrapper'> 
             <Button variant="outlined" startIcon={<ShareIcon/>} onClick={handleToggleShare}> Share</Button>
             <Button variant="contained" startIcon={<DownloadIcon/>} onClick={()=>saveAs(`https://icertify.infura-ipfs.io/ipfs/${certificate.ipfsCID}`, 'image.jpg')}>Download</Button>
           </div>
         </div>
       </div>
-
-
+      
       <Backdrop
       sx={{ color: '#fff', zIndex: 98 }}
       open={open}

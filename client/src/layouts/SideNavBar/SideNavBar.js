@@ -21,7 +21,7 @@ function SideNavBar(props) {
   return (
     <div id='Navigation__Sticky'>
         <div id='Logo'>
-          <Link to={(props.User==="Admin")?"/a/dashboard":`/m/${address}`}><img src={Logo} alt=""/></Link>
+          <Link to={(props.User==="Admin")?"/a/institution/view":`/m/${address}`}><img src={Logo} alt=""/></Link>
         </div>
         <div id="Button_Holder">
             <ul>

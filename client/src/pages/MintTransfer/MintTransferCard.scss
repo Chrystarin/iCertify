@@ -1,0 +1,65 @@
+.MintTransferCard{
+    width: 300px;
+    padding: 0;
+    overflow: hidden;
+    #MintTransferCard__Date{
+        padding: 1em 1em .5em;
+        background-color: var(--dark1);
+        color: white;
+        div{
+            margin-top: 5px;
+            display: flex;
+            gap: 5px;
+        }
+    }
+    #MintTransferCard__UserInfo{
+        display: block;
+        padding: 1.5em 1em 1em;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        align-items: center;
+        #MintTransferCard__Avatar{
+            width: 60px;
+            height: 60px;
+        }
+    }
+    #MintTransferCard__ID{
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1em;
+        p{
+            background-color: rgb(225, 225, 225);
+            border-radius: 20px;
+            padding: .1em 1em;
+            cursor: pointer;
+        }
+    }
+    #MintTransferCard__Buttons{
+        padding: .5em 1em 1em;
+        display: grid;
+        gap: 15px;
+        grid-template-columns: .4fr .6fr;
+        button:nth-child(1){
+            border: none;
+            background-color: #e5e5e5;
+            color: var(--dark1);
+        }
+        button:nth-child(2){
+            background-color: var(--accent);
+        }
+    }
+    
+}
+#DeclineDropdown{
+    padding: .5em 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 300px;
+    
+    div{
+        display: flex;
+        justify-content: end;
+    }
+}

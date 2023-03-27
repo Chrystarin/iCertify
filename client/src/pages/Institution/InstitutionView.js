@@ -1,25 +1,48 @@
 import React, { useState, useEffect } from "react";
+
 import { useParams } from "react-router-dom";
 import {ethers} from 'ethers';
 
+// Import Components
 import './InstitutionView.scss'
 import Button from '@mui/material/Button';
-import GroupIcon from '@mui/icons-material/Group';
 import { Avatar } from "@mui/material";
-import CallIcon from '@mui/icons-material/Call';
-import RememberMeIcon from '@mui/icons-material/RememberMe';
 import DocumentRequestCard from "./../../components/Card/DocumentRequestCard";
-import Masonry from 'react-masonry-css'
-// const EventView = (props) => {
-const EventView = () => {
+
+// Import Icons
+import GroupIcon from '@mui/icons-material/Group';
+import CallIcon from '@mui/icons-material/Call';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import DescriptionIcon from '@mui/icons-material/Description';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import EmailIcon from '@mui/icons-material/Email';
+
+// Import Images
+import Logo from '../../images/placeholder/SampleLogo.png';
+import Wallpaper from '../../images/placeholder/SampleWallpaper.png'
+
+
+const EventView = (props) => {
+
+    // Here are the states to update the details in the page
+    const [pageDetails,setPageDetails] = useState({
+        ProfilePicture:Logo,
+        Wallpaper:Wallpaper,
+        InstitutionName:"STI College Marikina",
+        TotalMembers:600,
+        TotalDocumentsDestributed:500,
+        AboutUs:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis placeat optio inventore eaque explicabo, neque accusamus dignissimos voluptatum pariatur suscipit!",
+        ContactNumber:"0908-265-7587",
+        Email:"stimarikina@gmail.com",
+        Address:"2 L. De Guzman St, Marikina, 1807 Metro Manila"
+    });
+
+
+
+
     const { id } = useParams()
-    // const [event, setEvent] = useState(props)
-    // const [participants, setParticipants] = useState(null)
     const [memberAddress, setMemberAddress] = useState()
-    // Claim 
-    const [CertificateStatus, setCertificateStatus] = useState("ReadyToClaim");
-    const EventCeritifcate = true;
-    const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 
     const [moreButtonAdmin,setMoreButtonAdmin] = useState(false);
     const event = {
@@ -156,11 +179,26 @@ const EventView = () => {
         <div id="Institutioin__View">
             <div id="Institution__Header">
                 <div id="Institution__Wallpaper__Container">
-                    
+                    <img src={pageDetails.Wallpaper} alt="" />
+                    {props.owner?<>
+                        <div id="Institution__Wallpaper__Update" onClick={()=>{alert()}}>
+                            <InsertPhotoIcon id="Institution__Wallpaper__Update__Icon"/>
+                            <p>Update Cover Photo</p>
+                        </div>
+                        </>:<></>
+                    }
                 </div>
                 <div id="Institution__AvatarProfileButtons__Container">
                     <div id="AvatarProfile__Holder">
-                        <Avatar id="AvatarProfile__Avatar"/>
+                        <Avatar src={pageDetails.ProfilePicture} id="AvatarProfile__Avatar"/>
+                        {props.owner?<>
+                            <div id="AvatarProfile__Update" onClick={()=>{alert()}}>
+                                <InsertPhotoIcon id="AvatarProfile__Upadate__Icon"/>
+                                <p>Update</p>
+                            </div></>:
+                            <></>
+                        }
+                        
                     </div>
                     <div id="InstitutionInformationNavigation__Container">
                         <div id="InstitutionInformation__Container">
@@ -168,16 +206,25 @@ const EventView = () => {
                             <ul>
                                 <li>
                                     <GroupIcon/>
-                                    <h6>450</h6>
+                                    <h6>{pageDetails.TotalMembers}</h6>
                                 </li>
                                 <li>
-                                    <GroupIcon/>
-                                    <h6>1000</h6>
+                                    <DescriptionIcon/>
+                                    <h6>{pageDetails.TotalDocumentsDestributed}</h6>
                                 </li>   
                             </ul>
                         </div>
                         <div id="Buttons__Container">
-                            <Button variant="contained">Update Profile</Button>
+                            {props.owner?<>
+                                <Button variant="contained" href="update">Update </Button>
+                            </>:<>
+                                <Button variant="contained" href="/m/institution/join">
+                                    Join
+                                </Button>
+                            </>
+                            }
+
+                            
                         </div>
                     </div>
                 </div>
@@ -186,50 +233,49 @@ const EventView = () => {
                 <div id="InstitutionBody__Sidepanel">
                     <div id="Sticky">
                         <div className="Panel__Container">
-                            <h5 className="Panel__Title">About Us</h5>
-                            <p className="BodyText3">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis placeat optio inventore eaque explicabo, neque accusamus dignissimos voluptatum pariatur suscipit!
-                            </p>
+                            <h6 className="Panel__Title">About Us</h6>
+                            <p className="BodyText3">{pageDetails.AboutUs}</p>
                         </div>
                         <div className="Panel__Container">
                             <ul className="Panel__MultipleContent">
                                 <li>
-                                    <h5 className="Panel__Title">Contact</h5>
+                                    <h6 className="Panel__Title">Location</h6>
                                     <div className="Panel__Content__IconText">
-                                        <CallIcon/>
-                                        <p className="BodyText3">442-4232</p>
-                                    </div>
-                                    <div className="Panel__Content__IconText">
-                                        <RememberMeIcon/>
-                                        <p className="BodyText3">0908267584</p>
+                                        <LocationOnIcon/>
+                                        <p className="BodyText3">{pageDetails.Address}</p>
                                     </div>
                                 </li>
                                 <li>
-                                    <h5 className="Panel__Title">Email</h5>
+                                    <h6 className="Panel__Title">Contact Number</h6>
                                     <div className="Panel__Content__IconText">
                                         <CallIcon/>
-                                        <p className="BodyText3">STICollegeMarikina@gmail.com</p>
+                                        <p className="BodyText3">{pageDetails.ContactNumber}</p>
                                     </div>
+                                    
                                 </li>
                                 <li>
-                                    <h5 className="Panel__Title">Location</h5>
+                                    <h6 className="Panel__Title">Email</h6>
                                     <div className="Panel__Content__IconText">
-                                        <CallIcon/>
-                                        <p className="BodyText3">32nd St , Taguig, 1634 Metro Manila</p>
+                                        <EmailIcon/>
+                                        <p className="BodyText3">{pageDetails.Email}</p>
                                     </div>
                                 </li>
+                                
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div id="InstitutionBody__Content">
-                    <AvailableDocuments/>
+                    <AvailableDocuments owner={props.owner}/>
                 </div>
             </div>
         </div>
     )
 }
-function AvailableDocuments(){
+
+
+
+function AvailableDocuments(props){
     
     const AvailableDocuments = [
         {name:'Transcript of Records', id:"213231323132", 
@@ -289,14 +335,20 @@ function AvailableDocuments(){
     ]
     return<>
         <div className="InstitutionBody__Content__Containers">
-            <h5 className="InstitutionBody__Content__Containers__Title">Available Documents</h5>
-            <div >
+            <div className="InstitutionBody__Content_Holder">
+                <h5 className="InstitutionBody__Content__Containers__Title">Available Documents</h5>
+                {props.owner?<>
+                    <Button variant="" endIcon={<AddBoxIcon/>} href="/a/document/add">Add</Button>
+                </>:<>
+                    
+                </>
+                }
+                
+            </div>
             <div className='grid'>
                 {AvailableDocuments.map((Document) => (
-                    <DocumentRequestCard name={Document.name} id={Document.id} description={Document.description} requirements={Document.requirements} requestStatus={document.requestStatus}/>
+                    <DocumentRequestCard name={Document.name} id={Document.id} description={Document.description} requirements={Document.requirements} requestStatus={document.requestStatus} owner={props.owner}/>
                 ))}
-            </div>
-                
             </div>
         </div>
     </>

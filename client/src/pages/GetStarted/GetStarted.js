@@ -11,7 +11,8 @@ import './GetStarted.scss'
 import logo from '../../images/iCertifyBranding/icertify_footer.png';
 import Certificate from '../../images/Resources/Certificate.png';
 import MetamaskImg from '../../images/Resources/Metamask.png';
-
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import TextField from '@mui/material/TextField';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -21,6 +22,7 @@ import Select from '@mui/material/Select';
 function Signup() {
     // Constant Declarations
     const navigate = useNavigate();
+    const [userType, setUserType] = useState('');
     const [walletAddress, setWalletAddress] = useState('');
     const [userInfo, setUserInfo] = useState({
         firstName: '',
@@ -129,6 +131,13 @@ function Signup() {
         else setWalletAddress('');
     };
 
+
+    const [gender, setGender] = React.useState('');
+    const [institutionType, setinstitutionType] = React.useState('');
+    const handleChangeGender = (event) => {
+        setGender(event.target.value);
+    };
+
     return (
         <div id='Signup'>
             <div id='Container_Signup'>
@@ -146,45 +155,120 @@ function Signup() {
                 </div>
                 <div id='Container_Signup_Panel'>
                     <div id='Container_Signup_Form'>
-                        <div id='Form1' className={"Active"}>
-                            <h1>Get Started</h1>
-                            <h4><span>Setup</span> your profile and <span>Connect</span> your wallet </h4>
-                            <form onSubmit={connectWallet}>
-                                {/* <div id='Wrapper_Name'>
+                        {userType===""?<>
+                            <div>
+                                <h3>Get Started</h3>
+                                <h5><span>Select</span> your role to <span>create</span> an account</h5>
+                                <div id='RoleSelection'>
+                                    <div className='RoleSelection__Container' onClick={()=>{setUserType("Member")}}>
+                                        <AssignmentIndIcon className='RoleSelection__Icon'/>
+                                        <h6 id='RoleSelection__Title'>Member</h6>
+                                    </div>
+                                    <div className='RoleSelection__Container' onClick={()=>{setUserType("Institution")}}>
+                                        <ApartmentIcon className='RoleSelection__Icon'/>
+                                        <h6 id='RoleSelection__Title'>Institution</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </>:<></>}
+                        {userType==="Member"?<>
+                            <div>
+                                <h3>Get Started</h3>
+                                <h5><span>Setup</span> your profile and <span>Connect</span> your wallet </h5>
+                                <form onSubmit={connectWallet}>
                                     <TextField 
-                                        id="outlined-search" 
-                                        label="Firstname" 
-                                        type="text" 
-                                        onChange={(e)=>updateForm({ firstName: e.target.value })}
-                                    />
-                                    <TextField 
-                                        id="outlined-search" 
-                                        label="Lastname" 
-                                        type="text" 
-                                        onChange={(e)=>updateForm({ lastName: e.target.value })}
-                                    />
-                                </div> */}
-                                <TextField 
                                         id="outlined-search" 
                                         label="First Name" 
                                         type="text" 
+                                        required
                                         onChange={(e)=>updateForm({ firstName: e.target.value })}
-                                />
-                                <TextField 
+                                    />
+                                    <TextField 
                                         id="outlined-search" 
                                         label="Middle Name" 
                                         type="text" 
+                                        required
                                         onChange={(e)=>updateForm({ middleName: e.target.value })}
-                                />
-                                <TextField 
+                                    />
+                                    <div className='Form__2__Inputs'>
+                                        <FormControl fullWidth>
+                                            <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={gender}
+                                                label="Gender"
+                                                onChange={(event)=>{
+                                                    setGender(event.target.value);
+                                                }}
+                                            >
+                                                <MenuItem value={"Male"}>Male</MenuItem>
+                                                <MenuItem value={"Female"}>Female</MenuItem>
+                                                <MenuItem value={"Others"}>Others</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                        <TextField 
+                                            id="outlined-search" 
+                                            label="Email" 
+                                            type="email"
+                                            required 
+                                            onChange={(e)=>updateForm({ lastName: e.target.value })}
+                                        />
+                                    </div>
+                                    
+                                    <input id='Submit' type="submit" value="Connect" />
+                                </form>            
+                            </div>
+                        </>:<></>}
+                        
+                        {userType==="Institution"?<>
+                            <div>
+                                <h3>Get Started</h3>
+                                <h5><span>Setup</span> your Institution and <span>Connect</span> your wallet </h5>
+                                <form onSubmit={connectWallet}>
+                                    <TextField 
                                         id="outlined-search" 
-                                        label="Last Name" 
+                                        label="Institution Name" 
                                         type="text" 
-                                        onChange={(e)=>updateForm({ lastName: e.target.value })}
-                                />
-                                <input id='Submit' type="submit" value="Connect" />
-                            </form>            
-                        </div>
+                                        required
+                                        onChange={(e)=>updateForm({ firstName: e.target.value })}
+                                    />
+                                    <div className='Form__2__Inputs'>
+                                        <FormControl fullWidth>
+                                            <InputLabel id="demo-simple-select-label">Institution Type</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={institutionType}
+                                                label="Institution Type"
+                                                onChange={(event)=>{
+                                                    setinstitutionType(event.target.value);
+                                                }}
+                                            >
+                                                <MenuItem value={"Organization"}>Organization</MenuItem>
+                                                <MenuItem value={"School"}>School</MenuItem>
+                                                <MenuItem value={"Corporation"}>Corporation</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                        <TextField 
+                                            id="outlined-search" 
+                                            label="Location" 
+                                            type="text"
+                                            required 
+                                            onChange={(e)=>updateForm({ lastName: e.target.value })}
+                                        />
+                                    </div>
+                                    <TextField 
+                                            id="outlined-search" 
+                                            label="Email" 
+                                            type="email"
+                                            required 
+                                            onChange={(e)=>updateForm({ lastName: e.target.value })}
+                                        />
+                                    <input id='Submit' type="submit" value="Connect" />
+                                </form>            
+                            </div>
+                        </>:<></>}
                     </div>
                 </div>
             </div>

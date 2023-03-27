@@ -1,0 +1,117 @@
+#CreateDocument{
+    #CreateDocument__Container{
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.084);
+        padding: 1em;
+        #CreateDocument__Image{
+            width: 100%;
+        }
+
+
+        #uploadDocument__Container{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 700px;
+            #uploadDocument__Click:hover{
+                background-color: #eff3f4;
+            }
+            #uploadDocument__Click{
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                justify-content: center;
+                flex-direction: column;
+                text-align: center;
+                padding: 1em;
+                border-radius: 8px;
+                border: 2px dashed  var(--accent);
+                width: 60%;
+                height: 70%;
+                cursor: pointer;
+                div{
+                    p{
+                        margin-bottom: 5px;
+                    }
+                    h5{
+                        color: var(--accent);
+                    }
+                }
+            }
+        }
+        
+    }
+    
+}
+#SidePanel{
+    min-width: 300px;
+    #SidePanel__Info{
+        position: sticky;
+        top: 15px;
+        #SidePanel__SearchMember{
+            padding: 0 0 2em;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border-bottom: 1.5px solid rgba(128, 128, 128, 0.299);
+        }
+        #SidePanel__SelectDocument{
+            padding: 1em 0;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2em;
+            gap: 10px;
+        }
+        #SidePanel__Requestor{
+            text-align: center;
+            padding-bottom: 2em;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            a{
+                padding-top: 25px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 25px;
+                #SidePanel__Requestor__Avatar{
+                    width: 70px;
+                    height: 70px;
+                }
+            }
+            #SidePanel__Requestor__Chip{
+                margin-top: 15px;
+            }
+        }
+        #SidePanel__Date{
+            padding: 2em .5em;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            border-top: 1.5px solid rgba(128, 128, 128, 0.299);
+            border-bottom: 1.5px solid rgba(128, 128, 128, 0.299);
+        }
+        #SidePanel__DocumentDetails{
+            padding: 2em .5em;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            div{
+                p{
+                    margin-top: 5px;
+                }
+            }
+        }
+        #SidePanel__Buttons{
+            display: grid;
+            grid-template-columns: .4fr .6fr;
+            gap: 15px;
+            button:nth-child(1){
+                border: none;
+                background-color: rgb(233, 231, 231);
+                color: black;
+            }
+        }
+    }
+}

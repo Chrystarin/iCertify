@@ -4,14 +4,11 @@ import './../../styles/Form.scss';
 import './InstitutionJoin.scss';
 
 import Button from '@mui/material/Button';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import PlaceHolder from '../../images/icons/DocumentIcon.png';
-
-
+import { TextField,Avatar } from '@mui/material';
+import UploadFileImage from './../../images/Resources/Design/UploadFile.png'
 function EventJoin() {
 
   // Stepper
@@ -34,83 +31,65 @@ function EventJoin() {
     Discount: "None"
   }
 
-
-
   function VIEWFORM(){
     switch (activeStep) {
       case 0:
         return <>
-          <form id="EventJoinPayment">
-              <div className="Subject_Seperator">
-                <div className="holder_Subject">
-                    <h3>Mode of Payment</h3>
-                    <p>Select what mode of payment you want to use</p>
-                </div>
-                <div className="holder_Questions">
-                  <div className='Wrapper_2_Inputs'>
-                    <div id='Payments'>
-                      <div id='Payments__Container'>
-                        <ul>
-                          <li>
-                            <a href="#">
-                              <h6>GCash</h6>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#" className='Active'>
-                              <h6>Bank Transfer</h6>
-                            </a>
-                          </li>
-                          <li>
-                            <a href="#">
-                              <h6>
-                                ShopeePay
-                              </h6>
-                            </a>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div id='EventReciept'>
-                      <div id='EventReciept__Header'>
-                        <div id='ImageHolder__Div'>
-                          <img id='Image' src={PlaceHolder} alt="" />
-                        </div>
-                        <h4 id='EventTitle'>{EventDetails.Title}</h4>
-                        <ul>
-                          <li>
-                            <p>Certificate</p>
-                            <p>Have</p>
-                          </li>
-                          <li>
-                            <p>Price</p>
-                            <p>500 Pesos</p>
-                          </li>
-                          <li className='ListSeperator'>
-                            <p>Discount</p>
-                            <p>50%</p>
-                          </li>
-                          <li className='ListSeperator'>
-                            <p>Discount</p>
-                            <p>50%</p>
-                          </li>
-                        </ul>
-                      </div>
-                      <div id='EventReciept__Footer'>
-                        <div id='Total'>
-                          <p>You Have to Pay</p>
-                          <h2>₱<span>250</span>.00</h2>
-                        </div>
-                        <ReceiptLongIcon sx={{ fontSize: 80 }}/>
-                      </div>
-                    </div>
+          <form className='formTemplate'>
+            <div className="Category__Seperator">
+              <div className="Category__Title">
+                  {/* <h4>Mode of Payment</h4>
+                  <p>Select what mode of payment you want to use</p> */}
+              </div>
+              <div className="Category__Content">
+                <div id='UserInfo'>
+                  <Avatar id="UserInfo__Avatar"/>
+                  <div>
+                    <h5>Dianne Chrystalin</h5>
+                    <p className='BodyText3'>FIRST NAME</p>
+                  </div>
+                  <div>
+                    <h5>Manabat</h5>
+                    <p className='BodyText3'>MIDDLE NAME</p>
+                  </div>
+                  <div>
+                    <h5>Brandez</h5>
+                    <p className='BodyText3'>LAST NAME</p>
                   </div>
                 </div>
+              </div>
+            </div>
+            <div className="Category__Seperator">
+              <div className="Category__Title">
+                  <h4>Institution ID Number</h4>
+                  <p className='BodyText3'>Select what mode of payment you want to use</p>
+              </div>
+              <div className="Category__Content">
+                <div className='Wrapper_2_1_Inputs'>
+                  <TextField id="outlined-basic" label="ID Number" variant="outlined" />
+                </div>
+              </div>
+            </div>
+            <div className="Category__Seperator">
+              <div className="Category__Title">
+                  <h4>Proof of Membership</h4>
+                  <p className='BodyText3'>Assuring that you are a member of this institution</p>
+              </div>
+              <div className="Category__Content">
+                <div id='Category__Content__File'>
+                  <input type="file" id="files" class="hidden"/>
+                  <label for="files" id='Category__Content__Button'>
+                      <img src={UploadFileImage} alt="" />
+                      <div>
+                        <p className='BodyText3'>Upload any proof of membership</p>
+                        <h5>Click to upload a file</h5>
+                      </div>
+                  </label>
+                </div>
+              </div>
             </div>
             <div id="Holder_Button">
-                {/* <Button variant="outlined">Back</Button>
-                <Button variant="text">Save as draft</Button> */}
-                <Button variant="contained" endIcon={<NavigateNextIcon/>} size="large">Request</Button>
+              <Button variant="contained" size="large">Submit</Button>
             </div>
           </form>
         </>
@@ -119,19 +98,21 @@ function EventJoin() {
           break;
     }
   }
-
   return (
-    <section id='Create_Event'>
+    <section>
       <div id="Stepper">
           <div id="Holder_Stepper">
               <Stepper activeStep={activeStep}>
                   <Step>
-                      <StepLabel>Payment</StepLabel>
+                      <StepLabel>Join Institution</StepLabel>
                   </Step>
               </Stepper>
           </div>
       </div>
       <VIEWFORM />
+
+
+
   </section>
   )
 }

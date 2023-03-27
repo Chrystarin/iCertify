@@ -1,24 +1,79 @@
 #Institutioin__View{
     #Institution__Header{
+        #Institution__Wallpaper__Container:hover #Institution__Wallpaper__Update{
+            display: flex;
+        }
         #Institution__Wallpaper__Container{
             background-color: white;
             border-radius: 12px;
             min-height: 250px;
             max-height: 300px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.048);
+            overflow: hidden;
+            position: relative;
+            img:nth-child(1){
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+            }
+            #Institution__Wallpaper__Update{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+                width: 100%;
+                height: 105%;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                background-color: rgba(0, 0, 0, 0.711);
+                color: white;
+                gap: 14px;
+                display: none;
+                cursor: pointer;
+                #Institution__Wallpaper__Update__Icon{
+                    font-size: 40px;
+                }
+            }
         }
         #Institution__AvatarProfileButtons__Container{
             display: flex;
             gap: 25px;
             align-items: center;
             transform: translate(0,-30px);
+            #AvatarProfile__Holder:hover #AvatarProfile__Update{
+                display: flex;
+            }
             #AvatarProfile__Holder{
-                padding-left: 40px;
+                margin-left: 40px;
+                position: relative;
                 #AvatarProfile__Avatar{
                     height: 140px;
                     width: 140px;
                     border: 5px solid white;
                     box-shadow: 0 0 15px rgba(0, 0, 0, 0.064);
+                }
+                #AvatarProfile__Update{
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                    width: 95%;
+                    height: 95%;
+                    border-radius: 100px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 5px;
+                    background-color: rgba(0, 0, 0, 0.711);
+                    color: white;
+                    cursor: pointer;
+                    display: none;
+                    #AvatarProfile__Upadate__Icon{
+                        font-size: 40px;
+                    }
                 }
             }
             #InstitutionInformationNavigation__Container{
@@ -41,7 +96,8 @@
                     }
                 }
                 #Buttons__Container{
-
+                    display: flex;
+                    gap: 15px;
                 }
             }
         }
@@ -64,10 +120,14 @@
             flex-grow: 1;
             
             .InstitutionBody__Content__Containers{
-                .InstitutionBody__Content__Containers__Title{
+                .InstitutionBody__Content_Holder{
+                    display: flex;
+                    align-items: center;
                     margin-bottom: 15px;
-                }
-                
+                    .InstitutionBody__Content__Containers__Title{
+                        flex-grow: 1;
+                    }
+                  }
             }
         }
     }
@@ -181,3 +241,4 @@
     background: grey;
     margin-bottom: 30px;
   }
+  

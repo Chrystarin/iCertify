@@ -17,16 +17,19 @@ const Card = (props) => {
         link
     } = props;
     return (
-        <div className='Card'>
-            <Link to={`/m/document/${id}`}>
-                <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
-                <h6 className="EventTitle">{title}qweqeqweqeqeqe</h6>
-                <div id='Card__Institution'>
-                    <Avatar id="Card__Avatar"/>
-                    <p className='BodyText3'>STI College Marikina</p>
-                </div>
-            </Link>
-        </div>
+        <Link to={`/m/document/${id}`}>
+            <div className='Card'>
+                    {/* <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/> */}
+                    <img className='EventName' src={ImagePlaceHolder} alt=""/>
+
+                    <h6 className="EventTitle">{title}qweqeqweqeqeqe</h6>
+                    <div id='Card__Institution'>
+                        <Avatar id="Card__Avatar"/>
+                        <p className='BodyText3'>STI College Marikina</p>
+                    </div>
+            </div>
+        </Link>
+
     )
     // switch (type) {
     //     case 'institution':

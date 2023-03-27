@@ -88,7 +88,7 @@ a{
 }
 .Wrapper__Card{
     display: flex;
-    gap: 10px;
+    gap: 20px;
     flex-wrap: wrap;
     align-items: start;
 }
@@ -135,8 +135,6 @@ a{
 
 select{
     cursor: pointer;
-    -webkit-appearance: button;
-    -webkit-border-radius: 2px;
     color: #555;
     font-size: inherit;
     outline: none;

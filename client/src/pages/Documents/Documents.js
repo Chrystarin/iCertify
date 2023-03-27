@@ -4,7 +4,6 @@ import {ethers} from 'ethers';
 
 import Empty from '../../images/icons/empty-folder.png'
 import Card from '../../components/Card/Card.js';
-import DocumentCard from '../../components/Card/DocumentCard';
 import axios from '../../config/axios';
 
 
