@@ -39,6 +39,7 @@ $Maxwidth1: 1920px;
 	#Container_Content_Main {
 		color: white;
 		height: 60vh;
+		max-height: 600px;
 		display: flex;
 		align-items: center;
 		div {
@@ -293,4 +294,8 @@ $Maxwidth1: 1920px;
 			}
 		}
 	}
+}
+.Accordion__Container{
+	width: 80%;
+	margin: auto;
 }

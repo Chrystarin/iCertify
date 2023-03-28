@@ -13,7 +13,11 @@ import CertificatePicture from '../../images/Resources/Design/Certification.png'
 import LostPicture from '../../images/Resources/Design/Lost.png'
 import searchPicture from '../../images/Resources/Design/search.png'
 import UploadPicture from '../../images/Resources/Design/upload.png'
-
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 function LandingPage() {
 	const [openTab, setopenTab] = useState('');
 	return (
@@ -49,12 +53,6 @@ function LandingPage() {
 								</h6>
 							</div>
 							<div className='Container_Content_Section'>
-								<div className='Img_Content_Section1'>
-									<img
-										src={CertificatePicture}
-										alt=''
-									/>
-								</div>
 								<div className='Title_Content_Section1'>
 									<div>
 										<h4>Full Digital Ownership</h4>
@@ -67,6 +65,19 @@ function LandingPage() {
 										</h5>
 									</div>
 								</div>
+								<div className='Img_Content_Section1'>
+									<img
+										src={CertificatePicture}
+										alt=''
+									/>
+								</div>
+								
+								<div className='Img_Content_Section1'>
+									<img
+										src={UploadPicture}
+										alt=''
+									/>
+								</div>
 								<div className='Title_Content_Section1'>
 									<div>
 										<h4>Stores Data in a Blockchain</h4>
@@ -77,23 +88,6 @@ function LandingPage() {
 										</h5>
 									</div>
 								</div>
-
-								<div className='Img_Content_Section1'>
-									<img
-										src={UploadPicture}
-										alt=''
-									/>
-								</div>
-								
-
-
-								<div className='Img_Content_Section1'>
-									<img
-										src={LostPicture}
-										alt=''
-									/>
-								</div>
-								
 								<div className='Title_Content_Section1'>
 									<div>
 										<h4>
@@ -109,6 +103,19 @@ function LandingPage() {
 										</h5>
 									</div>
 								</div>
+								<div className='Img_Content_Section1'>
+									<img
+										src={LostPicture}
+										alt=''
+									/>
+								</div>
+								<div className='Img_Content_Section1'>
+									<img
+										src={searchPicture}
+										alt=''
+									/>
+								</div>
+								
 								<div className='Title_Content_Section1'>
 									<div>
 										<h4>Easy Verification of Documents</h4>
@@ -117,12 +124,9 @@ function LandingPage() {
 										</h5>
 									</div>
 								</div>
-								<div className='Img_Content_Section1'>
-									<img
-										src={searchPicture}
-										alt=''
-									/>
-								</div>
+								
+								
+								
 							</div>
 						</section>
 						{/* Section #2 - Meet our team */}
@@ -353,6 +357,38 @@ function LandingPage() {
 									</ul>
 								</div>
 							</div>
+							{/* <div className='Accordion__Container'>
+								<Accordion>
+									<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls="panel1a-content"
+									id="panel1a-header"
+									>
+									<h5>What is iCertify?</h5>
+									</AccordionSummary>
+									<AccordionDetails>
+									<Typography>
+									iCertify is a web application dedicated to providing a legitimate and authentic digital certification which can benefit both employees and employers.
+									</Typography>
+									</AccordionDetails>
+								</Accordion>
+								<Accordion>
+									<AccordionSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls="panel2a-content"
+									id="panel2a-header"
+									>
+									<Typography>Accordion 2</Typography>
+									</AccordionSummary>
+									<AccordionDetails>
+									<Typography>
+										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+										malesuada lacus ex, sit amet blandit leo lobortis eget.
+									</Typography>
+									</AccordionDetails>
+								</Accordion>
+							</div> */}
+							
 						</section>
 					</div>
 				</div>

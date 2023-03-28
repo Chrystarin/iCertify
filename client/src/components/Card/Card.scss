@@ -1,11 +1,11 @@
-.EventCardContainer{
+.Card{
     background-color: white;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.077);
     border-radius: 10px;
     padding: .5em;
     opacity: 1;
     border: 1px solid rgba(128, 128, 128, 0.122);
-    max-width: 249px;
+    max-width: 250px;
 
     a{
         text-decoration: none;
@@ -14,33 +14,22 @@
         width: 100%;
         border-radius: 5px;
     }
-    div{
-        .EventTitle{
-            margin: 5px 0;
-            color: black;
-        }
-        .Date{
-            color: gray;
-            font-weight: 700;
-            margin-bottom: 9px;
-        }
-        .DateDue{
-            color:red;
-        }
-    }
-    #EvenCardAdminInfo{
-        padding-top: 15px;
+    .EventTitle{
+        margin: 5px 0;
         color: black;
-        border-top: 1px solid rgba(0, 0, 0, 0.147);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    #Card__Institution{
         display: flex;
-        .AdminInfo__Container{
-            display: flex;
-            gap: 5px;
-            align-items: center;
-            flex-grow: 1;
+        align-items: center;
+        gap: 5px;
+        #Card__Avatar{
+            width: 1em;
+            height: 1em;
         }
     }
-}
-.EventCardContainer:hover{
-    border: 1px solid rgba(128, 128, 128, 0.403);
+    
+   
 }

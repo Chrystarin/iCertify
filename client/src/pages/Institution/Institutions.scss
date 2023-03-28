@@ -1,0 +1,83 @@
+#institutions{
+    .Navigation_Institution{
+        margin-bottom: 25px;
+        display: flex;
+        .Selected{
+            padding: .5em 1em;
+            background-color: var(--accent);
+            font-weight: 700;
+            color: white;
+        }
+        .Navigation_Left{
+            flex-grow: 1;
+            display: flex;
+            gap: 15px;
+        }
+        .Navigation_Right{
+            display: flex;
+            gap: 15px;
+        }
+    }    
+}
+
+#Panel_institutions{
+    margin-top: 20px;
+    width: 100%;
+
+    #Container_Featuredinstitutions{
+        #Container_Ads_Featuredinstitutions{
+            display: grid;
+            grid-template-columns: 1fr .4fr;
+            gap: 25px;
+            #Slider_Featuredinstitutions{
+                overflow: hidden;
+                border-radius: 10px;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            #Ads_Featuredinstitutions{
+                overflow: hidden;
+                border-radius: 10px;
+                background-color: gray;
+                cursor: pointer;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+        .InstitutionList{
+            margin-top: 25px; 
+            h5:nth-child(1){
+                margin-bottom: 20px;
+            }
+            #Wrapper_Upcoming_Featuredinstitutions{
+                display: grid;
+                grid-template-columns: repeat(7,1fr);
+                gap: 15px;
+            }
+        }
+        
+    }
+    #Container_JoinedInstitutions{
+        .EventPerMonths{
+            padding: 1.5em 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.11);
+            position: relative;
+            span{
+                padding: 1em;
+                background-color: var(--light2);
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translate(0,-50%);
+                font-weight: 500;
+            }   
+        }
+        
+    }
+    
+} 
+

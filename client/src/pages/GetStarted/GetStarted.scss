@@ -13,7 +13,6 @@
             color: rgb(221, 221, 221);
             width: 70%;
             
-            
             #Holder_GoBack_Button{
                 display: flex;
                 text-decoration: none;
@@ -57,20 +56,47 @@
             width: 40%;
             height: 100%;
             background-color: var(--light2);
-            box-shadow: 0 0 25px black;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.332);
             display: flex;
             align-items: center;
             justify-content: center;
 
+
+
+            #RoleSelection{
+                padding-top: 25px;
+                display: flex;
+                gap: 40px;
+                justify-content: center;
+                .RoleSelection__Container:hover{
+                    box-shadow: 0 0 15px #e1ebf1;
+
+                }
+                .RoleSelection__Container{
+                    cursor: pointer;
+                    padding: 1em 2em;
+                    border-radius: 8px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+                    align-items: center;
+                    background-color: #e1ecf2;
+                    color: #017CC9;
+                    .RoleSelection__Icon{
+                        font-size: 70px;
+                    }
+                }
+            }
             #Container_Signup_Form{
                 width: 90%;
-                h1{
+                h3{
                     text-align: center;
                     margin-bottom: 10px;
+                    color: var(--accent);
                 }
-                h4{
+                h5{
                     text-align: center;
-                    margin: 20px;
+                    margin: 20px 20px 40px;
                     span{
                         color: var(--accent);
                     }
@@ -84,10 +110,11 @@
                     gap: 25px;
                 }
                 #Submit{
+                    margin-top: 25px;
                     display: block;
                     text-align: center;
                     width: 100%;
-                    padding: 1em;
+                    padding: .7em 1em ;
                     background-color: var(--accent);
                     border: none;
                     border-radius: .5em;
@@ -98,7 +125,12 @@
                 form{
                     display: flex;
                     flex-direction: column;
-                    gap: 15px;
+                    gap: 25px;
+                    .Form__2__Inputs{
+                        display: grid;
+                        grid-template-columns: 1fr 1fr;
+                        gap: 25px;
+                    }
                 }
                 .Active{
                     display: block;

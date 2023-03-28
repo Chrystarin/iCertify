@@ -12,28 +12,26 @@ import GetStarted from './pages/GetStarted/GetStarted.js';
 
 // Member
 import MemberPanel from './routes/Member.js';
-import MemberView from './pages/Member/MemberView.js';
-import MemberEdit from './pages/Member/MemberEdit.js';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Certificate from './pages/Credential/Credential';
-import CertificatePage from './pages/Credential/CredentialView.js';
-import Event from './pages/Event/Events.js';
-import Event_View from './pages/Event/EventView.js';
-import JoinEvent from './pages/Event/EventJoin.js';
+import Document from './pages/Documents/Documents';
+import DocumentPage from './pages/Documents/DocumentView.js';
+import Institutions from './pages/Institution/Institutions.js';
+import Institution_View from './pages/Institution/InstitutionView.js';
+import JoinInstution from './pages/Institution/InstitutionJoin.js';
 import Profile from './pages/Profile/Profile.js';
 import ProfileUpdate from './pages/Profile/ProfileUpdate';
-
+import RequestDocumentForm from './pages/Documents/DocumentRequestForm'
 // Admin
 import AdminPanel from './routes/Admin.js';
-import A_Event from './pages/Event/Admin/EventsAdmin.js';
-import A_EventCreate from './pages/Event/Admin/EventCreate.js';
-import CertificateGenerator from './pages/CertificateGenerator/CertificateGenerator.js';
+import A_EventCreate from './pages/Institution/Admin/EventCreate.js';
 import MintTransfer from './pages/MintTransfer/MintTransfer.js';
 import CertificateGenerateEventsList from './pages/CertificateGenerator/CertificateGenerateEventsList.js';
-import DashboardAdmin from './pages/Dashboard/DashboardAdmin';
-import CertificateComponent from './components/Certificate/Certificate.js';
-
+import DashboardAdmin from './pages/Analytics/Analytics';
+import MemberList from './pages/Member/MemberList.js';
 import PublicPanel from './routes/Public.js';
+import AddDocumentOffered from './pages/Documents/AddDocumentOffered'
+import InstitutionsUpdate from './pages/Institution/InstitutionUpdate.js';
+import CreateDocument from './pages/Documents/CreateDocument';
 // const ROLES = {
 //   member: '46936',
 //   admin: '28537',
@@ -48,8 +46,8 @@ function App() {
                 <Route path='*' element={<Error />}/>
                 <Route path='home' element={<LandingPage/>}/>
                 <Route path='getstarted' element={<GetStarted/>}/>
-				<Route path='event/:id' element={<Event_View />}/>
-                <Route path='certificate/:id' element={<CertificatePage/>}/>
+				<Route path='event/:id' element={<Institution_View />}/>
+                <Route path='documents/:id' element={<DocumentPage/>}/>
                 <Route path='user/:id' element={<Profile />}/>
 			</Route>
 
@@ -57,11 +55,13 @@ function App() {
 			<Route path='/m' element={<MemberPanel />}>
                 <Route path='*' element={<Error />}/>
 				<Route path='dashboard' element={<Dashboard />}/>
-                <Route path='certificate' element={<Certificate />} />
-				<Route path='certificate/:id' element={<CertificatePage />} />
-				<Route path='event' element={<Event />}/>
-				<Route path='event/:id' element={<Event_View />} />
-				<Route path='event/:id/join' element={<JoinEvent />} />
+                <Route path='documents' element={<Document />} />
+				<Route path='document/:id' element={<DocumentPage />} />
+				<Route path='institutions' element={<Institutions />}/>
+				<Route path='institution/DocumentRequest' element={<RequestDocumentForm />}/>
+				{/* <Route path='institution/:id' element={<Institution_View />} /> */}
+				<Route path='institution/view' element={<Institution_View owner={false}/>} />
+				<Route path='institution/join' element={<JoinInstution/>} />
 				<Route path=':id' element={<Profile />} />
 				<Route path=':id/edit' element={<ProfileUpdate />}/>
 			</Route>
@@ -69,15 +69,21 @@ function App() {
             {/* Admin Routes */}
 			<Route path='/a' element={<AdminPanel />} >
                 <Route path='*' element={<Error />}/>
-                <Route path='dashboard' element={<DashboardAdmin />}/>
+				<Route path='institution/view' element={<Institution_View owner={true}/>} />
+				<Route path='institution/update' element={<InstitutionsUpdate/>}/>
+                <Route path='analytics' element={<DashboardAdmin />}/>
                 <Route path='member/:id' element={<Profile />} />
-				<Route path='events' element={<A_Event />} />
+				<Route path='documents' element={<MintTransfer />} />
+				<Route path='document/create' element={<CreateDocument />} />
+				<Route path='document/add' element={<AddDocumentOffered />} />
+
+				
                 <Route path='events/create' element={<A_EventCreate />} />
-                <Route path='events/:id' element={<Event_View/>} />
+                <Route path='events/:id' element={<Institution_View/>} />
                 <Route path='events/:id/edit' element={<A_EventCreate />} />
-                <Route path='events/:id/certgen' element={<MintTransfer />} />
                 <Route path='certificates' element={<CertificateGenerateEventsList />} />
                 <Route path='certificates/event/:id' element={<MintTransfer />} />
+				<Route path='members' element={<MemberList />} />
 			</Route>
 
             <Route path='*' element={<Error />}/>
