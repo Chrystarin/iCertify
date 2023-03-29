@@ -3,7 +3,7 @@ const router = require('express').Router();
 const asyncHandler = require('../middlewares/asyncHandler');
 const authenticate = require('../middlewares/authenticate');
 
-const { register, login, refresh } = asyncHandler(
+const { register, login, refresh, logout } = asyncHandler(
 	require('../controllers/authController')
 );
 
@@ -37,11 +37,16 @@ router.post('/register', register);
  */
 router.post('/login', login);
 
-router.use(authenticate);
-
 /**
  * Generate a new access-token
  */
 router.post('/refresh', refresh);
+
+router.use(authenticate);
+
+/**
+ * Logs out user
+ */
+router.post('/logout', logout);
 
 module.exports = router;

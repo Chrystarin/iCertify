@@ -1,3 +1,8 @@
+const {
+	utils: { getAddress }
+} = require('ethers');
+const { verify } = require('jsonwebtoken');
+
 const User = require('../models/User');
 const Institution = require('../models/Institution');
 
@@ -11,7 +16,6 @@ const {
 	signRefresh
 } = require('../miscellaneous/tokenUtils');
 const {
-	DuplicateEntry,
 	InvalidInput,
 	UserNotFound,
 	InstitutionNotFound,
@@ -20,12 +24,13 @@ const {
 const { registerUser } = require('./userController');
 const { registerInstitution } = require('./institutionController');
 const { isString, isEmail } = require('../miscellaneous/checkInput');
-const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } = process.env;
+const { JWT_REFRESH_SECRET } = process.env;
 
 const verifySignature = require('../miscellaneous/verifySignature');
 
 const register = async (req, res, next) => {
-	const { walletAddress, email, userType } = req.body;
+	const { email, userType } = req.body;
+	let { walletAddress } = req.body;
 
 	// Validate inputs
 	isString(walletAddress, 'Wallet Address');
@@ -34,20 +39,6 @@ const register = async (req, res, next) => {
 
 	// Check if walletAddress is a valid address
 	walletAddress = getAddress(walletAddress);
-
-	// Check if walletAddress is already registered
-	if (
-		(await User.findOne({ walletAddress })) ||
-		(await Institution.findOne({ walletAddress }))
-	)
-		throw new DuplicateEntry('Wallet address already registered');
-
-	// Check if email is already registered
-	if (
-		(await User.findOne({ email })) ||
-		(await Institution.findOne({ email }))
-	)
-		throw new DuplicateEntry('Email already registered');
 
 	if (userType === USER) return registerUser(req, res, next);
 
@@ -114,7 +105,11 @@ const refresh = async (req, res, next) => {
 		throw new Unauthorized('This action requires logging in first');
 
 	// Check if access-token is valid
-	const payload = verify(refreshToken, JWT_REFRESH_SECRET);
+	const { id, type, walletAddress } = verify(
+		refreshToken,
+		JWT_REFRESH_SECRET
+	);
+	const payload = { id, type, walletAddress };
 
 	// Create new access-token
 	res.cookie('access-token', signAccess(payload), {
@@ -130,7 +125,7 @@ const refresh = async (req, res, next) => {
 			maxAge: duration.refresh
 		});
 
-	res.send();
+	res.json({ message: 'Tokens refreshed' });
 };
 
 const logout = async (req, res, next) => {
@@ -143,7 +138,7 @@ const logout = async (req, res, next) => {
 	res.status(200)
 		.cookie('access-token', '', { ...cookieOptions, maxAge: 0 })
 		.cookie('refresh-token', '', { ...cookieOptions, maxAge: 0 })
-		.json({ message: `${userType} logged out` });
+		.json({ message: `Logged out` });
 };
 
 module.exports = { register, login, refresh, logout };

@@ -11,29 +11,43 @@ const {
 } = require('../miscellaneous/constants');
 const { genDocId } = require('../miscellaneous/generateId');
 
-const { InstitutionNotFound } = require('../miscellaneous/errors');
-const waitTransaction = require('../miscellaneous/waitTransaction');
+const {
+	InstitutionNotFound,
+	DuplicateEntry
+} = require('../miscellaneous/errors');
+const { waitTx } = require('../miscellaneous/waitTransaction');
 
-const registerInstitution = async (body) => {
+const registerInstitution = async (req, res, next) => {
 	const {
 		walletAddress,
 		email,
 		details: { name, type, txHash }
-	} = body;
+	} = req.body;
 
 	// Validate inputs
 	isString(txHash, 'Transaction Hash');
 	isString(name, 'Institution Name');
 	isString(type, 'Institution Type');
 
+	// Validate details
+	await new Institution({
+		walletAddress,
+		name,
+		email,
+		instType: type
+	}).validate();
+
+	// Check if walletAddress is unique
+	if (await Institution.findOne({ walletAddress }))
+		throw new DuplicateEntry('Wallet address already registered');
+
 	// Wait for transaction to be mined
-	await waitTransaction(
-		txHash,
+	await waitTx(txHash, () =>
 		Institution.create({ walletAddress, name, email, instType: type })
 	);
 
 	res.status(201).json({
-		message: 'Institution registration waitinng to be mined'
+		message: 'Institution registration waiting to be mined'
 	});
 };
 

@@ -19,10 +19,12 @@ const getRequests = async (req, res, next) => {
 	const { type, walletAddress, requestId } = req.query;
 
 	// Validate inputs
-	isString(type, 'Request Type');
+	isString(type, 'Request Type', true);
 
 	// Create request query
-	let requestQuery = { requestType: type };
+	let requestQuery = {};
+
+	if (type) requestQuery = { ...requestQuery, requestType: type };
 
 	// Add requestId to query if it is given
 	if (requestId) {
@@ -89,7 +91,7 @@ const processRequest = async (req, res, next) => {
 				$push: {
 					members: {
 						user: request.requestor,
-						idNumber: request.details.idNumber
+						idNumber: request.details?.idNumber
 					}
 				}
 			});
@@ -101,6 +103,7 @@ const processRequest = async (req, res, next) => {
 
 	// Update status
 	request.status = status;
+	request.details = request.details || {};
 	await request.save();
 
 	res.status(200).json({ message: 'Request processed' });
@@ -190,6 +193,8 @@ const createRequest = async (req, res, next) => {
 			details: { docId }
 		};
 	}
+
+	console.log(requestParams);
 
 	// Create request
 	await Request.create(requestParams);

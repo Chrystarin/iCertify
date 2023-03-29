@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+
+    <script>
+        let provider, signer, address, abi, contract;
+
+        (async function () {
+            if (!window.ethereum) {
+                console.log('No crypto wallet found.');
+                return;
+            }
+
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+            provider = new ethers.providers.Web3Provider(window.ethereum);
+            signer = provider.getSigner();
+            address = await signer.getAddress();
+
+            abi = await fetch('https://localhost:3000/abi').then(res => res.json())
+            contract = new ethers.Contract('0x0ADfAc749810626cA31e3fE76121D03E9Cc4DB3d', abi, signer)
+        })();
+    </script>
+</body>
+
+</html>
