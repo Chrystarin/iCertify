@@ -19,7 +19,7 @@ const userRoute = require('./routes/user');
 const institutionRoute = require('./routes/institution');
 const requestRoute = require('./routes/request');
 const transactionRoute = require('./routes/transaction');
-const authRoute = requrie('./routes/auth');
+const authRoute = require('./routes/auth');
 
 const app = express();
 
@@ -28,7 +28,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: 'http://localhost:3000',
+		// origin: 'http://localhost:3000',
+        origin: 'http://127.0.0.1:8080',
 		credentials: true
 	})
 );
@@ -43,7 +44,7 @@ app.use('/institutions', institutionRoute);
 app.use('/requests', requestRoute);
 app.use('/transactions', transactionRoute);
 
-app.use((req, res, next) => next(new NotFound('Route')));
+app.use((req, res, next) => next(new NotFound('Route not found')));
 app.use(errorHandler);
 
 // Connect to database
@@ -61,9 +62,9 @@ mongoose
 
 		return app;
 	})
-	.then((server) => server.listen(PORT))
-	.then((error) => {
-		if (error) throw error;
-		console.log('Connected to database\nListening on port', PORT);
-	})
+	.then((server) =>
+		server.listen(PORT, () =>
+			console.log('Connected to database\nListening on port', PORT)
+		)
+	)
 	.catch((error) => console.log(error.message));

@@ -1,12 +1,5 @@
 const { Schema, model } = require('mongoose');
-const { ObjectId } = Schema.Types;
-
-const {
-	roles: { JOIN, DOCUMENT }
-} = require('../miscellaneous/constants');
-
-const joinSchema = new Schema({ idNumber: String, membership: String });
-const documentSchema = new Schema({ docId: String });
+const { ObjectId, Mixed } = Schema.Types;
 
 module.exports = model(
 	'Request',
@@ -20,7 +13,7 @@ module.exports = model(
 			requestType: {
 				type: String,
 				enum: {
-					values: [JOIN, DOCUMENT],
+					values: ['join', 'document'],
 					message: "'{VALUE}' is not supported request type"
 				},
 				required: [true, 'Request type is required']
@@ -43,9 +36,7 @@ module.exports = model(
 				ref: 'Institution',
 				required: true
 			},
-			details: function () {
-				return this.requestType === JOIN ? joinSchema : documentSchema;
-			}
+			details: { type: Mixed, required: true }
 		},
 		{ timestamps: true }
 	)

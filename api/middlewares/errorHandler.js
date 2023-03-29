@@ -1,19 +1,20 @@
 module.exports = (error, req, res, next) => {
-	const { _message, code } = error;
+	const { code } = error;
 	let { name } = error;
 
 	// Validations
 	if (name === 'ValidationError') {
-		const { errors } = error;
+		const { errors, _message } = error;
 
 		error = {
 			...error,
+			name: 'ValidationError',
 			message: {
 				message: _message,
 				errors: Object.values(errors).reduce(
-					(output, { name, path, message }) => [
+					(output, { path, message }) => [
 						...output,
-						{ name, path, message }
+						{ path, message }
 					],
 					[]
 				)
@@ -23,15 +24,24 @@ module.exports = (error, req, res, next) => {
 	}
 
 	// unique
-	if (code === 11000)
-		error = { ...error, message: 'Duplicate entry', status: 409 };
+	if (code === 11000) {
+		const { keyValue } = error;
+		const [[property, value]] = Object.entries(keyValue);
+
+		error = {
+			...error,
+			name: 'DuplicateError',
+			message: `A ${property} of ${value} already exists`,
+			status: 409
+		};
+	}
 
 	// ethers.js
 	if (code === 'INVALID_ARGUMENT') {
 		const { reason } = error;
 		error = {
 			...error,
-			name: 'ethers: Invalid wallet address',
+			name: `ethers error: ${code}`,
 			message: reason,
 			status: 422
 		};
@@ -39,10 +49,10 @@ module.exports = (error, req, res, next) => {
 
 	// jsonwebtoken
 	if (name === 'TokenExpiredError') {
-		error = { ...error, message: 'Token expired' };
+		error = { ...error, message: 'Token expired', status: 401 };
 	}
 	if (name === 'JsonWebTokenError') {
-		error = { ...error, message: 'Token malformed' };
+		error = { ...error, message: 'Token malformed', status: 401 };
 	}
 
 	({ name } = error);

@@ -17,11 +17,11 @@ const sign = (payload, secret, expiresIn) =>
 	jwt.sign({ ...payload, createdAt: new Date() }, secret, { expiresIn });
 
 // Sign an access-token
-const signAccess = async (payload) =>
+const signAccess = (payload) =>
 	sign(payload, JWT_ACCESS_SECRET, duration.access);
 
 // Sign a refresh-token
-const signRefresh = async (payload) =>
+const signRefresh = (payload) =>
 	sign(payload, JWT_REFRESH_SECRET, duration.refresh);
 
 module.exports = {

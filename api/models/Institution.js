@@ -34,6 +34,7 @@ module.exports = model(
 					user: {
 						type: ObjectId,
 						ref: 'User',
+						unique: true,
 						required: [true, 'User id is required']
 					},
 					idNumber: String,

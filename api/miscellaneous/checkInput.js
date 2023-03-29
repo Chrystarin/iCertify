@@ -32,7 +32,7 @@ const isNumber = (n, property, canbeUndefined = false) => {
 };
 
 const isEmail = (email) => {
-	checkString(email, 'Email');
+	isString(email, 'Email');
 
 	if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email))
 		throw new InvalidInput('Invalid email format');
