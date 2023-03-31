@@ -1,6 +1,11 @@
 import axios from 'axios';
 
+const baseURL = 'http://localhost:4000'
+
 export default axios.create({
-	baseURL: 'http://localhost:6787',
-    withCredentials: true
+	baseURL,
+	withCredentials: true,
+	headers: {
+		"Content-Type": "application/json"
+	}
 });

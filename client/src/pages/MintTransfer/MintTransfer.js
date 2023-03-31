@@ -13,7 +13,6 @@ import Menu from '@mui/material/Menu';
 import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Chip from '@mui/material/Chip';
-import contractBuild from '../../CertificateNFT.json';
 import { ethers } from 'ethers';
 import axios from '../../config/axios';
 

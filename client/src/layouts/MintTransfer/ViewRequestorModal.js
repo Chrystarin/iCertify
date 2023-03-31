@@ -11,8 +11,6 @@ import { Button } from '@mui/material';
 
 import Certificate from '../../components/Certificate/Certificate.js';
 
-import contractBuild from '../../CertificateNFT.json';
-
 import axios from '../../config/axios';
 
 function ViewRequestorModal(props, { setter }) {
@@ -47,24 +45,24 @@ function ViewRequestorModal(props, { setter }) {
 	};
 
 	useEffect(() => {
-		async function requestAccount() {
-			return await window.ethereum.request({
-				method: 'eth_requestAccounts'
-			});
-		}
-		requestAccount();
-		provider = new ethers.providers.Web3Provider(window.ethereum);
-		signer = provider.getSigner();
-		setContract(new ethers.Contract(
-			'0x5AE7d1d82cEef6eE9745F9C27CE98Ea57c51F5C2',
-			contractBuild.abi,
-			signer
-		))
+		// async function requestAccount() {
+		// 	return await window.ethereum.request({
+		// 		method: 'eth_requestAccounts'
+		// 	});
+		// }
+		// requestAccount();
+		// provider = new ethers.providers.Web3Provider(window.ethereum);
+		// signer = provider.getSigner();
+		// setContract(new ethers.Contract(
+		// 	'0x5AE7d1d82cEef6eE9745F9C27CE98Ea57c51F5C2',
+		// 	contractBuild.abi,
+		// 	signer
+		// ))
 
-        console.log('onload', contract)
-        console.log(certImage)
+        // console.log('onload', contract)
+        // console.log(certImage)
 
-		GenerateCertificateID();
+		// GenerateCertificateID();
 	}, []);
 
     // Send Document

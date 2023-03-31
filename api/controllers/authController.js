@@ -32,6 +32,8 @@ const register = async (req, res, next) => {
 	const { email, userType } = req.body;
 	let { walletAddress } = req.body;
 
+    console.log(walletAddress)
+
 	// Validate inputs
 	isString(walletAddress, 'Wallet Address');
 	isString(userType, 'User Type');
@@ -49,41 +51,42 @@ const register = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-	const { signature, walletAddress, userType } = req.body;
+	const { signature, walletAddress } = req.body;
 
 	// Validate inputs
 	isString(signature, 'Signature');
 	isString(walletAddress, 'Wallet Address');
-	isString(userType, 'User Type');
 
 	// Verify the signature
-	await verifySignature(signature, walletAddress);
+	// await verifySignature(signature, walletAddress);
 
 	// Create payload holder
 	let payload;
 
-	// Find user
-	if (userType === USER) {
-		const user = await User.findOne({ walletAddress });
-		if (!user) throw new UserNotFound();
+    // Create type
+    let type;
 
+    // Check if existing
+    const user = await User.findOne({ walletAddress })
+    const institution = await Institution.findOne({ walletAddress })
+
+	// Assign Payload for User
+	if (user) {
+        type = 'user'
 		payload = { id: user._id, type: USER, walletAddress };
 	}
-
-	// Find institution
-	if (userType === INSTITUTION) {
-		const institution = await Institution.findOne({ walletAddress });
-		if (!institution) throw new InstitutionNotFound();
-
+	// Assign Payload for Institution
+	else if (institution) {
+        type = 'institution'
 		payload = {
 			id: institution._id,
 			type: INSTITUTION,
 			walletAddress
 		};
 	}
-
-	// Invalid type
-	if (!payload) throw new InvalidInput('Invalid user type');
+    else {
+        throw new UserNotFound();
+    }
 
 	res.status(200)
 		.cookie('access-token', signAccess(payload), {
@@ -94,7 +97,7 @@ const login = async (req, res, next) => {
 			...cookieOptions,
 			maxAge: duration.refresh
 		})
-		.json({ message: `${userType} logged in` });
+		.json({ message: `Successfully logged in`, type: type });
 };
 
 const refresh = async (req, res, next) => {

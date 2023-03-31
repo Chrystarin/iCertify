@@ -8,7 +8,7 @@ import ProtectedRoutes from './routes/ProtectedRoutes.js';
 
 import Error from './pages/Error/Error.js';
 import LandingPage from './pages/LandingPage/LandingPage';
-import GetStarted from './pages/GetStarted/GetStarted.js';
+import Register from './pages/Register/Register.js';
 
 // Member
 import MemberPanel from './routes/Member.js';
@@ -21,6 +21,7 @@ import JoinInstution from './pages/Institution/InstitutionJoin.js';
 import Profile from './pages/Profile/Profile.js';
 import ProfileUpdate from './pages/Profile/ProfileUpdate';
 import RequestDocumentForm from './pages/Documents/DocumentRequestForm'
+
 // Admin
 import AdminPanel from './routes/Admin.js';
 import A_EventCreate from './pages/Institution/Admin/EventCreate.js';
@@ -45,7 +46,7 @@ function App() {
             <Route path='/' element={<PublicPanel/>}>
                 <Route path='*' element={<Error />}/>
                 <Route path='home' element={<LandingPage/>}/>
-                <Route path='getstarted' element={<GetStarted/>}/>
+                <Route path='register' element={<Register/>}/>
 				<Route path='event/:id' element={<Institution_View />}/>
                 <Route path='documents/:id' element={<DocumentPage/>}/>
                 <Route path='user/:id' element={<Profile />}/>

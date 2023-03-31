@@ -9,6 +9,6 @@ const message = 'Test message';
 module.exports = async (signature, walletAddress) => {
 	if (verifyMessage(message, signature) !== walletAddress)
 		throw new Unauthorized(
-			"Signer address doesn't much the wallet address"
+			"Signer address doesn't match111 the wallet address"
 		);
 };
