@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {ethers} from 'ethers';
 
@@ -21,6 +21,12 @@ function Register() {
     const navigate = useNavigate();
     const [userType, setUserType] = useState();
     const [gender, setGender] = useState();
+    
+    // Document NFT Contract Address
+    const contractAddress = '0x0ADfAc749810626cA31e3fE76121D03E9Cc4DB3d'
+
+    // Declare Holders for Wallet Info
+    let provider, signer, address, abi
 
     // Institution Registration Form
     const [institutionForm, setInstitutionForm] = useState({
@@ -38,6 +44,18 @@ function Register() {
         lastName: '',
         birthDate: ''
     })
+
+    // Executes upon browser loads
+    useEffect(() => {
+        const fetchContract = async () => {
+            await axios.get(`abi`)
+            .then((res)=>{
+                abi = res.data
+            })
+        }
+
+        fetchContract();
+    }, []);
     
     // Retrieves data from text input then assigns to form
     function updateForm(e) {
@@ -57,10 +75,7 @@ function Register() {
         }
     }
 
-    const handleChangeGender = (event) => {
-        setGender(event.target.value);
-    };
-
+    // Connect User's Metamask Wallet
     const ConnectWallet = async () => {
         // Check if metamask is installed
         if (typeof window.ethereum == undefined) {
@@ -70,16 +85,16 @@ function Register() {
         try{
             // Requests Metamask
             await window.ethereum.request({ method: 'eth_requestAccounts' });
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            provider = new ethers.providers.Web3Provider(window.ethereum);
 
             // Get signer of Metamask
-            const signer = provider.getSigner();
+            signer = provider.getSigner();
 
             // Sign message
             const signature = await signer.signMessage("Harold James Castillo is ♥")
 
             // Get address
-            const address = await signer.getAddress()
+            address = await signer.getAddress()
 
             return {address, signature}
             
@@ -94,13 +109,12 @@ function Register() {
 
         // Gets wallet info
         const wallet = await ConnectWallet()
-        
 
         try {
             // Checks selected user type then registers user
             switch(userType){
-                // Registers Member
                 case 'user':
+                    // Registers Member
                     await axios.post(
                         `auth/register`,
                         JSON.stringify({ 
@@ -120,9 +134,13 @@ function Register() {
                         navigate("/")
                     })
                     break;
-                // Registers Institution
                 case 'institution':
-
+                    
+                    // Contract Transaction
+                    const contract = new ethers.Contract(contractAddress, abi, signer);
+                    const txHash = await contract.registerInstitution();
+                    
+                    // Registers Institution
                     await axios.post(
                         `auth/register`,
                         JSON.stringify({ 
@@ -132,7 +150,7 @@ function Register() {
                             details: {
                                 name: institutionForm.name,
                                 type: institutionForm.type,
-                                txHash: '4150953a511f9f6d74e17d5ac22e8be54e9fab56',
+                                txHash: txHash.hash
                             }
                         })
                     )
@@ -146,10 +164,14 @@ function Register() {
                     break
             }
             
-        } catch (err) {
-                console.error(err.message);
+        } catch (err) {      
+                alert(err.message);
         }
     }
+
+    const handleChangeGender = (event) => {
+        setGender(event.target.value);
+    };
 
     return (
         <div id='Signup'>

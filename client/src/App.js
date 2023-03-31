@@ -44,32 +44,30 @@ function App() {
 		<Routes>
 			{/* Public Routes */}
             <Route path='/' element={<PublicPanel/>}>
-                <Route path='*' element={<Error />}/>
                 <Route path='home' element={<LandingPage/>}/>
                 <Route path='register' element={<Register/>}/>
-				<Route path='event/:id' element={<Institution_View />}/>
+                <Route path='institutions' element={<Institution_View />}/>
+				<Route path='institutions/:id' element={<Institution_View />}/>
                 <Route path='documents/:id' element={<DocumentPage/>}/>
-                <Route path='user/:id' element={<Profile />}/>
+                <Route path='users/:id' element={<Profile />}/>
 			</Route>
 
             {/* Member Routes */}
-			<Route path='/m' element={<MemberPanel />}>
-                <Route path='*' element={<Error />}/>
+			<Route path='/user' element={<MemberPanel />}>
+                <Route path=':id' element={<Profile />} />
+				<Route path=':id/edit' element={<ProfileUpdate />}/>
 				<Route path='dashboard' element={<Dashboard />}/>
                 <Route path='documents' element={<Document />} />
 				<Route path='document/:id' element={<DocumentPage />} />
 				<Route path='institutions' element={<Institutions />}/>
 				<Route path='institution/DocumentRequest' element={<RequestDocumentForm />}/>
-				{/* <Route path='institution/:id' element={<Institution_View />} /> */}
 				<Route path='institution/view' element={<Institution_View owner={false}/>} />
 				<Route path='institution/join' element={<JoinInstution/>} />
-				<Route path=':id' element={<Profile />} />
-				<Route path=':id/edit' element={<ProfileUpdate />}/>
+				
 			</Route>
 
-            {/* Admin Routes */}
-			<Route path='/a' element={<AdminPanel />} >
-                <Route path='*' element={<Error />}/>
+            {/* Institution Routes */}
+			<Route path='/institution' element={<AdminPanel />} >
 				<Route path='institution/view' element={<Institution_View owner={true}/>} />
 				<Route path='institution/update' element={<InstitutionsUpdate/>}/>
                 <Route path='analytics' element={<DashboardAdmin />}/>
@@ -77,8 +75,6 @@ function App() {
 				<Route path='documents' element={<MintTransfer />} />
 				<Route path='document/create' element={<CreateDocument />} />
 				<Route path='document/add' element={<AddDocumentOffered />} />
-
-				
                 <Route path='events/create' element={<A_EventCreate />} />
                 <Route path='events/:id' element={<Institution_View/>} />
                 <Route path='events/:id/edit' element={<A_EventCreate />} />

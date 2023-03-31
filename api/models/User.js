@@ -37,10 +37,13 @@ module.exports = model(
 				{
 					nftId: {
 						type: Number,
-						required: [true, 'NFT ID is required'],
-						unique: true
+						required: [true, 'NFT ID is required']
+						// unique: true
 					},
-					accessCodes: [{ type: String, unique: true }]
+					accessCodes: [{ 
+                        type: String
+                        // unique: true 
+                    }]
 				}
 			]
 		},

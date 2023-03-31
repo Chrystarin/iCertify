@@ -58,7 +58,7 @@ const login = async (req, res, next) => {
 	isString(walletAddress, 'Wallet Address');
 
 	// Verify the signature
-	// await verifySignature(signature, walletAddress);
+	await verifySignature(signature, walletAddress);
 
 	// Create payload holder
 	let payload;
@@ -89,15 +89,15 @@ const login = async (req, res, next) => {
     }
 
 	res.status(200)
-		.cookie('access-token', signAccess(payload), {
-			...cookieOptions,
-			maxAge: duration.access
-		})
+		// .cookie('access-token', signAccess(payload), {
+		// 	...cookieOptions,
+		// 	maxAge: duration.access
+		// })
 		.cookie('refresh-token', signRefresh(payload), {
 			...cookieOptions,
 			maxAge: duration.refresh
 		})
-		.json({ message: `Successfully logged in`, type: type });
+		.json({ message: `Successfully logged in`, type: type, accessToken: signAccess(payload) });
 };
 
 const refresh = async (req, res, next) => {

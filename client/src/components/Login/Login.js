@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import axios from '../../config/axios';
 
 function Login(props) {
+    // const { setAuth, persist, setPersist } = useAuth();
     const navigate = useNavigate();
 
     const ConnectWallet = async () => {
@@ -24,7 +25,7 @@ function Login(props) {
             const signer = provider.getSigner();
 
             // Sign message
-            const signature = await signer.signMessage("Harold James Castillo is ♥")
+            const signature = await signer.signMessage('Test message')
 
             // Get address
             const address = await signer.getAddress()
@@ -56,8 +57,12 @@ function Login(props) {
             .then((response) => {
                 // if (response.data.type == 'user') navigate(`user/${wallet.address}`)
                 // if (response.data.type == 'institution') navigate(`institution/${wallet.address}`)   
-                navigate(`user/${wallet.address}`)
-                window.location.reload(true); 
+                const { message, type, accessToken } = response.data
+                // setAuth({ wallet.address, roles, accessToken });
+                console.log(response.data)
+                console.log(accessToken)
+                // navigate(`user/${wallet.address}`)
+                // window.location.reload(true); 
             });
         } catch(err) {
             alert(err)
