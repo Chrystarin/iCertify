@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const Institution = require('../models/Institution');
 
 const {
 	signAccess,
@@ -52,7 +53,7 @@ const registerUser = async (req, res, next) => {
 };
 
 const getUser = async (req, res, next) => {
-	const walletAddress = req.query?.walletAddress || req.user?.walletAddress;
+	const { walletAddress } = req.query;
 
 	// Validate input
 	isString(walletAddress, 'Wallet Address');
@@ -60,7 +61,10 @@ const getUser = async (req, res, next) => {
 	// Find user
 	const user = await User.findOne({ walletAddress });
 
-	res.status(200).json(user);
+	// Get joined institutions
+	const institutions = await Institution.find({ 'members.user': user._id });
+
+	res.status(200).json({ ...user, institutions });
 };
 
 const updateUser = async (req, res, next) => {

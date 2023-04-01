@@ -20,6 +20,7 @@ const institutionRoute = require('./routes/institution');
 const requestRoute = require('./routes/request');
 const transactionRoute = require('./routes/transaction');
 const authRoute = require('./routes/auth');
+const accessRoute = require('./routes/access');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.use(helmet());
 
 // Routes
 app.get('/abi', (req, res, next) => res.status(200).json(abi));
+app.use('/access', accessRoute);
 app.use('/auth', authRoute);
 app.use('/users', userRoute);
 app.use('/institutions', institutionRoute);

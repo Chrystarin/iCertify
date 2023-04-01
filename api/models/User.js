@@ -39,15 +39,17 @@ module.exports = model(
 						type: Number,
 						required: [true, 'NFT ID is required'],
 						unique: true,
-                        index: true, 
-                        sparse: true
+						index: true,
+						sparse: true
 					},
-					accessCodes: [{ 
-                        type: String,
-						unique: true,
-                        index: true, 
-                        sparse: true
-                    }]
+					accessCodes: [
+						{
+							type: String,
+							unique: true,
+							index: true,
+							sparse: true
+						}
+					]
 				}
 			]
 		},
