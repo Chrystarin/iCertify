@@ -11,7 +11,7 @@ import { Button } from '@mui/material';
 
 import Certificate from '../../components/Certificate/Certificate.js';
 
-import axios from '../../config/axios';
+import axios from '../../utils/axios';
 
 function ViewRequestorModal(props, { setter }) {
 	const { data } = props;

@@ -4,7 +4,7 @@ import {ethers} from 'ethers';
 
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import Button from '@mui/material/Button';
-import axios from '../../config/axios';
+import axios from '../../utils/axios';
 
 function Login(props) {
     // const { setAuth, persist, setPersist } = useAuth();
@@ -55,14 +55,13 @@ function Login(props) {
                 })
             )
             .then((response) => {
-                // if (response.data.type == 'user') navigate(`user/${wallet.address}`)
-                // if (response.data.type == 'institution') navigate(`institution/${wallet.address}`)   
+                localStorage.setItem('user', JSON.stringify(response.data))
                 const { message, type, accessToken } = response.data
+                // if (response.data.type == 'user') navigate(`user/${wallet.address}`)
+                // if (response.data.type == 'institution') navigate(`institution/${wallet.address}`) 
                 // setAuth({ wallet.address, roles, accessToken });
-                console.log(response.data)
-                console.log(accessToken)
-                // navigate(`user/${wallet.address}`)
-                // window.location.reload(true); 
+                navigate(`users/${wallet.address}`)
+                window.location.reload(true); 
             });
         } catch(err) {
             alert(err)

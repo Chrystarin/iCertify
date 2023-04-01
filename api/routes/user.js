@@ -12,7 +12,8 @@ const { getUser, updateUser } = asyncHandler(
  *
  * walletAddress - optional [other | self]
  */
-router.get('/', onlyUser, getUser);
+// router.get('/', onlyUser, getUser);
+router.get('/', getUser);
 
 /**
  * Update user

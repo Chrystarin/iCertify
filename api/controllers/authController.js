@@ -97,7 +97,7 @@ const login = async (req, res, next) => {
 			...cookieOptions,
 			maxAge: duration.refresh
 		})
-		.json({ message: `Successfully logged in`, type: type, accessToken: signAccess(payload) });
+		.json({ walletAddress: walletAddress, type: type, accessToken: signAccess(payload) });
 };
 
 const refresh = async (req, res, next) => {

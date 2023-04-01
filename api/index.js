@@ -40,14 +40,14 @@ app.use(helmet());
 // Routes
 app.get('/abi', (req, res, next) => res.status(200).json(abi));
 app.use('/auth', authRoute);
-app.use(authenticate);
 app.use('/users', userRoute);
 app.use('/institutions', institutionRoute);
+app.use(authenticate);
 app.use('/requests', requestRoute);
 app.use('/transactions', transactionRoute);
 
 // app.use((req, res, next) => next(new NotFound('Route not found')));
-// app.use(errorHandler);
+
 
 app.use((err, req, res, next) => {
 	console.log(err);
@@ -57,6 +57,8 @@ app.use((err, req, res, next) => {
 		message: err.message
 	});
 });
+
+app.use(errorHandler);
 
 // Connect to database
 mongoose

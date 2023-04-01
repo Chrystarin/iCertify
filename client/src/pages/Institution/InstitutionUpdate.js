@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Avatar } from '@mui/material';
-import axios from '../../config/axios';
+import axios from '../../utils/axios';
 
 function ProfileUpdate() {
 

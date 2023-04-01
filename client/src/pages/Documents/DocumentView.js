@@ -15,7 +15,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import DownloadIcon from '@mui/icons-material/Download';
 import UserIcon from './../../images/icons/user-round.png';
 
-import axios from '../../config/axios';
+import axios from '../../utils/axios';
 
 function DocumentView() {
   const { id } = useParams()

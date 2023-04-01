@@ -8,7 +8,7 @@ import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import TopicIcon from '@mui/icons-material/Topic';
 
-import axios from '../../config/axios';
+import axios from '../../utils/axios';
 
 function DashboardAdmin() {
 

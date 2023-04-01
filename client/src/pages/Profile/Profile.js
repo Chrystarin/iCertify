@@ -16,68 +16,54 @@ import MetaMaskIcon from './../../images/icons/fox.png';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import PremiumIcon from '@mui/icons-material/WorkspacePremium';
 
-import axios from '../../config/axios';
+import axios from '../../utils/axios';
 import Empty from '../../images/icons/empty-folder.png'
 import { useParams } from 'react-router-dom';
 import {ethers} from 'ethers';
 
 function Profile() {
 	const { id } = useParams();
-	const [member, setMember] = useState(null);
+	const [user, setUser] = useState(null);
 	const [joinedEvents, setJoinedEvents] = useState(null);
+    const [institutions, setInstitutions] = useState(null);
 	const [ownedCertificates, setOwnedCertificates] = useState(null);
     const [address, setAddress] = useState(null);
 
 	// Executes on load
 	useEffect(() => {
-		// Retrieves Member Data
-		const fetchMember = async () => {
-			const response = await axios
-				.get(`members/${id}`)
+		// Retrieves User's Data
+		const fetchUser = async () => {
+			await axios
+				.get(`users`,{
+                    params: {
+                        walletAddress: `${id}`
+                    }
+                })
 				.then((response) => {
-					setMember(response.data);
+					setUser(response.data);
 				});
 		};
 
-		// Retrives Joined Events Data
-		const fetchJoinedEvents = async () => {
-			const response = await axios
-				.get(`members/${id}/events`)
+        // Retrieves User's Joined Institutions
+		const fetchInstitutions = async () => {
+			await axios
+				.get(`institutions`,{
+                    params: {
+                        walletAddress: `${id}`
+                    }
+                })
 				.then((response) => {
-					setJoinedEvents(response.data);
+					setInstitutions(response.data);
+                    console.log(response.data)
 				});
 		};
 
-		const fetchOwnedCertificates = async () => {
-			const response = await axios
-				.get(`members/${id}/certificates`)
-				.then((response) => {
-					setOwnedCertificates(response.data);
-				});
-		};
-
-        const checkWallet = async () => {
-            try{
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                const signer = provider.getSigner();
-                setAddress(await signer.getAddress());
-            }
-            catch(err){
-                console.error(err.message);
-            }
-        }
-    
-        checkWallet();
-		fetchMember();
-		fetchJoinedEvents();
-		fetchOwnedCertificates();
+        fetchInstitutions();
+		fetchUser();
 	}, []);
 
-	// Returns if member is null
-	if (!member) return <div>loading... No Member Found</div>;
-	if (!joinedEvents) return <div>loading... No JoinedEvents Found</div>;
-	if (!ownedCertificates)
-		return <div>loading... No OwnedCertificates Found</div>;
+	// Returns if user is null
+	if (!user) return <div>loading... No user Found</div>;
 
 	return (
 		<div id='Profile'>
@@ -89,29 +75,25 @@ function Profile() {
 				/>
 				<div id='Profile__Div__Info__Container'>
 					<h3>
-						{(member.name?.firstName || member.name?.lastName)?
+						{(user.name?.firstName || user.name?.lastName)?
 						
 							<>
-								{(member.name?.firstName ?? '') + ' '}
-								{member.name?.middleName
-									? [...member.name.middleName][0]
+								{(user.name?.firstName ?? '') + ' '}
+								{user.name?.middleName
+									? [...user.name.middleName][0] + '.'
 									: ''}
-								.{' ' + (member.name?.lastName ?? '')}
-								{' ' + (member.name?.extension ?? '')}
-								{member.isPremium ? <PremiumIcon /> : ''}
+								{' ' + (user.name?.lastName ?? '')}
 							</>
 							:
 							<>
 								Update Profile Name
 							</>
-					
 						}
-						
 					</h3>
 					<div id='User__Div_Info'>
 						<a href='/'>
 							<UserPanelInfo
-								Title={member.walletAddress}
+								Title={user.walletAddress}
 								Image={MetaMaskIcon}
 							/>
 						</a>
@@ -138,7 +120,7 @@ function Profile() {
 							id='AboutMe__Div'
 						>
 							<h6 className='Panel__Title'>About</h6>
-							<p className='BodyText3'>{member.about ?? ''}</p>
+							<p className='BodyText3'>{user.about ?? ''}</p>
 						</div>
 						<div
 							className='Panel__Container'
@@ -148,13 +130,14 @@ function Profile() {
 								<li className='Panel__MultipleContent'>
 									<h6 className='Panel__Title'>Contact Number</h6>
 
-									{(!member.contact?.mobile)? <>
+									{(!user.contact?.mobile)? <>
 									</>:
 									<>
 									<div className='Panel__Content__IconText'>
 										<PhoneAndroidIcon />
 										<p className='BodyText3'>
-											{member.contact?.mobile}
+											{user.email ?? ''}
+                                            {user.contactNo ?? ''}
 										</p>
 									</div>
 									</>
@@ -165,9 +148,7 @@ function Profile() {
 									<div className='Panel__Content__IconText'>
 										<LocationOnIcon />
 										<p className='BodyText3'>
-											{member.location?.city ?? ''}{' '}
-											{member.location?.province ?? ''},{' '}
-											{member.location?.country ?? ''}
+											{user.address ?? ''}
 										</p>
 									</div>
 								</li>
@@ -177,9 +158,8 @@ function Profile() {
 				</div>
 				
 				<div id='Content__Div'>
-				<section>
-						<h5 className='Panel__Title'>Certificates </h5>
-
+				{/* <section>
+					<h5 className='Panel__Title'>Certificates </h5>
 					{(ownedCertificates.length === 0 )?
 							<>
 								<div className='EmtpyCard'>
@@ -207,8 +187,8 @@ function Profile() {
 							</>
 						}			
 						
-					</section>
-					<section>
+					</section> */}
+					{/* <section>
 						<h5 className='Panel__Title'>Institutions</h5>
 						{(joinedEvents.length === 0 )?
 							<>
@@ -231,7 +211,7 @@ function Profile() {
 												name={joinedEvent.event.title} 
 												address={"wewe"} 
 												totalDocuments={300}  
-												totalMembers={400} 
+												totalusers={400} 
 												joinStatus={true}
 											/>
 										</>
@@ -239,10 +219,7 @@ function Profile() {
 								</div>
 							</>
 						}
-							
-					</section>
-
-					
+					</section> */}
 				</div>
 			</div>
 		</div>

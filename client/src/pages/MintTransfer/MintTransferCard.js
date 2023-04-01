@@ -9,7 +9,7 @@ import UserIcon from './../../images/icons/user-round.png';
 import Tooltip from '@mui/material/Tooltip';
 import ViewRequestorModal from '../../layouts/MintTransfer/ViewRequestorModal';
 import Menu from '@mui/material/Menu';
-import axios from '../../config/axios';
+import axios from '../../utils/axios';
 import TextField from '@mui/material/TextField';
 function MintTransferCard(props) {
 

@@ -14,7 +14,7 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Chip from '@mui/material/Chip';
 import { ethers } from 'ethers';
-import axios from '../../config/axios';
+import axios from '../../utils/axios';
 
 function MintTransfer() {
 	const { id } = useParams();

@@ -4,10 +4,10 @@ import MemberCard from '../../components/Card/MemberCard.js';
 import SearchInput from '../../components/SearchInput/SearchInput.js';
 import IconButton from '@mui/material/IconButton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import Analytics from '../../layouts/Event/Admin/EventAnalytics.js';
+import Analytics from '../../layouts/Analytics/Analytics.js';
+
 function MemberList() {
     const [isOpenPanel_Institution, seOpenPanel_Institution] = useState('All');
-
 
     const Members = [
 		{ name : 'Dianne Chrystalin Brandez', userID : "023245", institutionID:"020008524",totalRequestedDocuments:"5",},
@@ -28,31 +28,34 @@ function MemberList() {
                 </div>
                 <div className='Navigation_Institution'>
                     <div className='Navigation_Left'>
-                        <Button variant={
-                            isOpenPanel_Institution === 'All'
-                                ? 'contained'
-                                : ''
-                        }
-                        onClick={() => seOpenPanel_Institution('All')}
+                        <Button 
+                            variant={
+                                isOpenPanel_Institution === 'All'
+                                    ? 'contained'
+                                    : ''
+                            }
+                            onClick={() => seOpenPanel_Institution('All')}
                         >
                             All
                         </Button>
                         <Button 
-                        variant={
-                            isOpenPanel_Institution === 'New Members'
-                                ? 'contained'
-                                : ''
-                        }
-                        onClick={() => seOpenPanel_Institution('New Members')}>
+                            variant={
+                                isOpenPanel_Institution === 'New Members'
+                                    ? 'contained'
+                                    : ''
+                            }
+                            onClick={() => seOpenPanel_Institution('New Members')}
+                        >
                             New Members
                         </Button>
                         <Button 
-                        variant={
-                            isOpenPanel_Institution === 'Join Requests'
-                                ? 'contained'
-                                : ''
-                        }
-                        onClick={() => seOpenPanel_Institution('Join Requests')}>
+                            variant={
+                                isOpenPanel_Institution === 'Join Requests'
+                                    ? 'contained'
+                                    : ''
+                            }
+                            onClick={() => seOpenPanel_Institution('Join Requests')}
+                        >
                             Join Requests
                         </Button>
                     </div>

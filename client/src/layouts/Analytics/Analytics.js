@@ -1,6 +1,7 @@
 import React from 'react'
-import './EventAnalytics.scss';
-import PicNotification from './../../../images/iCertifyBranding/icon.png';
+
+import './Analytics.scss';
+import PicNotification from './../../images/iCertifyBranding/icon.png';
 import DownloadIcon from '@mui/icons-material/Download';
 
 function Analytics() {

@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import '../MintTransfer/MintTransfer.scss';
 import './../../styles/Main.scss';
 import Card from '../../components/Card/Card';
-import axios from '../../config/axios';
+import axios from '../../utils/axios';
 
 function CertificateGenerateEventsList() {
 	const navigate = useNavigate();

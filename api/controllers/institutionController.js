@@ -105,7 +105,7 @@ const getInstitutions = async (req, res, next) => {
 	let institutions = await Institution.find(
 		walletAddress ? { walletAddress } : {}
 	)
-		.populate('-members')
+		// .populate('-members')
 		.exec();
 
 	res.status(200).json(institutions);

@@ -14,7 +14,7 @@ import Select from '@mui/material/Select';
 
 import './Register.scss'
 
-import axios from '../../config/axios';
+import axios from '../../utils/axios';
 
 function Register() {
     // Constant Declarations
@@ -135,7 +135,6 @@ function Register() {
                     })
                     break;
                 case 'institution':
-                    
                     // Contract Transaction
                     const contract = new ethers.Contract(contractAddress, abi, signer);
                     const txHash = await contract.registerInstitution();

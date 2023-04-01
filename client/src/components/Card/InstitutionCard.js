@@ -8,25 +8,25 @@ import { Button } from '@mui/material';
 function EventCard(props) {
   return (
     <div id='EventCard'>  
-      <a id='EventCard__Container' href='institution/view'>
-        <img id='EventResourcesDesign' src={EventResourcesDesign} alt="" />
-        <div id='Avatar__Container'>
-          <Avatar id="Avatar"/>
+        <a id='EventCard__Container' href={`institutions/${props.walletAddress}`}>
+            <img id='EventResourcesDesign' src={EventResourcesDesign} alt="" />
+            <div id='Avatar__Container'>
+                <Avatar id="Avatar"/>
+            </div>
+            <h6>{props.name}</h6>
+            <p id='EventCard__Address' className='BodyText3'>{props.address}</p>
+        </a>
+        <div id='EventCard__Footer'>
+            <div>
+                <PeopleAltIcon/>
+                <p className='BodyText3'>{props.totalMembers}</p>
+            </div>
+            {props.joinStatus?<Button variant='contained'>Request</Button>:<Button variant='contained'>Join</Button>}
+            <div>
+                <TaskIcon/>
+                <p className='BodyText3'>{props.totalDocuments}</p>
+            </div>
         </div>
-        <h6>{props.name}</h6>
-        <p id='EventCard__Address' className='BodyText3'>{props.address}</p>
-      </a>
-      <div id='EventCard__Footer'>
-        <div>
-          <PeopleAltIcon/>
-          <p className='BodyText3'>{props.totalMembers}</p>
-        </div>
-        {props.joinStatus?<Button variant='contained'>Request</Button>:<Button variant='contained'>Join</Button>}
-        <div>
-          <TaskIcon/>
-          <p className='BodyText3'>{props.totalDocuments}</p>
-        </div>
-      </div>
     </div>
   )
 }
