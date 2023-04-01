@@ -20,6 +20,7 @@ const institutionRoute = require('./routes/institution');
 const requestRoute = require('./routes/request');
 const transactionRoute = require('./routes/transaction');
 const authRoute = require('./routes/auth');
+const accessRoute = require('./routes/access');
 
 const app = express();
 
@@ -29,7 +30,7 @@ app.use(cookieParser());
 app.use(
 	cors({
 		// origin: 'http://localhost:3000',
-        origin: 'http://127.0.0.1:8080',
+		origin: 'http://127.0.0.1:8080',
 		credentials: true
 	})
 );
@@ -37,6 +38,7 @@ app.use(helmet());
 
 // Routes
 app.get('/abi', (req, res, next) => res.status(200).json(abi));
+app.use('/access', accessRoute);
 app.use('/auth', authRoute);
 app.use(authenticate);
 app.use('/users', userRoute);
