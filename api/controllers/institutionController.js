@@ -99,12 +99,16 @@ const getInstitutions = async (req, res, next) => {
 	const { walletAddress } = req.query;
 
 	// Validate input
-	isString(walletAddress, 'Wallet Address');
+	isString(walletAddress, 'Wallet Address', true);
 
 	// Find institutions
-	const institution = await Institution.findOne({ walletAddress });
+	let institutions = await Institution.find();
+	if (walletAddress)
+		institutions = institutions.find(
+			({ walletAddress: wa }) => walletAddress === wa
+		);
 
-	res.status(200).json(institution);
+	res.status(200).json(institutions);
 };
 
 const getMembers = async (req, res, next) => {
@@ -119,7 +123,7 @@ const getMembers = async (req, res, next) => {
 		.exec();
 
 	// Filter members with walletAddress
-	const members = institution.members
+	let members = institution.members
 		.filter(({ user: { walletAddress: wa } }) =>
 			walletAddress ? wa === walletAddress : true
 		)
@@ -133,7 +137,9 @@ const getMembers = async (req, res, next) => {
 				.map(({ codes: [code], ...doc }) => ({ ...doc, code }))
 		}));
 
-	res.status(200).json(members);
+	if (walletAddress) [members] = members;
+
+	res.json(members);
 };
 
 const addOfferedDoc = async (req, res, next) => {

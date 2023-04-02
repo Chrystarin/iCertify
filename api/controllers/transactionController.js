@@ -5,7 +5,7 @@ const Institution = require('../models/Institution');
 const Transaction = require('../models/Transaction');
 
 const {
-	roles: { INSTITUTION }
+	roles: { INSTITUTION, USER }
 } = require('../miscellaneous/constants');
 const { MemberNotFound, DuplicateEntry } = require('../miscellaneous/errors');
 const { isString } = require('../miscellaneous/checkInput');
@@ -20,11 +20,11 @@ const getTransactions = async (req, res, next) => {
 	isString(txHash, 'Transaction Hash', true);
 
 	// Create transaction query (defaults to user)
-	let transactionQuery = { user: req.user.id, hash: txHash };
+	let transactionQuery = {};
 
-	// User is institution
-	if (req.user.type == INSTITUTION) {
-		// Validate input
+	if (req.user.type === USER) transactionQuery.user = req.user.id;
+
+	if (req.user.type === INSTITUTION) {
 		isString(walletAddress, 'Wallet Address', true);
 
 		// Find Institution
@@ -40,24 +40,24 @@ const getTransactions = async (req, res, next) => {
 			);
 			if (!member) throw new MemberNotFound();
 
-			// Modify transaction query
-			transactionQuery = {
-				...transactionQuery,
-				user: member.user._id
-			};
+			// Add user to query
+			transactionQuery.user = member.user._id;
 		}
 
-		// Modify transaction query
-		transactionQuery = {
-			...transactionQuery,
-			institution: institution._id
-		};
+		// Add institution to query
+		transactionQuery.institution = institution._id;
 	}
 
 	// Get transactions
 	const transactions = await Transaction.find(transactionQuery);
 
-	res.status(200).json(transactions);
+	// Filter transactions by transactionId
+	transactions = transactions.filter(({ hash }) =>
+		txHash ? txHash === hash : true
+	);
+	if (txHash) [transactions] = transactions;
+
+	res.json(transactions);
 };
 
 const saveIpfs = async (req, res, next) => {

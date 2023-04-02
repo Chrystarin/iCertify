@@ -36,7 +36,6 @@ const getRequests = async (req, res, next) => {
 		requestQuery = { ...requestQuery, requestor: req.user.id };
 
 	if (req.user.type == INSTITUTION) {
-		// Validate input
 		isString(walletAddress, 'Member Wallet Address', true);
 
 		// Add insitution property to the request query
@@ -61,9 +60,11 @@ const getRequests = async (req, res, next) => {
 	}
 
 	// Get the requests
-	const requests = await Request.find(requestQuery)
+	let requests = await Request.find(requestQuery)
 		.populate('requestor institution')
 		.exec();
+
+	if (requestId) [requests] = requests;
 
 	res.status(200).json(requests);
 };
