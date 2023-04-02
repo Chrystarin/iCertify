@@ -35,7 +35,9 @@ module.exports = model(
 						type: ObjectId,
 						ref: 'User',
 						unique: true,
-						required: [true, 'User id is required']
+						required: [true, 'User id is required'],
+                        index: true, 
+                        sparse: true
 					},
 					idNumber: String,
 					joinedAt: { type: Date, default: new Date() }
@@ -46,8 +48,10 @@ module.exports = model(
 					docId: {
 						type: String,
 						unique: true,
-						required: [true, 'docId is required']
-					},
+						required: [true, 'docId is required'],
+                        index: true, 
+                        sparse: true
+					}, 
 					title: {
 						type: String,
 						required: [true, 'Title is required']

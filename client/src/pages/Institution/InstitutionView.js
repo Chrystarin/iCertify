@@ -22,8 +22,15 @@ import EmailIcon from '@mui/icons-material/Email';
 import Logo from '../../images/placeholder/SampleLogo.png';
 import Wallpaper from '../../images/placeholder/SampleWallpaper.png'
 
+import axios from '../../utils/axios';
 
-const EventView = (props) => {
+const InstitutionView = (props) => {
+
+    // Constants Declarations
+    const { id } = useParams()
+    const [institution, setInstitution] = useState()
+    const [offers, setOffers] = useState()
+    const [moreButtonAdmin,setMoreButtonAdmin] = useState(false);
 
     // Here are the states to update the details in the page
     const [pageDetails,setPageDetails] = useState({
@@ -38,142 +45,27 @@ const EventView = (props) => {
         Address:"2 L. De Guzman St, Marikina, 1807 Metro Manila"
     });
 
-
-
-
-    const { id } = useParams()
-    const [memberAddress, setMemberAddress] = useState()
-
-    const [moreButtonAdmin,setMoreButtonAdmin] = useState(false);
-    const event = {
-        "_id":{
-            "$oid":"63eb5f728bded2c850c93231"
-        },
-        "eventId":"eHMmcj5M",
-        "type":"onsite",
-        "title":"Thesis Defense",
-        "description":"Defend your thesis",
-        "location":"STI",
-        "date":{
-            "start":{
-                "$numberDouble":"1676327280000.0"
-            },
-            "end":{
-                "$numberDouble":"1676406180000.0"
-            }
-        },
-        "canClaimCertificate":true,
-        "status":"active",
-        "isAcceptingVolunteer":true,
-        "tags":[],
-        "regularPrice":{
-            "$numberInt":"3"
-        },
-        "premiumPrice":{
-            "$numberInt":"1"
-        },
-        "volunteerRequests":[]
-    }
-    const participants = [
-        {
-            "member":{
-                "$oid":"63eb5f308bded2c850c93210"
-            },
-            "role":"Participant",
-            "certificateProcessed":false,
-            "_id":{
-            "$oid":"63eb5f818bded2c850c93249"
-            }
-        },
-        {
-            "member":{
-                "$oid":"63eb5f468bded2c850c9321c"
-            },
-            "role":"Participant",
-            "certificateProcessed":false,
-            "_id":{
-            "$oid":"63eb5f948bded2c850c93268"
-            }
-        },
-        {
-            "member":{
-            "$oid":"63f496e780ce7fae3542be12"
-            },
-            "role":"Participant",
-            "certificateProcessed":true,
-            "_id":{
-            "$oid":"63fb0307153eb3004953dd74"
-            }
-        }
-    ]   
-    // Member join event function
-    const joinEvent = async () => {
-        try{
-            // const response = await axios.post(`events/${id}/join`,
-            // JSON.stringify({ eventId: id, walletAddress: memberAddress, role: 'Participant' }),
-            // {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     }
-            // })
-            // .then(response => {
-            //     console.log("event joined!");
-            //     window.location.reload();
-            // });
-        }
-        catch (err){
-            console.error(err.message);
-        }
-    };
-    // Checks if member has already joined the event
-    function eventJoined(json, value) {
-        let contains = false;
-        // Object.keys(json).some(key => {
-        //     contains = typeof json[key] === 'object' ? eventJoined(json[key], value) : json[key] === value;
-        //      return contains;
-        // });
-        return contains;
-     }
-
     // Excecutes on page load
     useEffect(() => {
-        // Checks currently connected wallet
-        // const checkWallet = async () => {
-        //     try{
-        //         const accounts = await window.ethereum.request({method: 'eth_requestAccounts'}); 
-        //         const provider = new ethers.providers.Web3Provider(window.ethereum);
-        //         const signer = provider.getSigner();
-        //         const address = await signer.getAddress();
-        //         setMemberAddress(address);
-        //     }
-        //     catch(err){
-        //         console.error(err.message);
-        //     }
-        // }
-
-        // // Fetches event data
-        // const fetchEvent = async () => {
-        //     const response = await axios.get(`/events/${id}`)
-        //     .then((response)=>{
-        //         setEvent(response.data)
-        //     })
-        // }
-
-        // // Fetches event participants data
-        // const fetchParticipants = async () => {
-        //     const response = await axios.get(`/events/${id}/participants`)
-        //     .then((response)=>{
-        //         setParticipants(response.data)
-        //     })
-        // }
-
-        // fetchParticipants()
-        // fetchEvent()
-        // checkWallet()
+        // Retrieves User's Data
+		const fetchInstitution = async () => {
+			await axios
+				.get(`institutions`,{
+                    params: {
+                        walletAddress: `${id}`
+                    }
+                })
+				.then((response) => {
+					setInstitution(response.data[0])
+                    setOffers(response.data[0].docOffers)
+                    console.log(response.data[0])
+				});
+		};
+		fetchInstitution();
     }, [])
 
-    // if(!event || !participants) return <div>loading...</div>
+    // Return no data retrieved
+    if(!institution || !offers) return <div>loading...</div>
     
     return (
         <div id="Institutioin__View">
@@ -202,15 +94,16 @@ const EventView = (props) => {
                     </div>
                     <div id="InstitutionInformationNavigation__Container">
                         <div id="InstitutionInformation__Container">
-                            <h3>STI College Marikina</h3>
+                            <h3>{institution.name}</h3>
+                            <p>{institution.walletAddress}</p>
                             <ul>
                                 <li>
                                     <GroupIcon/>
-                                    <h6>{pageDetails.TotalMembers}</h6>
+                                    <h6>{institution.members.length}</h6>
                                 </li>
                                 <li>
                                     <DescriptionIcon/>
-                                    <h6>{pageDetails.TotalDocumentsDestributed}</h6>
+                                    <h6>{institution.docOffers.length}</h6>
                                 </li>   
                             </ul>
                         </div>
@@ -218,7 +111,7 @@ const EventView = (props) => {
                             {props.owner?<>
                                 <Button variant="contained" href="update">Update </Button>
                             </>:<>
-                                <Button variant="contained" href="/m/institution/join">
+                                <Button variant="contained" href={`/institutions/${id}/join`}>
                                     Join
                                 </Button>
                             </>
@@ -234,7 +127,7 @@ const EventView = (props) => {
                     <div id="Sticky">
                         <div className="Panel__Container">
                             <h6 className="Panel__Title">About Us</h6>
-                            <p className="BodyText3">{pageDetails.AboutUs}</p>
+                            <p className="BodyText3">{institution.about}</p>
                         </div>
                         <div className="Panel__Container">
                             <ul className="Panel__MultipleContent">
@@ -242,14 +135,14 @@ const EventView = (props) => {
                                     <h6 className="Panel__Title">Location</h6>
                                     <div className="Panel__Content__IconText">
                                         <LocationOnIcon/>
-                                        <p className="BodyText3">{pageDetails.Address}</p>
+                                        <p className="BodyText3">{institution.address}</p>
                                     </div>
                                 </li>
                                 <li>
                                     <h6 className="Panel__Title">Contact Number</h6>
                                     <div className="Panel__Content__IconText">
                                         <CallIcon/>
-                                        <p className="BodyText3">{pageDetails.ContactNumber}</p>
+                                        <p className="BodyText3">{institution.contactNo}</p>
                                     </div>
                                     
                                 </li>
@@ -257,7 +150,14 @@ const EventView = (props) => {
                                     <h6 className="Panel__Title">Email</h6>
                                     <div className="Panel__Content__IconText">
                                         <EmailIcon/>
-                                        <p className="BodyText3">{pageDetails.Email}</p>
+                                        <p className="BodyText3">{institution.email}</p>
+                                    </div>
+                                </li>
+                                <li>
+                                    <h6 className="Panel__Title">Website</h6>
+                                    <div className="Panel__Content__IconText">
+                                        <EmailIcon/>
+                                        <p className="BodyText3">{institution.website}</p>
                                     </div>
                                 </li>
                                 
@@ -272,8 +172,6 @@ const EventView = (props) => {
         </div>
     )
 }
-
-
 
 function AvailableDocuments(props){
     
@@ -354,4 +252,4 @@ function AvailableDocuments(props){
     </>
 }
 
-export default EventView
+export default InstitutionView

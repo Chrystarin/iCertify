@@ -89,10 +89,10 @@ const login = async (req, res, next) => {
     }
 
 	res.status(200)
-		// .cookie('access-token', signAccess(payload), {
-		// 	...cookieOptions,
-		// 	maxAge: duration.access
-		// })
+		.cookie('access-token', signAccess(payload), {
+			...cookieOptions,
+			maxAge: duration.access
+		})
 		.cookie('refresh-token', signRefresh(payload), {
 			...cookieOptions,
 			maxAge: duration.refresh

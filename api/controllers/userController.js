@@ -64,8 +64,11 @@ const getUser = async (req, res, next) => {
 	// Get joined institutions
 	const institutions = await Institution.find({ 'members.user': user._id });
 
-	res.status(200).json({ ...user, institutions });
+	// res.status(200).json({ ...user, institutions });
+    res.status(200).json({ user, institutions});
 };
+
+
 
 const updateUser = async (req, res, next) => {
 	const {

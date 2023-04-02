@@ -14,6 +14,7 @@ function Institutions(props) {
     // Constant Declarations
 	const [isOpenPanel_Institution, seOpenPanel_Institution] = useState('FeaturedInstitutions');
     const [institutions, setInstitutions] = useState(null);
+    const [joinedInstitutions, setJoinedInstitutions] = useState(null);
 
     // Executes on load
     useEffect(() => {
@@ -25,12 +26,26 @@ function Institutions(props) {
 				    setInstitutions(response.data);
 			    });
 		};
+
+        // Retrieves User's Data
+		const fetchUser = async () => {
+			await axios
+				.get(`users`,{
+                    params: {
+                        walletAddress: JSON.parse(localStorage.getItem("user")).walletAddress
+                    }
+                })
+				.then((response) => {
+                    setJoinedInstitutions(response.data.institutions)
+				});
+		};
         // Executes Functions
 		fetchInstitutions();
+        fetchUser();
 	}, []);
 
     // Returns if institutions is null
-    if (!institutions) return <div>loading...</div>;
+    if (!institutions || !joinedInstitutions) return <div>loading...</div>;
 
     // Returns Institutions View
 	return (
@@ -122,20 +137,31 @@ function Institutions(props) {
 
     // Panel Showing Joined Institutions
     function JoinedInstitution(){
-        const JoinedInstitutions = [
-            { name : 'OLOPSC', address:"L. De Guzman St, Marikina, Metro Manila", totalMembers:"450", totalDocument:"3000",joinStatus: true},
-            { name : 'OLFU', address:"L. De Guzman St, Marikina, Metro Manila", totalMembers:"450", totalDocument:"3000",joinStatus: true},
-        ];
         return<>
             <div id='Container_JoinedInstitutions' className='Wrapper__Card'>
-                {JoinedInstitutions.map((Institution) => (
-                    <InstitutionCard name={Institution.name} address={Institution.address} totalDocuments={Institution.totalDocument}  totalMembers={Institution.totalMembers} joinStatus={Institution.joinStatus}/>
-                ))}
+                {(joinedInstitutions.length === 0 )?
+                    <p>No Institutions found!</p>
+                    :
+                    <>
+                        {joinedInstitutions.length > 0 &&
+                        joinedInstitutions.map((institution) => {
+                        return (
+                            <InstitutionCard 
+                                key={institution.walletAddress}
+                                walletAddress={institution.walletAddress}
+                                name={institution.name} 
+                                address={institution.instType} 
+                                totalDocuments={institution.docOffers.length} 
+                                totalMembers={institution.members.length} 
+                                joinStatus={true}
+                            />
+                        );
+                        })}
+                    </>
+                }
             </div>
         </>
     }
-
 }
-
 
 export default Institutions;

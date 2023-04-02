@@ -4,7 +4,7 @@ import './Header.scss';
 
 import { Button } from '@mui/material';
 import SearchInput from '../../components/SearchInput/SearchInput.js';
-import LogoutIcon from '@mui/icons-material/Logout';
+import Logout from '../../components/Logout/Logout.js';
 import Badge from '@mui/material/Badge';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import IconButton from '@mui/material/IconButton';
@@ -198,7 +198,7 @@ function Header(props) {
                                 
                                 <div id='ProfileDropdown__Buttons'>
                                     <Button variant=''>Update</Button>
-                                    <Button variant=''startIcon={<LogoutIcon/>} href="/">Logout</Button>
+                                    <Logout/>
                                 </div>
                             </a>
                         </div>

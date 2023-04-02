@@ -21,12 +21,13 @@ function Register() {
     const navigate = useNavigate();
     const [userType, setUserType] = useState();
     const [gender, setGender] = useState();
+    const [abi, setAbi] = useState();
     
     // Document NFT Contract Address
-    const contractAddress = '0x0ADfAc749810626cA31e3fE76121D03E9Cc4DB3d'
+    const contractAddress = '0x4F4A529A6f32284E7784b6fF975e971A03aB5477'
 
     // Declare Holders for Wallet Info
-    let provider, signer, address, abi
+    let provider, signer, address
 
     // Institution Registration Form
     const [institutionForm, setInstitutionForm] = useState({
@@ -50,10 +51,9 @@ function Register() {
         const fetchContract = async () => {
             await axios.get(`abi`)
             .then((res)=>{
-                abi = res.data
+                setAbi(res.data)
             })
         }
-
         fetchContract();
     }, []);
     
@@ -109,6 +109,7 @@ function Register() {
 
         // Gets wallet info
         const wallet = await ConnectWallet()
+        console.log(wallet)
 
         try {
             // Checks selected user type then registers user
@@ -164,13 +165,15 @@ function Register() {
             }
             
         } catch (err) {      
-                alert(err.message);
+            console.error(err.message);
         }
     }
 
     const handleChangeGender = (event) => {
         setGender(event.target.value);
     };
+
+    if(!abi) return <div>Loading...</div>
 
     return (
         <div id='Signup'>

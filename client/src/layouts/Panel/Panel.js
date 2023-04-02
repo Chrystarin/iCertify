@@ -19,7 +19,7 @@ function Panel() {
                 return (
                     <div id='DashboardHolder'>
                       <div id="Navigation">
-                        <SideNavBar Type="Admin"/>
+                        <SideNavBar Type="Admin" User={user.walletAddress}/>
                       </div>
                       <div id="Holder_Content">
                         <HeaderNavigation User={user.walletAddress}/>
@@ -33,7 +33,7 @@ function Panel() {
                 return (
                     <div id='DashboardHolder'>
                       <div id="Navigation">
-                        <SideNavBar UserType="Admin"/>
+                        <SideNavBar UserType="Admin" User={user.walletAddress}/>
                       </div>
                       <div id="Holder_Content">
                         <HeaderNavigation UserType="Admin" User={user.walletAddress}/>

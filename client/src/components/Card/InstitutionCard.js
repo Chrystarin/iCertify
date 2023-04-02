@@ -5,7 +5,10 @@ import EventResourcesDesign from '../../images/Resources/InstitutionCardDesign.p
 import TaskIcon from '@mui/icons-material/Task';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import { Button } from '@mui/material';
+
 function EventCard(props) {
+
+
   return (
     <div id='EventCard'>  
         <a id='EventCard__Container' href={`institutions/${props.walletAddress}`}>

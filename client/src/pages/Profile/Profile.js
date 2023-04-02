@@ -24,9 +24,8 @@ import {ethers} from 'ethers';
 function Profile() {
 	const { id } = useParams();
 	const [user, setUser] = useState(null);
-	const [joinedEvents, setJoinedEvents] = useState(null);
     const [institutions, setInstitutions] = useState(null);
-	const [ownedCertificates, setOwnedCertificates] = useState(null);
+	const [documents, setDocuments] = useState(null);
     const [address, setAddress] = useState(null);
 
 	// Executes on load
@@ -40,25 +39,11 @@ function Profile() {
                     }
                 })
 				.then((response) => {
-					setUser(response.data);
+					setUser(response.data.user);
+                    setInstitutions(response.data.institutions)
+                    setDocuments(response.data.user.documents)
 				});
 		};
-
-        // Retrieves User's Joined Institutions
-		const fetchInstitutions = async () => {
-			await axios
-				.get(`institutions`,{
-                    params: {
-                        walletAddress: `${id}`
-                    }
-                })
-				.then((response) => {
-					setInstitutions(response.data);
-                    console.log(response.data)
-				});
-		};
-
-        fetchInstitutions();
 		fetchUser();
 	}, []);
 
