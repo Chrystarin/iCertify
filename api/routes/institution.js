@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const asyncHandler = require('../middlewares/asyncHandler');
+const authenticate = require('../middlewares/authenticate');
 const { onlyInstitution } = require('../middlewares/authorize');
 const {
 	getInstitutions,
@@ -13,9 +14,11 @@ const {
 /**
  * Get institutions
  *
- * walletAddress - optional [many | one]
+ * walletAddress
  */
 router.get('/', getInstitutions);
+
+router.use(authenticate);
 
 /**
  * Edit institution details

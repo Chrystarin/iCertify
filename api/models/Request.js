@@ -36,7 +36,7 @@ module.exports = model(
 				ref: 'Institution',
 				required: true
 			},
-			details: { type: Mixed, required: true }
+			details: Mixed
 		},
 		{ timestamps: true }
 	)

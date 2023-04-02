@@ -1,14 +1,22 @@
 const { Schema, model } = require('mongoose');
 const { ObjectId } = Schema.Types;
 
+const uniqueValidator = (prop) => ({
+	validator: async function (value) {
+		const institution = await this.constructor.exists({ [prop]: value });
+		return institution === null || this._id.equals(institution._id);
+	},
+	message: ({ value }) => `'${value}' already in use`
+});
+
 module.exports = model(
 	'Institution',
 	new Schema(
 		{
 			walletAddress: {
 				type: String,
-				unique: true,
-				required: [true, 'Wallet address is required']
+				required: [true, 'Wallet address is required'],
+				validate: uniqueValidator('walletAddress')
 			},
 			name: { type: String, required: [true, 'Name is required'] },
 			instType: {
@@ -17,9 +25,13 @@ module.exports = model(
 					values: ['organization', 'school', 'corporation'],
 					message: "'{VALUE}' is not supported as institution type"
 				},
-				required: true
+				required: [true, 'Institution Type is required']
 			},
-			email: { type: String, required: [true, 'Email is required'] },
+			email: {
+				type: String,
+				required: [true, 'Email is required'],
+				validate: uniqueValidator('email')
+			},
 			about: String,
 			address: String,
 			website: String,
@@ -35,9 +47,9 @@ module.exports = model(
 						type: ObjectId,
 						ref: 'User',
 						unique: true,
-						required: [true, 'User id is required'],
-                        index: true, 
-                        sparse: true
+						index: true,
+						sparse: true,
+						required: [true, 'User id is required']
 					},
 					idNumber: String,
 					joinedAt: { type: Date, default: new Date() }
@@ -48,10 +60,10 @@ module.exports = model(
 					docId: {
 						type: String,
 						unique: true,
-						required: [true, 'docId is required'],
-                        index: true, 
-                        sparse: true
-					}, 
+						index: true,
+						sparse: true,
+						required: [true, 'docId is required']
+					},
 					title: {
 						type: String,
 						required: [true, 'Title is required']

@@ -53,7 +53,13 @@ const randomBuffer = () => {
  * @returns {string}
  */
 const generateId = (nonce) =>
-	bufferToString(Buffer.concat([randomBuffer(), toNonceBuffer(nonce)]));
+	bufferToString(
+		Buffer.concat([
+			randomBuffer(),
+			toHexBuffer(Date.now()),
+			toNonceBuffer(nonce)
+		])
+	);
 
 let requestNonce = 0;
 /**
@@ -65,10 +71,18 @@ const genRequestId = () => generateId(++requestNonce);
 
 let docNonce = 0;
 /**
- * Generates a unique id exclusive for Requests
+ * Generates a unique id exclusive for Documents offered
  *
  * @returns {string}
  */
 const genDocId = () => generateId(++docNonce);
 
-module.exports = { genRequestId, genDocId };
+let accessNonce = 0;
+/**
+ * Generates a unique id exclusive for Documents offered
+ *
+ * @returns {string}
+ */
+const genAccessCode = () => generateId(++accessNonce);
+
+module.exports = { genRequestId, genDocId, genAccessCode };

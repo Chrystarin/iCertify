@@ -7,7 +7,7 @@ const {
 	isBoolean
 } = require('../miscellaneous/checkInput');
 const {
-	roles: { USER }
+	roles: { USER, INSTITUTION }
 } = require('../miscellaneous/constants');
 const { genDocId } = require('../miscellaneous/generateId');
 
@@ -102,13 +102,9 @@ const getInstitutions = async (req, res, next) => {
 	isString(walletAddress, 'Wallet Address', true);
 
 	// Find institutions
-	let institutions = await Institution.find(
-		walletAddress ? { walletAddress } : {}
-	)
-		// .populate('-members')
-		.exec();
+	const institution = await Institution.findOne({ walletAddress })
 
-	res.status(200).json(institutions);
+	res.status(200).json(institution);
 };
 
 const getMembers = async (req, res, next) => {
@@ -122,12 +118,20 @@ const getMembers = async (req, res, next) => {
 		.populate('members.user')
 		.exec();
 
-	// If walletAddress is given, filter only the member with the same wallet address
-	// Otherwise, return all members
-	const members = institution.members.filter(
-		({ user: { walletAddress: wa } }) =>
+	// Filter members with walletAddress
+	const members = institution.members
+		.filter(({ user: { walletAddress: wa } }) =>
 			walletAddress ? wa === walletAddress : true
-	);
+		)
+		// Remove the private documents
+		.map(({ documents, ...user }) => ({
+			...user,
+			documents: documents
+				// Filter only the public documents
+				.filter(({ mode }) => mode === 'public')
+				// Return only the default access code
+				.map(({ codes: [code], ...doc }) => ({ ...doc, code }))
+		}));
 
 	res.status(200).json(members);
 };
