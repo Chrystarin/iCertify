@@ -36,7 +36,7 @@ function MemberCard(props) {
                 </a>
                 <div id='MemberCardID__Buttons'>
                     <Button variant='outlined' >Reject</Button>
-                    <Button variant='contained'>Add</Button>    
+                    <Button variant='contained' onClick={props.onClick}>Add</Button>    
                 </div>
                 
             </div>

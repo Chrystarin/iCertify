@@ -57,10 +57,9 @@ function Login(props) {
             .then((response) => {
                 localStorage.setItem('user', JSON.stringify(response.data))
                 const { message, type, accessToken } = response.data
-                // if (response.data.type == 'user') navigate(`user/${wallet.address}`)
-                // if (response.data.type == 'institution') navigate(`institution/${wallet.address}`) 
+                if (response.data.type == 'user') navigate(`users/${wallet.address}`)
+                if (response.data.type == 'institution') navigate(`institutions/${wallet.address}`) 
                 // setAuth({ wallet.address, roles, accessToken });
-                navigate(`users/${wallet.address}`)
                 window.location.reload(true); 
             });
         } catch(err) {

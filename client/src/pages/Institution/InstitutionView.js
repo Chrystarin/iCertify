@@ -47,7 +47,7 @@ const InstitutionView = (props) => {
 
     // Excecutes on page load
     useEffect(() => {
-        // Retrieves User's Data
+        // Retrieves Institution Data
 		const fetchInstitution = async () => {
 			await axios
 				.get(`institutions`,{
@@ -56,15 +56,14 @@ const InstitutionView = (props) => {
                     }
                 })
 				.then((response) => {
-					setInstitution(response.data[0])
-                    setOffers(response.data[0].docOffers)
-                    console.log(response.data[0])
+					setInstitution(response.data)
+                    setOffers(response.data.docOffers)
 				});
 		};
 		fetchInstitution();
     }, [])
 
-    // Return no data retrieved
+    // Returns if no data retrieved
     if(!institution || !offers) return <div>loading...</div>
     
     return (

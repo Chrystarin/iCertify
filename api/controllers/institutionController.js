@@ -102,10 +102,14 @@ const getInstitutions = async (req, res, next) => {
 	isString(walletAddress, 'Wallet Address', true);
 
 	// Find institutions
-	const institution = await Institution.findOne({ walletAddress })
+	const institution = walletAddress ? await Institution.findOne({ walletAddress }) : await Institution.find()
 
 	res.status(200).json(institution);
 };
+
+
+
+
 
 const getMembers = async (req, res, next) => {
 	const { walletAddress } = req.query;

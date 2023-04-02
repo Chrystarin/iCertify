@@ -32,6 +32,8 @@ const getRequests = async (req, res, next) => {
 		requestQuery = { ...requestQuery, requestId };
 	}
 
+    console.log(req.user.type)
+
 	if (req.user.type == USER)
 		requestQuery = { ...requestQuery, requestor: req.user.id };
 
@@ -77,32 +79,32 @@ const processRequest = async (req, res, next) => {
 
 	// Find request
 	const request = await Request.findOne({ requestId, status: 'pending' })
-		.populate('institution')
+		.populate('member institution')
 		.exec();
 	if (!request)
 		throw new NotFound(
 			'There is no such request with the given requestId that is pending'
 		);
 
-	if (status === 'approved') {
+	if (status === 'pending') {
 		// Join the requestor to institution
 		if (request.requestType === JOIN) {
 			await Institution.findByIdAndUpdate(request.institution, {
 				$push: {
 					members: {
-						user: request.requestor,
+						user: request.requestor,    
 						idNumber: request.details?.idNumber
 					}
 				}
 			});
 		}
-
 		if (request.requestType === DOCUMENT) {
 		}
 	}
 
 	// Update status
-	request.status = status;
+	request.status = 'approved';
+
 	await request.save();
 
 	res.status(200).json({ message: 'Request processed' });

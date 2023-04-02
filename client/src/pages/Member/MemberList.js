@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import Button from '@mui/material/Button';
 import MemberCard from '../../components/Card/MemberCard.js';
 import SearchInput from '../../components/SearchInput/SearchInput.js';
@@ -6,7 +6,13 @@ import IconButton from '@mui/material/IconButton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Analytics from '../../layouts/Analytics/Analytics.js';
 
+import axios from '../../utils/axios';
+
 function MemberList() {
+
+    const [members, setMembers] = useState();
+    const [joinRequests, setJoinRequests] = useState();
+
     const [isOpenPanel_Institution, seOpenPanel_Institution] = useState('All');
 
     const Members = [
@@ -15,10 +21,63 @@ function MemberList() {
         { name : 'Jon Angelo Llagas', userID : "023245", institutionID:"020008524",totalRequestedDocuments:"5",},
         { name : 'John Michael Hipolito', userID : "023245", institutionID:"020008524",totalRequestedDocuments:"5",},
     ];
-    const MembersJoinRequests = [
-		{ name : 'Shiba Castillo', userID : "023245", institutionID:"020008524",totalRequestedDocuments:"5",},
-        
-    ];
+
+    // Excecutes on page load
+    useEffect(() => {
+        // Retrieves Institutions' Members
+		const fetchMembers = async () => {
+			await axios
+				.get(`institutions`,{
+                    params: {
+                        walletAddress: JSON.parse(localStorage.getItem("user")).walletAddress
+                    }
+                })
+				.then((response) => {
+					setMembers(response.data.members)
+                    console.log(response.data.members)
+				});
+		};
+
+        // Retrieves Institutions' Members
+		const fetchJoinRequests = async () => {
+			await axios
+				.get(`requests`,{
+                    params: {
+                        type: 'join'
+                    }
+                })
+				.then((response) => {
+					setJoinRequests(response.data)
+                    console.log(response.data)
+				});
+		};
+
+        // Execute Functions
+        fetchJoinRequests();
+		fetchMembers();
+    }, [])
+
+    const AcceptRequest = async (request) => {
+        try {
+            await axios.patch(
+                `requests`,
+                JSON.stringify({ 
+                    requestId: request.requestId,
+                    status: request.status
+                })
+            )
+            .then((res)=>{
+                alert("Member Added!")
+                console.log(res.data)
+                window.location.reload(true); 
+            })
+        } catch (err) {      
+            console.error(err.message);
+        }
+    }
+
+    if(!members || !joinRequests) return <div>Loading...</div>
+
     return (
         <div id='AdminDasboard'>
             <section id='institutions'>
@@ -75,9 +134,22 @@ function MemberList() {
                             </div>
                         </div>
                         <div className='Wrapper__Card'>
-                            {Members.map((Member) => (
-                                <MemberCard name={Member.name} institutionID={Member.institutionID} image={Member.image} member={true}/>
-                            ))}
+                        {(joinRequests.length === 0 )?
+                            <p>No Requests found!</p>
+                            :
+                            <>
+                                {members.length > 0 &&
+                                members.map((member) => {
+                                    return (
+                                        <MemberCard 
+                                            name={member.user} 
+                                            institutionID={member.institutionID} 
+                                            member={true}
+                                        />
+                                    );
+                                })}
+                            </>
+                        }
                         </div>
                     </>:<></>
                     }
@@ -93,9 +165,23 @@ function MemberList() {
                             </div>
                         </div>
                         <div className='Wrapper__Card'>
-                            {MembersJoinRequests.map((Member) => (
-                                <MemberCard name={Member.name} institutionID={Member.institutionID} image={Member.image} member={false}/>
-                            ))}
+                        {(joinRequests.length === 0 )?
+                            <p>No Requests found!</p>
+                            :
+                            <>
+                                {joinRequests.length > 0 &&
+                                joinRequests.map((request) => {
+                                    if (request.status == 'pending') return (
+                                        <MemberCard 
+                                            name={`${request.requestor.name.firstName}`+" "+`${request.requestor.name.lastName}`}
+                                            institutionID={request.requestor.walletAddress} 
+                                            member={false}
+                                            onClick={()=>AcceptRequest(request)}
+                                        />
+                                    );
+                                })}
+                            </>
+                        }
                         </div>
                     </>:<></>
                     }

@@ -185,7 +185,7 @@ function Header(props) {
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
                         <div id="ProfileDropdown__Container">
-                            <a href={(props.UserType==="Admin")?"/institutions/dashboard":`/users/${address}`}>
+                            <a href={(props.UserType==="Admin")?`/institutions/${address}`:`/users/${address}`}>
                                 <MenuItem  id='ProfileDropdown__Header'>
                                     <Avatar ></Avatar>
                                     <div>
