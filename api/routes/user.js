@@ -1,6 +1,7 @@
 const router = require('express').Router();
 
 const asyncHandler = require('../middlewares/asyncHandler');
+const authenticate = require('../middlewares/authenticate');
 const { onlyUser } = require('../middlewares/authorize');
 
 const { getUser, updateUser } = asyncHandler(
@@ -10,9 +11,11 @@ const { getUser, updateUser } = asyncHandler(
 /**
  * Get user
  *
- * walletAddress - optional [other | self]
+ * walletAddress
  */
-router.get('/', onlyUser, getUser);
+router.get('/', getUser);
+
+router.use(authenticate);
 
 /**
  * Update user

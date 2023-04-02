@@ -103,7 +103,6 @@ const processRequest = async (req, res, next) => {
 
 	// Update status
 	request.status = status;
-	request.details = request.details || {};
 	await request.save();
 
 	res.status(200).json({ message: 'Request processed' });
@@ -135,6 +134,15 @@ const createRequest = async (req, res, next) => {
 		// Check if user is already a member of the institution
 		if (member)
 			new DuplicateEntry('User is already a member of the institution');
+
+		// Check if request already done
+		const requestExists = await Request.exists({
+			requestor: req.user.id,
+			institution: institution._id,
+			status: 'pending'
+		});
+		if (requestExists)
+			throw new DuplicateEntry('Join request already created');
 
 		const requestDetails = {};
 
@@ -193,8 +201,6 @@ const createRequest = async (req, res, next) => {
 			details: { docId }
 		};
 	}
-
-	console.log(requestParams);
 
 	// Create request
 	await Request.create(requestParams);

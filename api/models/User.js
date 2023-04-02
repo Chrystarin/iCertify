@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const { genAccessCode } = require('../miscellaneous/generateId');
 
 module.exports = model(
 	'User',
@@ -42,14 +43,19 @@ module.exports = model(
 						index: true,
 						sparse: true
 					},
-					accessCodes: [
+					codes: [
 						{
 							type: String,
 							unique: true,
 							index: true,
 							sparse: true
 						}
-					]
+					],
+					mode: {
+						type: String,
+						enum: ['public', 'private'],
+						default: 'private'
+					}
 				}
 			]
 		},

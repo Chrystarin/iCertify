@@ -19,7 +19,8 @@ const {
 	InvalidInput,
 	UserNotFound,
 	InstitutionNotFound,
-	Unauthorized
+	Unauthorized,
+	DuplicateEntry
 } = require('../miscellaneous/errors');
 const { registerUser } = require('./userController');
 const { registerInstitution } = require('./institutionController');
@@ -40,9 +41,21 @@ const register = async (req, res, next) => {
 	// Check if walletAddress is a valid address
 	walletAddress = getAddress(walletAddress);
 
-	if (userType === USER) return registerUser(req, res, next);
+	if (userType === USER) {
+		// Check if email is used as institution
+		if (await Institution.findOne({ walletAddress }))
+			throw new DuplicateEntry('Email already registered as Institution');
 
-	if (userType === INSTITUTION) return registerInstitution(req, res, next);
+		return registerUser(req, res, next);
+	}
+
+	if (userType === INSTITUTION) {
+		// Check if email is used as institution
+		if (await User.findOne({ walletAddress }))
+			throw new DuplicateEntry('Email already registered as User');
+
+		return registerInstitution(req, res, next);
+	}
 
 	// Invalid type
 	throw new InvalidInput('Invalid user type');

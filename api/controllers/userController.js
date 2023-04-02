@@ -61,8 +61,18 @@ const getUser = async (req, res, next) => {
 	// Find user
 	const user = await User.findOne({ walletAddress });
 
+	// Remove the private documents if user is not itself
+	if (req.user?.type !== USER)
+		user.documents = user.documents
+			// Filter only the public documents
+			.filter(({ mode }) => mode === 'public')
+			// Return only the default access code
+			.map(({ codes: [code], ...rest }) => ({ ...rest, code }));
+
 	// Get joined institutions
-	const institutions = await Institution.find({ 'members.user': user._id });
+	const institutions = await Institution.find({ 'members.user': user._id })
+		.select('-members')
+		.exec();
 
 	res.status(200).json({ ...user, institutions });
 };

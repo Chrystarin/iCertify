@@ -11,6 +11,7 @@ const { MemberNotFound, DuplicateEntry } = require('../miscellaneous/errors');
 const { isString } = require('../miscellaneous/checkInput');
 const { waitTx, parseLog } = require('../miscellaneous/waitTransaction');
 const calculateHash = require('../miscellaneous/calculateHash');
+const { genAccessCode } = require('../miscellaneous/generateId');
 
 const getTransactions = async (req, res, next) => {
 	const { walletAddress, txHash } = req.query;
@@ -123,7 +124,8 @@ const saveTransaction = async (req, res, next) => {
 			{
 				$push: {
 					documents: {
-						nftId: parseLog(log).args.tokenId.toNumber()
+						nftId: parseLog(log).args.tokenId.toNumber(),
+						codes: [genAccessCode()]
 					}
 				}
 			},

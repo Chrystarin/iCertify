@@ -27,11 +27,12 @@ const waitTx = async (txHash, callback) => {
 	// Monitor transaction (async)
 	transaction
 		.wait()
-		.then(callback)
 		// Transaction succeeded
-		.then(updateTransaction(txHash, 'success'))
+		.then(callback)
 		// Transaction failed
-		.catch(updateTransaction(txHash, 'failed'));
+		.catch(() => {
+            // Update user with the failed transaction
+        });
 };
 
 module.exports = { parseLog, waitTx };
