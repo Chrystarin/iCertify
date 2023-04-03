@@ -7,8 +7,17 @@ module.exports = model(
 		{
 			hash: {
 				type: String,
-				unique: true,
-				required: [true, 'Transaction hash is required']
+				required: [true, 'Transaction hash is required'],
+				validate: {
+					validator: async function (value) {
+						return (
+							(await this.constructor.exists({
+								txHash: value
+							})) === null
+						);
+					},
+					message: ({ value }) => `'${value}' already in saved`
+				}
 			},
 			institution: {
 				type: ObjectId,
