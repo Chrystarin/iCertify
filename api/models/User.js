@@ -39,18 +39,19 @@ module.exports = model(
 					nftId: {
 						type: Number,
 						required: [true, 'NFT ID is required'],
-						unique: true,
-						index: true,
-						sparse: true
-					},
-					codes: [
-						{
-							type: String,
-							unique: true,
-							index: true,
-							sparse: true
+						validate: {
+							validator: async function (value) {
+								return (
+									(await this.constructor.exists({
+										'documents.nftId': value
+									})) === null
+								);
+							},
+							message: ({ value }) =>
+								`NFT DOC #${value} is already owned by another user`
 						}
-					],
+					},
+					codes: [String],
 					mode: {
 						type: String,
 						enum: ['public', 'private'],

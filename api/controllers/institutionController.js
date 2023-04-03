@@ -13,7 +13,8 @@ const { genDocId } = require('../miscellaneous/generateId');
 
 const {
 	InstitutionNotFound,
-	DuplicateEntry
+	DuplicateEntry,
+	MemberNotFound
 } = require('../miscellaneous/errors');
 const { waitTx } = require('../miscellaneous/waitTransaction');
 
@@ -118,26 +119,36 @@ const getMembers = async (req, res, next) => {
 	isString(walletAddress, 'Wallet Address', true);
 
 	// Find the institution and get the members
-	const institution = await Institution.findById(req.user.id)
+	const institution = await Institution.findOne(req.user.id)
 		.populate('members.user')
 		.exec();
 
-	// Filter members with walletAddress
-	let members = institution.members
-		.filter(({ user: { walletAddress: wa } }) =>
-			walletAddress ? wa === walletAddress : true
-		)
-		// Remove the private documents
-		.map(({ documents, ...user }) => ({
-			...user,
-			documents: documents
-				// Filter only the public documents
-				.filter(({ mode }) => mode === 'public')
-				// Return only the default access code
-				.map(({ codes: [code], ...doc }) => ({ ...doc, code }))
-		}));
+	// Get only the public documents and its default code
+	let members = institution.members.map(
+		({ user: { documents, ...user }, ...member }) => ({
+			...member,
+			user: {
+				...user,
+				documents: documents
+					// Filter only the public documents
+					.filter(({ mode }) => mode === 'public')
+					// Return only the default access code
+					.map(({ codes: [code], ...doc }) => ({ ...doc, code }))
+			}
+		})
+	);
+    
+    // Filter the members by the walletAddress
+	if (walletAddress) {
+		members = members.filter(
+			({ user: { walletAddress: wa } }) => wa == walletAddress
+		);
 
-	if (walletAddress) [members] = members;
+        // Check if memebr is existing
+		if (members.length == 0) throw new MemberNotFound();
+
+		[members] = members;
+	}
 
 	res.json(members);
 };
