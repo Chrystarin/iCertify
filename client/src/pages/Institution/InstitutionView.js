@@ -25,6 +25,8 @@ import Wallpaper from '../../images/placeholder/SampleWallpaper.png'
 import axios from '../../utils/axios';
 
 const InstitutionView = (props) => {
+    // Get Logged in User
+    const user = JSON.parse(localStorage.getItem("user"));
 
     // Constants Declarations
     const { id } = useParams()
@@ -107,7 +109,8 @@ const InstitutionView = (props) => {
                             </ul>
                         </div>
                         <div id="Buttons__Container">
-                            {props.owner?<>
+                            {(user.type == 'institution' && user.walletAddress == id)?<>
+                                <Button variant="contained" href="update">Add Document </Button>
                                 <Button variant="contained" href="update">Update </Button>
                             </>:<>
                                 <Button variant="contained" href={`/institutions/${id}/join`}>

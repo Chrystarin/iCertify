@@ -10,31 +10,20 @@ import axios from '../../utils/axios';
 
 function MemberList() {
 
+    // Constant Declarations
     const [members, setMembers] = useState();
     const [joinRequests, setJoinRequests] = useState();
-
     const [isOpenPanel_Institution, seOpenPanel_Institution] = useState('All');
-
-    const Members = [
-		{ name : 'Dianne Chrystalin Brandez', userID : "023245", institutionID:"020008524",totalRequestedDocuments:"5",},
-        { name : 'Gian Carlo Dela Cruz', userID : "023245", institutionID:"020008524",totalRequestedDocuments:"5",},
-        { name : 'Jon Angelo Llagas', userID : "023245", institutionID:"020008524",totalRequestedDocuments:"5",},
-        { name : 'John Michael Hipolito', userID : "023245", institutionID:"020008524",totalRequestedDocuments:"5",},
-    ];
 
     // Excecutes on page load
     useEffect(() => {
         // Retrieves Institutions' Members
 		const fetchMembers = async () => {
 			await axios
-				.get(`institutions`,{
-                    params: {
-                        walletAddress: JSON.parse(localStorage.getItem("user")).walletAddress
-                    }
-                })
+				.get(`institutions/members`)
 				.then((response) => {
-					setMembers(response.data.members)
-                    console.log(response.data.members)
+					setMembers(response.data)
+                    console.log(response.data)
 				});
 		};
 
@@ -46,9 +35,9 @@ function MemberList() {
                         type: 'join'
                     }
                 })
-				.then((response) => {
+				.then((response) => { 
 					setJoinRequests(response.data)
-                    console.log(response.data)
+                    
 				});
 		};
 

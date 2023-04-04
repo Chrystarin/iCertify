@@ -11,31 +11,31 @@ function Documents() {
     const [address, setAddress] = useState("");
     const [ownedCertificates, setOwnedCertificates] = useState(null);
 
-    useEffect(() => {
-        const checkWallet = async () => {
-            try{
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                const signer = provider.getSigner();
-                setAddress(await signer.getAddress());
-            }
-            catch(err){
-                console.error(err.message);
-            }
-        }
-        const fetchOwnedCertificates = async () => {
-            const response = await axios
-                .get(`members/${address}/certificates`)
-                .then((response) => {
-                    setOwnedCertificates(response.data);
-                });
-        };
-        checkWallet();
-        fetchOwnedCertificates();
+    // useEffect(() => {
+    //     const checkWallet = async () => {
+    //         try{
+    //             const provider = new ethers.providers.Web3Provider(window.ethereum);
+    //             const signer = provider.getSigner();
+    //             setAddress(await signer.getAddress());
+    //         }
+    //         catch(err){
+    //             console.error(err.message);
+    //         }
+    //     }
+    //     const fetchOwnedCertificates = async () => {
+    //         const response = await axios
+    //             .get(`members/${address}/certificates`)
+    //             .then((response) => {
+    //                 setOwnedCertificates(response.data);
+    //             });
+    //     };
+    //     checkWallet();
+    //     fetchOwnedCertificates();
         
-    })
+    // })
 
-    if (!ownedCertificates)
-		return <div>loading... No OwnedCertificates Found</div>;
+    // if (!ownedCertificates)
+	// 	return <div>loading... No OwnedCertificates Found</div>;
 
     return (
         <div id='Documents'>
@@ -46,7 +46,7 @@ function Documents() {
             </div>
 
             <div className='Wrapper__Card'>
-            {(ownedCertificates.length === 0 )?
+            {/* {(ownedCertificates.length === 0 )?
                 <>
                     <div className='EmtpyCard'>
                         <div>
@@ -76,7 +76,7 @@ function Documents() {
                             );
                     })}
                 </>
-            }
+            } */}
             </div>
         </section>
         </div>

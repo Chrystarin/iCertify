@@ -32,8 +32,6 @@ const getRequests = async (req, res, next) => {
 		requestQuery = { ...requestQuery, requestId };
 	}
 
-    console.log(req.user.type)
-
 	if (req.user.type == USER)
 		requestQuery = { ...requestQuery, requestor: req.user.id };
 
