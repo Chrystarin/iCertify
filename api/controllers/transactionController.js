@@ -8,18 +8,27 @@ const {
 	roles: { INSTITUTION, USER }
 } = require('../miscellaneous/constants');
 const {
-	MemberNotFound,
-	NotFound,
-	DuplicateEntry
-} = require('../miscellaneous/errors');
-const { isString } = require('../miscellaneous/checkInput');
-const {
 	waitTx,
 	parseLog,
 	contract
 } = require('../miscellaneous/transactionUtils');
+const { MemberNotFound, DuplicateEntry } = require('../miscellaneous/errors');
+const { isString } = require('../miscellaneous/checkInput');
 const { genAccessCode } = require('../miscellaneous/generateId');
-const calculateHash = require('../miscellaneous/calculateHash');
+
+// Create ipfs instance
+const ipfsClient = create({
+	host: 'ipfs.infura.io',
+	port: 5001,
+	protocol: 'https',
+	headers: {
+		authorization:
+			'Basic ' +
+			Buffer.from(
+				process.env.IPFS_ID + ':' + process.env.IPFS_SECRET
+			).toString('base64')
+	}
+});
 
 const getTransactions = async (req, res, next) => {
 	const { walletAddress, txHash } = req.query;
@@ -73,40 +82,17 @@ const saveIpfs = async (req, res, next) => {
 		document: { mimetype, data }
 	} = req.files;
 
-	// Calculate hash of image
-	const imageHash = await calculateHash(data);
-
-	// Check if image is already saved
-	const checkIpfs = await fetch(
-		`https://icertify.infura-ipfs.io/ipfs/${imageHash}`
-	);
-	if (!checkIpfs.ok) throw new NotFound('Document not uploaded yet');
+	// Upload the document to ipfs but don't pin
+	const { cid } = await ipfsClient.add({ content: data }, { pin: false });
 
 	// Check if uri minted
-	if (await contract.checkUri(imageHash))
+	if (await contract.checkUri(cid))
 		throw new DuplicateEntry('Document already owned by another user');
 
-	// Create ipfs instance
-	const ipfsClient = create({
-		host: 'ipfs.infura.io',
-		port: 5001,
-		protocol: 'https',
-		headers: {
-			authorization:
-				'Basic ' +
-				Buffer.from(
-					process.env.IPFS_ID + ':' + process.env.IPFS_SECRET
-				).toString('base64')
-		}
-	});
+	// Pin the document
+	await ipfsClient.pin.add(cid);
 
-	// Upload the image to ipfs
-	const ipfsData = await ipfsClient.add({ content: data });
-
-	res.status(201).json({
-		message: 'Image uploaded',
-		cid: ipfsData.cid
-	});
+	res.status(201).json({ message: 'Image uploaded', cid });
 };
 
 const saveTransaction = async (req, res, next) => {

@@ -69,15 +69,15 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
     // Add sender to the institutions mapping
 	function registerInstitution() public
 	{
-		require(!institutions[msg.sender].isExisting, "Already an admin of institution");
+		require(!institutions[msg.sender], "Already an admin of institution");
 		
-		institutions[msg.sender] = Institution(true);
+		institutions[msg.sender] = true;
 	}
 
     // Check if sender is institution
     function checkInstitution() public view returns(bool)
 	{
-		return institutions[msg.sender].isExisting;
+		return institutions[msg.sender];
 	}
 
 	/* URI Handler */
