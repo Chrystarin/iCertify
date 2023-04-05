@@ -16,7 +16,7 @@ const {
 	DuplicateEntry,
 	MemberNotFound
 } = require('../miscellaneous/errors');
-const { waitTx } = require('../miscellaneous/waitTransaction');
+const { waitTx } = require('../miscellaneous/transactionUtils');
 
 const registerInstitution = async (req, res, next) => {
 	const {

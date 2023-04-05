@@ -7,11 +7,19 @@ const Transaction = require('../models/Transaction');
 const {
 	roles: { INSTITUTION, USER }
 } = require('../miscellaneous/constants');
-const { MemberNotFound, DuplicateEntry } = require('../miscellaneous/errors');
+const {
+	MemberNotFound,
+	NotFound,
+	DuplicateEntry
+} = require('../miscellaneous/errors');
 const { isString } = require('../miscellaneous/checkInput');
-const { waitTx, parseLog } = require('../miscellaneous/waitTransaction');
-const calculateHash = require('../miscellaneous/calculateHash');
+const {
+	waitTx,
+	parseLog,
+	contract
+} = require('../miscellaneous/transactionUtils');
 const { genAccessCode } = require('../miscellaneous/generateId');
+const calculateHash = require('../miscellaneous/calculateHash');
 
 const getTransactions = async (req, res, next) => {
 	const { walletAddress, txHash } = req.query;
@@ -72,7 +80,10 @@ const saveIpfs = async (req, res, next) => {
 	const checkIpfs = await fetch(
 		`https://icertify.infura-ipfs.io/ipfs/${imageHash}`
 	);
-	if (checkIpfs.ok)
+	if (!checkIpfs.ok) throw new NotFound('Document not uploaded yet');
+
+	// Check if uri minted
+	if (await contract.checkUri(imageHash))
 		throw new DuplicateEntry('Document already owned by another user');
 
 	// Create ipfs instance

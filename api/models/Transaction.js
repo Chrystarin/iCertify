@@ -16,7 +16,7 @@ module.exports = model(
 							})) === null
 						);
 					},
-					message: ({ value }) => `'${value}' already in saved`
+					message: ({ value }) => `Transaction '${value}' already saved`
 				}
 			},
 			institution: {

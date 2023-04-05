@@ -1,22 +1,20 @@
 const {
 	utils: { Interface },
-	providers: { JsonRpcProvider }
+	providers: { JsonRpcProvider },
+    Contract
 } = require('ethers');
 
 const Transaction = require('../models/Transaction');
 
 const { abi } = require('../build/contracts/DocumentNFT.json');
 const { NotFound } = require('./errors');
-const { NODE_ENV, TESTNET, TEST_PROVIDER } = process.env;
+const { NODE_ENV, TESTNET, TEST_PROVIDER, CONTRACT_ADDRESS } = process.env;
 
 const provider = new JsonRpcProvider(
 	NODE_ENV === 'development' ? TEST_PROVIDER : TESTNET
 );
+const contract = (new Contract(CONTRACT_ADDRESS, abi, provider)).
 const { parseLog } = new Interface(abi);
-
-// Updates a transaction status
-const updateTransaction = (hash, status) =>
-	Transaction.findOneAndUpdate({ hash }, { status });
 
 // Monitors a transaction by waiting for it to be mined
 const waitTx = async (txHash, callback) => {
@@ -35,4 +33,4 @@ const waitTx = async (txHash, callback) => {
         });
 };
 
-module.exports = { parseLog, waitTx };
+module.exports = { parseLog, waitTx, contract };
