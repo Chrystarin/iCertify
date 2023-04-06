@@ -4,8 +4,6 @@ const {
     Contract
 } = require('ethers');
 
-const Transaction = require('../models/Transaction');
-
 const { abi } = require('../build/contracts/DocumentNFT.json');
 const { NotFound } = require('./errors');
 const { NODE_ENV, TESTNET, TEST_PROVIDER, CONTRACT_ADDRESS } = process.env;
@@ -13,7 +11,7 @@ const { NODE_ENV, TESTNET, TEST_PROVIDER, CONTRACT_ADDRESS } = process.env;
 const provider = new JsonRpcProvider(
 	NODE_ENV === 'development' ? TEST_PROVIDER : TESTNET
 );
-const contract = (new Contract(CONTRACT_ADDRESS, abi, provider)).
+const contract = (new Contract(CONTRACT_ADDRESS, abi, provider));
 const { parseLog } = new Interface(abi);
 
 // Monitors a transaction by waiting for it to be mined

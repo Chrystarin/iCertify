@@ -15,6 +15,7 @@ const {
 const { MemberNotFound, DuplicateEntry } = require('../miscellaneous/errors');
 const { isString } = require('../miscellaneous/checkInput');
 const { genAccessCode } = require('../miscellaneous/generateId');
+const { IPFS_ID, IPFS_SECRET } = process.env;
 
 // Create ipfs instance
 const ipfsClient = create({
@@ -24,9 +25,7 @@ const ipfsClient = create({
 	headers: {
 		authorization:
 			'Basic ' +
-			Buffer.from(
-				process.env.IPFS_ID + ':' + process.env.IPFS_SECRET
-			).toString('base64')
+			Buffer.from(IPFS_ID + ':' + IPFS_SECRET).toString('base64')
 	}
 });
 
@@ -39,9 +38,9 @@ const getTransactions = async (req, res, next) => {
 	// Create transaction query (defaults to user)
 	let transactionQuery = {};
 
-	if (req.user.type === USER) transactionQuery.user = req.user.id;
+	if (req.user.type == USER) transactionQuery.user = req.user.id;
 
-	if (req.user.type === INSTITUTION) {
+	if (req.user.type == INSTITUTION) {
 		isString(walletAddress, 'Wallet Address', true);
 
 		// Find Institution
@@ -53,7 +52,7 @@ const getTransactions = async (req, res, next) => {
 		if (walletAddress) {
 			// Check if the given wallet address is member of institution
 			const member = institution.members.find(
-				({ user: { walletAddress: wa } }) => walletAddress === wa
+				({ user: { walletAddress: wa } }) => walletAddress == wa
 			);
 			if (!member) throw new MemberNotFound();
 
@@ -68,11 +67,11 @@ const getTransactions = async (req, res, next) => {
 	// Get transactions
 	const transactions = await Transaction.find(transactionQuery);
 
-	// Filter transactions by transactionId
-	transactions = transactions.filter(({ hash }) =>
-		txHash ? txHash === hash : true
-	);
-	if (txHash) [transactions] = transactions;
+	// Get specific transaction
+	if (txHash)
+		transactions = transactions.find(({ hash }) =>
+			txHash ? txHash == hash : true
+		);
 
 	res.json(transactions);
 };
