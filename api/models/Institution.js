@@ -35,7 +35,7 @@ module.exports = model(
 			about: String,
 			address: String,
 			website: String,
-			contactNo: Number,
+			contactNo: String,
 			photos: { profile: String, cover: String },
 			needs: {
 				ID: { type: Boolean, default: false },
@@ -46,12 +46,28 @@ module.exports = model(
 					user: {
 						type: ObjectId,
 						ref: 'User',
-						unique: true,
-						index: true,
-						sparse: true,
-						required: [true, 'User id is required']
+						required: [true, 'User id is required'],
+						validate: {
+							validator: function (value) {
+								return !this.members.find(({ _id }) =>
+									_id.equals(value)
+								);
+							},
+							message: 'User already a member'
+						}
 					},
-					idNumber: String,
+					idNumber: {
+						type: String,
+						validate: {
+							validator: function (value) {
+								return !this.members.find(
+									({ idNumber }) => idNumber == value
+								);
+							},
+							message:
+								'ID Number is already registered by another user'
+						}
+					},
 					joinedAt: { type: Date, default: new Date() }
 				}
 			],
