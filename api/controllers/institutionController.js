@@ -104,9 +104,11 @@ const getInstitutions = async (req, res, next) => {
 
 	// Find institutions
 	let institutions = await Institution.find();
+
+	// Get specific institutions
 	if (walletAddress)
 		institutions = institutions.find(
-			({ walletAddress: wa }) => walletAddress === wa
+			({ walletAddress: wa }) => walletAddress == wa
 		);
 
 	res.status(200).json(institutions);
@@ -124,8 +126,9 @@ const getMembers = async (req, res, next) => {
 		.exec();
 
 	// Get only the public documents and its default code
-	let members = institution.members.map(
-		({ user: { documents, ...user }, ...member }) => ({
+	let members = institution
+		.toJSON()
+		.members.map(({ user: { documents, ...user }, ...member }) => ({
 			...member,
 			user: {
 				...user,
@@ -135,16 +138,15 @@ const getMembers = async (req, res, next) => {
 					// Return only the default access code
 					.map(({ codes: [code], ...doc }) => ({ ...doc, code }))
 			}
-		})
-	);
-    
-    // Filter the members by the walletAddress
+		}));
+
+	// Filter the members by the walletAddress
 	if (walletAddress) {
 		members = members.filter(
 			({ user: { walletAddress: wa } }) => wa == walletAddress
 		);
 
-        // Check if memebr is existing
+		// Check if memebr is existing
 		if (members.length == 0) throw new MemberNotFound();
 
 		[members] = members;
