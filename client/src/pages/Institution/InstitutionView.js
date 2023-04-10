@@ -19,8 +19,8 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
 
 // Import Images
-import Logo from '../../images/placeholder/SampleLogo.png';
-import Wallpaper from '../../images/placeholder/SampleWallpaper.png'
+import Logo from '../../images/placeholder/placeholder_profile.jpg';
+import Wallpaper from '../../images/placeholder/placeholder_cover.jpg'
 
 import axios from '../../utils/axios';
 
@@ -33,19 +33,6 @@ const InstitutionView = (props) => {
     const [institution, setInstitution] = useState()
     const [offers, setOffers] = useState()
     const [moreButtonAdmin,setMoreButtonAdmin] = useState(false);
-
-    // Here are the states to update the details in the page
-    const [pageDetails,setPageDetails] = useState({
-        ProfilePicture:Logo,
-        Wallpaper:Wallpaper,
-        InstitutionName:"STI College Marikina",
-        TotalMembers:600,
-        TotalDocumentsDestributed:500,
-        AboutUs:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis placeat optio inventore eaque explicabo, neque accusamus dignissimos voluptatum pariatur suscipit!",
-        ContactNumber:"0908-265-7587",
-        Email:"stimarikina@gmail.com",
-        Address:"2 L. De Guzman St, Marikina, 1807 Metro Manila"
-    });
 
     // Excecutes on page load
     useEffect(() => {
@@ -60,6 +47,7 @@ const InstitutionView = (props) => {
 				.then((response) => {
 					setInstitution(response.data)
                     setOffers(response.data.docOffers)
+                    console.log(response.data.docOffers)
 				});
 		};
 		fetchInstitution();
@@ -67,12 +55,12 @@ const InstitutionView = (props) => {
 
     // Returns if no data retrieved
     if(!institution || !offers) return <div>loading...</div>
-    
+ 
     return (
         <div id="Institutioin__View">
             <div id="Institution__Header">
                 <div id="Institution__Wallpaper__Container">
-                    <img src={pageDetails.Wallpaper} alt="" />
+                    <img src={Wallpaper} alt="" />
                     {props.owner?<>
                         <div id="Institution__Wallpaper__Update" onClick={()=>{alert()}}>
                             <InsertPhotoIcon id="Institution__Wallpaper__Update__Icon"/>
@@ -83,7 +71,7 @@ const InstitutionView = (props) => {
                 </div>
                 <div id="Institution__AvatarProfileButtons__Container">
                     <div id="AvatarProfile__Holder">
-                        <Avatar src={pageDetails.ProfilePicture} id="AvatarProfile__Avatar"/>
+                        <Avatar src={Logo} id="AvatarProfile__Avatar"/>
                         {props.owner?<>
                             <div id="AvatarProfile__Update" onClick={()=>{alert()}}>
                                 <InsertPhotoIcon id="AvatarProfile__Upadate__Icon"/>
@@ -110,16 +98,13 @@ const InstitutionView = (props) => {
                         </div>
                         <div id="Buttons__Container">
                             {(user.type == 'institution' && user.walletAddress == id)?<>
-                                <Button variant="contained" href="update">Add Document </Button>
-                                <Button variant="contained" href="update">Update </Button>
+                                <Button variant="contained" href="update">Update</Button>
                             </>:<>
                                 <Button variant="contained" href={`/institutions/${id}/join`}>
                                     Join
                                 </Button>
                             </>
                             }
-
-                            
                         </div>
                     </div>
                 </div>
@@ -168,90 +153,52 @@ const InstitutionView = (props) => {
                     </div>
                 </div>
                 <div id="InstitutionBody__Content">
-                    <AvailableDocuments owner={props.owner}/>
+                    <AvailableDocuments owner={props.owner} data={offers}/>
                 </div>
             </div>
         </div>
     )
+
+    function AvailableDocuments(props){
+        return<>
+            <div className="InstitutionBody__Content__Containers">
+                <div className="InstitutionBody__Content_Holder">
+                    <h5 className="InstitutionBody__Content__Containers__Title">Available Documents</h5>
+                    {(user.type == 'institution' && user.walletAddress == id)?<>
+                        <Button variant="" endIcon={<AddBoxIcon/>} href="/documents/add">Add</Button>
+                    </>:<>
+                        
+                    </>
+                    }
+                    
+                </div>
+                <div className='grid'>
+                    {(props.data.length === 0 )?
+                        <p>No Offers found!</p>
+                        :
+                        <>
+                            {props.data.length > 0 &&
+                            props.data.map((offer) => {
+                            return (
+                                <DocumentRequestCard 
+                                    key={offer.docId}
+                                    name={offer.title}
+                                    id={offer.id} 
+                                    description={offer.description} 
+                                    requirements={offer.requirements} 
+                                    // requestStatus={offer.requestStatus} 
+                                    // owner={props.owner}
+                                />
+                            );
+                            })}
+                        </>
+                    }
+                </div>
+            </div>
+        </>
+    }
 }
 
-function AvailableDocuments(props){
-    
-    const AvailableDocuments = [
-        {name:'Transcript of Records', id:"213231323132", 
-        description:'Document that lists all the courses taken by a student and the grades or marks earned in each course, usually issued by the institution attended. It serves as an official record of the students academic history.', 
-        requirements:[
-            "Student Graduate", "Student ID", "Student Number"
-        ], 
-        requestStatus: true},
-        
-        {name:'Transcript of Records', 
-        id:"213231323132", 
-        description:'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis, ea laboriosam praesentium consequuntur eveniet animi quasi quam eaque. Molestias commodi rerum fuga sint obcaecati inventore, nulla ullam cumque at quibusdam.', 
-        requirements:[
-            "Student Graduate", "Student ID", "Student Number"
-        ], 
-        requestStatus: true},
-        {name:'Transcript of Records', id:"213231323132", 
-        description:'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis, ea laboriosam praesentium consequuntur eveniet animi quasi quam eaque. Molestias commodi rerum fuga sint obcaecati inventore, nulla ullam cumque at quibusdam.', 
-        requirements:[
-            "Student Graduate", "Student ID", "Student Number"
-        ], 
-        requestStatus: true},
-        
-        {name:'Transcript of Records', 
-        id:"213231323132", 
-        description:'Lorem ipsum, dolor sipraesentium consequuntur eveniet animi quasi quam eaque. Molestias commodi rerum fuga sint obcaecati inventore, nulla ullam cumque at quibusdam.', 
-        requirements:[
-            "Student Graduate", "Student ID", "Student Number"
-        ], 
-        requestStatus: true},
-        {name:'Transcript of Records', id:"213231323132", 
-        description:'Lorem ipsum, dolor site at quibusdam.', 
-        requirements:[
-            "Student Graduate", "Student ID", "Student Number"
-        ], 
-        requestStatus: true},
-        {name:'Transcript of Records', 
-        id:"213231323132", 
-        description:'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis, ea laboriosam praesentium consequuntur eveniet animi quasi quam eaque. Molestias commodi rerum fuga sint obcaecati inventore, nulla ullam cumque at quibusdam.', 
-        requirements:[
-            "Student Graduate", "Student ID", "Student Number"
-        ], 
-        requestStatus: true},   
-        {name:'Transcript of Records', id:"213231323132", 
-        description:'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis, ea laboriosam praesentium consequuntur eveniet animi quasi quam eaque. Molestias commodi rerum fuga sint obcaecati inventore, nulla ullam cumque at quibusdam.', 
-        requirements:[
-            "Student Graduate", "Student ID", "Student Number"
-        ], 
-        requestStatus: true},
-        {name:'Transcript of Records', id:"213231323132", 
-        description:'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Perspiciatis, ea laboriosam praesentium consequuntur eveniet animi quasi quam eaque. Molestias commodi rerum fuga sint obcaecati inventore, nulla ullam cumque at quibusdam.', 
-        requirements:[
-            "Student Graduate", "Student ID", "Student Number"
-        ], 
-        requestStatus: true},
-        // {name:'', description:'', requirements:'', requestStatus: true},
-    ]
-    return<>
-        <div className="InstitutionBody__Content__Containers">
-            <div className="InstitutionBody__Content_Holder">
-                <h5 className="InstitutionBody__Content__Containers__Title">Available Documents</h5>
-                {props.owner?<>
-                    <Button variant="" endIcon={<AddBoxIcon/>} href="/a/document/add">Add</Button>
-                </>:<>
-                    
-                </>
-                }
-                
-            </div>
-            <div className='grid'>
-                {AvailableDocuments.map((Document) => (
-                    <DocumentRequestCard name={Document.name} id={Document.id} description={Document.description} requirements={Document.requirements} requestStatus={document.requestStatus} owner={props.owner}/>
-                ))}
-            </div>
-        </div>
-    </>
-}
+
 
 export default InstitutionView

@@ -67,7 +67,7 @@ function App() {
                     <Route path='members' element={<MemberList />} />
                     <Route path='documents' element={<MintTransfer />} />
                     <Route path='document/create' element={<CreateDocument />} />
-                    <Route path='document/add' element={<AddDocumentOffered />} />
+                    <Route path='documents/add' element={<AddDocumentOffered />} />
                 </Route>
             </Route>
 

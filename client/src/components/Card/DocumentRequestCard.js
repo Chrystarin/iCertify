@@ -38,11 +38,9 @@ function DocumentRequestCard(props) {
         <div>
           <h6 className='DocumentRequestCard__Contents__Title'>Requirements:</h6>
           <ul>
-            {props.requirements.map((requirement) => (
               <li>
-                <p className='BodyText3'>{requirement}</p>
+                <p className='BodyText3'>{props.requirements}</p>
               </li>
-            ))}
           </ul>
         </div>
       </div>

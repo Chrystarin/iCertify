@@ -179,6 +179,9 @@ const getMembers = async (req, res, next) => {
 const addOfferedDoc = async (req, res, next) => {
 	const { title, description, price, requirements } = req.body;
 
+    console.log(req.body)
+    console.log(req.user)
+
 	isString(title, 'Title');
 	isString(description, 'Description');
 	isNumber(price, 'Price');
