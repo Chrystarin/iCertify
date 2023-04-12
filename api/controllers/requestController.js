@@ -77,7 +77,7 @@ const processRequest = async (req, res, next) => {
 
 	// Find request
 	const request = await Request.findOne({ requestId, status: 'pending' })
-		.populate('member institution')
+        .populate('institution')
 		.exec();
 	if (!request)
 		throw new NotFound(

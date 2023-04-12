@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-
+import {useNavigate} from 'react-router-dom';
 import './../../styles/Form.scss';
 
 import Button from '@mui/material/Button';
@@ -11,7 +11,8 @@ import { TextField,Avatar } from '@mui/material';
 import axios from '../../utils/axios';
 
 function AddDocumentOffered() {
-
+    const navigate = useNavigate();
+    const user = JSON.parse(localStorage.getItem("user"));
     // Stepper
     const [activeStep,setActiveStep] = useState(0);
     function nextStep(){
@@ -57,6 +58,8 @@ function AddDocumentOffered() {
                 .then((response) => {
                     console.log(response.data)
                     alert("Document Offer Added!")
+                    navigate(`/institutions/${user.walletAddress}`)
+                    
                 });
         
         } catch (err) {      

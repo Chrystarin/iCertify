@@ -70,42 +70,42 @@ function MintTransfer() {
 	}
 
 	let participants = [
-		{
-		   "member":{
-				"address": "0xfhb54089hge4rtig",
-				"name" : "Jane Doe",
-			  	"$oid":"63eb5f308bded2c850c93210"
-		   },
-		   "role":"Participant",
-		   "certificateProcessed":false,
-		   "_id":{
-			  "$oid":"63eb5f818bded2c850c93249"
-		   }
-		},
-		{
-		   "member":{
-				"address": "0xfhb54089hge4rtig",
-				"name" : "John Doe",
-			  	"$oid":"63eb5f468bded2c850c9321c"
-		   },
-		   "role":"Participant",
-		   "certificateProcessed":false,
-		   "_id":{
-			  "$oid":"63eb5f948bded2c850c93268"
-		   }
-		},
-		{
-		   "member":{
-				"address": "0xfhb54089hge4rtig",
-				"name" : "JR Doe",
-			  	"$oid":"63f496e780ce7fae3542be12"
-		   },
-		   "role":"Participant",
-		   "certificateProcessed":true,
-		   "_id":{
-			  "$oid":"63fb0307153eb3004953dd74"
-		   }
-		}
+		// {
+		//    "member":{
+		// 		"address": "0xfhb54089hge4rtig",
+		// 		"name" : "Jane Doe",
+		// 	  	"$oid":"63eb5f308bded2c850c93210"
+		//    },
+		//    "role":"Participant",
+		//    "certificateProcessed":false,
+		//    "_id":{
+		// 	  "$oid":"63eb5f818bded2c850c93249"
+		//    }
+		// },
+		// {
+		//    "member":{
+		// 		"address": "0xfhb54089hge4rtig",
+		// 		"name" : "John Doe",
+		// 	  	"$oid":"63eb5f468bded2c850c9321c"
+		//    },
+		//    "role":"Participant",
+		//    "certificateProcessed":false,
+		//    "_id":{
+		// 	  "$oid":"63eb5f948bded2c850c93268"
+		//    }
+		// },
+		// {
+		//    "member":{
+		// 		"address": "0xfhb54089hge4rtig",
+		// 		"name" : "JR Doe",
+		// 	  	"$oid":"63f496e780ce7fae3542be12"
+		//    },
+		//    "role":"Participant",
+		//    "certificateProcessed":true,
+		//    "_id":{
+		// 	  "$oid":"63fb0307153eb3004953dd74"
+		//    }
+		// }
 	]
 	// Values for metamask credentials
 	let provider, signer, contract;
@@ -140,7 +140,7 @@ function MintTransfer() {
 		switch (TabActive) {
 			case 'Pending':
 				if (participants.length === 0)
-					return <div>No Participants</div>;
+					return <div></div>;
 				return (
 					<>
 
@@ -324,7 +324,7 @@ function MintTransfer() {
 										</div>
 									</div>
 								</Menu>
-								<Button variant='contained' href='/a/document/create'>New Request</Button>
+								<Button variant='contained' href='/a/document/create'>Generate Document</Button>
 							</div>
 							<TabView />
 						</div>
@@ -334,9 +334,9 @@ function MintTransfer() {
 					<div className='Panel__Container'>
 						<h6 className='Panel__Title'>Document Analytics</h6>
 						<h5>Total Documents</h5>
-						<p>500</p>
+						<p>[ ]</p>
 						<h5>Total Requests</h5>
-						<p>400</p>
+						<p>[ ]</p>
 					</div>
 				</div>
 			</div>

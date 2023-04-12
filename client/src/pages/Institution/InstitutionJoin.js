@@ -1,5 +1,6 @@
 import React,{useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 import './../../styles/Form.scss';
 import './InstitutionJoin.scss';
@@ -15,6 +16,25 @@ import axios from '../../utils/axios';
 
 function InstitutionJoin(props) {
     const { id } = useParams();
+    const [user, setUser] = useState();
+    const navigate = useNavigate();
+
+    // Executes on load
+    useEffect(() => {
+        // Retrieves User's Data
+		const fetchUser = async () => {
+			await axios
+				.get(`users`,{
+                    params: {
+                        walletAddress: JSON.parse(localStorage.getItem("user")).walletAddress
+                    }
+                })
+				.then((response) => {
+                    setUser(response.data)
+				});
+		};
+        fetchUser();
+	}, []);
 
     // Join Institution
     const Join = async (e) => {
@@ -29,6 +49,7 @@ function InstitutionJoin(props) {
                 .then((response) => {
                     console.log(response.data)
                     alert("Join Request Sent! Wait for the admin to approve your request")
+                    navigate(`/institutions/${id}`)
                 });
         
         } catch (err) {      
@@ -56,6 +77,7 @@ function InstitutionJoin(props) {
         Discount: "None"
     }
 
+    if (!user) return <div>Loading...</div>
   
     return (
         <section>
@@ -78,15 +100,15 @@ function InstitutionJoin(props) {
                         <div id='UserInfo'>
                             <Avatar id="UserInfo__Avatar"/>
                             <div>
-                                <h5>Dianne Chrystalin</h5>
+                                <h5>{user.user.name.firstName}</h5>
                                 <p className='BodyText3'>FIRST NAME</p>
                             </div>
                             <div>
-                                <h5>Manabat</h5>
+                                <h5>{user.user.name.middleName ? user.user.name.middleName : 'N/A'}</h5>
                                 <p className='BodyText3'>MIDDLE NAME</p>
                             </div>
                             <div>
-                                <h5>Brandez</h5>
+                                <h5>{user.user.name.lastName}</h5>
                                 <p className='BodyText3'>LAST NAME</p>
                             </div>
                         </div>
@@ -110,8 +132,8 @@ function InstitutionJoin(props) {
                         </div>
                     <div className="Category__Content">
                         <div id='Category__Content__File'>
-                        <input type="file" id="files" class="hidden"/>
-                        <label for="files" id='Category__Content__Button'>
+                        <input type="file" id="files" className="hidden"/>
+                        <label htmlFor="files" id='Category__Content__Button'>
                             <img src={UploadFileImage} alt="" />
                             <div>
                                 <p className='BodyText3'>Upload any proof of membership</p>

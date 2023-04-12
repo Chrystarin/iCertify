@@ -86,7 +86,7 @@ function MemberList() {
                         >
                             All
                         </Button>
-                        <Button 
+                        {/* <Button 
                             variant={
                                 isOpenPanel_Institution === 'New Members'
                                     ? 'contained'
@@ -95,7 +95,7 @@ function MemberList() {
                             onClick={() => seOpenPanel_Institution('New Members')}
                         >
                             New Members
-                        </Button>
+                        </Button> */}
                         <Button 
                             variant={
                                 isOpenPanel_Institution === 'Join Requests'
@@ -123,7 +123,7 @@ function MemberList() {
                             </div>
                         </div>
                         <div className='Wrapper__Card'>
-                        {(joinRequests.length === 0 )?
+                        {(members.length === 0 )?
                             <p>No Requests found!</p>
                             :
                             <>
@@ -131,8 +131,9 @@ function MemberList() {
                                 members.map((member) => {
                                     return (
                                         <MemberCard 
-                                            name={member.user} 
-                                            institutionID={member.institutionID} 
+                                            key={member.user.walletAddress} 
+                                            name={member.user.name.firstName + ' ' + member.user.name.lastName } 
+                                            institutionID={member.user.walletAddress} 
                                             member={true}
                                         />
                                     );
@@ -162,6 +163,7 @@ function MemberList() {
                                 joinRequests.map((request) => {
                                     if (request.status == 'pending') return (
                                         <MemberCard 
+                                            key={request.requestor.walletAddress} 
                                             name={`${request.requestor.name.firstName}`+" "+`${request.requestor.name.lastName}`}
                                             institutionID={request.requestor.walletAddress} 
                                             member={false}

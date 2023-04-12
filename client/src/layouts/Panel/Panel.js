@@ -19,10 +19,10 @@ function Panel() {
                 return (
                     <div id='DashboardHolder'>
                       <div id="Navigation">
-                        <SideNavBar User={user.walletAddress}/>
+                        <SideNavBar User={user.walletAddress} Type={user.type}/>
                       </div>
                       <div id="Holder_Content">
-                        <HeaderNavigation User={user.walletAddress}/>
+                        <HeaderNavigation User={user.walletAddress} Type={user.type}/>
                         <div id="Content">
                             {window.location.pathname == '/' ? window.location.replace(`users/${user.walletAddress}`) : <Outlet/>}
                         </div>
@@ -33,10 +33,10 @@ function Panel() {
                 return (
                     <div id='DashboardHolder'>
                       <div id="Navigation">
-                        <SideNavBar UserType="Admin" User={user.walletAddress}/>
+                        <SideNavBar UserType="Admin" User={user.walletAddress} Type={user.type}/>
                       </div>
                       <div id="Holder_Content">
-                        <HeaderNavigation UserType="Admin" User={user.walletAddress}/>
+                        <HeaderNavigation UserType="Admin" User={user.walletAddress} Type={user.type}/>
                         <div id="Content">
                             {window.location.pathname == '/' ? window.location.replace(`institutions/${user.walletAddress}`) : <Outlet/>}
                         </div>

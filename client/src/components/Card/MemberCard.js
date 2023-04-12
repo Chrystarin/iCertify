@@ -15,7 +15,7 @@ function MemberCard(props) {
     return <>
         {member?<>
             <div id='MemberCard'>
-                <a href='/' id='MemberCard__Container'>
+                <a href={`/users/${props.institutionID}`} id='MemberCard__Container'>
                     <Avatar id="MemberCard__Avatar"/>
                     <div id='MemberCard__Text'>
                         <h6 id='MemberCard__Name'>{name}</h6>

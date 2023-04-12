@@ -1,5 +1,5 @@
+// Import Libraries
 import React, { useState, useEffect } from "react";
-
 import { useParams } from "react-router-dom";
 import {ethers} from 'ethers';
 
@@ -22,6 +22,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import Logo from '../../images/placeholder/placeholder_profile.jpg';
 import Wallpaper from '../../images/placeholder/placeholder_cover.jpg'
 
+// Import Utilities
 import axios from '../../utils/axios';
 
 const InstitutionView = (props) => {
@@ -32,7 +33,6 @@ const InstitutionView = (props) => {
     const { id } = useParams()
     const [institution, setInstitution] = useState()
     const [offers, setOffers] = useState()
-    const [moreButtonAdmin,setMoreButtonAdmin] = useState(false);
 
     // Excecutes on page load
     useEffect(() => {
@@ -153,50 +153,42 @@ const InstitutionView = (props) => {
                     </div>
                 </div>
                 <div id="InstitutionBody__Content">
-                    <AvailableDocuments owner={props.owner} data={offers}/>
+                    <div className="InstitutionBody__Content__Containers">
+                        <div className="InstitutionBody__Content_Holder">
+                            <h5 className="InstitutionBody__Content__Containers__Title">Available Documents</h5>
+                            {(user.type == 'institution' && user.walletAddress == id)?<>
+                                <Button variant="" endIcon={<AddBoxIcon/>} href="/documents/add">Add</Button>
+                            </>:<>
+                            </>
+                            }
+                        </div>
+                        <div className='grid'>
+                            {(offers.length === 0 )?
+                                <p>No Offers found!</p>
+                                :
+                                <>
+                                    {offers.length > 0 &&
+                                    offers.map((offer) => {
+                                    return (
+                                        <DocumentRequestCard 
+                                            key={offer.docId}
+                                            name={offer.title}
+                                            id={offer.id} 
+                                            description={offer.description} 
+                                            requirements={offer.requirements} 
+                                            // requestStatus={offer.requestStatus} 
+                                            // owner={props.owner}
+                                        />
+                                    );
+                                    })}
+                                </>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     )
-
-    function AvailableDocuments(props){
-        return<>
-            <div className="InstitutionBody__Content__Containers">
-                <div className="InstitutionBody__Content_Holder">
-                    <h5 className="InstitutionBody__Content__Containers__Title">Available Documents</h5>
-                    {(user.type == 'institution' && user.walletAddress == id)?<>
-                        <Button variant="" endIcon={<AddBoxIcon/>} href="/documents/add">Add</Button>
-                    </>:<>
-                        
-                    </>
-                    }
-                    
-                </div>
-                <div className='grid'>
-                    {(props.data.length === 0 )?
-                        <p>No Offers found!</p>
-                        :
-                        <>
-                            {props.data.length > 0 &&
-                            props.data.map((offer) => {
-                            return (
-                                <DocumentRequestCard 
-                                    key={offer.docId}
-                                    name={offer.title}
-                                    id={offer.id} 
-                                    description={offer.description} 
-                                    requirements={offer.requirements} 
-                                    // requestStatus={offer.requestStatus} 
-                                    // owner={props.owner}
-                                />
-                            );
-                            })}
-                        </>
-                    }
-                </div>
-            </div>
-        </>
-    }
 }
 
 

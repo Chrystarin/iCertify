@@ -122,57 +122,36 @@ const getMembers = async (req, res, next) => {
 		.populate('members.user')
 		.exec();
 
-    // console.log(JSON.stringify(institution))
+   	// Filter members with walletAddress
+	// const members = institution.members
+    //     .filter(({ user: { walletAddress: wa } }) =>
+    //         walletAddress ? wa === walletAddress : true
+    //     )
+    //     // Remove the private documents
+    //     .map(({ documents, ...user }) => ({
+    //         ...user,
+    //         documents: documents
+    //             // Filter only the public documents
+    //             .filter(({ mode }) => mode === 'public')
+    //             // Return only the default access code
+    //             .map(({ codes: [code], ...doc }) => ({ ...doc, code }))
+    //     }));
 
-	// Filter members with walletAddress
-	let members = institution.members
-		.filter(({ user: { walletAddress: wa } }) =>
-			walletAddress ? wa === walletAddress : true
-		)
+    let members = institution
+        .toJSON()
+        .members.map(({user:{documents, ...user}, ...member}) => ({
+            ...member,
+            user: {
+                ...user,
+                documents:documents
+                    .filter(({mode})=> mode === 'public')
+                    .map(({codes: [code], ...doc}) => ({...doc, code}))
+            }
+        }))
 
-		console.log(members)
-	
-	members = members.map((m) => {
-		let {user: {documents, ...userInfo}, ...memberInfo} = m;
+        console.log(members)
 
-		console.log(documents);
-		console.log(userInfo);
-		console.log(memberInfo);
-
-		documents = documents.filter(doc => {
-			const {mode} = doc;
-
-			console.log(mode)
-
-			return mode == 'public'
-		}).map(doc => {
-			const {codes: [code], ...docInfo} = doc;
-
-			console.log(doc)
-			console.log(docInfo)
-
-			return {...docInfo, code}
-		})
-
-		return {
-			...memberInfo,
-			user: {...userInfo, documents}
-		}
-	})
-        // .map(({ user: { documents, ...user }, ...member }) => ({
-        //     member,
-        //     user: {
-        //         ...user,
-        //         documents: documents
-        //             // Filter only the public documents
-        //             .filter(({ mode }) => mode === 'public')
-        //             // Return only the default access code
-        //             .map(({ codes: [code], ...doc }) => ({ ...doc, code }))
-        //     }
-        // }));
-    
-    // console.log(members)
-	res.status(200).json(members);
+    res.status(200).json(members);
 
 };
 
