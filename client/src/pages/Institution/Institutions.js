@@ -124,6 +124,7 @@ function Institutions(props) {
                                         totalDocuments={institution.docOffers.length} 
                                         totalMembers={institution.members.length} 
                                         joinStatus={false}
+                                        actions={true}
                                     />
                                 );
                                 })}
@@ -157,6 +158,7 @@ function Institutions(props) {
                                 totalDocuments={institution.docOffers.length} 
                                 // totalMembers={institution.members.length} 
                                 joinStatus={true}
+                                actions={false}
                             />
                         );
                         })}
