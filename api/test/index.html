@@ -27,7 +27,7 @@
             address = await signer.getAddress();
 
             abi = await fetch('https://localhost:3000/abi').then(res => res.json())
-            contract = new ethers.Contract('0x0ADfAc749810626cA31e3fE76121D03E9Cc4DB3d', abi, signer)
+            contract = new ethers.Contract('0xd778Cc4Cc7b97b8316526A6de5f95492133A2Fa2', abi, signer)
         })();
     </script>
 </body>

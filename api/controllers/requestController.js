@@ -87,14 +87,18 @@ const processRequest = async (req, res, next) => {
 	if (status === 'pending') {
 		// Join the requestor to institution
 		if (request.requestType === JOIN) {
-			await Institution.findByIdAndUpdate(request.institution, {
-				$push: {
-					members: {
-						user: request.requestor,    
-						idNumber: request.details?.idNumber
+			await Institution.findByIdAndUpdate(
+				request.institution,
+				{
+					$push: {
+						members: {
+							user: request.requestor,
+							idNumber: request.details?.idNumber
+						}
 					}
-				}
-			});
+				},
+				{ runValidators: true }
+			);
 		}
 		if (request.requestType === DOCUMENT) {
 		}

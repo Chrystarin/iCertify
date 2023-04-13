@@ -38,19 +38,10 @@ module.exports = model(
 				{
 					nftId: {
 						type: Number,
-						required: [true, 'NFT ID is required'],
-						unique: true,
-						index: true,
-						sparse: true
+						index: { unique: true, sparse: true },
+						required: [true, 'NFT ID is required']
 					},
-					codes: [
-						{
-							type: String,
-							unique: true,
-							index: true,
-							sparse: true
-						}
-					],
+					codes: [String],
 					mode: {
 						type: String,
 						enum: ['public', 'private'],

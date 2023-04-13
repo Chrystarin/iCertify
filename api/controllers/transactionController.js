@@ -116,10 +116,20 @@ const saveTransaction = async (req, res, next) => {
 	);
 	if (!member) throw new MemberNotFound();
 
+	// Create transaction instance
+	const transaction = new Transaction({
+		hash: txHash,
+		institution: institution._id,
+		user: member.user._id
+	});
+
+	// Save transaction
+	await transaction.save();
+
 	// Wait for transaction
-	await waitTx(txHash, ({ logs: [log] }) =>
+	await waitTx(txHash, async ({ logs: [log] }) => {
 		// Add record to documents owned by user
-		User.findByIdAndUpdate(
+		await User.findByIdAndUpdate(
 			member.user._id,
 			{
 				$push: {
@@ -129,15 +139,15 @@ const saveTransaction = async (req, res, next) => {
 					}
 				}
 			},
-			{ new: true }
-		)
-	);
+			{ runValidators: true }
+		);
 
-	// Create transaction
-	await Transaction.create({
-		hash: txHash,
-		institution: institution._id,
-		user: member.user._id
+		// Update transaction
+		await Transaction.findOneAndUpdate(
+			{ txHash },
+			{ status: 'success' },
+			{ runValidators: true }
+		);
 	});
 
 	res.status(201).json({ message: 'Transaction saved' });

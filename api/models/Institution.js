@@ -1,22 +1,14 @@
 const { Schema, model } = require('mongoose');
 const { ObjectId } = Schema.Types;
 
-const uniqueValidator = (prop) => ({
-	validator: async function (value) {
-		const institution = await this.constructor.exists({ [prop]: value });
-		return institution === null || this._id.equals(institution._id);
-	},
-	message: ({ value }) => `'${value}' already in use`
-});
-
 module.exports = model(
 	'Institution',
 	new Schema(
 		{
 			walletAddress: {
 				type: String,
-				required: [true, 'Wallet address is required'],
-				validate: uniqueValidator('walletAddress')
+				unique: true,
+				required: [true, 'Wallet address is required']
 			},
 			name: { type: String, required: [true, 'Name is required'] },
 			instType: {
@@ -29,8 +21,8 @@ module.exports = model(
 			},
 			email: {
 				type: String,
-				required: [true, 'Email is required'],
-				validate: uniqueValidator('email')
+				unique: true,
+				required: [true, 'Email is required']
 			},
 			about: String,
 			address: String,
@@ -59,9 +51,7 @@ module.exports = model(
 				{
 					docId: {
 						type: String,
-						unique: true,
-						index: true,
-						sparse: true,
+						index: { unique: true, sparse: true },
 						required: [true, 'docId is required']
 					},
 					title: {
