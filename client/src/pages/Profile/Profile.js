@@ -48,7 +48,7 @@ function Profile() {
 	}, []);
 
 	// Returns if user is null
-	if (!user) return <div>loading... No user Found</div>;
+	if (!user || !institutions) return <div>loading... No user Found</div>;
 
 	return (
 		<div id='Profile'>
@@ -173,14 +173,14 @@ function Profile() {
 						}			
 						
 					</section> */}
-					{/* <section>
+					<section>
 						<h5 className='Panel__Title'>Institutions</h5>
-						{(joinedEvents.length === 0 )?
+						{(institutions.length === 0 )?
 							<>
 								<div className='EmtpyCard'>
 									<div>
 										<img src={Empty} alt="" />
-										<p>No joined events available!</p>
+										<p>No Institutions Joined!</p>
 									</div>
 									
 								</div>
@@ -188,23 +188,25 @@ function Profile() {
 							:
 							<>
 								<div className='Wrapper__Card'>
-									{joinedEvents.length > 0 &&
-										joinedEvents.map((joinedEvent) => {
-										return <>
-											
-											<InstitutionCard 
-												name={joinedEvent.event.title} 
-												address={"wewe"} 
-												totalDocuments={300}  
-												totalusers={400} 
-												joinStatus={true}
-											/>
-										</>
-									})}
+                                {institutions.length > 0 &&
+                                institutions.map((institution) => {
+                                    return (
+                                        <InstitutionCard 
+                                            key={institution.walletAddress}
+                                            walletAddress={institution.walletAddress}
+                                            name={institution.name} 
+                                            address={institution.instType} 
+                                            totalDocuments={institution.docOffers.length} 
+                                            // totalMembers={institution.members.length} 
+                                            joinStatus={true}
+                                            actions={false}
+                                        />
+                                    );
+                                })}
 								</div>
 							</>
 						}
-					</section> */}
+					</section>
 				</div>
 			</div>
 		</div>

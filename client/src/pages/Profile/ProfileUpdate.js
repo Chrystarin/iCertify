@@ -81,14 +81,7 @@ function ProfileUpdate() {
 	
 	// Returns if member is null
 	if (!member) return <div>loading...</div>;
-
-
-
-
-
-
-
-	
+    
 	return (
 		<section id='Create_Event'>
 			<div id='Stepper'>

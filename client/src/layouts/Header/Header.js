@@ -1,4 +1,5 @@
-import React, {useState,useRef}from 'react';
+import React, {useState,useRef, useEffect}from 'react';
+
 
 import './Header.scss';
 
@@ -13,13 +14,56 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 
+import axios from '../../utils/axios';
+
 function Header(props) {
+
+    const [user, setUser] = useState(null);
 
     // For closing the dropdown when clicking outside of
     let menuRef = useRef();
 
     // Retrieves User's Wallet Address
     const [address, setAddress] = useState(props.User);
+
+    // Executes on load
+    useEffect(() => {
+        // Retrieves User's Data
+        const fetchUser = async () => {
+            await axios
+                .get(`users`,{
+                    params: {
+                        walletAddress: props.User
+                    }
+                })
+                .then((response) => {
+                    setUser(response.data.user);
+                });
+        };
+
+        // Retrieves Institution Data
+		const fetchInstitution = async () => {
+			await axios
+				.get(`institutions`,{
+                    params: {
+                        walletAddress: props.User
+                    }
+                })
+				.then((response) => {
+					setUser(response.data)
+                    console.log(response.data)
+				});
+		};
+
+        switch(props.Type){
+            case 'user':
+                fetchUser();
+                break;
+            case 'institution':
+                fetchInstitution();
+                break;
+        }        
+    }, []);
 
     // Hook for profile dropdown
     const [anchorElProfile, setAnchorElProfile] = useState(null);
@@ -63,6 +107,8 @@ function Header(props) {
             ))}
         </>
     }
+
+    if (!user) return <div>Loading...</div>
    
     return (
         <div id="header_Content">
@@ -189,7 +235,7 @@ function Header(props) {
                                 <MenuItem  id='ProfileDropdown__Header'>
                                     <Avatar ></Avatar>
                                     <div>
-                                    <h6>Dianne Chrystalin Brandez</h6>
+                                    <h6>{props.Type=='user' ? user.name.firstName + ' ' + user.name.lastName : user.name}</h6>
                                     <div id='ProfileDropdown__Header__Metamask'>
                                         <p className='BodyText3'>{address}</p>
                                     </div>

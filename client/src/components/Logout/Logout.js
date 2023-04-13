@@ -16,10 +16,11 @@ function Logout(props) {
                 console.log(response)
             });
         } catch(err) {
-            alert(err)
+            console.log(err)
         } finally{
-            localStorage.clear();
+            localStorage.clear()
             navigate("/");
+            window.location.reload();
         }
     }
     

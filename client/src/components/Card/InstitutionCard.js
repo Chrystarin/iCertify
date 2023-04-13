@@ -11,7 +11,7 @@ function EventCard(props) {
 
   return (
     <div id='EventCard'>  
-        <a id='EventCard__Container' href={`institutions/${props.walletAddress}`}>
+        <a id='EventCard__Container' href={`/institutions/${props.walletAddress}`}>
             <img id='EventResourcesDesign' src={EventResourcesDesign} alt="" />
             <div id='Avatar__Container'>
                 <Avatar id="Avatar"/>
@@ -24,7 +24,14 @@ function EventCard(props) {
                 <PeopleAltIcon/>
                 <p className='BodyText3'>{props.totalMembers}</p>
             </div>
-            {props.joinStatus?<Button variant='contained'>Request</Button>:<Button variant='contained'>Join</Button>}
+            {props.actions ? 
+                (props.joinStatus ?
+                    <Button variant='contained'>Request</Button>
+                    :
+                    <Button variant='contained'>Join</Button>
+                )
+            : ''}
+           
             <div>
                 <TaskIcon/>
                 <p className='BodyText3'>{props.totalDocuments}</p>

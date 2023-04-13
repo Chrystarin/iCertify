@@ -124,6 +124,7 @@ function Institutions(props) {
                                         totalDocuments={institution.docOffers.length} 
                                         totalMembers={institution.members.length} 
                                         joinStatus={false}
+                                        actions={true}
                                     />
                                 );
                                 })}
@@ -140,7 +141,10 @@ function Institutions(props) {
         return<>
             <div id='Container_JoinedInstitutions' className='Wrapper__Card'>
                 {(joinedInstitutions.length === 0 )?
-                    <p>No Institutions found!</p>
+                    <p>No Institutions found!
+                        {joinedInstitutions}
+
+                    </p>
                     :
                     <>
                         {joinedInstitutions.length > 0 &&
@@ -152,11 +156,13 @@ function Institutions(props) {
                                 name={institution.name} 
                                 address={institution.instType} 
                                 totalDocuments={institution.docOffers.length} 
-                                totalMembers={institution.members.length} 
+                                // totalMembers={institution.members.length} 
                                 joinStatus={true}
+                                actions={false}
                             />
                         );
                         })}
+                        
                     </>
                 }
             </div>

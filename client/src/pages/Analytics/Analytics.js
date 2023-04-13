@@ -12,19 +12,19 @@ import axios from '../../utils/axios';
 
 function DashboardAdmin() {
 
-    const [members, setMembers] = useState(null);
+    // const [members, setMembers] = useState(null);
 
-	useEffect(() => {
-		// Retrieves All Events Data
-		const fetchMembers = async () => {
-			const response = await axios.get(`/members`).then((response) => {
-				setMembers(response.data);
-			});
-		};
-		fetchMembers();
-	}, []);
+	// useEffect(() => {
+	// 	// Retrieves All Events Data
+	// 	const fetchMembers = async () => {
+	// 		const response = await axios.get(`/members`).then((response) => {
+	// 			setMembers(response.data);
+	// 		});
+	// 	};
+	// 	fetchMembers();
+	// }, []);
 
-    if (!members) return <div>loading...</div>;
+    // if (!members) return <div>loading...</div>;
 
     return (
         <div id='AdminDasboard'>
@@ -59,7 +59,7 @@ function DashboardAdmin() {
                     <img src={DashboardPlaceHolder} alt="" />
                 </div>
             </section>
-            <div id='DashboardAdmin__SideContent'>
+            {/* <div id='DashboardAdmin__SideContent'>
                 <div id='MemberList' className='Panel__Container'>
                     <h4>Members</h4>
                     <div id='MemberList_Wrapper'>
@@ -86,7 +86,7 @@ function DashboardAdmin() {
                     })}
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
