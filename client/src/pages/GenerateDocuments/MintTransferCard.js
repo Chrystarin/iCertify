@@ -11,6 +11,7 @@ import ViewRequestorModal from '../../layouts/MintTransfer/ViewRequestorModal';
 import Menu from '@mui/material/Menu';
 import axios from '../../utils/axios';
 import TextField from '@mui/material/TextField';
+
 function MintTransferCard(props) {
 
 	const [anchorEl, setAnchorEl] = React.useState(null);

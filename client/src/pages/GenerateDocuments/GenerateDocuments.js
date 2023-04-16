@@ -253,7 +253,7 @@ function GenerateDocuments() {
 										</div>
 									</div>
 								</Menu>
-								<Button variant='contained' href='/a/document/create'>Generate Document</Button>
+								<Button variant='contained' href='/document/create'>Generate Document</Button>
 							</div>
 							<TabView requests={requests}/>
 						</div>

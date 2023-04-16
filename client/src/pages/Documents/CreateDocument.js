@@ -11,29 +11,95 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 
+import axiosInstance from '../../utils/axios';
 
-function CreateDocument() {
+function CreateDocument({manual}) {
+
+
+    const [form, setForm] = useState({
+        memberId: '',
+        docId: '',
+    });
+
     const [selectDocument, setSelectDocument] = React.useState('');
+
     const handleChangeSelectDocument = (event) => {
         setSelectDocument(event.target.value);
       };
-    const [CreateDocumentValue, setcreateDocumentValue] = useState(
-        {
-            DocumentImage:null,
-            
-        }
+    const [CreateDocumentValue, setcreateDocumentValue] = useState({ DocumentImage:null }
     );
 
+    const [file, setFile] = useState(null);
+    const [document, setDocument] = useState({});
+    const [image, setImage] = useState(null);
+    const handleFileInputChange = (event) => {
+        const file = event.target.files[0];
+        setFile(file)
+        console.log(file.type)
+        setImage(URL.createObjectURL(file));
+
+        const reader = new FileReader();
+
+        reader.onload = () => {
+          setDocument({
+            mimetype: file.type,
+            data: reader.result
+          });
+        };
+    
+        reader.readAsArrayBuffer(file);
+
+    }
+
+    const ProcessDocument = async () => {
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        console.log(file)
+        console.log(image)
+        console.log(JSON.stringify({ 
+            document: document
+        }))
+
+        try {
+            await axiosInstance.post(
+                `transactions/ipfs`,
+                // JSON.stringify({ 
+                //     document: {
+                //         mimetype: image.type,
+                //         data: image
+                //     }
+                // }),
+                // document,
+                JSON.stringify({ 
+                    document: document
+                }),
+                {
+                    headers: {
+                      'Content-Type': 'multipart/form-data',
+                    }
+                }
+            )
+            .then((res)=>{
+                alert("Document Uploaded to IPFS")
+                console.log(res.data)
+                window.location.reload(true); 
+            })
+        } catch (err) {      
+            console.error(err.message);
+        }
+    }
 
     return <>
         <form id='AdminDasboard'>
             <section id='CreateDocument'>
                 <div id='CreateDocument__Container'> 
                     {
-                        CreateDocumentValue.DocumentImage === null?
+                        (!image)?
                         <>
                         <div id='uploadDocument__Container'>
-                            <input type="file" name='uploadDocument' id='uploadDocument' className='hidden'/> 
+                            <input type="file" name='uploadDocument' id='uploadDocument' className='hidden'  onChange={handleFileInputChange} /> 
                             <label htmlFor="uploadDocument" id='uploadDocument__Click'>
                                 <img src={UploadFileImage} alt="" />
                                 <div>
@@ -46,7 +112,8 @@ function CreateDocument() {
                         </>
                         :
                         <>
-                            <img id='CreateDocument__Image' src={DocumentImg} alt="" />
+                            {/* <img id='CreateDocument__Image' src={DocumentImg} alt="" /> */}
+                            {image && <img src={image} alt="uploaded" id='CreateDocument__Image'/>}
                         </>
                     }
                     
@@ -55,11 +122,14 @@ function CreateDocument() {
             </section>
             <div id='SidePanel'>
                 <div id='SidePanel__Info' className='Panel__Container'>
-                    {true?<>
+                    {!manual?<>
                         <div id='SidePanel__Requestor'>
                             <a href="/">
                                 <Avatar id="SidePanel__Requestor__Avatar"/>
                                 <h5>Dianne Chrystalin Brandez</h5>
+                                
+                                
+
                             </a>
                             <Chip id="SidePanel__Requestor__Chip" label="# 02000069502" variant="outlined" onClick={()=>{}} />
                         </div>
@@ -108,7 +178,7 @@ function CreateDocument() {
                         </div>
                         <div id='SidePanel__Buttons'>
                             <Button variant='outlined'>Back</Button>
-                            <Button variant='contained'>Submit</Button>
+                            <Button variant='contained' onClick={()=>ProcessDocument()}>Submit</Button>
                         </div>
                     </>}
                     

@@ -61,9 +61,16 @@ const getTransactions = async (req, res, next) => {
 };
 
 const saveIpfs = async (req, res, next) => {
+    console.log("Test")
+    
 	const {
 		document: { mimetype, data }
 	} = req.files;
+
+    
+    console.log(req.files)
+
+    console.log(req)
 
 	// Calculate hash of image
 	const imageHash = await calculateHash(data);
