@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import Button from '@mui/material/Button';
 import { Avatar } from '@mui/material';
 import './CreateDocument.scss';
@@ -10,28 +10,75 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
-
+import { ethers } from 'ethers'
 import axiosInstance from '../../utils/axios';
 
 function CreateDocument({manual}) {
 
-
     const [form, setForm] = useState({
-        memberId: '',
+        memberAddress: '',
+        type: '',
         docId: '',
+        
     });
 
     const [selectDocument, setSelectDocument] = React.useState('');
-
-    const handleChangeSelectDocument = (event) => {
-        setSelectDocument(event.target.value);
-      };
-    const [CreateDocumentValue, setcreateDocumentValue] = useState({ DocumentImage:null }
-    );
+    const [CreateDocumentValue, setcreateDocumentValue] = useState({ DocumentImage:null });
 
     const [file, setFile] = useState(null);
     const [document, setDocument] = useState({});
     const [image, setImage] = useState(null);
+
+    // Values for metamask credentials
+    const [abi, setAbi] = useState();
+    let provider, signer, contract, address;
+    
+
+    // Excecutes upon page load
+    useEffect(() => {
+        // Connect User's Metamask Wallet
+        const ConnectWallet = async () => {
+            // Check if metamask is installed
+            if (typeof window.ethereum == undefined) {
+                window.open('https://metamask.io/download/', '_blank');
+                return;
+            }
+            try{
+                // Requests Metamask
+                await window.ethereum.request({ method: 'eth_requestAccounts' });
+                provider = new ethers.providers.Web3Provider(window.ethereum);
+
+                // Get signer of Metamask
+                signer = provider.getSigner();
+
+                // Sign message
+                const signature = await signer.signMessage("Harold James Castillo is ♥")
+
+                // Get address
+                address = await signer.getAddress()
+
+                return {address, signature}
+                
+            } catch(err) {
+                console.error(err.message);
+            }
+        }
+
+        const fetchContract = async () => {
+            await axiosInstance.get(`abi`)
+            .then((res)=>{
+                setAbi(res.data)
+            })
+        }
+
+        fetchContract();
+        ConnectWallet();
+    });
+
+    const handleChangeSelectDocument = (event) => {
+        setSelectDocument(event.target.value);
+      };
+
     const handleFileInputChange = (event) => {
         const file = event.target.files[0];
         setFile(file)
@@ -51,44 +98,63 @@ function CreateDocument({manual}) {
 
     }
 
-    const ProcessDocument = async () => {
+    const ProcessDocument = async (file) => {
 
         const formData = new FormData();
         formData.append('file', file);
 
         console.log(file)
-        console.log(image)
-        console.log(JSON.stringify({ 
-            document: document
-        }))
+        console.log(formData)
+
+        // // Extract information from base64 data
+        // var [data, bytes] = file.split(',');
+        // var decodedData = atob(bytes);
+        // var u8arr = new Uint8Array(decodedData.length);
+
+        // // Convert each byte to its corresponding charCode()
+        // for(var i = 0; i < decodedData.length; i++) {
+        //     u8arr[i] = decodedData.charCodeAt(i);
+        // }
+
+        // // Create a new File and pass it to sendDocument()
+        // const newFile = new File([u8arr], 'document.png', { type: data.match(/:(.*?);/)[1] });
+        // console.log(newFile)
 
         try {
-            await axiosInstance.post(
+            // Upload to IPFS then get URI
+            const { path } = await axiosInstance.post(
                 `transactions/ipfs`,
-                // JSON.stringify({ 
-                //     document: {
-                //         mimetype: image.type,
-                //         data: image
-                //     }
-                // }),
-                // document,
                 JSON.stringify({ 
-                    document: document
-                }),
-                {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',
+                    document: {
+                        mimetype: file.type,
+                        data: image
                     }
-                }
+                }),
+                // formData,
+                { headers: { 'Content-Type': 'multipart/form-data'}}
+            ).then(res => res.json());
+
+            console.log(path)
+
+            // Mint and transfer to owner
+            const transaction = await contract.sendDocument(
+                form.memberAddress,                                 // receiver
+                form.type,                                          // type
+                `https://icertify.infura-ipfs.io/ipfs/${path}`,     // uri
+                form.docId                                          // docId
             )
-            .then((res)=>{
-                alert("Document Uploaded to IPFS")
-                console.log(res.data)
-                window.location.reload(true); 
+            .then((response)=>{
+                console.log(response)
             })
+
         } catch (err) {      
             console.error(err.message);
         }
+    }
+
+    function TestFunction() {
+        // sendDocument(certificate);
+        // console.log(signer);
     }
 
     return <>
@@ -178,7 +244,7 @@ function CreateDocument({manual}) {
                         </div>
                         <div id='SidePanel__Buttons'>
                             <Button variant='outlined'>Back</Button>
-                            <Button variant='contained' onClick={()=>ProcessDocument()}>Submit</Button>
+                            <Button variant='contained' onClick={()=>ProcessDocument(file)}>Submit</Button>
                         </div>
                     </>}
                     
