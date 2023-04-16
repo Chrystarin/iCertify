@@ -22,7 +22,7 @@ import ProfileUpdate from './pages/Profile/ProfileUpdate';
 import RequestDocumentForm from './pages/Documents/DocumentRequestForm'
 
 // Institution
-import MintTransfer from './pages/MintTransfer/MintTransfer.js';
+import MintTransfer from './pages/GenerateDocuments/GenerateDocuments.js';
 import DashboardAdmin from './pages/Analytics/Analytics';
 import MemberList from './pages/Member/MemberList.js';
 import AddDocumentOffered from './pages/Documents/AddDocumentOffered'
@@ -53,7 +53,7 @@ function App() {
                     <Route path='users/:id/edit' element={<ProfileUpdate />}/>
                     <Route path='dashboard' element={<Dashboard />}/>
                     <Route path='documents/list' element={<Document />} />
-                    <Route path='institutions/:id/document' element={<RequestDocumentForm />}/>
+                    <Route path='institutions/:id/:docId' element={<RequestDocumentForm />}/>
                     <Route path='institutions/:id/join' element={<JoinInstution/>} />
                 </Route>
             </Route>

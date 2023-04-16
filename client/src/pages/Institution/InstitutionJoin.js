@@ -12,36 +12,23 @@ import StepLabel from '@mui/material/StepLabel';
 import { TextField,Avatar } from '@mui/material';
 import UploadFileImage from './../../images/Resources/Design/UploadFile.png'
 
-import axios from '../../utils/axios';
+// Import Utilities
+import axiosInstance from '../../utils/axios';
+import { useAuth } from "../../utils/AuthContext";
 
 function InstitutionJoin(props) {
     const { id } = useParams();
-    const [user, setUser] = useState();
+    const { user, isAuth } = useAuth();
+    // const [user, setUser] = useState();
     const navigate = useNavigate();
 
-    // Executes on load
-    useEffect(() => {
-        // Retrieves User's Data
-		const fetchUser = async () => {
-			await axios
-				.get(`users`,{
-                    params: {
-                        walletAddress: JSON.parse(localStorage.getItem("user")).walletAddress
-                    }
-                })
-				.then((response) => {
-                    setUser(response.data)
-				});
-		};
-        fetchUser();
-	}, []);
+    console.log(user)
 
     // Join Institution
     const Join = async (e) => {
         e.preventDefault();
         try{
-
-            await axios
+            await axiosInstance
                 .post(`requests`, JSON.stringify({
                     type: 'join',
                     walletAddress: id

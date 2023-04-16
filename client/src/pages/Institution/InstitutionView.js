@@ -23,22 +23,22 @@ import Logo from '../../images/placeholder/placeholder_profile.jpg';
 import Wallpaper from '../../images/placeholder/placeholder_cover.jpg'
 
 // Import Utilities
-import axios from '../../utils/axios';
+import axiosInstance from '../../utils/axios';
+import { useAuth } from "../../utils/AuthContext";
 
 const InstitutionView = (props) => {
-    // Get Logged in User
-    const user = JSON.parse(localStorage.getItem("user"));
+
+    const { user, isAuth, isJoined } = useAuth();
+    const { id } = useParams();
 
     // Constants Declarations
-    const { id } = useParams()
-    const [institution, setInstitution] = useState()
-    const [offers, setOffers] = useState()
+    const [institution, setInstitution] = useState();
 
     // Excecutes on page load
     useEffect(() => {
         // Retrieves Institution Data
 		const fetchInstitution = async () => {
-			await axios
+			await axiosInstance
 				.get(`institutions`,{
                     params: {
                         walletAddress: `${id}`
@@ -46,22 +46,24 @@ const InstitutionView = (props) => {
                 })
 				.then((response) => {
 					setInstitution(response.data)
-                    setOffers(response.data.docOffers)
-                    console.log(response.data.docOffers)
+                    
 				});
 		};
 		fetchInstitution();
     }, [])
 
+    
+
     // Returns if no data retrieved
-    if(!institution || !offers) return <div>loading...</div>
- 
+    if(!institution) return <div>loading...</div>
+    
+
     return (
         <div id="Institutioin__View">
             <div id="Institution__Header">
                 <div id="Institution__Wallpaper__Container">
                     <img src={Wallpaper} alt="" />
-                    {props.owner?<>
+                    {isAuth(id)?<>
                         <div id="Institution__Wallpaper__Update" onClick={()=>{alert()}}>
                             <InsertPhotoIcon id="Institution__Wallpaper__Update__Icon"/>
                             <p>Update Cover Photo</p>
@@ -72,7 +74,7 @@ const InstitutionView = (props) => {
                 <div id="Institution__AvatarProfileButtons__Container">
                     <div id="AvatarProfile__Holder">
                         <Avatar src={Logo} id="AvatarProfile__Avatar"/>
-                        {props.owner?<>
+                        {isAuth(id)?<>
                             <div id="AvatarProfile__Update" onClick={()=>{alert()}}>
                                 <InsertPhotoIcon id="AvatarProfile__Upadate__Icon"/>
                                 <p>Update</p>
@@ -97,12 +99,18 @@ const InstitutionView = (props) => {
                             </ul>
                         </div>
                         <div id="Buttons__Container">
-                            {(user.type == 'institution' && user.walletAddress == id)?<>
+                            {(isAuth(id))?<>
                                 <Button variant="contained" href="update">Update</Button>
                             </>:<>
-                                <Button variant="contained" href={`/institutions/${id}/join`}>
-                                    Join
-                                </Button>
+                                {(user.type!='institution') ? 
+                                    (isJoined(institution)) ? 'true' :
+                                    <Button variant="contained" href={`/institutions/${id}/join`}>
+                                        Join
+                                    </Button>
+                                : ''
+                                    
+                                
+                                }
                             </>
                             }
                         </div>
@@ -156,19 +164,19 @@ const InstitutionView = (props) => {
                     <div className="InstitutionBody__Content__Containers">
                         <div className="InstitutionBody__Content_Holder">
                             <h5 className="InstitutionBody__Content__Containers__Title">Available Documents</h5>
-                            {(user.type == 'institution' && user.walletAddress == id)?<>
+                            {(isAuth(id))?<>
                                 <Button variant="" endIcon={<AddBoxIcon/>} href="/documents/add">Add</Button>
                             </>:<>
                             </>
                             }
                         </div>
                         <div className='grid'>
-                            {(offers.length === 0 )?
+                            {(institution.docOffers.length === 0 )?
                                 <p>No Offers found!</p>
                                 :
                                 <>
-                                    {offers.length > 0 &&
-                                    offers.map((offer) => {
+                                    {institution.docOffers.length > 0 &&
+                                    institution.docOffers.map((offer) => {
                                     return (
                                         <DocumentRequestCard 
                                             key={offer.docId}
@@ -177,7 +185,9 @@ const InstitutionView = (props) => {
                                             description={offer.description} 
                                             requirements={offer.requirements} 
                                             // requestStatus={offer.requestStatus} 
-                                            // owner={props.owner}
+                                            link={`${institution.walletAddress}/${offer.docId}`}
+                                            owner={(isAuth(id))}
+                                            member={(isJoined(institution))}
                                         />
                                     );
                                     })}

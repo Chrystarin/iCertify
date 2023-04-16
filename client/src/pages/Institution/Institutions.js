@@ -5,11 +5,17 @@ import './Institutions.scss';
 
 import ImagePosterSample from './../../images/placeholder/PosterSample.jpg';
 import ImageAds from '../../images/Resources/Ads.png'
-import axios from '../../utils/axios';
+
 import Button from '@mui/material/Button';
 import InstitutionCard from '../../components/Card/InstitutionCard.js'
 
+// Import Utilities
+import axiosInstance from '../../utils/axios';
+import { useAuth } from "../../utils/AuthContext";
+
 function Institutions(props) {
+
+    const { user, isAuth } = useAuth();
 
     // Constant Declarations
 	const [isOpenPanel_Institution, seOpenPanel_Institution] = useState('FeaturedInstitutions');
@@ -20,7 +26,7 @@ function Institutions(props) {
     useEffect(() => {
 		// Retrieves All institutions Data
 		const fetchInstitutions = async () => {
-			await axios
+			await axiosInstance
                 .get(`/institutions`)
                 .then((response) => {
 				    setInstitutions(response.data);
@@ -28,8 +34,10 @@ function Institutions(props) {
 		};
 
         // Retrieves User's Data
+        
 		const fetchUser = async () => {
-			await axios
+            if(localStorage.getItem("user")){
+                await axiosInstance
 				.get(`users`,{
                     params: {
                         walletAddress: JSON.parse(localStorage.getItem("user")).walletAddress
@@ -38,6 +46,10 @@ function Institutions(props) {
 				.then((response) => {
                     setJoinedInstitutions(response.data.institutions)
 				});
+            } else{
+                setJoinedInstitutions(' ')
+            }
+
 		};
         // Executes Functions
 		fetchInstitutions();
@@ -52,7 +64,7 @@ function Institutions(props) {
 		<section id='institutions'>
 			<div className='Title__Div'>
 				<h2 className='SectionTitle'>Institutions</h2>
-				<h5 className='SectionSubTitle'>Collection of Education Institution</h5>
+				<h5 className='SectionSubTitle'>Collection of Institutions</h5>
 			</div>
 			<div className='Navigation_Institution'>
 				<div className='Navigation_Left'>
@@ -66,16 +78,20 @@ function Institutions(props) {
 					>
 						Featured Institutions	
 					</Button>
-					<Button 
-                        variant={
-                            isOpenPanel_Institution === 'JoinedInstitutions'
-                                ? 'contained'
-                                : ''
-                        }
-                        onClick={() => seOpenPanel_Institution('JoinedInstitutions')}
-					>
-						Joined Institutions
-					</Button>
+                    {(user) ? 
+                        <Button 
+                            variant={
+                                isOpenPanel_Institution === 'JoinedInstitutions'
+                                    ? 'contained'
+                                    : ''
+                            }
+                            onClick={() => seOpenPanel_Institution('JoinedInstitutions')}
+                        >
+                            
+                            Joined Institutions
+                        </Button>
+                    : ''}
+					
 				</div>
 				<div className='Navigation_Right'>
 				</div>

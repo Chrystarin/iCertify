@@ -24,16 +24,12 @@ function MintTransferCard(props) {
 
 	const [OpenModal, setOpenModal] = useState(false);
 	const {
-		name,
-		address,
-		role,
-		img,
-		status,
-		eventId,
-		eventTitle,
-		date,
-		location,
-		type
+		requestId,
+        address,
+        name,
+        title,
+        date,
+        type
 	} = props;
 
 	// const certificateId = axios
@@ -67,20 +63,23 @@ function MintTransferCard(props) {
 		<>
 			<div className='MintTransferCard Panel__Container'>
 				<div id='MintTransferCard__Date'>
-					<h6>Expected Finish Date</h6>
-					<p className='BodyText3'>October 18, 2020 - October 20, 2020</p>
+					<h6>Date Requested</h6>
+					<p className='BodyText3'>{date}</p>
 				</div>
 				<a href='/' id='MintTransferCard__UserInfo'>
 					<Avatar id="MintTransferCard__Avatar" alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-					<h6>Harold James H. Castillo</h6>
+					<h6>{name}</h6>
+                    <h6>{title}</h6>
 				</a>
 				<div id='MintTransferCard__ID'>
 					<Tooltip title="Copy">
-						<Chip label="02000069502" onClick={()=>{}}/>
+						<Chip label={address} onClick={()=>{}}/>
 					</Tooltip>
 				</div>
 				<div id='MintTransferCard__Buttons'>
-					<Button variant='outlined' onClick={handleClick}>Decline</Button>
+                {(type=='pending') ? 
+                <>
+                <Button variant='outlined' onClick={handleClick}>Decline</Button>
 					<Menu
 						id="basic-menu"
 						anchorEl={anchorEl}
@@ -104,7 +103,12 @@ function MintTransferCard(props) {
 							</div>
 						</div>
 					</Menu>
-					<Button variant='contained' href='/a/document/create'>Process</Button>
+					<Button variant='contained' onClick={props.action}>Process</Button>
+                </>
+                : ''
+                    
+                }
+					
 				</div>
 			</div>
 		</>

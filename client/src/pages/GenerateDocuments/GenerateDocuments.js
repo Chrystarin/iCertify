@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import './MintTransfer.scss';
+import './GenerateDocuments.scss';
 import './../../styles/Main.scss';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
@@ -14,17 +14,15 @@ import Avatar from '@mui/material/Avatar';
 import AvatarGroup from '@mui/material/AvatarGroup';
 import Chip from '@mui/material/Chip';
 import { ethers } from 'ethers';
-import axios from '../../utils/axios';
+import axiosInstance from '../../utils/axios';
 
-function MintTransfer() {
-	const { id } = useParams();
+function GenerateDocuments() {
+
 	const [TabActive, setTabActive] = useState('Pending');
-	// const [open, setOpen] = React.useState(false);
-	// const [event, setEvent] = useState(null);
-	// const [participants, setParticipants] = useState(null);
+	const [requests, setRequests] = useState();
+
 	const navigate = useNavigate();
 
-	
 	const [anchorElDropDownDocument, setAnchorElDropDownDocument] = React.useState(null);
 	const open = Boolean(anchorElDropDownDocument);
 	const handleClick = (event) => {
@@ -33,145 +31,79 @@ function MintTransfer() {
 	const handleClose = () => {
 		setAnchorElDropDownDocument(null);
 	};
-	
 
-	let event = {
-		"_id":{
-		   "$oid":"63eb5f728bded2c850c93231"
-		},
-		"eventId":"eHMmcj5M",
-		"type":"onsite",
-		"title":"Thesis Defense",
-		"description":"Defend your thesis",
-		"location":"STI",
-		"date":{
-		   "start":{
-			  "$numberDouble":"1676327280000.0"
-		   },
-		   "end":{
-			  "$numberDouble":"1676406180000.0"
-		   }
-		},
-		"canClaimCertificate":true,
-		"status":"active",
-		"isAcceptingVolunteer":true,
-		"tags":[
-		   
-		],
-		"regularPrice":{
-		   "$numberInt":"3"
-		},
-		"premiumPrice":{
-		   "$numberInt":"1"
-		},
-		"volunteerRequests":[
-		   
-		]
-	}
+	// Excecutes on page load
+    useEffect(() => {
+        // Retrieves Document Requests
+		const fetchDocumentRequests = async () => {
+			await axiosInstance
+				.get(`requests`,{
+                    params: {
+                        type: 'document'
+                    }
+                })
+				.then((response) => { 
+					setRequests(response.data)
+                    console.log(response.data)
+				});
+		};
 
-	let participants = [
-		// {
-		//    "member":{
-		// 		"address": "0xfhb54089hge4rtig",
-		// 		"name" : "Jane Doe",
-		// 	  	"$oid":"63eb5f308bded2c850c93210"
-		//    },
-		//    "role":"Participant",
-		//    "certificateProcessed":false,
-		//    "_id":{
-		// 	  "$oid":"63eb5f818bded2c850c93249"
-		//    }
-		// },
-		// {
-		//    "member":{
-		// 		"address": "0xfhb54089hge4rtig",
-		// 		"name" : "John Doe",
-		// 	  	"$oid":"63eb5f468bded2c850c9321c"
-		//    },
-		//    "role":"Participant",
-		//    "certificateProcessed":false,
-		//    "_id":{
-		// 	  "$oid":"63eb5f948bded2c850c93268"
-		//    }
-		// },
-		// {
-		//    "member":{
-		// 		"address": "0xfhb54089hge4rtig",
-		// 		"name" : "JR Doe",
-		// 	  	"$oid":"63f496e780ce7fae3542be12"
-		//    },
-		//    "role":"Participant",
-		//    "certificateProcessed":true,
-		//    "_id":{
-		// 	  "$oid":"63fb0307153eb3004953dd74"
-		//    }
-		// }
-	]
-	// Values for metamask credentials
-	let provider, signer, contract;
+        // Execute Functions
+        fetchDocumentRequests();
+    }, [])
 
-	// useEffect(() => {
-	// 	async function requestAccount() {
-	// 		return await window.ethereum.request({
-	// 			method: 'eth_requestAccounts'
-	// 		});
-	// 	}
-	// 	requestAccount();
-	// 	provider = new ethers.providers.Web3Provider(window.ethereum);
-	// 	signer = provider.getSigner();
-	// 	contract = new ethers.Contract(
-	// 		'0x121c4600A84F5624e86AfC869dbaC39E535Dd26C',
-	// 		contractBuild.abi,
-	// 		signer
-	// 	);
+    const ProcessRequest = async (request) => {
+        try {
+            await axiosInstance.patch(
+                `requests`,
+                JSON.stringify({ 
+                    requestId: request.requestId,
+                    status: 'approved'
+                })
+            )
+            .then((res)=>{
+                alert("Document Added!")
+                console.log(res.data)
+                window.location.reload(true); 
+            })
+        } catch (err) {      
+            console.error(err.message);
+        }
+    }
 
-	// 	axios
-	// 		.get(`events/${id}/participants`)
-	// 		.then(({ data }) => setParticipants(data));
-	// 	axios.get(`events/${id}`).then(({ data }) => setEvent(data));
-	// }, []);
-
-
-
-
-
-
-	function TabView() {
+	function TabView({requests}) {
 		switch (TabActive) {
 			case 'Pending':
-				if (participants.length === 0)
+				if (requests.length === 0)
 					return <div></div>;
 				return (
 					<>
-
-						<h5 className='TabView__Title'>Transcript of Record</h5>
+						{/* <h5 className='TabView__Title'>Transcript of Record</h5> */}
 						<div className='Wrapper__Card'>
-							{participants.length > 0 &&
-							participants.map((participant) => {
+							{requests.length > 0 &&
+							requests.map((request) => {
 								return (
 									<>
-										{!participant.certificateProcessed ? (
+										{request.status=='pending' ? (
 											<MintTransferCard
 												key={
-													participant.member
-														.walletAddress
+													request.requestId
 												}
 												address={
-													participant.member
+													request.requestor
 														.walletAddress
 												}
 												name={
-													participant.member.name
+													request.requestor.name
 														.firstName +
 													' ' +
-													participant.member.name
+													request.requestor.name
 														.lastName
 												}
 												type='pending'
-												role={participant.role}
-												eventId={event.eventId}
-												eventTitle={event.title}
-												date={event.date.start}
+												title={request.details.docId}
+												date={request.createdAt}
+                                                action={()=>ProcessRequest(request)}
 											/>
 										) : (
 											''
@@ -187,36 +119,31 @@ function MintTransfer() {
 			case 'Complete':
 				return (
 					<>
-						{participants.length > 0 &&
-							participants.map((participant) => {
+						<div className='Wrapper__Card'>
+							{requests.length > 0 &&
+							requests.map((request) => {
 								return (
 									<>
-										{participant.certificateProcessed ? (
+										{request.status=='approved' ? (
 											<MintTransferCard
 												key={
-													participant.member
-														.walletAddress
+													request.requestId
 												}
 												address={
-													participant.member
+													request.requestor
 														.walletAddress
 												}
 												name={
-													participant.member.name
+													request.requestor.name
 														.firstName +
 													' ' +
-													participant.member.name
+													request.requestor.name
 														.lastName
 												}
-												role={participant.role}
-												eventId={event.eventId}
-												eventTitle={event.title}
-												date={event.date.start}
-												handler={() =>
-													navigate(
-														`/m/${participant.member.walletAddress}`
-													)
-												}
+												type='approved'
+												title={request.details.docId}
+												date={request.createdAt}
+                                                action={()=>ProcessRequest(request)}
 											/>
 										) : (
 											''
@@ -224,6 +151,7 @@ function MintTransfer() {
 									</>
 								);
 							})}
+						</div>
 					</>
 				);
 				break;
@@ -260,7 +188,8 @@ function MintTransfer() {
 		// setToManage([...toManage,newEntry]);
 	}
 	
-	// if (!event || !participants) return <div>loading...</div>;
+	if (!requests) return <div>loading...</div>;
+
 	return (
 		<>
 			<div className='AdminPanelContainer'>
@@ -326,7 +255,7 @@ function MintTransfer() {
 								</Menu>
 								<Button variant='contained' href='/a/document/create'>Generate Document</Button>
 							</div>
-							<TabView />
+							<TabView requests={requests}/>
 						</div>
 					</div>
 				</section>
@@ -344,4 +273,4 @@ function MintTransfer() {
 	);
 }
 
-export default MintTransfer;
+export default GenerateDocuments;

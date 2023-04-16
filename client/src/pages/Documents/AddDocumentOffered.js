@@ -8,7 +8,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { TextField,Avatar } from '@mui/material';
 
-import axios from '../../utils/axios';
+import axiosInstance from '../../utils/axios';
 
 function AddDocumentOffered() {
     const navigate = useNavigate();
@@ -48,7 +48,7 @@ function AddDocumentOffered() {
         e.preventDefault();
         try{
 
-            await axios
+            await axiosInstance
                 .post(`institutions/offers`, JSON.stringify({
                     title: form.name,
                     description: form.description,
@@ -58,8 +58,7 @@ function AddDocumentOffered() {
                 .then((response) => {
                     console.log(response.data)
                     alert("Document Offer Added!")
-                    navigate(`/institutions/${user.walletAddress}`)
-                    
+                    navigate(`/`)
                 });
         
         } catch (err) {      

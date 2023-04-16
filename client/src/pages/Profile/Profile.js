@@ -16,27 +16,33 @@ import MetaMaskIcon from './../../images/icons/fox.png';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import PremiumIcon from '@mui/icons-material/WorkspacePremium';
 
-import axios from '../../utils/axios';
-
 import Empty from '../../images/icons/empty-folder.png'
 import { useParams } from 'react-router-dom';
 import {ethers} from 'ethers';
 
+// Import Utilities
+import axiosInstance from '../../utils/axios';
+import { useAuth } from "../../utils/AuthContext";
+
 function Profile() {
+
+    
 	const { id } = useParams();
+    const { isAuth } = useAuth();
+
+    // Constant Declarations
 	const [user, setUser] = useState(null);
     const [institutions, setInstitutions] = useState(null);
 	const [documents, setDocuments] = useState(null);
-    const [address, setAddress] = useState(null);
 
 	// Executes on load
 	useEffect(() => {
 		// Retrieves User's Data
 		const fetchUser = async () => {
-			await axios
+			await axiosInstance
 				.get(`users`,{
                     params: {
-                        walletAddress: `${id}`
+                        walletAddress: id
                     }
                 })
 				.then((response) => {
@@ -49,7 +55,7 @@ function Profile() {
 	}, []);
 
 	// Returns if user is null
-	if (!user || !institutions) return <div>loading... No user Found</div>;
+	if (!user || !institutions || !documents) return <div>loading... No user Found</div>;
 
 	return (
 		<div id='Profile'>
@@ -86,9 +92,9 @@ function Profile() {
 					</div>
 				</div>
 				<div id='User__Div__Button'>
-                    {(address==id) ?
+                    {(isAuth(id)) ?
                         <Button
-                            href={`/m/${id}/edit`}
+                            href={`${id}/edit`}
                             variant='contained'
                         >
                             Update
@@ -144,28 +150,28 @@ function Profile() {
 				</div>
 				
 				<div id='Content__Div'>
-				{/* <section>
-					<h5 className='Panel__Title'>Certificates </h5>
-					{(ownedCertificates.length === 0 )?
+				<section>
+					<h5 className='Panel__Title'>{(isAuth(id)?'My':'')} Documents</h5>
+					{(documents.length === 0 )?
 							<>
 								<div className='EmtpyCard'>
 									<div>
 										<img src={Empty} alt="" />
-										<p>No certificates available!</p>
+										<p>No Documents Owned!</p>
 									</div>
 								</div>
 							</>
 							:
 							<>
 								<div className='Wrapper__Card'>
-									{ownedCertificates.length > 0 &&
-										ownedCertificates.map((ownedCertificate) => {
+									{documents.length > 0 &&
+										documents.map((document) => {
 											return (
 												<Card
-													key={ownedCertificate.certificateId}
-													id={ownedCertificate.certificateId}
+													key={document.certificateId}
+													id={document.certificateId}
 													type={'certificate'}
-													image={`https://icertify.infura-ipfs.io/ipfs/${ownedCertificate.ipfsCID}`}
+													image={`https://icertify.infura-ipfs.io/ipfs/${document.ipfsCID}`}
 												/>
 											);
 										})}
@@ -173,9 +179,9 @@ function Profile() {
 							</>
 						}			
 						
-					</section> */}
+					</section>
 					<section>
-						<h5 className='Panel__Title'>Institutions</h5>
+						<h5 className='Panel__Title'>{(isAuth(id)?'My':'')} Institutions</h5>
 						{(institutions.length === 0 )?
 							<>
 								<div className='EmtpyCard'>

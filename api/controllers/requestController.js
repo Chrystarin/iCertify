@@ -84,7 +84,7 @@ const processRequest = async (req, res, next) => {
 			'There is no such request with the given requestId that is pending'
 		);
 
-	if (status === 'pending') {
+	if (status === 'approved') {
 		// Join the requestor to institution
 		if (request.requestType === JOIN) {
 			await Institution.findByIdAndUpdate(
@@ -101,6 +101,7 @@ const processRequest = async (req, res, next) => {
 			);
 		}
 		if (request.requestType === DOCUMENT) {
+            console.log("Document Request Processed!")
 		}
 	}
 

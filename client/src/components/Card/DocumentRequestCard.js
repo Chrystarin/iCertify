@@ -125,17 +125,15 @@ function DocumentRequestCard(props) {
                 >
                   Remove Document
                 </Button>
-              
               </div>
-              
-                
             </Menu>
           </React.Fragment>
           <Button id="DocumentRequestCard__Button" variant="outlined">Manage Requests</Button>
-        </>:
-        <>
-          <Button id="DocumentRequestCard__Button" variant="outlined" href='DocumentRequest'>Request Document</Button>
-        </>}
+        </>: 
+        (props.member) 
+            ? <Button id="DocumentRequestCard__Button" variant="outlined" href={props.link}>Request Document</Button>
+            : ''
+        }
       </div>
     </div>
   )

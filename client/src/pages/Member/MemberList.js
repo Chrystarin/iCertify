@@ -6,7 +6,7 @@ import IconButton from '@mui/material/IconButton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Analytics from '../../layouts/Analytics/Analytics.js';
 
-import axios from '../../utils/axios';
+import axiosInstance from '../../utils/axios';
 
 function MemberList() {
 
@@ -19,7 +19,7 @@ function MemberList() {
     useEffect(() => {
         // Retrieves Institutions' Members
 		const fetchMembers = async () => {
-			await axios
+			await axiosInstance
 				.get(`institutions/members`)
 				.then((response) => {
 					setMembers(response.data)
@@ -29,7 +29,7 @@ function MemberList() {
 
         // Retrieves Institutions' Members
 		const fetchJoinRequests = async () => {
-			await axios
+			await axiosInstance
 				.get(`requests`,{
                     params: {
                         type: 'join'
@@ -48,11 +48,11 @@ function MemberList() {
 
     const AcceptRequest = async (request) => {
         try {
-            await axios.patch(
+            await axiosInstance.patch(
                 `requests`,
                 JSON.stringify({ 
                     requestId: request.requestId,
-                    status: request.status
+                    status: 'approved'
                 })
             )
             .then((res)=>{

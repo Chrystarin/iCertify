@@ -1,4 +1,5 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
+import { useParams, useNavigate } from "react-router-dom";
 
 import './../../styles/Form.scss';
 import './DocumentRequestForm.scss';
@@ -12,7 +13,83 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { TextField } from '@mui/material';
 
-function EventJoin() {
+// Import Utilities
+import axiosInstance from '../../utils/axios';
+import { useAuth } from "../../utils/AuthContext";
+
+function DocumentRequestForm() {
+
+    const { user, isAuth, isJoined } = useAuth();
+    const { id, docId } = useParams();
+    const navigate = useNavigate();
+
+    // Constants Declarations
+    const [institution, setInstitution] = useState();
+    const [document, setDocument] = useState();
+
+    // Excecutes on page load
+    useEffect(() => {
+        // Retrieves Institution Data
+		const fetchInstitution = async () => {
+			await axiosInstance
+				.get(`institutions`,{
+                    params: {
+                        walletAddress: `${id}`
+                    }
+                })
+				.then((response) => {
+					setInstitution(response.data)
+                    function findValue(obj, val) {
+                        for (let key in obj) {
+                            if (typeof obj[key] === 'object') {
+                                const result = findValue(obj[key], val);
+                                if (result !== undefined) {
+                                return result;
+                                }
+                            } else if (obj[key] === val) {
+                                return obj;
+                            }
+                        }
+                        return undefined;
+                    }
+                    setDocument(findValue(response.data.docOffers, docId))
+				});
+		};
+		fetchInstitution();
+    }, [])
+
+
+    // A function to request selected document
+    const RequestDocument = async () => {
+        try{
+            await axiosInstance
+                .post(`requests`, JSON.stringify({
+                    type: 'document',
+                    walletAddress: id,
+                    docId: docId
+                }))
+                .then((response) => {
+                    console.log(response.data)
+                    alert("Document Request Sent! Wait for the admin to approve your request")
+                    setActiveStep(2);
+                });
+        
+        } catch (err) {      
+            console.error(err.message);
+        }
+    }
+
+    // A function to pay
+    const Payment = async () => {
+        try{
+            console.log("Test Paid")
+            RequestDocument()
+        
+        } catch (err) {      
+            console.error(err.message);
+        }
+    }
+
 
   // Stepper
   const [activeStep,setActiveStep] = useState(0);
@@ -26,17 +103,9 @@ function EventJoin() {
           setActiveStep(activeStep-1);
       }
   }
-
-  const EventDetails = {
-    Title : "Transcript of Record",
-    Certificate: true,
-    Price: 400,
-    Discount: "None"
-  }
-
   
 
-  function VIEWFORM(){
+  function VIEWFORM({institution, document}){
     const DocumentInformation = {
       title:"Transcript of Record",description:"Document that lists all the courses taken by a student and the grades or marks earned in each course, usually issued by the institution attended. It serves as an official record of the student's academic history.",requirements:"Student Graduate, Identification, and Signature ",price:"500"
     }
@@ -51,22 +120,22 @@ function EventJoin() {
                 <img src={DocumentIcon} alt="" />
               </div>
               <div id='DocumentInformation__Body'>
-                <h3 id='DocumentInformation__Title'>{DocumentInformation.title}</h3>
+                <h3 id='DocumentInformation__Title'>{document.title}</h3>
                 <div id='DocumentInformation__Details'>
                   <ul>
                     <li>
                       <h6 className='DocumentInformation__Details__Title'>Description</h6>
-                      <p className='DocumentInformation__Details__Value'>{DocumentInformation.description}</p>
+                      <p className='DocumentInformation__Details__Value'>{document.description}</p>
                     </li>
                     <li>
                       <h6 className='DocumentInformation__Details__Title'>Requirements</h6>
-                      <p  className='DocumentInformation__Details__Value'>{DocumentInformation.requirements}</p>
+                      <p  className='DocumentInformation__Details__Value'>{document.requirements}</p>
                     </li>
                   </ul>
                   <ul>
                     <li>
                       <h6 className='DocumentInformation__Details__Title'>Price</h6>
-                      <h5 className='DocumentInformation__Details__Value__Price'>{DocumentInformation.price}</h5>
+                      <h5 className='DocumentInformation__Details__Value__Price'>{document.price}</h5>
                     </li>
                   </ul>
                 </div>
@@ -94,7 +163,7 @@ function EventJoin() {
                       <div id='ModeOfPayement__Selection__Cards'>Bank Transfer</div>
                       <div></div>
                     </div>
-                    <Button variant='contained'>Pay Now</Button>
+                    <Button variant='contained' onClick={Payment}>Pay Now</Button>
                   </div>
                   
                 </div>
@@ -117,7 +186,7 @@ function EventJoin() {
                 <h5>Request has been sent,  Thank you for requesting a document !</h5>
                 <p>We will update you sooner.</p>
               </div>
-              <Button variant='contained'>Continue</Button>
+              <Button variant='contained' onClick={() => navigate(`/institutions/${id}`)} >Continue</Button>
             </div>
           </div>
         
@@ -126,6 +195,8 @@ function EventJoin() {
           break;
     }
   }
+
+  if(!institution || !document) return <div>Loading...</div>
 
   return (
     <section>
@@ -144,9 +215,9 @@ function EventJoin() {
               </Stepper>
           </div>
       </div>
-      <VIEWFORM />
+      <VIEWFORM institution={institution} document={document}/>
   </section>
   )
 }
 
-export default EventJoin
+export default DocumentRequestForm
