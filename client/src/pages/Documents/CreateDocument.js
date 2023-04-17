@@ -12,6 +12,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import { ethers } from 'ethers'
 import axiosInstance from '../../utils/axios';
+import axios from '../../utils/axios';
 
 function CreateDocument({manual}) {
 
@@ -31,38 +32,43 @@ function CreateDocument({manual}) {
 
     // Values for metamask credentials
     const [abi, setAbi] = useState();
-    let provider, signer, contract, address;
+    let provider, signer, address;
     
+    
+    
+    // Connect User's Metamask Wallet
+    const ConnectWallet = async () => {
+        // Check if metamask is installed
+        if (typeof window.ethereum == undefined) {
+            window.open('https://metamask.io/download/', '_blank');
+            return;
+        }
+        try{
+            // Requests Metamask
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            provider = new ethers.providers.Web3Provider(window.ethereum);
+
+            // Get signer of Metamask
+            signer = provider.getSigner();
+
+            // Sign message
+            const signature = await signer.signMessage("Harold James Castillo is ♥")
+
+            // Get address
+            address = await signer.getAddress()
+
+            return {address, signature}
+            
+        } catch(err) {
+            console.error(err.message);
+        }
+    }
+
+    // ConnectWallet();
 
     // Excecutes upon page load
     useEffect(() => {
-        // Connect User's Metamask Wallet
-        const ConnectWallet = async () => {
-            // Check if metamask is installed
-            if (typeof window.ethereum == undefined) {
-                window.open('https://metamask.io/download/', '_blank');
-                return;
-            }
-            try{
-                // Requests Metamask
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
-                provider = new ethers.providers.Web3Provider(window.ethereum);
-
-                // Get signer of Metamask
-                signer = provider.getSigner();
-
-                // Sign message
-                const signature = await signer.signMessage("Harold James Castillo is ♥")
-
-                // Get address
-                address = await signer.getAddress()
-
-                return {address, signature}
-                
-            } catch(err) {
-                console.error(err.message);
-            }
-        }
+        
 
         const fetchContract = async () => {
             await axiosInstance.get(`abi`)
@@ -72,7 +78,7 @@ function CreateDocument({manual}) {
         }
 
         fetchContract();
-        ConnectWallet();
+        
     });
 
     const handleChangeSelectDocument = (event) => {
@@ -101,10 +107,17 @@ function CreateDocument({manual}) {
     const ProcessDocument = async (file) => {
 
         const formData = new FormData();
-        formData.append('file', file);
-
+        formData.append('document', file);
+        
         console.log(file)
         console.log(formData)
+        console.log(formData.get('document'))
+
+        ConnectWallet();
+
+        // Document NFT Contract Address
+        const contractAddress = '0x03813C2e8F0aa2AA1828AE7bAA1476D52D7e5f29'
+        const contract = new ethers.Contract(contractAddress, abi, signer);
 
         // // Extract information from base64 data
         // var [data, bytes] = file.split(',');
@@ -122,30 +135,38 @@ function CreateDocument({manual}) {
 
         try {
             // Upload to IPFS then get URI
-            const { path } = await axiosInstance.post(
-                `transactions/ipfs`,
-                JSON.stringify({ 
-                    document: {
-                        mimetype: file.type,
-                        data: image
-                    }
-                }),
-                // formData,
-                { headers: { 'Content-Type': 'multipart/form-data'}}
+            const { path } = await axios(
+                {
+                    method: 'post',
+                    url: 'http://localhost:4000/transactions/ipfs',
+                    data: formData,
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                }
+                // `http://localhost:4000/transactions/ipfs`,
+                // JSON.stringify({ 
+                //     document: {
+                //         mimetype: file.type,
+                //         data: image
+                //     }
+                // }),
+                // {
+                //     data: formData
+                // }
+                // { headers: { 'Content-Type': 'multipart/form-data'}}
             ).then(res => res.json());
 
             console.log(path)
 
-            // Mint and transfer to owner
-            const transaction = await contract.sendDocument(
-                form.memberAddress,                                 // receiver
-                form.type,                                          // type
-                `https://icertify.infura-ipfs.io/ipfs/${path}`,     // uri
-                form.docId                                          // docId
-            )
-            .then((response)=>{
-                console.log(response)
-            })
+            // // Mint and transfer to owner
+            // const transaction = await contract.sendDocument(
+            //     form.memberAddress,                                 // receiver
+            //     form.type,                                          // type
+            //     `https://icertify.infura-ipfs.io/ipfs/${path}`,     // uri
+            //     form.docId                                          // docId
+            // )
+            // .then((response)=>{
+            //     console.log(response)
+            // })
 
         } catch (err) {      
             console.error(err.message);

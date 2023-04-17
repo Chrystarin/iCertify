@@ -61,16 +61,11 @@ const getTransactions = async (req, res, next) => {
 };
 
 const saveIpfs = async (req, res, next) => {
-    console.log("Test")
-    
 	const {
 		document: { mimetype, data }
 	} = req.files;
 
-    
-    console.log(req.files)
-
-    console.log(req)
+    console.log(mimetype, data)
 
 	// Calculate hash of image
 	const imageHash = await calculateHash(data);
@@ -97,7 +92,7 @@ const saveIpfs = async (req, res, next) => {
 	});
 
 	// Upload the image to ipfs
-	const ipfsData = await ipfsClient.add({ content: data });
+	// const ipfsData = await ipfsClient.add({ content: data });
 
 	res.status(201).json({
 		message: 'Image uploaded',
