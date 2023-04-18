@@ -19,13 +19,9 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
         string docId;
 	}
 
-	struct Institution 
-	{
-		bool isExisting;
-	}
-
 	mapping(uint256 => Document) documents;
-	mapping(address => Institution) institutions;
+	mapping(address => bool) institutions;
+    mapping(string => bool) uris;
 
 	constructor() ERC721("DocumentNFT", "DOC") {}
 
@@ -38,7 +34,8 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
 	) public
 	{
 		// Check if sender is admin of institution
-		require(institutions[msg.sender].isExisting, "Sender is not an admin of institution");
+		require(institutions[msg.sender], "Sender is not an admin of institution");
+        require(!uris[uri], "Document already owned by another address");
 
 		// Generate a unique, new documentd id
 		uint256 newDocumentId = documentIds.current();
@@ -55,6 +52,9 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
         // Transfer
 		_transfer(msg.sender, receiver, newDocumentId);
 
+        // Add uri to uris
+		uris[uri] = true;
+
 		documentIds.increment();
 	}
 
@@ -66,11 +66,25 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
 
 	/* Institution-handlers */
 
+    // Add sender to the institutions mapping
 	function registerInstitution() public
 	{
-		require(!institutions[msg.sender].isExisting, "Already an admin of institution");
+		require(!institutions[msg.sender], "Already an admin of institution");
 		
-		institutions[msg.sender] = Institution(true);
+		institutions[msg.sender] = true;
+	}
+
+    // Check if sender is institution
+    function checkInstitution() public view returns(bool)
+	{
+		return institutions[msg.sender];
+	}
+
+	/* URI Handler */
+
+	function checkUri(string memory uri) public view returns(bool)
+	{
+		return uris[uri];
 	}
 
     /* Overrides - MUST BE INCLUDED */

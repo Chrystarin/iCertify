@@ -64,7 +64,7 @@ const createAccess = async (req, res, next) => {
 
 	// Create new access code
 	const code = user.documents
-		.find(({ nftId: n }) => n === nftId)
+		.find(({ nftId: n }) => n == nftId)
 		.codes.push(genAccessCode());
 	await user.save();
 
@@ -87,14 +87,14 @@ const deleteAccess = async (req, res, next) => {
 	if (!user) throw new UserNotFound();
 
 	// Get the document
-	const document = user.documents.find(({ nftId: n }) => n === nftId);
+	const document = user.documents.find(({ nftId: n }) => n == nftId);
 	const {
 		codes,
 		codes: [first]
 	} = document;
 
 	// Check if default code is the input
-	if (first === code)
+	if (first == code)
 		throw new InvalidInput('Can not delete the default access code');
 
 	// Delete access code

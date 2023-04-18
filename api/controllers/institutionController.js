@@ -13,9 +13,10 @@ const { genDocId } = require('../miscellaneous/generateId');
 
 const {
 	InstitutionNotFound,
-	DuplicateEntry
+	DuplicateEntry,
+	MemberNotFound
 } = require('../miscellaneous/errors');
-const { waitTx } = require('../miscellaneous/waitTransaction');
+const { waitTx } = require('../miscellaneous/transactionUtils');
 
 const registerInstitution = async (req, res, next) => {
 	const {
@@ -29,21 +30,29 @@ const registerInstitution = async (req, res, next) => {
 	isString(name, 'Institution Name');
 	isString(type, 'Institution Type');
 
-	// Validate details
-	await new Institution({
+	// Create new institution
+	const institution = new Institution({
 		walletAddress,
 		name,
 		email,
 		instType: type
-	}).validate();
+	});
+
+	// Validate details
+	await institution.validate();
 
 	// Check if walletAddress is unique
 	if (await Institution.findOne({ walletAddress }))
 		throw new DuplicateEntry('Wallet address already registered');
 
 	// Wait for transaction to be mined
-	await waitTx(txHash, () =>
-		Institution.create({ walletAddress, name, email, instType: type })
+	await waitTx(
+		txHash,
+		() => institution.save(),
+		(error) => {
+            // Notify user failed registration
+			console.log(error);
+		}
 	);
 
 	res.status(201).json({
@@ -102,14 +111,16 @@ const getInstitutions = async (req, res, next) => {
 	isString(walletAddress, 'Wallet Address', true);
 
 	// Find institutions
-	const institution = walletAddress ? await Institution.findOne({ walletAddress }).populate('members.user').exec() : await Institution.find().populate('members.user').exec()
+	let institutions = await Institution.find();
 
-	res.status(200).json(institution);
+	// Get specific institutions
+	if (walletAddress)
+		institutions = institutions.find(
+			({ walletAddress: wa }) => walletAddress == wa
+		);
+
+	res.status(200).json(institutions);
 };
-
-
-
-
 
 const getMembers = async (req, res, next) => {
 	const { walletAddress } = req.query;
@@ -118,48 +129,41 @@ const getMembers = async (req, res, next) => {
 	isString(walletAddress, 'Wallet Address', true);
 
 	// Find the institution and get the members
-	const institution = await Institution.findById(req.user.id)
+	const institution = await Institution.findOne(req.user.id)
+		.lean()
 		.populate('members.user')
 		.exec();
 
-   	// Filter members with walletAddress
-	// const members = institution.members
-    //     .filter(({ user: { walletAddress: wa } }) =>
-    //         walletAddress ? wa === walletAddress : true
-    //     )
-    //     // Remove the private documents
-    //     .map(({ documents, ...user }) => ({
-    //         ...user,
-    //         documents: documents
-    //             // Filter only the public documents
-    //             .filter(({ mode }) => mode === 'public')
-    //             // Return only the default access code
-    //             .map(({ codes: [code], ...doc }) => ({ ...doc, code }))
-    //     }));
+	// Get only the public documents and its default code
+	let members = institution.members.map(
+		({ user: { documents, ...user }, ...member }) => ({
+			...member,
+			user: {
+				...user,
+				documents: documents
+					// Filter only the public documents
+					.filter(({ mode }) => mode === 'public')
+					// Return only the default access code
+					.map(({ codes: [code], ...doc }) => ({ ...doc, code }))
+			}
+		})
+	);
 
-    let members = institution
-        .toJSON()
-        .members.map(({user:{documents, ...user}, ...member}) => ({
-            ...member,
-            user: {
-                ...user,
-                documents:documents
-                    .filter(({mode})=> mode === 'public')
-                    .map(({codes: [code], ...doc}) => ({...doc, code}))
-            }
-        }))
+	// Filter the members by the walletAddress
+	if (walletAddress) {
+		members = members.find(
+			({ user: { walletAddress: wa } }) => wa === walletAddress
+		);
 
-        console.log(members)
+		// Check if memebr is existing
+		if (!members) throw new MemberNotFound();
+	}
 
-    res.status(200).json(members);
-
+	res.json(members);
 };
 
 const addOfferedDoc = async (req, res, next) => {
 	const { title, description, price, requirements } = req.body;
-
-    console.log(req.body)
-    console.log(req.user)
 
 	isString(title, 'Title');
 	isString(description, 'Description');
@@ -167,17 +171,21 @@ const addOfferedDoc = async (req, res, next) => {
 	isString(requirements, 'Requirements');
 
 	// Get institution and update
-	await Institution.findByIdAndUpdate(req.user.id, {
-		$push: {
-			docOffers: {
-				docId: genDocId(),
-				title,
-				description,
-				price,
-				requirements
+	await Institution.findByIdAndUpdate(
+		req.user.id,
+		{
+			$push: {
+				docOffers: {
+					docId: genDocId(),
+					title,
+					description,
+					price,
+					requirements
+				}
 			}
-		}
-	});
+		},
+		{ runValidators: true }
+	);
 
 	res.status(201).json({ message: 'Offer saved' });
 };

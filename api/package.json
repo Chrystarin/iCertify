@@ -12,6 +12,7 @@
   "dependencies": {
     "@openzeppelin/contracts": "^4.7.3",
     "@truffle/hdwallet-provider": "^2.1.9",
+    "api": "^5.0.8",
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -20,7 +21,6 @@
     "express-fileupload": "^1.4.0",
     "helmet": "^6.0.0",
     "ipfs-http-client": "^56.0.2",
-    "ipfs-unixfs-importer": "^9.0.10",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.6.5"
   },
