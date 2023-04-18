@@ -16,7 +16,7 @@ const {
 	DuplicateEntry,
 	MemberNotFound
 } = require('../miscellaneous/errors');
-const { waitTx } = require('../miscellaneous/transactionUtils');
+const { waitTx, contract } = require('../miscellaneous/transactionUtils');
 
 const registerInstitution = async (req, res, next) => {
 	const {
@@ -29,6 +29,22 @@ const registerInstitution = async (req, res, next) => {
 	isString(txHash, 'Transaction Hash');
 	isString(name, 'Institution Name');
 	isString(type, 'Institution Type');
+
+	if (
+		// Check if walletAddress is registered in blockchain
+		(await contract.checkInstitution(walletAddress)) &&
+		// Check if walletAddress is registered in system
+		!(await Institution.exists({ walletAddress }))
+	) {
+		await Institution.create({
+			walletAddress,
+			name,
+			email,
+			instType: type
+		});
+
+		return res.status(201).json({ message: 'Institution registered' });
+	}
 
 	// Create new institution
 	const institution = new Institution({
@@ -50,7 +66,7 @@ const registerInstitution = async (req, res, next) => {
 		txHash,
 		() => institution.save(),
 		(error) => {
-            // Notify user failed registration
+			// Notify user failed registration
 			console.log(error);
 		}
 	);

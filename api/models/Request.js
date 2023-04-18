@@ -37,6 +37,22 @@ module.exports = model(
 				required: true
 			},
 			details: Mixed
+            /**
+             * Join Request - Details
+             * 
+             * idNumber
+             * membership
+             * 
+             * Document Request - Details
+             * 
+             * docId
+             * title
+             * description
+             * price
+             * requirements
+             * paymentReference
+             * checkoutUrl
+             */
 		},
 		{ timestamps: true }
 	)

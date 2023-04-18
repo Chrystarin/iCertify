@@ -75,9 +75,9 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
 	}
 
     // Check if sender is institution
-    function checkInstitution() public view returns(bool)
+    function checkInstitution(address sender) public view returns(bool)
 	{
-		return institutions[msg.sender];
+		return institutions[sender];
 	}
 
 	/* URI Handler */
