@@ -21,13 +21,20 @@ const requestRoute = require('./routes/request');
 const transactionRoute = require('./routes/transaction');
 const authRoute = require('./routes/auth');
 const documentRoute = require('./routes/document');
-const Institution = require('./models/Institution');
+
+// Payment Controller
+const payment = require('./controllers/paymentController');
 
 const app = express();
 
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
+app.use(helmet());
+
+// PayMongo Webhook listener
+app.post('/payment', cors({ origin: 'https://api.paymongo.com' }), payment);
+
 app.use(
 	cors({
 		// origin: 'http://localhost:3000',
@@ -35,7 +42,6 @@ app.use(
 		credentials: true
 	})
 );
-app.use(helmet());
 
 // Routes
 app.get('/abi', (req, res, next) => res.status(200).json(abi));

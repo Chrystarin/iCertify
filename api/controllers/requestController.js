@@ -1,6 +1,5 @@
 const Institution = require('../models/Institution');
 const Request = require('../models/Request');
-const User = require('../models/User');
 
 const {
 	requests: { JOIN, DOCUMENT },
@@ -14,9 +13,11 @@ const {
 } = require('../miscellaneous/errors');
 const { genRequestId } = require('../miscellaneous/generateId');
 const { isString } = require('../miscellaneous/checkInput');
+const paymongo = require('../miscellaneous/paymongo');
 
 const getRequests = async (req, res, next) => {
 	const { type, walletAddress, requestId } = req.query;
+	const { id, type: userType } = req.user;
 
 	// Validate inputs
 	isString(type, 'Request Type', true);
@@ -32,19 +33,18 @@ const getRequests = async (req, res, next) => {
 		requestQuery = { ...requestQuery, requestId };
 	}
 
-	if (req.user.type == USER)
-		requestQuery = { ...requestQuery, requestor: req.user.id };
+	if (userType == USER) requestQuery = { ...requestQuery, requestor: id };
 
-	if (req.user.type == INSTITUTION) {
+	if (userType == INSTITUTION) {
 		isString(walletAddress, 'Member Wallet Address', true);
 
 		// Add insitution property to the request query
-		requestQuery = { ...requestQuery, institution: req.user.id };
+		requestQuery = { ...requestQuery, institution: id };
 
 		// Check if member wallet address is given
 		if (walletAddress) {
 			// Get the institution
-			const institution = await Institution.findById(req.user.id)
+			const institution = await Institution.findById(id)
 				.populate('members.user')
 				.exec();
 
@@ -71,34 +71,79 @@ const getRequests = async (req, res, next) => {
 
 const processRequest = async (req, res, next) => {
 	const { requestId, status } = req.body;
+	const { id, type } = req.user;
 
 	// Validate inputs
 	isString(requestId, 'Request ID');
 	isString(status, 'Request Status');
 
-	// Find request
-	const request = await Request.findOne({ requestId, status: 'pending' })
-		.populate('institution')
-		.exec();
-	if (!request)
-		throw new NotFound(
-			'There is no such request with the given requestId that is pending'
-		);
+	let request;
 
-	if (status === 'approved') {
-		// Join the requestor to institution
-		if (request.requestType === JOIN) {
-			await Institution.findByIdAndUpdate(request.institution, {
-				$push: {
-					members: {
-						user: request.requestor,
-						idNumber: request.details?.idNumber
+	// Only cancel request
+	if (type === USER) {
+		// Find request
+		request = await Request.findOne({
+			requestId,
+			requestor: id,
+			status: { $in: ['pending', 'approved'] }
+		});
+		if (!request)
+			throw new NotFound(
+				'There is no such request with the given requestId that is pending or approved'
+			);
+	}
+
+	if (type === INSTITUTION) {
+		// Find request
+		request = await Request.findOne({
+			requestId,
+			institution: id,
+			status: 'pending'
+		});
+		if (!request)
+			throw new NotFound(
+				'There is no such request with the given requestId that is pending'
+			);
+
+		if (status === 'approved') {
+			const { requestType, requestor, details } = request;
+
+			if (requestType === JOIN)
+				await Institution.findByIdAndUpdate(
+					id,
+					{
+						$push: {
+							members: {
+								user: requestor,
+								idNumber: details?.idNumber
+							}
+						}
+					},
+					{ runValidators: true }
+				);
+
+			if (requestType === DOCUMENT) {
+				const { price, title } = details;
+
+				// Create payment link and get the reference_number
+				const {
+					data: {
+						attributes: { reference_number, checkout_url }
 					}
-				}
-			});
-		}
+				} = await paymongo.createALink({
+					data: {
+						attributes: {
+							amount: (price * 100) | 0,
+							description: `${title} for ${requestId}`
+						}
+					}
+				});
 
-		if (request.requestType === DOCUMENT) {
+				// Save reference_number to request details
+				request.details.paymentReference = reference_number;
+				request.details.checkoutUrl = checkout_url;
+				request.markModified('details');
+			}
 		}
 	}
 
@@ -199,7 +244,7 @@ const createRequest = async (req, res, next) => {
 		requestParams = {
 			...requestParams,
 			requestType: DOCUMENT,
-			details: { docId }
+			details: offeredDoc
 		};
 	}
 

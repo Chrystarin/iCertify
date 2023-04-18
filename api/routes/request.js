@@ -30,6 +30,6 @@ router.post('/', onlyUser, createRequest);
  * requestId
  * status [approved | rejected]
  */
-router.patch('/', onlyInstitution, processRequest);
+router.patch('/', processRequest);
 
 module.exports = router;
