@@ -35,58 +35,43 @@ const ipfsClient = create({
 });
 
 const getTransactions = async (req, res, next) => {
-	const { walletAddress, txHash } = req.query;
+	const {
+		query: { txHash },
+		user: { id, type }
+	} = req;
 
 	// Validate input
 	isString(txHash, 'Transaction Hash', true);
 
 	// Create transaction query (defaults to user)
-	let transactionQuery = {};
+	const transactionQuery = {};
 
-	if (req.user.type == USER) transactionQuery.user = req.user.id;
-
-	if (req.user.type == INSTITUTION) {
-		isString(walletAddress, 'Wallet Address', true);
-
-		// Find Institution
-		const institution = await Institution.findById(req.user.id)
-			.populate('members.user')
-			.exec();
-
-		// Check if member wallet address is given
-		if (walletAddress) {
-			// Check if the given wallet address is member of institution
-			const member = institution.members.find(
-				({ user: { walletAddress: wa } }) => walletAddress == wa
-			);
-			if (!member) throw new MemberNotFound();
-
-			// Add user to query
-			transactionQuery.user = member.user._id;
-		}
-
-		// Add institution to query
-		transactionQuery.institution = institution._id;
-	}
+	if (type === USER) transactionQuery.user = id;
+	if (type === INSTITUTION) transactionQuery.institution = id;
 
 	// Get transactions
-	const transactions = await Transaction.find(transactionQuery);
+	let transactions = await Transaction.find(transactionQuery);
 
 	// Get specific transaction
-	if (txHash)
-		transactions = transactions.find(({ hash }) =>
-			txHash ? txHash == hash : true
-		);
+	if (txHash) {
+		transactions = transactions.find(({ hash }) => txHash === hash);
+
+		if (!transactions) throw new NotFound('Transaction not found');
+	}
 
 	res.json(transactions);
 };
 
 const saveIpfs = async (req, res, next) => {
 	const {
-		document: { mimetype, data }
-	} = req.files;
-	const { requestId } = req.body;
-	const { id } = req.user;
+		files: {
+			document: { mimetype, data }
+		},
+		body: { requestId },
+		user: { id }
+	} = req;
+
+	// Check file extension
 
 	// Upload the document to ipfs but don't pin
 	const { cid } = await ipfsClient.add({ content: data }, { pin: false });
@@ -99,12 +84,16 @@ const saveIpfs = async (req, res, next) => {
 	const request = await Request.findOne({
 		requestId,
 		institution: id,
-		status: 'paid'
+		status: 'verified'
 	});
 	if (!request) throw new NotFound('Request with paid status not found');
 
 	// Update request status
 	request.status = 'processing';
+	request.details.statusTimestamps.processing = new Date();
+
+	// Save changes
+	request.markModified('details');
 	await request.save();
 
 	// Pin the document
@@ -114,8 +103,10 @@ const saveIpfs = async (req, res, next) => {
 };
 
 const saveTransaction = async (req, res, next) => {
-	const { txHash, walletAddress, requestId } = req.body;
-	const { id } = req.user;
+	const {
+		body: { txHash, walletAddress, requestId },
+		user: { id }
+	} = req;
 
 	// Validate inputs
 	isString(txHash, 'Transaction Hash');
@@ -123,12 +114,13 @@ const saveTransaction = async (req, res, next) => {
 
 	// Get the institution
 	const institution = await Institution.findById(id)
+		.lean()
 		.populate('members.user')
 		.exec();
 
 	// Check if user is member of institution
 	const member = institution.members.find(
-		({ user: { walletAddress: wa } }) => wa == institution.walletAddress
+		({ user: { walletAddress: wa } }) => wa == walletAddress
 	);
 	if (!member) throw new MemberNotFound();
 
@@ -170,7 +162,12 @@ const saveTransaction = async (req, res, next) => {
 			// Update request to completed
 			await Request.findOneAndUpdate(
 				{ requestId, institution: id },
-				{ $set: { status: 'completed' } },
+				{
+					$set: {
+						status: 'completed',
+						details: { statusTimestamps: { completed: new Date() } }
+					}
+				},
 				{ runValidators: true }
 			);
 		},
@@ -182,7 +179,7 @@ const saveTransaction = async (req, res, next) => {
 				{ runValidators: true }
 			);
 
-            // Notify admin failed transaction
+			// Notify admin failed transaction
 		}
 	);
 

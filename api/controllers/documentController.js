@@ -87,11 +87,10 @@ const deleteAccess = async (req, res, next) => {
 	if (!user) throw new UserNotFound();
 
 	// Get the document
-	const document = user.documents.find(({ nftId: n }) => n == nftId);
 	const {
 		codes,
 		codes: [first]
-	} = document;
+	} = user.documents.find(({ nftId: n }) => n == nftId);
 
 	// Check if default code is the input
 	if (first == code)

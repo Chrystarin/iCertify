@@ -14,10 +14,12 @@ const { isString, isEmail, isDate } = require('../miscellaneous/checkInput');
 
 const registerUser = async (req, res, next) => {
 	const {
-		walletAddress,
-		email,
-		details: { firstName, middleName, lastName, birthDate }
-	} = req.body;
+		body: {
+			walletAddress,
+			email,
+			details: { firstName, middleName, lastName, birthDate }
+		}
+	} = req;
 
 	// Validate inputs
 	isString(firstName, 'First Name');
@@ -53,16 +55,19 @@ const registerUser = async (req, res, next) => {
 };
 
 const getUser = async (req, res, next) => {
-	const { walletAddress } = req.query;
+	const {
+		query: { walletAddress },
+		user: { type }
+	} = req;
 
 	// Validate input
 	isString(walletAddress, 'Wallet Address');
 
 	// Find user
-	const user = await User.findOne({ walletAddress });
+	const user = await User.findOne({ walletAddress }).lean().exec();
 
 	// Remove the private documents if user is not itself
-	if (req.user?.type !== USER)
+	if (type !== USER)
 		user.documents = user.documents
 			// Filter only the public documents
 			.filter(({ mode }) => mode === 'public')
@@ -71,24 +76,27 @@ const getUser = async (req, res, next) => {
 
 	// Get joined institutions
 	const institutions = await Institution.find({ 'members.user': user._id })
+		.lean()
 		.select('-members')
 		.exec();
 
-	res.status(200).json({ ...user, institutions });
+	res.json({ ...user, institutions });
 };
 
 const updateUser = async (req, res, next) => {
 	const {
-		firstName,
-		middleName,
-		lastName,
-		email,
-		birthDate,
-		address,
-		contactNo,
-		photo,
-		about
-	} = req.body;
+		body: {
+			firstName,
+			middleName,
+			lastName,
+			email,
+			birthDate,
+			address,
+			contactNo,
+			photo,
+			about
+		}
+	} = req;
 
 	// Validate inputs
 	isString(firstName, 'First Name');
@@ -112,7 +120,7 @@ const updateUser = async (req, res, next) => {
 		about
 	});
 
-	res.status(200).json({ message: 'User info updated' });
+	res.json({ message: 'User info updated' });
 };
 
 module.exports = { registerUser, getUser, updateUser };
