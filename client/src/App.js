@@ -29,12 +29,15 @@ import AddDocumentOffered from './pages/Documents/AddDocumentOffered'
 import InstitutionsUpdate from './pages/Institution/InstitutionUpdate.js';
 import CreateDocument from './pages/Documents/CreateDocument';
 
+import Test from './pages/Test.js'
+
 function App() {
 	return (
 		<Routes>
 
             {/* Error Routes */}
             <Route path='*' element={<Error />}/>
+            <Route path='/test' element={<Test />}/>
 
 			{/* Public Routes */}
             <Route path='/' element={<Panel/>}>

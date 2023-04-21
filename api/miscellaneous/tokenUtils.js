@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 const { JWT_ACCESS_SECRET, JWT_REFRESH_SECRET } = process.env;
 
 const duration = {
-	access: 5 * 60 * 1000,           // 5 minutes
+	// access: 5 * 60 * 1000,           // 5 minutes
+    access: 7 * 24 * 60 * 60 * 1000,           // 7 days
 	refresh: 7 * 24 * 60 * 60 * 1000 // 7 days
 };
 

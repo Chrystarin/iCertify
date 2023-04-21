@@ -8,7 +8,13 @@ const { readFileSync } = require('fs');
 require('dotenv/config');
 
 const { abi } = require('./build/contracts/DocumentNFT.json');
-const { NODE_ENV, TEST_MONGO, PORT, MONGO_URI } = process.env;
+const { NODE_ENV, TEST_MONGO, PORT, MONGO_URI, DROPBOX_ACCESS_TOKEN } = process.env;
+
+const multer  = require('multer');
+const upload = multer({ dest: 'uploads/' });
+const fs = require('fs');
+const Dropbox = require('dropbox').Dropbox;
+const dropbox = new Dropbox({ accessToken: DROPBOX_ACCESS_TOKEN });
 
 const { NotFound } = require('./miscellaneous/errors');
 const authenticate = require('./middlewares/authenticate');
@@ -38,12 +44,39 @@ app.post('/payment', cors({ origin: 'https://api.paymongo.com' }), payment);
 app.use(
 	cors({
         methods: ['POST', 'PUT', 'GET', 'PATCH', 'OPTIONS', 'HEAD'],
-		origin: 'http://localhost:3000',
+		origin: ['http://localhost:3000','https://www.dropbox.com'],
         // origin: 'http://127.0.0.1:8080',
 		credentials: true
         
 	})
 );
+
+app.post('/upload', upload.single('file'), async (req, res) => {
+    const file = req.file;
+    const fileName = file.originalname;
+    const fileStream = fs.createReadStream(file.path);
+
+    try {
+        const response = await dropbox.filesUpload({
+            path: `/uploads/${fileName}`,
+            contents: fileStream,
+        });
+
+        // Get the shared link for the uploaded file
+        const sharedResponse = await dropbox.sharingCreateSharedLink({
+        path: response.result.path_display
+        });
+
+        const url = sharedResponse.result.url.replace('www.dropbox.com', 'dl.dropboxusercontent.com');
+
+        res.json({
+            url: url,
+            });
+    } catch (error) {
+      console.error(error);
+      res.sendStatus(500);
+    }
+});
 
 // Routes
 app.get('/abi', (req, res, next) => res.status(200).json(abi));
@@ -54,6 +87,7 @@ app.use('/users', userRoute);
 app.use(authenticate);
 app.use('/requests', requestRoute);
 app.use('/transactions', transactionRoute);
+
 
 // app.use((req, res, next) => next(new NotFound('Route not found')));
 
