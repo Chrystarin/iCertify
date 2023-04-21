@@ -21,7 +21,7 @@ module.exports = model(
 			status: {
 				type: String,
 				enum: {
-					values: ['pending', 'approved', 'declined', 'paid', 'cancelled', 'processing', 'completed'],
+					values: ['pending', 'approved', 'declined', 'paid', 'verified', 'cancelled', 'processing', 'completed'],
 					message: "'{VALUE}' is not supported as request status"
 				},
 				default: 'pending'
@@ -45,13 +45,18 @@ module.exports = model(
              * 
              * Document Request - Details
              * 
-             * docId
-             * title
-             * description
-             * price
-             * requirements
-             * paymentReference
-             * checkoutUrl
+             * offeredDoc
+             * statusTimestamps
+             *     approved
+             *     declined
+             *     paid
+             *     verified
+             *     processing
+             *     cancelled
+             *     completed
+             * proof
+             * note
+             * 
              */
 		},
 		{ timestamps: true }

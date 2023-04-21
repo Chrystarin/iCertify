@@ -9,21 +9,22 @@ const {
 const {
 	roles: { USER, INSTITUTION }
 } = require('../miscellaneous/constants');
-const { genDocId } = require('../miscellaneous/generateId');
-
 const {
 	InstitutionNotFound,
 	DuplicateEntry,
 	MemberNotFound
 } = require('../miscellaneous/errors');
 const { waitTx, contract } = require('../miscellaneous/transactionUtils');
+const { genDocId } = require('../miscellaneous/generateId');
 
 const registerInstitution = async (req, res, next) => {
 	const {
-		walletAddress,
-		email,
-		details: { name, type, txHash }
-	} = req.body;
+		body: {
+			walletAddress,
+			email,
+			details: { name, type, txHash }
+		}
+	} = req;
 
 	// Validate inputs
 	isString(txHash, 'Transaction Hash');
@@ -78,18 +79,20 @@ const registerInstitution = async (req, res, next) => {
 
 const updateInstitution = async (req, res, next) => {
 	const {
-		name,
-		type,
-		email,
-		about,
-		address,
-		website,
-		contactNo,
-		profileURI,
-		coverURI,
-		needId,
-		needMembership
-	} = req.body;
+		body: {
+			name,
+			type,
+			email,
+			about,
+			address,
+			website,
+			contactNo,
+			profileURI,
+			coverURI,
+			needId,
+			needMembership
+		}
+	} = req;
 
 	// Validate input
 	isString(name, 'Institution Name');
@@ -117,11 +120,13 @@ const updateInstitution = async (req, res, next) => {
 		needs: { ID: needId, membership: needMembership }
 	});
 
-	res.status(200).json({ message: 'Institution info updated' });
+	res.json({ message: 'Institution info updated' });
 };
 
 const getInstitutions = async (req, res, next) => {
-	const { walletAddress } = req.query;
+	const {
+		query: { walletAddress }
+	} = req;
 
 	// Validate input
 	isString(walletAddress, 'Wallet Address', true);
@@ -135,11 +140,13 @@ const getInstitutions = async (req, res, next) => {
 			({ walletAddress: wa }) => walletAddress == wa
 		);
 
-	res.status(200).json(institutions);
+	res.json(institutions);
 };
 
 const getMembers = async (req, res, next) => {
-	const { walletAddress } = req.query;
+	const {
+		query: { walletAddress }
+	} = req;
 
 	// Validate input
 	isString(walletAddress, 'Wallet Address', true);
@@ -179,7 +186,9 @@ const getMembers = async (req, res, next) => {
 };
 
 const addOfferedDoc = async (req, res, next) => {
-	const { title, description, price, requirements } = req.body;
+	const {
+		body: { title, description, price, requirements }
+	} = req;
 
 	isString(title, 'Title');
 	isString(description, 'Description');
@@ -207,20 +216,26 @@ const addOfferedDoc = async (req, res, next) => {
 };
 
 const getOfferedDocs = async (req, res, next) => {
-	const { walletAddress } = req.query;
+	const {
+		query: { walletAddress },
+		user: { id, type }
+	} = req;
 
-	// Default institution
-	let institution = await Institution.findById(req.user.id);
+	let docOffers;
 
-	if (req.user.type === USER) {
+	if (type === INSTITUTION) ({ docOffers } = await Institution.findById(id));
+
+	if (type === USER) {
 		isString(walletAddress, 'Institution Wallet Address');
 
 		// Find institution
-		institution = await Institution.findOne({ walletAddress });
+		const institution = await Institution.findOne({ walletAddress });
 		if (!institution) throw new InstitutionNotFound();
+
+		({ docOffers } = institution);
 	}
 
-	res.status(200).json(institution.docOffers);
+	res.json(docOffers);
 };
 
 module.exports = {

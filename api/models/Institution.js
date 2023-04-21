@@ -7,8 +7,8 @@ module.exports = model(
 		{
 			walletAddress: {
 				type: String,
-				unique: true,
-				required: [true, 'Wallet address is required']
+				required: [true, 'Wallet address is required'],
+				unique: true
 			},
 			name: { type: String, required: [true, 'Name is required'] },
 			instType: {
@@ -21,8 +21,8 @@ module.exports = model(
 			},
 			email: {
 				type: String,
-				unique: true,
-				required: [true, 'Email is required']
+				required: [true, 'Email is required'],
+				unique: true
 			},
 			about: String,
 			address: String,
