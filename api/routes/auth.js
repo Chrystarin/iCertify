@@ -1,5 +1,6 @@
-const router = require('express').Router();
+const { Router } = require('express');
 
+const router = Router();
 const asyncHandler = require('../middlewares/asyncHandler');
 const authenticate = require('../middlewares/authenticate');
 
@@ -9,18 +10,18 @@ const { register, login, refresh, logout } = asyncHandler(
 
 /**
  * Register users and institutions
- * 
+ *
  * walletAddress
  * email
  * userType
  * details
- * 
+ *
  *     [USER]
  *     firstName
  *     middleName
  *     lastName
  *     birthDate
- * 
+ *
  *     [INSTITUTION]
  *     name
  *     type
@@ -30,7 +31,7 @@ router.post('/register', register);
 
 /**
  * Uer login
- * 
+ *
  * signature
  * walletAddress
  * userType

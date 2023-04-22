@@ -1,13 +1,13 @@
-const {
-	getDocument,
-	updateMode,
-	createAccess,
-	deleteAccess
-} = require('../controllers/documentController');
-const authenticate = require('../middlewares/authenticate');
-const { onlyUser } = require('../middlewares/authorize');
+const { Router } = require('express');
 
-const router = require('express').Router();
+const { onlyUser } = require('../middlewares/authorize');
+const router = Router();
+const asyncHandler = require('../middlewares/asyncHandler');
+const authenticate = require('../middlewares/authenticate');
+
+const { getDocument, updateMode, createAccess, deleteAccess } = asyncHandler(
+	require('../controllers/documentController')
+);
 
 router.get('/', getDocument);
 

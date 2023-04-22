@@ -1,7 +1,9 @@
-const router = require('express').Router();
+const fileUpload = require('express-fileupload');
+const { Router } = require('express');
 
+const { onlyUser } = require('../middlewares/authorize');
+const router = Router();
 const asyncHandler = require('../middlewares/asyncHandler');
-const { onlyUser, onlyInstitution } = require('../middlewares/authorize');
 
 const { getRequests, processRequest, createRequest } = asyncHandler(
 	require('../controllers/requestController')
@@ -30,6 +32,6 @@ router.post('/', onlyUser, createRequest);
  * requestId
  * status [approved | rejected]
  */
-router.patch('/', processRequest);
+router.patch('/', fileUpload(), processRequest);
 
 module.exports = router;

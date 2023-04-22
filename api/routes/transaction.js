@@ -1,8 +1,10 @@
 const fileUpload = require('express-fileupload');
-const router = require('express').Router();
+const { Router } = require('express');
 
-const asyncHandler = require('../middlewares/asyncHandler');
 const { onlyInstitution } = require('../middlewares/authorize');
+const router = Router();
+const asyncHandler = require('../middlewares/asyncHandler');
+
 const { getTransactions, saveIpfs, saveTransaction } = asyncHandler(
 	require('../controllers/transactionController')
 );

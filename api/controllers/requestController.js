@@ -10,10 +10,12 @@ const {
 	NotFound,
 	InstitutionNotFound,
 	DuplicateEntry,
-	Unauthorized
+	Unauthorized,
+	InvalidInput
 } = require('../miscellaneous/errors');
 const { genRequestId } = require('../miscellaneous/generateId');
 const { isString } = require('../miscellaneous/checkInput');
+const uploadImage = require('../miscellaneous/uploadImage');
 
 const getRequests = async (req, res, next) => {
 	const {
@@ -87,9 +89,7 @@ const createRequest = async (req, res, next) => {
 
 		// Check if ID number is required
 		if (institution.needs.ID) {
-			const {
-				body: { idNumber }
-			} = req;
+			const { idNumber } = req.body;
 
 			// Validate input
 			isString(idNumber, 'Membership ID');
@@ -100,15 +100,16 @@ const createRequest = async (req, res, next) => {
 
 		// Check if proof of membership is required
 		if (institution.needs.membership) {
-			const {
-				body: { membership }
-			} = req;
+			const { proof } = req.files;
 
-			// Validate input
-			isString(membership, 'Proof of Membership');
+			if (!proof)
+				throw new InvalidInput('Proof of Payment must be included');
 
 			// Add membership to the request details
-			requestParams.details.membership = membership;
+			requestParams.details.membership = await uploadImage(
+				proof,
+				`requests/${requestParams.requestId}-${Date.now()}}`
+			);
 		}
 	}
 
@@ -116,9 +117,7 @@ const createRequest = async (req, res, next) => {
 		// Check if user is a member of the institution
 		if (!member) throw new MemberNotFound();
 
-		const {
-			body: { docId }
-		} = req;
+		const { docId } = req.body;
 
 		// Validate input
 		isString(docId, 'Document Offer ID');
@@ -200,13 +199,17 @@ const processRequest = async (req, res, next) => {
 				// Check rqst status if approved
 				if (rqst.status !== 'approved') break;
 
-				const {
-					body: { proof }
-				} = req;
-				isString(proof, 'Proof of Payment');
+				// Get the proof of payment
+				const { proof } = req.files;
+
+				if (!proof)
+					throw new InvalidInput('Proof of Payment must be included');
 
 				rqst.details.statusTimestamps.paid = new Date();
-				rqst.details.proof = proof;
+				rqst.details.proof = await uploadImage(
+					proof,
+					`requests/${rqst.requestId}-${Date.now()}}`
+				);
 
 				request = rqst;
 
@@ -248,9 +251,7 @@ const processRequest = async (req, res, next) => {
 
 				// Document request
 				if (rqst.requestType === DOCUMENT) {
-					const {
-						body: { note }
-					} = req;
+					const { note } = req.body;
 					isString(note, 'Note of Declination');
 
 					rqst.details.statusTimestamps.declined = new Date();

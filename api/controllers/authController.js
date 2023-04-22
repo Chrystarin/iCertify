@@ -18,7 +18,6 @@ const {
 const {
 	InvalidInput,
 	UserNotFound,
-	InstitutionNotFound,
 	Unauthorized,
 	DuplicateEntry
 } = require('../miscellaneous/errors');
@@ -32,8 +31,6 @@ const verifySignature = require('../miscellaneous/verifySignature');
 const register = async (req, res, next) => {
 	const { email, userType } = req.body;
 	let { walletAddress } = req.body;
-
-    console.log(walletAddress)
 
 	// Validate inputs
 	isString(walletAddress, 'Wallet Address');

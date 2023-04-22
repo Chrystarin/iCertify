@@ -1,8 +1,10 @@
-const router = require('express').Router();
+const fileUpload = require('express-fileupload');
+const { Router } = require('express');
 
+const { onlyUser } = require('../middlewares/authorize');
+const router = Router();
 const asyncHandler = require('../middlewares/asyncHandler');
 const authenticate = require('../middlewares/authenticate');
-const { onlyUser } = require('../middlewares/authorize');
 
 const { getUser, updateUser } = asyncHandler(
 	require('../controllers/userController')
@@ -25,6 +27,6 @@ router.use(authenticate);
  * extension
  * about
  */
-router.patch('/', onlyUser, updateUser);
+router.patch('/', fileUpload(), onlyUser, updateUser);
 
 module.exports = router;

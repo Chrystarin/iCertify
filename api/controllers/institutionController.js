@@ -16,6 +16,7 @@ const {
 } = require('../miscellaneous/errors');
 const { waitTx, contract } = require('../miscellaneous/transactionUtils');
 const { genDocId } = require('../miscellaneous/generateId');
+const uploadImage = require('../miscellaneous/uploadImage');
 
 const registerInstitution = async (req, res, next) => {
 	const {
@@ -91,7 +92,9 @@ const updateInstitution = async (req, res, next) => {
 			coverURI,
 			needId,
 			needMembership
-		}
+		},
+		user: { id },
+		files: { profile, cover }
 	} = req;
 
 	// Validate input
@@ -104,11 +107,11 @@ const updateInstitution = async (req, res, next) => {
 	isString(address, 'Address', true);
 	isString(website, 'Website', true);
 	isString(contactNo, 'Contract Number', true);
-	isString(profileURI, 'Profile URI', true);
-	isString(coverURI, 'Cover URI', true);
 
-	// Find and update institution
-	await Institution.findOneAndUpdate(req.user.id, {
+	// Get the institution
+	let institution = await Institution.findById(id);
+
+	const institutionParams = {
 		name,
 		instType: type,
 		email,
@@ -116,17 +119,33 @@ const updateInstitution = async (req, res, next) => {
 		address,
 		website,
 		contactNo,
-		photos: { profile: profileURI, cover: coverURI },
-		needs: { ID: needId, membership: needMembership }
-	});
+		needs: { ID: needId, membership: needMembership },
+		photos: {}
+	};
+
+	// Check if profile photo is included in the update
+	if (profile)
+		institutionParams.photos.profile = await uploadImage(
+			profile,
+			`profiles/${institution.walletAddress}-profile`
+		);
+
+	// Check if cover photo is included in the update
+	if (cover)
+		institutionParams.photos.profile = await uploadImage(
+			cover,
+			`profiles/${institution.walletAddress}-cover`
+		);
+
+	// Apply and save changes
+	institution = { ...institution, ...institutionParams };
+	await institution.save();
 
 	res.json({ message: 'Institution info updated' });
 };
 
 const getInstitutions = async (req, res, next) => {
-	const {
-		query: { walletAddress }
-	} = req;
+	const { walletAddress } = req.query;
 
 	// Validate input
 	isString(walletAddress, 'Wallet Address', true);
@@ -144,9 +163,7 @@ const getInstitutions = async (req, res, next) => {
 };
 
 const getMembers = async (req, res, next) => {
-	const {
-		query: { walletAddress }
-	} = req;
+	const { walletAddress } = req.query;
 
 	// Validate input
 	isString(walletAddress, 'Wallet Address', true);
@@ -186,9 +203,7 @@ const getMembers = async (req, res, next) => {
 };
 
 const addOfferedDoc = async (req, res, next) => {
-	const {
-		body: { title, description, price, requirements }
-	} = req;
+	const { title, description, price, requirements } = req.body;
 
 	isString(title, 'Title');
 	isString(description, 'Description');

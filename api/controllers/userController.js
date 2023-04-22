@@ -11,15 +11,14 @@ const {
 	roles: { USER }
 } = require('../miscellaneous/constants');
 const { isString, isEmail, isDate } = require('../miscellaneous/checkInput');
+const uploadImage = require('../miscellaneous/uploadImage');
 
 const registerUser = async (req, res, next) => {
 	const {
-		body: {
-			walletAddress,
-			email,
-			details: { firstName, middleName, lastName, birthDate }
-		}
-	} = req;
+		walletAddress,
+		email,
+		details: { firstName, middleName, lastName, birthDate }
+	} = req.body;
 
 	// Validate inputs
 	isString(firstName, 'First Name');
@@ -81,10 +80,8 @@ const getUser = async (req, res, next) => {
 		.exec();
 
 	// res.status(200).json({ ...user, institutions });
-    res.status(200).json({ user, institutions});
+	res.status(200).json({ user, institutions });
 };
-
-
 
 const updateUser = async (req, res, next) => {
 	const {
@@ -96,9 +93,10 @@ const updateUser = async (req, res, next) => {
 			birthDate,
 			address,
 			contactNo,
-			photo,
 			about
-		}
+		},
+		user: { id },
+		files: { photo }
 	} = req;
 
 	// Validate inputs
@@ -109,19 +107,30 @@ const updateUser = async (req, res, next) => {
 	isDate(birthDate, 'Birth date');
 	isString(address, 'Address', true);
 	isString(contactNo, 'Contact Number', true);
-	isString(photo, 'Photo URI', true);
 	isString(about, 'About', true);
 
-	// Find user and update user
-	await User.findOneAndUpdate(req.user.id, {
+	// Get user
+	let user = await User.findById(id);
+
+	const userParams = {
 		name: { firstName, middleName, lastName },
 		email,
 		birthDate,
 		address,
 		contactNo,
-		photo,
 		about
-	});
+	};
+
+	// Add photo to params if it is given
+	if (photo)
+		userParams.photo = await uploadImage(
+			photo,
+			`/profiles/${user.walletAddress}-profile}`
+		);
+
+	// Apply and save changes
+	user = { ...user, ...userParams };
+	await user.save();
 
 	res.json({ message: 'User info updated' });
 };
