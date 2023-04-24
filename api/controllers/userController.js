@@ -1,16 +1,19 @@
+const { verify } = require('jsonwebtoken');
+
 const User = require('../models/User');
 const Institution = require('../models/Institution');
 
 const {
-	signAccess,
 	cookieOptions,
 	duration,
+	signAccess,
 	signRefresh
 } = require('../miscellaneous/tokenUtils');
 const {
 	roles: { USER }
 } = require('../miscellaneous/constants');
 const { isString, isEmail, isDate } = require('../miscellaneous/checkInput');
+const { JWT_ACCESS_SECRET } = process.env;
 const uploadImage = require('../miscellaneous/uploadImage');
 
 const registerUser = async (req, res, next) => {
@@ -56,7 +59,7 @@ const registerUser = async (req, res, next) => {
 const getUser = async (req, res, next) => {
 	const {
 		query: { walletAddress },
-		user: { type }
+		cookies: { 'access-token': token }
 	} = req;
 
 	// Validate input
@@ -65,8 +68,14 @@ const getUser = async (req, res, next) => {
 	// Find user
 	const user = await User.findOne({ walletAddress }).lean().exec();
 
+	let id;
+
+	// Check if request hast access-token cookie
+	// If so, extract the id
+	if (token) ({ id } = verify(token, JWT_ACCESS_SECRET));
+
 	// Remove the private documents if user is not itself
-	if (type !== USER)
+	if (id && !user._id.equals(id))
 		user.documents = user.documents
 			// Filter only the public documents
 			.filter(({ mode }) => mode === 'public')
@@ -79,8 +88,7 @@ const getUser = async (req, res, next) => {
 		.select('-members')
 		.exec();
 
-	// res.status(200).json({ ...user, institutions });
-	res.status(200).json({ user, institutions });
+	res.json({ ...user, institutions });
 };
 
 const updateUser = async (req, res, next) => {
