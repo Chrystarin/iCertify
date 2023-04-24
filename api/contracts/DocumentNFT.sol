@@ -77,6 +77,8 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
     // Check if sender is institution
     function checkInstitution(address sender) public view returns(bool)
 	{
+        require(sender != address(0), "Address can not be 0");
+
 		return institutions[sender];
 	}
 
