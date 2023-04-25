@@ -46,9 +46,9 @@ function Profile() {
                     }
                 })
 				.then((response) => {
-					setUser(response.data.user);
+					setUser(response.data);
                     setInstitutions(response.data.institutions)
-                    setDocuments(response.data.user.documents)
+                    setDocuments(response.data.documents)
 				});
 		};
 		fetchUser();
