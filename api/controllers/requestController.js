@@ -183,9 +183,14 @@ const approveDocument = (request) => {
 
 const processRequest = async (req, res, next) => {
 	const {
-		body: { requestId, status },
+        body: { body },
 		user: { id, type }
 	} = req;
+
+    const {
+		requestId,
+		status
+	} = JSON.parse(body)
 
 	// Validate inputs
 	isString(requestId, 'Request ID');
@@ -195,6 +200,8 @@ const processRequest = async (req, res, next) => {
 
 	if (type === USER) {
 		const rqst = await Request.findOne({ requestId, requestor: id });
+		if(rqst.details.statusTimestamps === undefined)
+			rqst.details.statusTimestamps = {};
 
 		switch (status) {
 			case 'paid':
@@ -232,6 +239,8 @@ const processRequest = async (req, res, next) => {
 
 	if (type === INSTITUTION) {
 		const rqst = await Request.findOne({ requestId, institution: id });
+		if(rqst.details.statusTimestamps === undefined)
+			rqst.details.statusTimestamps = {};
 
 		switch (status) {
 			case 'approved':
@@ -253,11 +262,8 @@ const processRequest = async (req, res, next) => {
 
 				// Document request
 				if (rqst.requestType === DOCUMENT) {
-					const { note } = req.body;
-					isString(note, 'Note of Declination');
-
 					rqst.details.statusTimestamps.declined = new Date();
-					rqst.details.note = note;
+					rqst.details.note = req.body.note;
 				}
 
 				request = rqst;

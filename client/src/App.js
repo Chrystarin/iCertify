@@ -28,8 +28,9 @@ import MemberList from './pages/Member/MemberList.js';
 import AddDocumentOffered from './pages/Documents/AddDocumentOffered'
 import InstitutionsUpdate from './pages/Institution/InstitutionUpdate.js';
 import CreateDocument from './pages/Documents/CreateDocument';
-import InstitutionRequests from './pages/Requests/InstitutionRequests.js';
 
+import InstitutionRequests from './pages/Requests/InstitutionRequests.js';
+import MemberRequests from './pages/Requests/MemberRequests.js';
 import Test from './pages/Test.js'
 
 function App() {
@@ -40,7 +41,8 @@ function App() {
             <Route path='*' element={<Error />}/>
             <Route path='/test' element={<Test />}/>
 
-            <Route path='/requests' element={<InstitutionRequests />}/>
+            <Route path='/documents/requests' element={<InstitutionRequests />}/>
+            <Route path='/requests' element={<MemberRequests />}/>
 
 			{/* Public Routes */}
             <Route path='/' element={<Panel/>}>
