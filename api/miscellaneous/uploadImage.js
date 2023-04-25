@@ -1,6 +1,7 @@
 const { Dropbox } = require('dropbox');
 
 const { DBX_KEY, DBX_SECRET, DBX_REFRESH } = process.env;
+const { InvalidInput } =  require('./errors');
 
 const dropbox = new Dropbox({
 	clientId: DBX_KEY,
@@ -9,14 +10,18 @@ const dropbox = new Dropbox({
 });
 
 module.exports = async (image, path) => {
-	const { data, name } = image;
+	const { data, name, mimetype } = image;
+    
+    if(!['image/png', 'image/jpeg'].includes(mimetype))
+		throw new InvalidInput('Invalid file type');
 
     // Upload image
 	const {
 		result: { path_display }
 	} = await dropbox.filesUpload({
 		path: `/iCertify/${path}.${name.split('.')[1]}`,
-		contents: data
+		contents: data,
+		mode: 'overwrite'
 	});
 
 	let url;

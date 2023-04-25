@@ -19,26 +19,28 @@ const uploadImage = require('../miscellaneous/uploadImage');
 
 const getRequests = async (req, res, next) => {
 	const {
-		query: { requestId },
+		query: { requestId, requestType },
 		user: { id, type }
 	} = req;
 
 	// Validate inputs
-	isString(type, 'Request Type', true);
+	isString(type, 'Request Type');
 
 	// Create request query
-	let requestQuery = {};
+	let requestQuery = {requestType};
 
 	if (type == USER) requestQuery.requestor = id;
 
 	if (type == INSTITUTION) requestQuery.institution = id;
 
 	// Get the requests
-	let requests = await Request.find(requestQuery);
+	let requests = await Request.find(requestQuery)
+            .lean()
+            .populate('institution requestor')
+            .exec()
 
 	if (requestId) {
 		requests = requests.find(({ requestId: ri }) => ri == requestId);
-
 		if (!requests) throw new NotFound('Request not found');
 	}
 
@@ -149,13 +151,13 @@ const approveJoin = async (request) => {
 	const {
 		institution,
 		requestor: user,
-		details: { idNumber }
+		details
 	} = request;
 
 	// Add requestor to institution members
 	await Institution.findByIdAndUpdate(
 		institution,
-		{ $push: { members: { user, idNumber } } },
+		{ $push: { members: { user, idNumber: details?.idNumber } } },
 		{ runValidators: true }
 	);
 

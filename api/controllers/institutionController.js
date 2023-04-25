@@ -79,23 +79,23 @@ const registerInstitution = async (req, res, next) => {
 };
 
 const updateInstitution = async (req, res, next) => {
-	const {
-		body: {
-			name,
-			type,
-			email,
-			about,
-			address,
-			website,
-			contactNo,
-			profileURI,
-			coverURI,
-			needId,
-			needMembership
-		},
+    const {
+		body: { body },
 		user: { id },
-		files: { profile, cover }
+		files,
 	} = req;
+
+	const {
+		name,
+		type,
+		email,
+		about,
+		address,
+		website,
+		contactNo,
+		needId,
+		needMembership
+	} = JSON.parse(body)
 
 	// Validate input
 	isString(name, 'Institution Name');
@@ -111,34 +111,33 @@ const updateInstitution = async (req, res, next) => {
 	// Get the institution
 	let institution = await Institution.findById(id);
 
-	const institutionParams = {
-		name,
-		instType: type,
-		email,
-		about,
-		address,
-		website,
-		contactNo,
-		needs: { ID: needId, membership: needMembership },
-		photos: {}
-	};
+	institution.name = name;
+	institution.instType = type;
+	institution.email = email;
+	institution.about = about;
+	institution.address = address;
+	institution.website = website;
+	institution.contactNo = contactNo;
+	institution.needs.ID = needId;
+	institution.needs.membership = needMembership;
 
 	// Check if profile photo is included in the update
+	const profile = files?.profile;
 	if (profile)
-		institutionParams.photos.profile = await uploadImage(
+		institution.photos.profile = await uploadImage(
 			profile,
 			`profiles/${institution.walletAddress}-profile`
 		);
 
 	// Check if cover photo is included in the update
+	const cover = files?.cover;
 	if (cover)
-		institutionParams.photos.profile = await uploadImage(
+		institution.photos.cover = await uploadImage(
 			cover,
 			`profiles/${institution.walletAddress}-cover`
 		);
 
 	// Apply and save changes
-	institution = { ...institution, ...institutionParams };
 	await institution.save();
 
 	res.json({ message: 'Institution info updated' });
@@ -151,7 +150,11 @@ const getInstitutions = async (req, res, next) => {
 	isString(walletAddress, 'Wallet Address', true);
 
 	// Find institutions
-	let institutions = await Institution.find();
+	let institutions = await Institution.find()
+        .lean()
+        .populate('members.user')
+        .exec();;
+    
 
 	// Get specific institutions
 	if (walletAddress)
@@ -169,7 +172,7 @@ const getMembers = async (req, res, next) => {
 	isString(walletAddress, 'Wallet Address', true);
 
 	// Find the institution and get the members
-	const institution = await Institution.findOne(req.user.id)
+	const institution = await Institution.findById(req.user.id)
 		.lean()
 		.populate('members.user')
 		.exec();

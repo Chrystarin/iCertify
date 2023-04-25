@@ -46,14 +46,11 @@ const isDate = (date, property) => {
 
 const isBoolean = (val, property) => {
     // Check if input is a boolean
-    if(val) {
-        if(typeof val !== 'boolean')
-            throw new InvalidInput(`'${property}' is not a boolean`)
+    if(val === undefined)
+		throw new InvalidInput(`'${property}' is not defined`)
 
-        return;
-    }
-
-    throw new InvalidInput(`'${property}' is not defined`)
+	if(typeof val !== 'boolean')
+    	throw new InvalidInput(`'${property}' is not a boolean`)
 }
 
 module.exports = {

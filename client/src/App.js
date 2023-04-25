@@ -28,6 +28,7 @@ import MemberList from './pages/Member/MemberList.js';
 import AddDocumentOffered from './pages/Documents/AddDocumentOffered'
 import InstitutionsUpdate from './pages/Institution/InstitutionUpdate.js';
 import CreateDocument from './pages/Documents/CreateDocument';
+import InstitutionRequests from './pages/Requests/InstitutionRequests.js';
 
 import Test from './pages/Test.js'
 
@@ -38,6 +39,8 @@ function App() {
             {/* Error Routes */}
             <Route path='*' element={<Error />}/>
             <Route path='/test' element={<Test />}/>
+
+            <Route path='/requests' element={<InstitutionRequests />}/>
 
 			{/* Public Routes */}
             <Route path='/' element={<Panel/>}>

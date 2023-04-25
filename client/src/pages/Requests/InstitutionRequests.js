@@ -22,7 +22,7 @@ function InstitutionRequests() {
             })
             .then((response) => { 
                 setRequests(response.data)
-                // console.log(response.data)
+                console.log(response.data)
             });
     };
 
@@ -82,14 +82,14 @@ function InstitutionRequests() {
 
             <h1>Verified Requests</h1>
 			{requests.length > 0 && requests.map((request) => {
-                if (request.status=='paid') {
+                if (request.status=='verified') {
                     return (
                         <div key={request.requestId}>
                             <h3>{request.requestor.name.firstName + ' ' + request.requestor.name.lastName}</h3>
                             <h5>{request.requestor.walletAddress}</h5>
                             <h5>{request.details.docId}</h5>
-                            <button onClick={console.log("Verify: " + request.requestId)}>Verify</button>
-                            <button onClick={console.log("Decline: " + request.requestId)}>Decline</button>
+                            <button onClick={console.log("Process: " + request.requestId)}>Process</button>
+                            
                         </div>
                     );
                 }

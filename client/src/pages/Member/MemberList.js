@@ -23,21 +23,20 @@ function MemberList() {
 				.get(`institutions/members`)
 				.then((response) => {
 					setMembers(response.data)
-                    console.log(response.data)
 				});
 		};
 
-        // Retrieves Institutions' Members
+        // Retrieves Institutions' Join Requests
 		const fetchJoinRequests = async () => {
 			await axiosInstance
 				.get(`requests`,{
                     params: {
-                        type: 'join'
+                        requestType: 'join'
                     }
                 })
 				.then((response) => { 
 					setJoinRequests(response.data)
-                    
+                    console.log(response.data)
 				});
 		};
 
