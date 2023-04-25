@@ -1,10 +1,10 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const helmet = require('helmet');
-const cookieParser = require('cookie-parser');
 const { createServer } = require('https');
 const { readFileSync } = require('fs');
+const cookieParser = require('cookie-parser');
+const cors = require('cors');
+const express = require('express');
+const helmet = require('helmet');
+const mongoose = require('mongoose');
 require('dotenv/config');
 
 const { abi } = require('./build/contracts/DocumentNFT.json');
@@ -15,12 +15,12 @@ const authenticate = require('./middlewares/authenticate');
 const errorHandler = require('./middlewares/errorHandler');
 
 // Route imports
-const userRoute = require('./routes/user');
+const authRoute = require('./routes/auth');
+const documentRoute = require('./routes/document');
 const institutionRoute = require('./routes/institution');
 const requestRoute = require('./routes/request');
 const transactionRoute = require('./routes/transaction');
-const authRoute = require('./routes/auth');
-const documentRoute = require('./routes/document');
+const userRoute = require('./routes/user');
 
 const app = express();
 

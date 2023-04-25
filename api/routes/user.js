@@ -17,16 +17,19 @@ const { getUser, updateUser } = asyncHandler(
  */
 router.get('/', getUser);
 
-router.use(authenticate);
-
 /**
  * Update user
  *
  * firstName
+ * middleName - optional
  * lastName
- * extension
- * about
+ * email
+ * birthDate
+ * address - optional
+ * contactNo - optional
+ * about - optional
+ * photo - optional
  */
-router.patch('/', fileUpload(), onlyUser, updateUser);
+router.patch('/', authenticate, fileUpload(), onlyUser, updateUser);
 
 module.exports = router;
