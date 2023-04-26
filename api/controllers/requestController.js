@@ -200,8 +200,6 @@ const processRequest = async (req, res, next) => {
 
 	if (type === USER) {
 		const rqst = await Request.findOne({ requestId, requestor: id });
-		if(rqst.details === undefined)
-			rqst.details = { statusTimestamps: {} };
 
 		switch (status) {
 			case 'paid':
@@ -239,8 +237,6 @@ const processRequest = async (req, res, next) => {
 
 	if (type === INSTITUTION) {
 		const rqst = await Request.findOne({ requestId, institution: id });
-		if(rqst.details === undefined)
-			rqst.details = { statusTimestamps: {} };
 
 		switch (status) {
 			case 'approved':
@@ -252,8 +248,12 @@ const processRequest = async (req, res, next) => {
 					request = await approveJoin(rqst);
 
 				// Document request
-				if (rqst.requestType === DOCUMENT)
+				if (rqst.requestType === DOCUMENT) {
+					if(rqst.details.statusTimestamps === undefined)
+						rqst.details.statusTimestamps = {}
+
 					request = approveDocument(rqst);
+				}
 
 				break;
 			case 'declined':
@@ -262,6 +262,9 @@ const processRequest = async (req, res, next) => {
 
 				// Document request
 				if (rqst.requestType === DOCUMENT) {
+					if(rqst.details.statusTimestamps === undefined)
+						rqst.details.statusTimestamps = {}
+
 					rqst.details.statusTimestamps.declined = new Date();
 					rqst.details.note = req.body.note;
 				}

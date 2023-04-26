@@ -101,7 +101,6 @@ function CreateDocument({manual}) {
 
     if (!request) return <div>Loading...</div>
 
-    if (request.status == 'verified')
     return <>
         <form id='AdminDasboard'>
             <section id='CreateDocument'>
@@ -207,9 +206,6 @@ function CreateDocument({manual}) {
             </div>
         </form>
     </>
-    else{
-        return <div>Request not Verified</div>
-    }
 }
 
 export default CreateDocument
