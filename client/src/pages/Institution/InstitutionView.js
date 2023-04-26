@@ -26,7 +26,7 @@ import Wallpaper from '../../images/placeholder/placeholder_cover.jpg'
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
 
-const InstitutionView = (props) => {
+const InstitutionView = () => {
 
     // Constants Declarations
     const { id } = useParams();

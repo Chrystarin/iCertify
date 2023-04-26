@@ -14,21 +14,15 @@ import Select from '@mui/material/Select';
 
 import './Register.scss'
 
+import {useAuth} from "../../utils/AuthContext";
 import axios from '../../utils/axios';
 
 function Register() {
-    // Constant Declarations
-    const navigate = useNavigate();
+    // Constant Declarations;
+    const { register } = useAuth();
     const [userType, setUserType] = useState();
     const [gender, setGender] = useState();
-    const [abi, setAbi] = useState();
     
-    // Document NFT Contract Address
-    const contractAddress = '0xA14023bfEC6200fA56f92F343cA9852e670F42Ea'
-
-    // Declare Holders for Wallet Info
-    let provider, signer, address
-
     // Institution Registration Form
     const [institutionForm, setInstitutionForm] = useState({
         email: '',
@@ -45,17 +39,6 @@ function Register() {
         lastName: '',
         birthDate: ''
     })
-
-    // Executes upon browser loads
-    useEffect(() => {
-        const fetchContract = async () => {
-            await axios.get(`abi`)
-            .then((res)=>{
-                setAbi(res.data)
-            })
-        }
-        fetchContract();
-    }, []);
     
     // Retrieves data from text input then assigns to form
     function updateForm(e) {
@@ -75,105 +58,20 @@ function Register() {
         }
     }
 
-    // Connect User's Metamask Wallet
-    const ConnectWallet = async () => {
-        // Check if metamask is installed
-        if (typeof window.ethereum == undefined) {
-            window.open('https://metamask.io/download/', '_blank');
-            return;
-        }
-        try{
-            // Requests Metamask
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
-            provider = new ethers.providers.Web3Provider(window.ethereum);
-
-            // Get signer of Metamask
-            signer = provider.getSigner();
-
-            // Sign message
-            const signature = await signer.signMessage("Harold James Castillo is ♥")
-
-            // Get address
-            address = await signer.getAddress()
-
-            return {address, signature}
-            
-        } catch(err) {
-            console.error(err.message);
-        }
-    }
-
     // Register an Account
     const Register = async (e) => {
         e.preventDefault();
 
-        // Gets wallet info
-        const wallet = await ConnectWallet()
-        console.log(wallet)
-
-        try {
-            // Checks selected user type then registers user
-            switch(userType){
-                case 'user':
-                    // Registers Member
-                    await axios.post(
-                        `auth/register`,
-                        JSON.stringify({ 
-                            userType: userType,
-                            walletAddress: wallet.address, 
-                            email: memberForm.email,
-                            details: {
-                                firstName: memberForm.firstName,
-                                middleName: memberForm.middleName,
-                                lastName: memberForm.lastName,
-                                birthDate: memberForm.birthDate
-                            }
-                        })
-                    )
-                    .then((res)=>{
-                        alert("Member Registered!")
-                        navigate("/")
-                    })
-                    break;
-                case 'institution':
-                    // Contract Transaction
-                    const contract = new ethers.Contract(contractAddress, abi, signer);
-                    const txHash = await contract.registerInstitution();
-                    
-                    // Registers Institution
-                    await axios.post(
-                        `auth/register`,
-                        JSON.stringify({ 
-                            userType: userType,
-                            walletAddress: wallet.address, 
-                            email: institutionForm.email,
-                            details: {
-                                name: institutionForm.name,
-                                type: institutionForm.type,
-                                txHash: txHash.hash
-                            }
-                        })
-                    )
-                    .then((res)=>{
-                        alert("Institution Registered!")
-                        navigate("/")
-                    })
-                    break;
-                default:
-                    alert("No Type Indicated")
-                    break
-            }
-            
-        } catch (err) {      
-            console.error(err.message);
-        }
+        register({
+            userType : userType, 
+            memberForm : memberForm, 
+            institutionForm : institutionForm
+        });
     }
 
     const handleChangeGender = (event) => {
         setGender(event.target.value);
     };
-
-    if(!abi) return <div>Loading...</div>
 
     return (
         <div id='Signup'>

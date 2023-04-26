@@ -1,15 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
-import axiosInstance from './axios';
+import React, { useState, useContext, useEffect, createContext } from "react";
 import {useNavigate} from 'react-router-dom';
+import {ethers} from 'ethers';
 
-const AuthContext = React.createContext();
+import axiosInstance from './axios';
+
+const AuthContext = createContext();
 
 function AuthProvider({ children }) {
     
+    // Constants Declaration
     const navigate = useNavigate()
     const [user, setUser] = useState(null);
-    
 
+    // Document NFT Contract Address
+    const contractAddress = '0xA14023bfEC6200fA56f92F343cA9852e670F42Ea'
+    
+    // Executes onLoad
     useEffect(() => {
         // Check if user is already logged in on first mount
         const loggedInUser = localStorage.getItem("user");
@@ -18,14 +24,19 @@ function AuthProvider({ children }) {
         }
     }, []);
 
-    const login = async (walletAddress, signature) => {
+    // Login Function
+    const login = async () => {
+
+        // Gets wallet info
+        const wallet = await ConnectWallet('Test message')
+
         try {
             await axiosInstance
                 .post(
                     'auth/login',
                     JSON.stringify({
-                        walletAddress: walletAddress,
-                        signature: signature
+                        walletAddress: wallet.address,
+                        signature: wallet.signature
                     })
                 )
                 .then((response) => {
@@ -39,6 +50,7 @@ function AuthProvider({ children }) {
         }
     };
 
+    // Logout Function
     const logout = async () => {
         try{
             await axiosInstance
@@ -55,6 +67,114 @@ function AuthProvider({ children }) {
             window.location.reload(true); 
         }
     };
+
+    // Register Function
+     const register = async ({userType, memberForm, institutionForm}) => {
+        // Gets wallet info
+        const wallet = await ConnectWallet()
+
+        try {
+            // Checks selected user type then registers user
+            switch(userType){
+                case 'user':
+                    // Registers Member
+                    await axiosInstance.post(
+                        `auth/register`,
+                        JSON.stringify({ 
+                            userType: userType,
+                            walletAddress: wallet.address, 
+                            email: memberForm.email,
+                            details: {
+                                firstName: memberForm.firstName,
+                                middleName: memberForm.middleName,
+                                lastName: memberForm.lastName,
+                                birthDate: memberForm.birthDate
+                            }
+                        })
+                    )
+                    .then((response)=>{
+                        alert("Member Registered!")
+                        navigate("/")
+                    })
+                    break;
+                case 'institution':
+
+                    // Contract Transaction
+                    const contract = new ethers.Contract(contractAddress, await fetchContract(), wallet.signer);
+                    const txHash = await contract.registerInstitution();
+                    
+                    // Registers Institution
+                    await axiosInstance.post(
+                        `auth/register`,
+                        JSON.stringify({ 
+                            userType: userType,
+                            walletAddress: wallet.address, 
+                            email: institutionForm.email,
+                            details: {
+                                name: institutionForm.name,
+                                type: institutionForm.type,
+                                txHash: txHash.hash
+                            }
+                        })
+                    )
+                    .then((response)=>{
+                        alert("Institution Registered!")
+                        navigate("/")
+                    })
+                    break;
+            }
+        } catch (err) {      
+            console.error(err.message);
+        }
+    }
+
+    // Fetch Smart Contract Function
+    const fetchContract = async () => {
+        try {
+            const response = await axiosInstance.get(`abi`);
+            return response.data;
+          } catch (error) {
+            console.error(error);
+          }
+    }
+
+    // Connect User's Wallet
+    const ConnectWallet = async (message) => {
+        // Check if metamask is installed
+        if (typeof window.ethereum == undefined) {
+            window.open('https://metamask.io/download/', '_blank');
+            return;
+        }
+        try{
+            // Requests Metamask
+            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+            // Get signer of Metamask
+            const signer = provider.getSigner();
+
+            // Sign message
+            const signature = await signer.signMessage((message ? message : 'Welcome to iCertify!'))
+
+            // Get address
+            const address = await signer.getAddress()
+
+            return {provider, signer, signature, address}
+            
+        } catch(err) {
+            console.error(err.message);
+        }
+    }
+    
+    // Check if User is Logged in
+    const isLoggedIn = () => {
+        if (!user) {
+            // User is not logged in
+            return false;
+        }
+        // User is logged in
+        return true;
+    }
 
     // Function to check if user is authorized to access the page
     const isAuth = (id) => {
@@ -115,7 +235,19 @@ function AuthProvider({ children }) {
         }
     };
 
-    const value = { user, login, logout, isAuth, isJoined, isOwned };
+    const value = { 
+        user, 
+        contractAddress,
+        login, 
+        logout, 
+        register, 
+        fetchContract, 
+        ConnectWallet, 
+        isLoggedIn, 
+        isAuth, 
+        isJoined, 
+        isOwned 
+    };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
