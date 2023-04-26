@@ -93,19 +93,23 @@ const getUser = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
 	const {
-		body: {
-			firstName,
-			middleName,
-			lastName,
-			email,
-			birthDate,
-			address,
-			contactNo,
-			about
-		},
+		body: { body },
 		user: { id },
-		files: { photo }
+		files
 	} = req;
+
+    const {
+        firstName,
+        middleName,
+        lastName,
+        email,
+        birthDate,
+        address,
+        contactNo,
+        about
+    } = JSON.parse(body)
+    
+    console.log(req.body.body)
 
 	// Validate inputs
 	isString(firstName, 'First Name');
@@ -118,26 +122,25 @@ const updateUser = async (req, res, next) => {
 	isString(about, 'About', true);
 
 	// Get user
-	let user = await User.findById(id);
+	const user = await User.findById(id);
 
-	const userParams = {
-		name: { firstName, middleName, lastName },
-		email,
-		birthDate,
-		address,
-		contactNo,
-		about
-	};
+	user.name.firstName = firstName;
+	user.name.middleName = middleName;
+	user.name.lastName = lastName;
+	user.email = email;
+	user.birthDate = birthDate;
+	user.contactNo = contactNo;
+	user.about = about;
 
 	// Add photo to params if it is given
+	const photo = files?.photo;
 	if (photo)
-		userParams.photo = await uploadImage(
+		user.photo = await uploadImage(
 			photo,
-			`/profiles/${user.walletAddress}-profile}`
+			`profiles/${user.walletAddress}-profile`
 		);
-
-	// Apply and save changes
-	user = { ...user, ...userParams };
+	
+	// Save changes
 	await user.save();
 
 	res.json({ message: 'User info updated' });

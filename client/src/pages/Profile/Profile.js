@@ -27,32 +27,65 @@ import { useAuth } from "../../utils/AuthContext";
 
 function Profile() {
 
+    // Constant Declarations
 	const { id } = useParams();
     const { isAuth } = useAuth();
 
-    // Constant Declarations
+    // States Declarations
 	const [user, setUser] = useState(null);
     const [institutions, setInstitutions] = useState(null);
 	const [documents, setDocuments] = useState(null);
 
 	// Executes on load
 	useEffect(() => {
-		// Retrieves User's Data
-		const fetchUser = async () => {
-			await axiosInstance
-				.get(`users`,{
-                    params: {
-                        walletAddress: id
-                    }
-                })
-				.then((response) => {
-					setUser(response.data);
-                    setInstitutions(response.data.institutions)
-                    setDocuments(response.data.documents)
-				});
-		};
 		fetchUser();
 	}, []);
+
+    // Retrieves User's Data
+    const fetchUser = async () => {
+        await axiosInstance
+            .get(`users`,{
+                params: {
+                    walletAddress: id
+                }
+            })
+            .then((response) => {
+                setUser(response.data);
+                console.log(response.data)
+                setInstitutions(response.data.institutions)
+                setDocuments(response.data.documents)
+            });
+    };
+
+    // Edit User Data
+    const EditProfile = async (file) => {
+        try {
+            const formData = new FormData();
+            formData.append('photo', file);
+            formData.append('body', JSON.stringify({
+                firstName: user.name.firstName,
+                middleName: user.name.middleName ?? '',
+                lastName: user.name.lastName,
+                email: user.email,
+                birthDate: user.birthDate,
+                address: user.address ?? '',
+                contactNo: user.contactNo ?? '',
+                about: user.about ?? '',
+            }))
+            
+            await axiosInstance.patch(
+                `users`, 
+                formData,
+                {headers: {'Content-Type': 'multipart/form-data'}}
+            )
+            .then((response)=>{
+                fetchUser();
+                alert("Profile Updated! Kindly wait a few moments for the changes to apply.")
+            })
+        } catch (err) {      
+            console.error(err.message);
+        }
+    }
 
 	// Returns if user is null
 	if (!user || !institutions || !documents) return <div>loading... No user Found</div>;
@@ -62,13 +95,15 @@ function Profile() {
 			<div id='Profile__Container_Div'>
 				<img
 					id='Profile__Img'
-					src={UserIcon}
+					src={(!user.photo) ? UserIcon : user.photo }
 					alt=''
 				/>
+                {(isAuth(id)) ? 
+                    <input type="file" onChange={(e) => EditProfile(e.target.files[0])} />
+                : ''}
 				<div id='Profile__Div__Info__Container'>
 					<h3>
 						{(user.name?.firstName || user.name?.lastName)?
-						
 							<>
 								{(user.name?.firstName ?? '') + ' '}
 								{user.name?.middleName
@@ -107,42 +142,48 @@ function Profile() {
 			<div id='Main_Div'>
 				<div id='SideBar__Div'>
 					<div id='sticky'>
-						<div
-							className='Panel__Container'
-							id='AboutMe__Div'
-						>
-							<h6 className='Panel__Title'>About</h6>
-							<p className='BodyText3'>{user.about ?? ''}</p>
-						</div>
+                        {(!user.about) ? ' ' :
+                        <div
+                            className='Panel__Container'
+                            id='AboutMe__Div'
+                        >
+                            
+                            <h6 className='Panel__Title'>About</h6>
+                            <p className='BodyText3'>{user.about ?? ''}</p>
+                        </div>
+                        }
+						
 						<div
 							className='Panel__Container'
 							id='Contact__Div'
 						>
 							<ul className='Panel__MultipleContent'>
 								<li className='Panel__MultipleContent'>
-									<h6 className='Panel__Title'>Contact Number</h6>
-
-									{(!user.contact?.mobile)? <>
-									</>:
-									<>
-									<div className='Panel__Content__IconText'>
-										<PhoneAndroidIcon />
-										<p className='BodyText3'>
-											{user.email ?? ''}
-                                            {user.contactNo ?? ''}
-										</p>
-									</div>
-									</>
-									}
+                                    {(!user.contactNo) ? ' ' :
+                                    <div>
+                                        <h6 className='Panel__Title'>Contact Number</h6>
+                                        <div className='Panel__Content__IconText'>
+                                            <PhoneAndroidIcon />
+                                            <p className='BodyText3'>
+                                                {user.contactNo}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    }
 								</li>
 								<li>
-									<h6 className='Panel__Title'>Address</h6>
-									<div className='Panel__Content__IconText'>
-										<LocationOnIcon />
-										<p className='BodyText3'>
-											{user.address ?? ''}
-										</p>
-									</div>
+                                {(!user.address) ? ' ' :
+                                <div>
+                                    <h6 className='Panel__Title'>Address</h6>
+                                    <div className='Panel__Content__IconText'>
+                                        <LocationOnIcon />
+                                        <p className='BodyText3'>
+                                            {user.address}
+                                        </p>
+                                    </div>
+                                </div>
+                                }
+									
 								</li>
 							</ul>
 						</div>

@@ -21,66 +21,110 @@ import Select from '@mui/material/Select';
 
 import axios from '../../utils/axios';
 
+// Import Utilities
+import axiosInstance from '../../utils/axios';
+import { useAuth } from "../../utils/AuthContext";
+
 function ProfileUpdate() {
-	const [activeStep, setActiveStep] = useState(0);
-
-
+	
+    // Constant Declarations
+    const { id } = useParams();
 	const navigate = useNavigate();
-	const { id } = useParams();
-	const [member, setMember] = useState(null);
+
+	// States Declarations
+    const [activeStep, setActiveStep] = useState(0);
+	const [user, setUser] = useState(null);
+    const [form, setForm] = useState({
+        firstName: '',
+        middleName: '',
+        lastName: '',
+        email: '',
+        birthDate: '',
+        address: '',
+        contactNo: '',
+        about: '',
+    });
 
 	// Executes on load
 	useEffect(() => {
-		// Retrieves Member Data
-		axios.get(`members/${id}`).then(({ data }) => setMember(data));
+		fetchUser();
 	}, []);
+
+    // Retrieves User's Data
+    const fetchUser = async () => {
+        await axiosInstance
+            .get(`users`,{
+                params: {
+                    walletAddress: id
+                }
+            })
+            .then((response) => {
+                setUser(response.data);
+                setForm({
+                    firstName: response.data.name.firstName,
+                    middleName: response.data.name.middleName,
+                    lastName: response.data.name.lastName,
+                    email: response.data.email,
+                    birthDate: response.data.birthDate,
+                    address: response.data.address,
+                    contactNo: response.data.contactNo,
+                    about: response.data.about,
+                })
+            });
+    };
+
+    
 
 	// Updates form from input
 	function updateForm(e) {
-		return setMember((prev) => {
-			const [key, value] = Object.entries(e)[0];
-			if (key == 'name' || key == 'contact' || key == 'location') {
-				const [property, subValue] = Object.entries(value)[0];
-				prev[key]
-					? (prev[key][property] = subValue)
-					: Object.assign(prev, { [key]: { [property]: subValue } });
-			} else {
-				prev[key] = value;
-			}
-			return prev;
-		});
-	}
+        return setForm((prev) => {
+            const [key, value] = Object.entries(e)[0];
+            prev[key] = value;
+            console.log(form)
+            return prev;
+        });
+    }
 
 	// Submits Data
 	async function Submit(e) {
 		e.preventDefault();
-		await axios
-			.patch(`members/${id}`, JSON.stringify({ ...member }), {
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			})
-			.then((response) => {
-				console.log(response.data);
-				navigate(`/m/${id}`);
-			})
-			.catch((error) => {
-				console.log('Error:' + error);
-				return;
-			});
+
+        
+		try {
+            const formData = new FormData();
+            formData.append('body', JSON.stringify({
+                firstName: form.firstName ? form.firstName : user.name.firstName,
+                middleName: form.middleName ? form.middleName : (user.name.middleName ? form.middleName : user.name.middleName),
+                lastName: form.lastName ? form.lastName : user.name.lastName,
+                email: form.email ? form.email : user.email,
+                birthDate: form.birthDate ? form.birthDate : user.birthDate,
+                address: form.address ? form.address : (user.address ? form.address : user.address),
+                contactNo: form.contactNo ? form.contactNo : (user.contactNo ? form.contactNo : user.contactNo),
+                about: form.about ? form.about : (user.about ? form.about : user.about),
+            }))
+            await axiosInstance.patch(
+                `users`, 
+                formData,
+                {headers: {'Content-Type': 'multipart/form-data'}}
+            )
+            .then((response)=>{
+                fetchUser();
+                alert("Profile Updated!")
+                navigate(`/users/${user.walletAddress}`)
+            })
+        } catch (err) {      
+            console.error(err.message);
+        }
 	}
 
-
-
-
-
-
 	// Update Visual Value
-	const [dateValue, setdateValue] = React.useState(null);
-	const [genderValue, setgenderValue] = React.useState(null);
+	const [dateValue, setdateValue] = useState(user ? user.birthDate:null);
+	// const [genderValue, setgenderValue] = useState(null);
 	
 	// Returns if member is null
-	if (!member) return <div>loading...</div>;
+	if (!user) return <div>loading...</div>;
+
+    console.log(form)
     
 	return (
 		<section id='Create_Event'>
@@ -111,99 +155,42 @@ function ProfileUpdate() {
 								label='First Name'
 								type='text'
 								required
-								defaultValue={
-									member.name?.firstName ?? ''
-								}
-								onChange={(e) =>
-									updateForm({
-										name: {
-											firstName:
-												e.target.value
-										}
-									})
-								}
+								defaultValue={form.firstName ? form.firstName : ''}
+								onChange={(e) =>setForm({firstName: e.target.value})}
 							/>
 							<TextField
 								id='outlined-search'
 								label='Middle Name'
 								type='text'
-								required
-								defaultValue={
-									member.name?.middleName ?? ''
-								}
-								onChange={(e) =>
-									updateForm({
-										name: {
-											middleName:
-												e.target.value
-										}
-									})
-								}
+								defaultValue={form.middleName ? form.middleName : ''}
+								onChange={(e) =>updateForm({middleName: e.target.value})}
 							/>
 							<TextField
 								id='outlined-search'
 								label='Last Name'
 								type='text'
 								required
-								defaultValue={
-									member.name?.lastName ?? ''
-								}
-								onChange={(e) =>
-									updateForm({
-										name: {
-											lastName: e.target.value
-										}
-									})
-								}
-							/>
-							<TextField
-								id='outlined-search'
-								label='Extension'
-								type='text'
-								
-								defaultValue={
-									member.name?.extension ?? ''
-								}
-								onChange={(e) =>
-									updateForm({
-										name: {
-											extension:
-												e.target.value
-										}
-									})
-								}
+								defaultValue={form.lastName ? form.lastName : ''}
+								onChange={(e) =>updateForm({lastName: e.target.value})}
 							/>
 						</div>
 						<TextField
 							id='outlined-search'
 							label='About '
 							type='text'
-							required
 							multiline
-							defaultValue={member.about ?? ''}
-							onChange={(e) =>
-								updateForm({
-									about: e.target.value
-								})
-							}
+							defaultValue={form.about ? form.about : ''}
+							onChange={(e) =>updateForm({about: e.target.value})}
 						/>
 						<div className='Wrapper_1_2_Inputs'>
 							<TextField
 								id='outlined-search'
 								label='Address'
 								type='text'
-								required
-								defaultValue={member.about ?? ''}
-								onChange={
-									()=>{}
-									// (e) =>
-									// // 
-									// // updateForm({
-									// // 	about: e.target.value
-									// })
-								}
+								defaultValue={form.address ? form.address : ''}
+								onChange={(e) =>updateForm({address: e.target.value})}
 							/>
-							<FormControl fullWidth>
+							{/* <FormControl fullWidth>
 								<InputLabel id="demo-simple-select-label">Gender</InputLabel>
 								<Select
 									labelId="demo-simple-select-label"
@@ -218,15 +205,16 @@ function ProfileUpdate() {
 									<MenuItem value={"Female"}>Female</MenuItem>
 									<MenuItem value={"Other"}>Other</MenuItem>
 								</Select>
-							</FormControl>
+							</FormControl> */}
 							<LocalizationProvider dateAdapter={AdapterDayjs}>
 								<DesktopDatePicker
 									label="Birthday"
 									inputFormat="MM/DD/YYYY"
-									value={dateValue}
+									value={form.birthDate}
 									onChange={(newValue)=>{
 										setdateValue(newValue)
 									}}
+                                    // onChange={(e) =>updateForm({birthDate: e.target.value})}
 									renderInput={(params) => <TextField {...params} />}
 								/>
 							</LocalizationProvider>
@@ -237,42 +225,21 @@ function ProfileUpdate() {
 								label='Email'
 								type='email'
 								required
-								defaultValue={member.about ?? ''}
-								onChange={
-									()=>{}
-									// (e) =>
-									// // 
-									// // updateForm({
-									// // 	about: e.target.value
-									// })
-								}
+								defaultValue={form.email ? form.email : ''}
+								onChange={(e) =>updateForm({email: e.target.value})}
 							/>
 							<TextField
 								id='outlined-search'
-								label='Mobile Number'
+								label='Contact Number'
 								type='text'
-								required
-								defaultValue={member.about ?? ''}
-								onChange={
-									()=>{}
-									// (e) =>
-									// // 
-									// // updateForm({
-									// // 	about: e.target.value
-									// })
-								}
+								defaultValue={form.contactNo ? form.contactNo: ''}
+								onChange={(e) =>updateForm({contactNo: e.target.value})}
 							/>
 							
 						</div>
 					</div>
 				</div>
 				<div id='Holder_Button'>
-					<Button
-						variant='outlined'
-						onClick={() => console.log(member)}
-					>
-						TEST DATA
-					</Button>
 					<Button variant='outlined'>cancel</Button>
 					<Button
 						variant='contained'
