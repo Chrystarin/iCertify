@@ -47,12 +47,14 @@ function MemberList() {
 
     const AcceptRequest = async (request) => {
         try {
+            const formData = new FormData();
+            formData.append('body', JSON.stringify({
+                requestId: request.requestId,
+                status: 'approved',
+            }))
             await axiosInstance.patch(
                 `requests`,
-                JSON.stringify({ 
-                    requestId: request.requestId,
-                    status: 'approved'
-                })
+                formData
             )
             .then((res)=>{
                 alert("Member Added!")

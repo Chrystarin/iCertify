@@ -200,8 +200,8 @@ const processRequest = async (req, res, next) => {
 
 	if (type === USER) {
 		const rqst = await Request.findOne({ requestId, requestor: id });
-		if(rqst.details.statusTimestamps === undefined)
-			rqst.details.statusTimestamps = {};
+		if(rqst.details === undefined)
+			rqst.details = { statusTimestamps: {} };
 
 		switch (status) {
 			case 'paid':
@@ -239,8 +239,8 @@ const processRequest = async (req, res, next) => {
 
 	if (type === INSTITUTION) {
 		const rqst = await Request.findOne({ requestId, institution: id });
-		if(rqst.details.statusTimestamps === undefined)
-			rqst.details.statusTimestamps = {};
+		if(rqst.details === undefined)
+			rqst.details = { statusTimestamps: {} };
 
 		switch (status) {
 			case 'approved':

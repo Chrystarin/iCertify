@@ -11,7 +11,8 @@ function AuthProvider({ children }) {
     const navigate = useNavigate()
     const [user, setUser] = useState(null);
 
-    
+    // Smart Contract Address
+    const contractAddress = '0x0eF4BbF229741b41BECC25eF8EfA4e2619b006d8'
     
     // Executes onLoad
     useEffect(() => {
@@ -98,7 +99,7 @@ function AuthProvider({ children }) {
                 case 'institution':
 
                     // Contract Transaction
-                    const contract = await fetchContract();
+                    const contract = new ethers.Contract(contractAddress, await fetchContract(), wallet.signer);
                     const txHash = await contract.registerInstitution();
                     
                     // Registers Institution
@@ -128,12 +129,9 @@ function AuthProvider({ children }) {
 
     // Fetch Smart Contract Function
     const fetchContract = async () => {
-        const {signer} = ConnectWallet();
-        const contractAddress = '0xA14023bfEC6200fA56f92F343cA9852e670F42Ea'
-
         try {
             const response = await axiosInstance.get(`abi`);
-            return new ethers.Contract(contractAddress, response.data, signer);
+            return response.data;
         } 
         catch (error) {
             console.error(error);
