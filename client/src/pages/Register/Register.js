@@ -24,7 +24,7 @@ function Register() {
     const [abi, setAbi] = useState();
     
     // Document NFT Contract Address
-    const contractAddress = '0xA14023bfEC6200fA56f92F343cA9852e670F42Ea'
+    const contractAddress = '0x5206b7785B068E7B55f775112E9d6621BE775506'
 
     // Declare Holders for Wallet Info
     let provider, signer, address

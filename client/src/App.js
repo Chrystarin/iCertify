@@ -22,7 +22,7 @@ import ProfileUpdate from './pages/Profile/ProfileUpdate';
 import RequestDocumentForm from './pages/Documents/DocumentRequestForm'
 
 // Institution
-import MintTransfer from './pages/GenerateDocuments/GenerateDocuments.js';
+import CreateDocuments from './pages/GenerateDocuments/GenerateDocuments.js';
 import DashboardAdmin from './pages/Analytics/Analytics';
 import MemberList from './pages/Member/MemberList.js';
 import AddDocumentOffered from './pages/Documents/AddDocumentOffered'
@@ -52,7 +52,7 @@ function App() {
                     <Route path='users/:id' element={<Profile />} />
                     <Route path='institutions' element={<Institutions />}/>
                     <Route path='institutions/:id' element={<InstitutionsView owner={false}/>}/>
-                    <Route path='documents/:id' element={<DocumentPage/>}/>
+                    {/* <Route path='documents/:id' element={<DocumentPage/>}/> */}
             </Route>
 
             {/* Member Routes */}
@@ -73,7 +73,8 @@ function App() {
                     <Route path='institution/edit' element={<InstitutionsUpdate/>}/>
                     <Route path='analytics' element={<DashboardAdmin />}/>
                     <Route path='members' element={<MemberList />} />
-                    <Route path='documents' element={<MintTransfer />} />
+                    <Route path='documents' element={<CreateDocuments />} />
+                    <Route path='documents/:tab' element={<CreateDocuments/>} />
                     <Route path='documents/request/:id' element={<CreateDocument manual={false}/>} />
                     <Route path='document/create' element={<CreateDocument manual={true}/>} />
                     <Route path='documents/add' element={<AddDocumentOffered />} />

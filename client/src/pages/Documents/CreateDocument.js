@@ -214,8 +214,6 @@ function CreateDocument({manual}) {
                             <a href="/">
                                 <Avatar id="SidePanel__Requestor__Avatar"/>
                                 <h5>Dianne Chrystalin Brandez</h5>
-                                
-                                
 
                             </a>
                             <Chip id="SidePanel__Requestor__Chip" label="# 02000069502" variant="outlined" onClick={()=>{}} />

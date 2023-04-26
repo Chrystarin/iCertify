@@ -1,4 +1,6 @@
 #institutions{
+    display: flex;
+    flex-direction: column;
     .Navigation_Institution{
         margin-bottom: 25px;
         display: flex;
@@ -62,6 +64,10 @@
         
     }
     #Container_JoinedInstitutions{
+        #ErrorInstitutionJoined{
+            width: 100%;
+            background-color: red;
+        }
         .EventPerMonths{
             padding: 1.5em 0;
             border-top: 1px solid rgba(0, 0, 0, 0.11);

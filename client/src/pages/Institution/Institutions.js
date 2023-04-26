@@ -18,7 +18,7 @@ function Institutions(props) {
     const { user, isAuth } = useAuth();
 
     // Constant Declarations
-	const [isOpenPanel_Institution, seOpenPanel_Institution] = useState('FeaturedInstitutions');
+	const [isOpenPanel_Institution, seOpenPanel_Institution] = useState('JoinedInstitutions');
     const [institutions, setInstitutions] = useState(null);
     const [joinedInstitutions, setJoinedInstitutions] = useState(null);
 
@@ -68,16 +68,6 @@ function Institutions(props) {
 			</div>
 			<div className='Navigation_Institution'>
 				<div className='Navigation_Left'>
-					<Button 
-                        variant={
-                            isOpenPanel_Institution === 'FeaturedInstitutions'
-                                ? 'contained'
-                                : ''
-					    }
-					    onClick={() => seOpenPanel_Institution('FeaturedInstitutions')}
-					>
-						Featured Institutions	
-					</Button>
                     {(user) ? 
                         <Button 
                             variant={
@@ -91,6 +81,18 @@ function Institutions(props) {
                             Joined Institutions
                         </Button>
                     : ''}
+                    
+					<Button 
+                        variant={
+                            isOpenPanel_Institution === 'FeaturedInstitutions'
+                                ? 'contained'
+                                : ''
+					    }
+					    onClick={() => seOpenPanel_Institution('FeaturedInstitutions')}
+					>
+						Featured Institutions	
+					</Button>
+                    
 					
 				</div>
 				<div className='Navigation_Right'>
@@ -157,10 +159,11 @@ function Institutions(props) {
         return<>
             <div id='Container_JoinedInstitutions' className='Wrapper__Card'>
                 {(joinedInstitutions.length === 0 )?
-                    <p>No Institutions found!
-                        {joinedInstitutions}
-
-                    </p>
+                    <>
+                        <div id="ErrorInstitutionJoined">
+                            <p>No Institutions found!</p>
+                        </div>
+                    </>
                     :
                     <>
                         {joinedInstitutions.length > 0 &&
