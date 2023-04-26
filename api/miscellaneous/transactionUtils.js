@@ -1,5 +1,4 @@
 const {
-	utils: { Interface },
 	providers: { JsonRpcProvider },
 	Contract
 } = require('ethers');
@@ -12,7 +11,6 @@ const provider = new JsonRpcProvider(
 	NODE_ENV === 'development' ? TEST_PROVIDER : TESTNET
 );
 const contract = new Contract(CONTRACT_ADDRESS, abi, provider);
-const { parseLog } = new Interface(abi);
 
 // Monitors a transaction by waiting for it to be mined
 const waitTx = async (txHash, success, failed) => {
@@ -29,4 +27,4 @@ const waitTx = async (txHash, success, failed) => {
 		.catch(failed);
 };
 
-module.exports = { parseLog, waitTx, contract };
+module.exports = { waitTx, contract };

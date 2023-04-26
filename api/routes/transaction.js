@@ -27,7 +27,8 @@ router.post('/ipfs', fileUpload(), onlyInstitution, saveIpfs);
 /**
  * Save the transaction
  *
- * ownerAddress
+ * requestId
+ * walletAddress
  * txHash
  */
 router.post('/save', onlyInstitution, saveTransaction);

@@ -20,7 +20,7 @@ function CreateDocument({manual}) {
     
     const navigate = useNavigate();
     const {id} = useParams();
-    const {fetchContract} = useAuth();
+    const {fetchContract, ConnectWallet, contractAddress} = useAuth();
     
     const [selectDocument, setSelectDocument] = useState();
     const [file, setFile] = useState();
@@ -63,32 +63,65 @@ function CreateDocument({manual}) {
 
         const formData = new FormData();
         formData.append('document', file);
+        formData.append('requestId', id);
 
-        const contract = await fetchContract();
 
-        try {
+        const wallet = await ConnectWallet()
+        const contract = new ethers.Contract(contractAddress, await fetchContract(), wallet.signer);
+
+        try {  
+            
             // Upload to IPFS then get URI
-            const { path } = await axios(
-                {
-                    method: 'post',
-                    url: 'http://localhost:4000/transactions/ipfs',
-                    data: formData,
-                    headers: { 'Content-Type': 'multipart/form-data' }
-                }
-            ).then(res => res.json());
+            // let path = {}
+            // await axios(
+            //     {
+            //         method: 'post',
+            //         url: 'http://localhost:4000/transactions/ipfs',
+            //         data: formData,
+            //         headers: { 'Content-Type': 'multipart/form-data' }
+            //     }
+            // )
+            // .then((response) => {
+            //     console.log(response.data)
+            //     path = response.data
+            // });
 
-            console.log(path)
-
+            // let txHash = {}
             // // Mint and transfer to owner
             // const transaction = await contract.sendDocument(
-            //     form.memberAddress,                                 // receiver
-            //     form.type,                                          // type
+            //     request.requestor.walletAddress,                    // receiver
+            //     request.details.offeredDoc.title,                   // type
             //     `https://icertify.infura-ipfs.io/ipfs/${path}`,     // uri
-            //     form.docId                                          // docId
+            //     request.details.offeredDoc.docId                    // docId
             // )
             // .then((response)=>{
             //     console.log(response)
+            //     txHash = response.data.hash
+            //     alert("Document Created!")
             // })
+
+            // await axios.post(
+            //     "transactions/save",
+            //     JSON.stringify({
+            //         ownerAddress: request.requestor.walletAddress,
+            //         txHash
+            //     })
+            // )
+            // .then((response) => {
+            //     console.log(response.data)
+            // });
+
+             await axios.post(
+                "transactions/save",
+                JSON.stringify({
+                    requestId: request.requestId,
+                    walletAddress: request.requestor.walletAddress,
+                    txHash: '0xd578aacd41e27d5f201019e8e393f828adf9e8c7e98fbff4b16258aa9036b84e'
+                })
+            )
+            .then((response) => {
+                console.log(response.data)
+            });
         } catch (err) {      
             console.error(err.message);
         }
