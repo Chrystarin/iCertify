@@ -74,7 +74,7 @@ function App() {
                     <Route path='analytics' element={<DashboardAdmin />}/>
                     <Route path='members' element={<MemberList />} />
                     <Route path='documents' element={<MintTransfer />} />
-                    <Route path='documents/request/:id' element={<CreateDocument manual={false}/>} />
+                    <Route path='documents/requests/:id' element={<CreateDocument manual={false}/>} />
                     <Route path='document/create' element={<CreateDocument manual={true}/>} />
                     <Route path='documents/add' element={<AddDocumentOffered />} />
                 </Route>

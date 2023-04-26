@@ -1,4 +1,4 @@
-import React, {useState,useRef, useEffect}from 'react';
+import React, {useState,useRef}from 'react';
 
 
 import './Header.scss';
@@ -16,7 +16,8 @@ import Tooltip from '@mui/material/Tooltip';
 
 import axios from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
-function Header(props) {
+
+function Header() {
     const { user } = useAuth();
 
     // For closing the dropdown when clicking outside of
@@ -148,7 +149,7 @@ function Header(props) {
                             aria-haspopup="true"
                             aria-expanded={openProfile ? 'true' : undefined}
                         >
-                            <Avatar>M</Avatar>
+                            <Avatar src={(!user.user.photos?.profile) ? '' : user.user.photos.profile } alt=""></Avatar>
                         </IconButton>
                     </Tooltip>
                     <Menu
@@ -190,7 +191,7 @@ function Header(props) {
                         <div id="ProfileDropdown__Container">
                             <a href={`/${user.type}s/${user.walletAddress}`}>
                                 <MenuItem  id='ProfileDropdown__Header'>
-                                    <Avatar ></Avatar>
+                                    <Avatar src={(!user.user.photos?.profile) ? '' : user.user.photos.profile } alt=""></Avatar>
                                     <div>
                                     <h6>{user.type =='user' ? user.user.name.firstName + ' ' + user.user.name.lastName : user.user.name}</h6>
                                     <div id='ProfileDropdown__Header__Metamask'>

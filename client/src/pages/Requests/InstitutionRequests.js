@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-
+import {useNavigate} from 'react-router-dom';
 import axiosInstance from '../../utils/axios';
 
 function InstitutionRequests() {
-
+    const navigate = useNavigate()
 	const [requests, setRequests] = useState();
 
 	// Excecutes on page load
@@ -112,7 +112,7 @@ function InstitutionRequests() {
                             <h5>{request.details.offeredDoc.title}</h5>
                             <p>Price: {request.details.offeredDoc.price}</p>
                             <p>Verified On: {request.details.statusTimestamps.verified  }</p>
-                            <button onClick={console.log("Process: " + request.requestId)}>Process</button><hr/>
+                            <button onClick={()=>navigate(`/documents/requests/${request.requestId}`)}>Process</button><hr/>
                         </div>
                     );
                 }

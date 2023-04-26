@@ -71,6 +71,8 @@ const saveIpfs = async (req, res, next) => {
 		user: { id }
 	} = req;
 
+    console.log(req.files)
+
 	// Check file extension
 
 	// Upload the document to ipfs but don't pin

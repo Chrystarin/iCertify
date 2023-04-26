@@ -7,13 +7,11 @@ import axiosInstance from './axios';
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
-    
     // Constants Declaration
     const navigate = useNavigate()
     const [user, setUser] = useState(null);
 
-    // Document NFT Contract Address
-    const contractAddress = '0xA14023bfEC6200fA56f92F343cA9852e670F42Ea'
+    
     
     // Executes onLoad
     useEffect(() => {
@@ -100,7 +98,7 @@ function AuthProvider({ children }) {
                 case 'institution':
 
                     // Contract Transaction
-                    const contract = new ethers.Contract(contractAddress, await fetchContract(), wallet.signer);
+                    const contract = await fetchContract();
                     const txHash = await contract.registerInstitution();
                     
                     // Registers Institution
@@ -130,12 +128,16 @@ function AuthProvider({ children }) {
 
     // Fetch Smart Contract Function
     const fetchContract = async () => {
+        const {signer} = ConnectWallet();
+        const contractAddress = '0xA14023bfEC6200fA56f92F343cA9852e670F42Ea'
+
         try {
             const response = await axiosInstance.get(`abi`);
-            return response.data;
-          } catch (error) {
+            return new ethers.Contract(contractAddress, response.data, signer);
+        } 
+        catch (error) {
             console.error(error);
-          }
+        }
     }
 
     // Connect User's Wallet
@@ -237,7 +239,6 @@ function AuthProvider({ children }) {
 
     const value = { 
         user, 
-        contractAddress,
         login, 
         logout, 
         register, 

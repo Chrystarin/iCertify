@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import {ethers} from 'ethers';
 
+// Import SCSS File
 import './Profile.scss';
 
 // Import Components
@@ -9,16 +12,14 @@ import { Button } from '@mui/material';
 import InstitutionCard from '../../components/Card/InstitutionCard.js'
 
 // Import Icons & images 
-import UserIcon from './../../images/icons/user-round.png';
 import CallIcon from '@mui/icons-material/Call';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MetaMaskIcon from './../../images/icons/fox.png';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import PremiumIcon from '@mui/icons-material/WorkspacePremium';
+import UserIcon from './../../images/icons/user-round.png';
 
 import Empty from '../../images/icons/empty-folder.png'
-import { useParams } from 'react-router-dom';
-import {ethers} from 'ethers';
 
 // Import Utilities
 import axiosInstance from '../../utils/axios';
@@ -26,7 +27,6 @@ import { useAuth } from "../../utils/AuthContext";
 
 function Profile() {
 
-    
 	const { id } = useParams();
     const { isAuth } = useAuth();
 

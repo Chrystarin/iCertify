@@ -1,6 +1,4 @@
-import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom';
-import {ethers} from 'ethers';
+import React, {useState} from 'react';
 
 import logo from '../../images/iCertifyBranding/icertify_footer.png';
 import Certificate from '../../images/Resources/Certificate.png';
@@ -15,7 +13,6 @@ import Select from '@mui/material/Select';
 import './Register.scss'
 
 import {useAuth} from "../../utils/AuthContext";
-import axios from '../../utils/axios';
 
 function Register() {
     // Constant Declarations;
