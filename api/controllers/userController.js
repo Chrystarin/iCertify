@@ -108,8 +108,6 @@ const updateUser = async (req, res, next) => {
         contactNo,
         about
     } = JSON.parse(body)
-    
-    console.log(req.body.body)
 
 	// Validate inputs
 	isString(firstName, 'First Name');
