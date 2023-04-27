@@ -61,6 +61,7 @@ function App() {
                     <Route path='users/:id/edit' element={<ProfileUpdate />}/>
                     <Route path='dashboard' element={<Dashboard />}/>
                     <Route path='documents/list' element={<Document />} />
+                    <Route path='documents/:id' element={<DocumentPage/>}/>
                     <Route path='institutions/:id/:docId' element={<RequestDocumentForm />}/>
                     <Route path='institutions/:id/join' element={<JoinInstution/>} />
                 </Route>
@@ -73,10 +74,9 @@ function App() {
                     <Route path='institution/edit' element={<InstitutionsUpdate/>}/>
                     <Route path='analytics' element={<DashboardAdmin />}/>
                     <Route path='members' element={<MemberList />} />
-                    <Route path='documents' element={<CreateDocuments />} />
-                    <Route path='documents/:tab' element={<CreateDocuments/>} />
+                    <Route path='documents/requests/:tab' element={<CreateDocuments/>} />
                     <Route path='documents/request/:id' element={<CreateDocument manual={false}/>} />
-                    <Route path='document/create' element={<CreateDocument manual={true}/>} />
+                    <Route path='documents/create' element={<CreateDocument manual={true}/>} />
                     <Route path='documents/add' element={<AddDocumentOffered />} />
                 </Route>
             </Route>
