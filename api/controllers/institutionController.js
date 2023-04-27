@@ -320,7 +320,7 @@ const editPayment = async (req, res, next) => {
 
 	// Find institution that has same id and paymentId
 	const institution = await Institution.findOne({
-		_id: 'id',
+		_id: id,
 		'payments.paymentId': paymentId
 	});
 	if (!institution) throw new NotFound('Payment Details not found');
@@ -380,7 +380,7 @@ const deletePayment = async (req, res, next) => {
 
 	// Find institution that has same id and paymentId
 	const institution = await Institution.findOne({
-		_id: 'id',
+		_id: id,
 		'payments.paymentId': paymentId
 	});
 	if (!institution) throw new NotFound('Payment Details not found');
