@@ -30,11 +30,7 @@ function Profile() {
 
     // Constant Declarations
 	const { id } = useParams();
-    const { isAuth, fetchContract, ConnectWallet, contractAddress, globalWallet, getContract } = useAuth();
-    
-    console.log(globalWallet)
-    
-    console.log(getContract)
+    const { isAuth, fetchContract, ConnectWallet, contractAddress } = useAuth();
 
     // States Declarations
 	const [user, setUser] = useState(null);
@@ -43,15 +39,9 @@ function Profile() {
 
 	// Executes on load
 	useEffect(() => {
-        const createContract = async () => {
-            console.log(await getContract())
-        }
-        createContract();
 		fetchUser();
-        // fetchDocument();
-        // getDocumentData();
 	}, []);
-    
+
 
     // Retrieves User's Data
     const fetchUser = async () => {
@@ -68,35 +58,6 @@ function Profile() {
                 setDocuments(response.data.documents)
             });
     };
-
-    const fetchDocument = async () => {
-        await axiosInstance
-            .get(`documents`,{
-                params: {
-                    code: "AIHqKFB3smuXGBbh"
-                }
-            })
-            .then((response) => {
-                console.log(response.data)
-            });
-    };
-
-    const getDocumentData = async () => {
-
-        const wallet = await ConnectWallet();
-        const contract = new ethers.Contract(contractAddress, await fetchContract(), wallet.signer);
-        try{
-            await contract.getDocumentData(
-                0
-            )
-            .then((response)=>{
-                console.log(response)
-            })
-
-        } catch(error) {
-            console.log(error)
-        }
-    }
 
     // Edit User Data
     const EditProfile = async (file) => {
@@ -133,7 +94,6 @@ function Profile() {
 
 	return (
 		<div id='Profile'>
-            <button onClick={()=>getDocumentData()}>Test Function</button>
 			<div id='Profile__Container_Div'>
 				<img
 					id='Profile__Img'

@@ -29,7 +29,7 @@ function GenerateDocuments() {
 			await axiosInstance
 				.get(`requests`,{
                     params: {
-                        type: 'document'
+                        requestType: 'document'
                     }
                 })
 				.then((response) => { 

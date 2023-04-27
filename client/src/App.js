@@ -41,7 +41,6 @@ function App() {
             <Route path='*' element={<Error />}/>
             <Route path='/test' element={<Test />}/>
 
-            <Route path='/documents/requests' element={<InstitutionRequests />}/>
             <Route path='/requests' element={<MemberRequests />}/>
 
 			{/* Public Routes */}
