@@ -181,31 +181,46 @@ function CreateDocument({manual}) {
             </section>
             <div id='SidePanel'>
                 <div id='SidePanel__Info' className='Panel__Container'>
-                    {manual ?
+                    {!manual ?
+                    
                         <>
-                            <div id='SidePanel__SearchMember'>
-                                <h6>Select Member</h6>
-                                <SearchInput />
+                            <div id='SidePanel__Requestor'>
+                                <a href="/">
+                                    <Avatar id="SidePanel__Requestor__Avatar"/>
+                                    <h5>Dianne Chrystalin Brandez</h5>
+
+                                </a>
+                                <Chip id="SidePanel__Requestor__Chip" label="# 02000069502" variant="outlined" onClick={()=>{}} />
                             </div>
-                            <div id='SidePanel__SelectDocument'>
-                                <FormControl fullWidth variant='standard'>
-                                    <InputLabel id="demo-simple-select-label">Select Document</InputLabel>
-                                    <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    value={selectDocument}
-                                    label="Age"
-                                    onChange={handleChangeSelectDocument}
-                                    >
-                                    <MenuItem value={10}>Ten</MenuItem>
-                                    <MenuItem value={20}>Twenty</MenuItem>
-                                    <MenuItem value={30}>Thirty</MenuItem>
-                                    </Select>
-                                </FormControl>
+                            <div id='SidePanel__Date'>
+                                <h6>Expected Date</h6>
+                                <p>October 25 - 30 , 2023 </p>
                             </div>
-                            <div id='SidePanel__Buttons'>
-                                <Button variant='outlined'>Back</Button>
-                                <Button variant='contained' onClick={()=>ProcessDocument(file)}>Submit</Button>
+                            <div id='SidePanel__DocumentDetails'>
+                                <div>
+                                    <h6>Document Name :</h6>
+                                    <p>Transcript of Record </p>
+                                </div>
+                                <div id='SidePanel__SelectDocument'>
+                                    <FormControl fullWidth variant='standard'>
+                                        <InputLabel id="demo-simple-select-label">Select Document</InputLabel>
+                                        <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={selectDocument}
+                                        label="Age"
+                                        onChange={handleChangeSelectDocument}
+                                        >
+                                        <MenuItem value={10}>Ten</MenuItem>
+                                        <MenuItem value={20}>Twenty</MenuItem>
+                                        <MenuItem value={30}>Thirty</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </div>
+                                <div id='SidePanel__Buttons'>
+                                    <Button variant='outlined'>Back</Button>
+                                    <Button variant='contained' onClick={()=>ProcessDocument(file)}>Submit</Button>
+                                </div>
                             </div>
                         </>
                     :

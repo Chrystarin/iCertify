@@ -2,18 +2,12 @@ import React, { useState } from 'react';
 import './MintTransferCard.scss';
 import Avatar from '@mui/material/Avatar';
 import { Button } from '@mui/material';
-import TimerIcon from '@mui/icons-material/Timer';
-import UserPanelInfo from '../../components/UserPanel/UserPanelInfo';
 import Chip from '@mui/material/Chip';
-import UserIcon from './../../images/icons/user-round.png';
 import Tooltip from '@mui/material/Tooltip';
-import ViewRequestorModal from '../../layouts/MintTransfer/ViewRequestorModal';
 import Menu from '@mui/material/Menu';
-import axios from '../../utils/axios';
 import TextField from '@mui/material/TextField';
-
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 function MintTransferCard(props) {
-
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
@@ -21,7 +15,8 @@ function MintTransferCard(props) {
 	};
 	const handleClose = () => {
 		setAnchorEl(null);
-  	};
+	};
+
 
 	const [OpenModal, setOpenModal] = useState(false);
 	const {
@@ -30,87 +25,88 @@ function MintTransferCard(props) {
         name,
         title,
         date,
-        type
+        type,
+		id,
+		status,
+		key
 	} = props;
 
-	// const certificateId = axios
-	// 	.post('certificates/save', {
-	// 		headers: { 'Content-Type': 'application/json' }
-	// 	})
-	// 	.then(({ data }) => data.certificateId);
-
-	// const certificateId = null;
-
-	// const GenerateCertificateID = async () => {
-	// 	const certificateId = await axios
-	// 		.post('certificates/save', {
-	// 			headers: { 'Content-Type': 'application/json' }
-	// 		})
-	// 		.then(({ data }) => data.certificateId);
-	// 		console.log(certificateId);
-	// 	return certificateId;
-	// };
-
-	// function OpenProcess() {
-	// 	// certificateId = GenerateCertificateID();
-	// 	certificateId = 'Test';
-	// 	console.log(certificateId);
-	// 	setOpenModal(true);
-	// }
-
-	// let certificateId = null;
 
 	return (
 		<>
-			<div className='MintTransferCard Panel__Container'>
+			<div className='MintTransferCard Panel__Container' key={key}>
 				<div id='MintTransferCard__Date'>
 					<h6>Date Requested</h6>
 					<p className='BodyText3'>{date}</p>
 				</div>
 				<a href='/' id='MintTransferCard__UserInfo'>
 					<Avatar id="MintTransferCard__Avatar" alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-					<h6>{name}</h6>
-                    <h6>{title}</h6>
+					<p className='BodyText1'>{name}</p>
 				</a>
+				<p id='MintTransferCard__Title' className='BodyText3'>{title}</p>
 				<div id='MintTransferCard__ID'>
+
 					<Tooltip title="Copy">
-						<Chip label={address} onClick={()=>{}}/>
+						<Chip  label={id} onClick={()=>{}} icon={<ContentCopyIcon fontSize="small" />}/>
 					</Tooltip>
 				</div>
-				<div id='MintTransferCard__Buttons'>
-                {(type=='pending') ? 
-                <>
-                <Button variant='outlined' onClick={handleClick}>Decline</Button>
-					<Menu
-						id="basic-menu"
-						anchorEl={anchorEl}
-						open={open}
-						onClose={handleClose}
-						MenuListProps={{
-						'aria-labelledby': 'basic-button',
-						}}
-					>
-						<div id='DeclineDropdown'>
-							<h6>Reason of decline :</h6>
-							<TextField
-							id="outlined-multiline-flexible"
-							label=""
-							multiline
-							maxRows={4}
-							variant="standard"
-							/>
-							<div>
-								<Button variant='contained' onClick={handleClose}>Ok</Button>
+				{status==="pending"|| status==="approved"?<>
+					<div id='MintTransferCard__Buttons'>
+						<Button variant='outlined' onClick={handleClick}>Decline</Button>
+						<Menu
+							id="basic-menu"
+							anchorEl={anchorEl}
+							open={open}
+							onClose={handleClose}
+							MenuListProps={{
+							'aria-labelledby': 'basic-button',
+							}}
+						>
+							<div id='DeclineDropdown'>
+								<h6>Reason of decline :</h6>
+								<TextField
+								id="outlined-multiline-flexible"
+								label=""
+								multiline
+								maxRows={4}
+								variant="standard"
+								/>
+								<div>
+									<Button variant='contained' onClick={handleClose}>Ok</Button>
+								</div>
 							</div>
-						</div>
-					</Menu>
-					<Button variant='contained' onClick={props.action}>Process</Button>
-                </>
-                : ''
-                    
-                }
-					
-				</div>
+						</Menu>
+						<Button variant='contained' onClick={props.action}>Accept</Button>
+					</div>
+				</>:<></>}
+				{status==="process"?<>
+					<div id='MintTransferCard__Buttons'>
+						<Menu
+							id="basic-menu"
+							anchorEl={anchorEl}
+							open={open}
+							onClose={handleClose}
+							MenuListProps={{
+							'aria-labelledby': 'basic-button',
+							}}
+						>
+							<div id='DeclineDropdown'>
+								<h6>Reason of decline :</h6>
+								<TextField
+								id="outlined-multiline-flexible"
+								label=""
+								multiline
+								maxRows={4}
+								variant="standard"
+								/>
+								<div>
+									<Button variant='contained' onClick={handleClose}>Ok</Button>
+								</div>
+							</div>
+						</Menu>
+						<Button variant='contained' onClick={props.action}>process</Button>
+					</div>
+				</>:<></>}
 			</div>
 		</>
 	);
@@ -151,3 +147,30 @@ function MintTransferCard(props) {
 	)}
 </div> */}
 export default MintTransferCard;
+
+	// const certificateId = axios
+	// 	.post('certificates/save', {
+	// 		headers: { 'Content-Type': 'application/json' }
+	// 	})
+	// 	.then(({ data }) => data.certificateId);
+
+	// const certificateId = null;
+
+	// const GenerateCertificateID = async () => {
+	// 	const certificateId = await axios
+	// 		.post('certificates/save', {
+	// 			headers: { 'Content-Type': 'application/json' }
+	// 		})
+	// 		.then(({ data }) => data.certificateId);
+	// 		console.log(certificateId);
+	// 	return certificateId;
+	// };
+
+	// function OpenProcess() {
+	// 	// certificateId = GenerateCertificateID();
+	// 	certificateId = 'Test';
+	// 	console.log(certificateId);
+	// 	setOpenModal(true);
+	// }
+
+	// let certificateId = null;

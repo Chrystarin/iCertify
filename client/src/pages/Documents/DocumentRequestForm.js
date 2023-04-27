@@ -29,32 +29,32 @@ function DocumentRequestForm() {
 
     // Excecutes on page load
     useEffect(() => {
-        // Retrieves Institution Data
-		const fetchInstitution = async () => {
-			await axiosInstance
-				.get(`institutions`,{
-                    params: {
-                        walletAddress: `${id}`
-                    }
-                })
-				.then((response) => {
-					setInstitution(response.data)
-                    function findValue(obj, val) {
-                        for (let key in obj) {
-                            if (typeof obj[key] === 'object') {
-                                const result = findValue(obj[key], val);
-                                if (result !== undefined) {
-                                return result;
-                                }
-                            } else if (obj[key] === val) {
-                                return obj;
-                            }
-                        }
-                        return undefined;
-                    }
-                    setDocument(findValue(response.data.docOffers, docId))
-				});
-		};
+      // Retrieves Institution Data
+      const fetchInstitution = async () => {
+        await axiosInstance
+          .get(`institutions`,{
+                      params: {
+                          walletAddress: `${id}`
+                      }
+                  })
+          .then((response) => {
+            setInstitution(response.data)
+                      function findValue(obj, val) {
+                          for (let key in obj) {
+                              if (typeof obj[key] === 'object') {
+                                  const result = findValue(obj[key], val);
+                                  if (result !== undefined) {
+                                  return result;
+                                  }
+                              } else if (obj[key] === val) {
+                                  return obj;
+                              }
+                          }
+                          return undefined;
+                      }
+                      setDocument(findValue(response.data.docOffers, docId))
+          });
+      };
 		fetchInstitution();
     }, [])
 

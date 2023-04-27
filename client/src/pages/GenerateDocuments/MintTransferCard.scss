@@ -1,7 +1,8 @@
 .MintTransferCard{
-    width: 300px;
+    width: 280px;
     padding: 0;
     overflow: hidden;
+    opacity: .95;
     #MintTransferCard__Date{
         padding: 1em 1em .5em;
         background-color: var(--dark1);
@@ -14,20 +15,24 @@
     }
     #MintTransferCard__UserInfo{
         display: block;
-        padding: 1.5em 1em 1em;
+        padding: 1.5em 1em 0;
         display: flex;
         flex-direction: column;
         gap: 15px;
         align-items: center;
+        text-align: center;
         #MintTransferCard__Avatar{
             width: 60px;
             height: 60px;
         }
     }
+    #MintTransferCard__Title{
+        text-align: center;
+    }
     #MintTransferCard__ID{
         display: flex;
         justify-content: center;
-        margin-bottom: 1em;
+        margin: 1em 0;
         p{
             background-color: rgb(225, 225, 225);
             border-radius: 20px;
@@ -50,6 +55,9 @@
         }
     }
     
+}
+.MintTransferCard:hover{
+    opacity: 1;
 }
 #DeclineDropdown{
     padding: .5em 1em;
