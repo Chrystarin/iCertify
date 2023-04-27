@@ -182,6 +182,8 @@ const approveDocument = (request) => {
 };
 
 const processRequest = async (req, res, next) => {
+
+    console.log(req.body)
 	const {
         body: { body },
 		user: { id, type }
@@ -200,7 +202,6 @@ const processRequest = async (req, res, next) => {
 
 	if (type === USER) {
 		const rqst = await Request.findOne({ requestId, requestor: id });
-
 		switch (status) {
 			case 'paid':
 				// Check rqst status if approved
@@ -237,12 +238,11 @@ const processRequest = async (req, res, next) => {
 
 	if (type === INSTITUTION) {
 		const rqst = await Request.findOne({ requestId, institution: id });
-
 		switch (status) {
 			case 'approved':
 				// Check if rqst is pending
 				if (rqst.status !== 'pending') break;
-
+                
 				// Join request
 				if (rqst.requestType === JOIN)
 					request = await approveJoin(rqst);

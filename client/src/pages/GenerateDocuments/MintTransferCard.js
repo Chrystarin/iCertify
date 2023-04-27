@@ -50,7 +50,7 @@ function MintTransferCard(props) {
 						<Chip  label={id} onClick={()=>{}} icon={<ContentCopyIcon fontSize="small" />}/>
 					</Tooltip>
 				</div>
-				{status==="pending"|| status==="approved"?<>
+				{status==="pending"|| status==="paid"?<>
 					<div id='MintTransferCard__Buttons'>
 						<Button variant='outlined' onClick={handleClick}>Decline</Button>
 						<Menu
@@ -79,98 +79,14 @@ function MintTransferCard(props) {
 						<Button variant='contained' onClick={props.action}>Accept</Button>
 					</div>
 				</>:<></>}
-				{status==="process"?<>
+				{status==="verified"?<>
 					<div id='MintTransferCard__Buttons'>
-						<Menu
-							id="basic-menu"
-							anchorEl={anchorEl}
-							open={open}
-							onClose={handleClose}
-							MenuListProps={{
-							'aria-labelledby': 'basic-button',
-							}}
-						>
-							<div id='DeclineDropdown'>
-								<h6>Reason of decline :</h6>
-								<TextField
-								id="outlined-multiline-flexible"
-								label=""
-								multiline
-								maxRows={4}
-								variant="standard"
-								/>
-								<div>
-									<Button variant='contained' onClick={handleClose}>Ok</Button>
-								</div>
-							</div>
-						</Menu>
-						<Button variant='contained' onClick={props.action}>process</Button>
+						<Button variant='contained' onClick={props.action}>Process</Button>
 					</div>
 				</>:<></>}
 			</div>
 		</>
 	);
 }
-{/* <UserPanelInfo
-	Image={img ? img : UserIcon}
-	Title={name}
-/>
-<ul>
-	<li>
-		<h6 className='Card__Title'>Event Role</h6>
-		<h6 className='Card__Content'>{role}</h6>
-	</li>
-</ul>
-<div id='MintTransfer__Button'>
-	{type === 'pending' ? (
-		<>
-			<Button variant='outlined' onClick={()=>setOpenModal(true)}>View</Button>
-			<Button
-				variant='contained'
-			>
-				Check CertID
-			</Button>
-			<Button
-				variant='contained'
-				onClick={() => setOpenModal(true)}
-			>
-				Process
-			</Button>
-		</>
-	) : (
-		<Button
-			variant='outlined'
-			onClick={props.handler}
-		>
-			View
-		</Button>
-	)}
-</div> */}
+
 export default MintTransferCard;
-
-	// const certificateId = axios
-	// 	.post('certificates/save', {
-	// 		headers: { 'Content-Type': 'application/json' }
-	// 	})
-	// 	.then(({ data }) => data.certificateId);
-
-	// const certificateId = null;
-
-	// const GenerateCertificateID = async () => {
-	// 	const certificateId = await axios
-	// 		.post('certificates/save', {
-	// 			headers: { 'Content-Type': 'application/json' }
-	// 		})
-	// 		.then(({ data }) => data.certificateId);
-	// 		console.log(certificateId);
-	// 	return certificateId;
-	// };
-
-	// function OpenProcess() {
-	// 	// certificateId = GenerateCertificateID();
-	// 	certificateId = 'Test';
-	// 	console.log(certificateId);
-	// 	setOpenModal(true);
-	// }
-
-	// let certificateId = null;

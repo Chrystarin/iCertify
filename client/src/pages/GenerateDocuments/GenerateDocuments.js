@@ -17,34 +17,55 @@ import InstitutionCardDesign from '../../images/Resources/InstitutionCardDesign.
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 function GenerateDocuments() {
+    
+    // Constants Declaration
+    const {tab} = useParams();
+    const navigate = useNavigate();
 
+    // States Declaration
 	const [requests, setRequests] = useState();
-	const navigate = useNavigate();
-	const {tab} = useParams();
-	const [TabActive, setTabActive] = useState();
+	const [TabActive, setTabActive] = useState("verifyrequest");
+
+    // States for Filtered data per tabs and SidePanel
+	// const [requestVerify, setRequestVerify] = useState();
+	// const [waitingForPayment, setwaitingForPayment] = useState();
+	// const [requestPayment, setRequestPayment] = useState();
+	// const [paymentToVerify, setPaymentToVerify] = useState();
+	// const [processing, setprocessing] = useState();
+	// const [completed, setCompleted] = useState();
+	// const [failedRequest, setFailedRequest] = useState();
+
+    
+
 	// Excecutes on page load
     useEffect(() => {
-        // Retrieves Document Requests
-		const fetchDocumentRequests = async () => {
-			await axiosInstance
-				.get(`requests`,{
-                    params: {
-                        requestType: 'document'
-                    }
-                })
-				.then((response) => { 
-					setRequests(response.data)
-				});
-		};
-
         // Execute Functions
         fetchDocumentRequests();
-		// Filter Data to use to different tabs
-		filterData(sampledata);
-		// Check Active Tab through URL
-		!tab?  setTabActive("verifyrequest"): setTabActive(tab?.toLowerCase())
-		
+
+        if (tab == "verifyrequest")
+            setTabActive("verifyrequest")
+        else if (tab == "verifypayment")
+            setTabActive("verifypayment")
+        else if (tab == "toprocess")
+            setTabActive("toprocess")
+        else 
+            navigate("/error")
     }, [])
+
+    // Retrieves Document Requests
+    const fetchDocumentRequests = async () => {
+        await axiosInstance
+            .get(`requests`,{
+                params: {
+                    requestType: 'document'
+                }
+            })
+            .then((response) => { 
+                setRequests(response.data)
+                console.log(response.data)
+                filterData(response.data)
+            });
+    };
 
 	const [anchorElDropDownDocument, setAnchorElDropDownDocument] = React.useState(null);
 	const open = Boolean(anchorElDropDownDocument);
@@ -53,7 +74,7 @@ function GenerateDocuments() {
 		setAnchorElDropDownDocument(null);
 	};
 
-	const keys = ["pending","approved","declined","paid","verified","processing","cancelled","completed"];
+	
 	const sampledata = [
 		{id:"304232321",name:"Transcript of Record",user:"Harold James H. Castillo",status:"pending",note:"" ,timestamp:"Novebmer 25, 2022"},
 		{id:"304232322",name:"Transcript of record",user:"Dianne Chrystalin Brandez",status:"declined",note:"Ang ganda ni dianne" ,timestamp:"Novebmer 25, 2022"},
@@ -63,38 +84,44 @@ function GenerateDocuments() {
 		{id:"304232326",name:"Grades",user:"David Embile",status:"approved",note:"" ,timestamp:"Novebmer 25, 2022"},
 		{id:"304232327",name:"Transcript of record",user:"Shiba Castillo",status:"verified",note:"" ,timestamp:"Novebmer 25, 2022"}
 	];
+
+    const [requestPending, setRequestPending] = useState();
+    const [requestApproved, setRequestApproved] = useState();
+    const [requestPaid, setRequestPaid] = useState();
+    const [requestVerified, setRequestVerified] = useState();
+    const [requestProcessing, setRequestProcessing] = useState();
+    const [requestCompleted, setRequestCompleted] = useState();
+    const [requestFailed, setRequestFailed] = useState();
+
+    // Values for Filter Keys
+    const keys = ["pending","approved","declined","paid","verified","processing","cancelled","completed"];
+
 	const filterData = (data)=>{
-		setRequestVerify(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[0])));
-		setwaitingForPayment(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[4])));
-		setRequestPayment(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[1])));
-		setRequestToProcess(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[3])));
-		setprocessing(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[5])))
-		setCompleted(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[7])))
-		setFailedRequest(data.filter((item)=>[keys[2],keys[6]].some((key)=> item.status?.toString().toLowerCase().includes(key))));
+		setRequestPending(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[0])));
+        setRequestApproved(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[1])));
+        setRequestPaid(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[3])));
+        setRequestVerified(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[4])));
+        setRequestProcessing(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[5])));
+        setRequestCompleted(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[7])));
+		setRequestFailed(data.filter((item)=>[keys[2],keys[6]].some((key)=> item.status?.toString().toLowerCase().includes(key))));
 	}
 
-	//Filtered data per tabs annd SidePanel
-	const [requestVerify,setRequestVerify] = useState();
-	const [waitingForPayment,setwaitingForPayment] = useState();
-	const [requestPayment,setRequestPayment] = useState();
-	const [requestToProcess,setRequestToProcess] = useState();
-	const [processing,setprocessing] = useState();
-	const [completed,setCompleted] = useState();
-	const [failedRequest,setFailedRequest] = useState();
-
-    const ProcessRequest = async (request) => {
+    const ProcessRequest = async (request, action) => {
         try {
+            const formData = new FormData();
+            formData.append('body', JSON.stringify({
+                requestId: request.requestId,
+                status: action,
+            }))
+
             await axiosInstance.patch(
                 `requests`,
-                JSON.stringify({ 
-                    requestId: request.requestId,
-                    status: 'approved'
-                })
+                formData
             )
-            .then((res)=>{
-                alert("Document Added!")
-                console.log(res.data)
-                window.location.reload(true); 
+            .then((response)=>{
+                alert(`Document ${action}!`)
+                console.log(response.data)
+                fetchDocumentRequests();
             })
         } catch (err) {      
             console.error(err.message);
@@ -104,21 +131,21 @@ function GenerateDocuments() {
 	function TabView({requests}) {
 		switch (TabActive) {
 			case 'verifyrequest' :
-				if (requestVerify.length === 0)return <div>No request</div>;
+				if (requestPending.length === 0)return <div>No request</div>;
 				return<>
 					<ul className='Wrapper__Card'>
-						{requestVerify.map((request) => {
+						{requestPending.map((request) => {
 							return <>
 								{request.status==keys[0] ? <>
-									<li key={request.id}>
+									<li key={request.requestId}>
 										<MintTransferCard
-										name={request.user}
-										type={keys[0]}
-										title={request.name}
-										date={request.createdAt}
-										action={()=>ProcessRequest(request)}
-										id={request.id}
-										status={request.status}
+                                            name={request.requestor.name.firstName + " " + request.requestor.name.lastName}
+                                            type={keys[0]}
+                                            title={request.details.offeredDoc.title}
+                                            date={request.createdAt}
+                                            action={()=>ProcessRequest(request, 'approved')}
+                                            id={request.requestor.walletAddress}
+                                            status={request.status}
 										/>
 									</li>
 								</> : ""}
@@ -129,21 +156,21 @@ function GenerateDocuments() {
 				</>
 				break;
 			case 'verifypayment':
-				if (requestPayment.length === 0)return <div>No request</div>;
+				if (requestPaid.length === 0)return <div>No request</div>;
 				return<>
 					<ul className='Wrapper__Card'>
-						{requestPayment.map((request) => {
+						{requestPaid.map((request) => {
 							return <>
-								{request.status==keys[1] ? <>
-									<li key={request.id}>
+								{request.status==keys[3] ? <>
+									<li key={request.requestId}>
 										<MintTransferCard
-										name={request.user}
-										type={keys[1]}
-										title={request.name}
-										date={request.createdAt}
-										action={()=>ProcessRequest(request)}
-										id={request.id}
-										status={request.status}
+                                            name={request.requestor.name.firstName + " " + request.requestor.name.lastName}
+                                            type={keys[3]}
+                                            title={request.details.offeredDoc.title}
+                                            date={request.createdAt}
+                                            action={()=>ProcessRequest(request, 'verified')}
+                                            id={request.requestor.walletAddress}
+                                            status={request.status}
 										/>
 									</li>
 								</> : ""}
@@ -154,21 +181,21 @@ function GenerateDocuments() {
 				</>
 				break;
 			case 'toprocess':
-				if (requestToProcess.length === 0)return <div>No request</div>;
+				if (requestVerified.length === 0)return <div>No request</div>;
 				return<>
 					<ul className='Wrapper__Card'>
-						{requestToProcess.map((request) => {
+						{requestVerified.map((request) => {
 							return <>
-								{request.status==keys[1] ? <>
-									<li key={request.id}>
+								{request.status==keys[4] ? <>
+									<li key={request.requestId}>
 										<MintTransferCard
-										name={request.user}
-										type={keys[1]}
-										title={request.name}
-										date={request.createdAt}
-										action={()=>ProcessRequest(request)}
-										id={request.id}
-										status={request.status}
+                                            name={request.requestor.name.firstName + " " + request.requestor.name.lastName}
+                                            type={keys[4]}
+                                            title={request.details.offeredDoc.title}
+                                            date={request.createdAt}
+                                            action={()=>navigate(`/documents/request/${request.requestId}`)}
+                                            id={request.requestor.walletAddress}
+                                            status={request.status}
 										/>
 									</li>
 								</> : ""}
@@ -199,9 +226,9 @@ function GenerateDocuments() {
 
 					<div id='Body'>
 						<div id='TabsNav'>
-							<Button variant={TabActive === 'verifyrequest' ? 'contained':''}onClick={() => setTabActive('verifyrequest')}>Verify Requests [{requestVerify.length}]</Button>
-							<Button variant={TabActive === 'verifypayment' ? 'contained':''}onClick={() => setTabActive('verifypayment')}>Verify Payment [{requestPayment.length}]</Button>
-							<Button variant={TabActive === 'toprocess'? 'contained': ''} onClick={() => setTabActive('toprocess')}>To Process [{requestToProcess.length}]</Button>
+							<Button variant={TabActive === 'verifyrequest' ? 'contained':''}onClick={() => setTabActive('verifyrequest')}>Verify Requests [{requestPending.length}]</Button>
+							<Button variant={TabActive === 'verifypayment' ? 'contained':''}onClick={() => setTabActive('verifypayment')}>Verify Payment [{requestPaid.length}]</Button>
+							<Button variant={TabActive === 'toprocess'? 'contained': ''} onClick={() => setTabActive('toprocess')}>To Process [{requestVerified.length}]</Button>
 						</div>
 						<div id='TabsView'>
 							<div id='ListTools'>
@@ -284,7 +311,7 @@ function GenerateDocuments() {
 					{TabActive==="verifypayment"?<>
 						<div className='Panel__Container' id="WaitingPayment">
 							<h6 className='Panel__Title'>Waiting for Payment</h6>
-							<SidePanelList  data={waitingForPayment}
+							<SidePanelList data={requestApproved}
 							/>
 						</div>
 					</>:<></>}
@@ -293,7 +320,7 @@ function GenerateDocuments() {
 						
 						<div className='Panel__Container' id="WaitingPayment">
 							<h6 className='Panel__Title'>Failed Transaction</h6>
-							<SidePanelList data={failedRequest} failedtransaction/>
+							<SidePanelList data={requestFailed} failedtransaction/>
 						</div>
 					</>:<></>}
 
@@ -301,11 +328,11 @@ function GenerateDocuments() {
 					{TabActive==="toprocess"?<>
 						<div className='Panel__Container' id="WaitingPayment">
 							<h6 className='Panel__Title'>Processing Requests</h6>
-							<SidePanelList data={processing}/>
+							<SidePanelList data={requestProcessing}/>
 						</div>
 						<div className='Panel__Container' id="WaitingPayment">
 							<h6 className='Panel__Title'>Complete Transaction</h6>
-							<SidePanelList data={completed}/>
+							<SidePanelList data={requestCompleted}/>
 						</div>
 					</>:<></>}
 					
@@ -314,26 +341,5 @@ function GenerateDocuments() {
 		</>	
 	);
 }
-export default GenerateDocuments;
 
-// {request.status=='pending' ? (
-// 	<MintTransferCard
-// 		key={
-// 			request.requestId
-// 		}
-// 		address={
-// 			request.requestor
-// 				.walletAddress
-// 		}
-// 		name={
-// 			request.requestor.name
-// 				.firstName +
-// 			' ' +
-// 			request.requestor.name
-// 				.lastName
-// 		}
-// 		type='pending'
-// 		title={request.details.docId}
-// 		date={request.createdAt}
-// 		action={()=>ProcessRequest(request)}
-// 	/>
+export default GenerateDocuments;
