@@ -9,6 +9,7 @@ const {
 } = require('../miscellaneous/constants');
 const {
 	waitTx,
+	parseLog,
 	contract
 } = require('../miscellaneous/transactionUtils');
 const {
@@ -70,10 +71,12 @@ const saveIpfs = async (req, res, next) => {
 		user: { id }
 	} = req;
 
+    console.log(req.files)
+
 	// Check file extension
 
 	// Upload the document to ipfs but don't pin
-	const { path, cid } = await ipfsClient.add({ content: data }, { pin: false });
+	const { cid } = await ipfsClient.add({ content: data }, { pin: false });
 
 	// Check if uri minted
 	if (await contract.checkUri(cid))
@@ -85,7 +88,6 @@ const saveIpfs = async (req, res, next) => {
 		institution: id,
 		status: 'verified'
 	});
-
 	if (!request) throw new NotFound('Request with paid status not found');
 
 	// Update request status
@@ -99,7 +101,7 @@ const saveIpfs = async (req, res, next) => {
 	// Pin the document
 	await ipfsClient.pin.add(cid);
 
-	res.status(201).json(path);
+	res.status(201).json({ message: 'Image uploaded', cid, requestId });
 };
 
 const saveTransaction = async (req, res, next) => {
@@ -144,7 +146,7 @@ const saveTransaction = async (req, res, next) => {
 				{
 					$push: {
 						documents: {
-							nftId: contract.interface.parseLog(log).args.tokenId.toNumber(),
+							nftId: parseLog(log).args.tokenId.toNumber(),
 							codes: [genAccessCode()]
 						}
 					}
@@ -165,22 +167,20 @@ const saveTransaction = async (req, res, next) => {
 				{
 					$set: {
 						status: 'completed',
-						details: { statusTimestamps: { completed: new Date() } }
+						'details.statusTimestamps.completed': new Date()
 					}
 				},
 				{ runValidators: true }
 			);
 		},
 		async (error) => {
-			console.log(error);
-
 			// Update request back to paid
 			await Request.findOneAndUpdate(
 				{ requestId, institution: id },
 				{ $set: { status: 'verified' } },
 				{ runValidators: true }
 			);
-
+                console.log(error)
 			// Notify admin failed transaction
 		}
 	);

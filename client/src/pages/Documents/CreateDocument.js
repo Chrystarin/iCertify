@@ -67,7 +67,9 @@ function CreateDocument({manual}) {
 
 
         const wallet = await ConnectWallet()
+        console.log(wallet)
         const contract = new ethers.Contract(contractAddress, await fetchContract(), wallet.signer);
+        console.log(contract)
 
         try {  
             
@@ -86,6 +88,8 @@ function CreateDocument({manual}) {
             //     path = response.data
             // });
 
+            // console.log(path)
+
             // let txHash = {}
             // // Mint and transfer to owner
             // const transaction = await contract.sendDocument(
@@ -100,11 +104,14 @@ function CreateDocument({manual}) {
             //     alert("Document Created!")
             // })
 
+            // console.log(txHash)
+
             // await axios.post(
             //     "transactions/save",
             //     JSON.stringify({
-            //         ownerAddress: request.requestor.walletAddress,
-            //         txHash
+            //         requestId: request.requestId,
+            //         walletAddress: request.requestor.walletAddress,
+            //         txHash: txHash
             //     })
             // )
             // .then((response) => {
@@ -116,7 +123,7 @@ function CreateDocument({manual}) {
                 JSON.stringify({
                     requestId: request.requestId,
                     walletAddress: request.requestor.walletAddress,
-                    txHash: '0xd578aacd41e27d5f201019e8e393f828adf9e8c7e98fbff4b16258aa9036b84e'
+                    txHash: '0xdbb84ab836920fd1998fb4646c1fe497eaf5421c820d4a09ef90b187e6ce4146'
                 })
             )
             .then((response) => {

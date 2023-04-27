@@ -129,6 +129,7 @@ const updateUser = async (req, res, next) => {
 	user.name.lastName = lastName;
 	user.email = email;
 	user.birthDate = birthDate;
+    user.address = address;
 	user.contactNo = contactNo;
 	user.about = about;
 

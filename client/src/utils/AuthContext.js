@@ -12,7 +12,7 @@ function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
     // Smart Contract Address
-    const contractAddress = '0xcdBbc33F9fb9bECa296581d31fb4c7b7fe111c0a'
+    const contractAddress = '0xE8ef6B35b91955f775148F695D105C31461657fd'
     
     // Executes onLoad
     useEffect(() => {
