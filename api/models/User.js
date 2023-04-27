@@ -47,12 +47,12 @@ module.exports = model(
 						enum: ['public', 'private'],
 						default: 'private'
 					},
-                    hash:{
-                        type: String,
-                        required: [true, 'Transaction Hash is required'],
-                        unique: true
-                    },
-                    createdAt: {type: Date, default: new Date()}
+					hash: {
+						type: String,
+                        unique: true,
+						requried: [true, 'Transaction Hash is required']
+					},
+					createdAt: { type: Date, default: new Date() }
 				}
 			]
 		},

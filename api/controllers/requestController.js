@@ -24,10 +24,10 @@ const getRequests = async (req, res, next) => {
 	} = req;
 
 	// Validate inputs
-	isString(type, 'Request Type');
+	isString(requestType, 'Request Type');
 
 	// Create request query
-	let requestQuery = {requestType};
+	let requestQuery = { requestType };
 
 	if (type == USER) requestQuery.requestor = id;
 
@@ -295,7 +295,7 @@ const processRequest = async (req, res, next) => {
 	request.markModified('details');
 	await request.save();
 
-	res.status(200).json({ message: 'Request processed', requestId, status });
+	res.json({ message: 'Request processed', requestId, status });
 };
 
 module.exports = { getRequests, createRequest, processRequest };

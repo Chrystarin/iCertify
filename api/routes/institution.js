@@ -7,11 +7,14 @@ const asyncHandler = require('../middlewares/asyncHandler');
 const authenticate = require('../middlewares/authenticate');
 
 const {
+	addOfferedDoc,
 	getInstitutions,
 	getMembers,
+	getOfferedDocs,
 	updateInstitution,
-	addOfferedDoc,
-	getOfferedDocs
+	addPayment,
+	deletePayment,
+	editPayment
 } = asyncHandler(require('../controllers/institutionController'));
 
 /**
@@ -24,18 +27,27 @@ router.get('/', getInstitutions);
 router.use(authenticate);
 
 /**
+ * Get all offered docs
+ *
+ * walletAddress - optional [user | institution]
+ */
+router.get('/offers', getOfferedDocs);
+
+router.use(onlyInstitution);
+
+/**
  * Edit institution details
  *
  * name
  */
-router.patch('/', fileUpload(), onlyInstitution, updateInstitution);
+router.patch('/', fileUpload(), updateInstitution);
 
 /**
  * Get members of institutions
  *
  * walletAddress - optional [many | one]
  */
-router.get('/members', onlyInstitution, getMembers);
+router.get('/members', getMembers);
 
 /**
  * Add an offered doc
@@ -45,13 +57,57 @@ router.get('/members', onlyInstitution, getMembers);
  * price
  * requirements
  */
-router.post('/offers', onlyInstitution, addOfferedDoc);
+router.post('/offers', addOfferedDoc);
 
 /**
- * Get all offered docs
- *
- * walletAddress - optional [user | institution]
+ * Add payment details
+ * 
+ * type
+ * 
+ * [bank]
+ * bank name
+ * account name
+ * account number
+ * 
+ * [ewallet]
+ * ewallet name
+ * account name
+ * account number
+ * 
+ * [otc]
+ * otc name
+ * location
+ * instructions
  */
-router.get('/offers', getOfferedDocs);
+router.post('/payment', addPayment);
+
+/**
+ * Edit payment details
+ * 
+ * paymentId
+ * 
+ * [bank]
+ * bank name
+ * account name
+ * account number
+ * 
+ * [ewallet]
+ * ewallet name
+ * account name
+ * account number
+ * 
+ * [otc]
+ * otc name
+ * location
+ * instructions
+ */
+router.patch('/payment', editPayment);
+
+/**
+ * Remove an existing payment detail
+ * 
+ * paymentId
+ */
+router.delete('/payment', deletePayment);
 
 module.exports = router;

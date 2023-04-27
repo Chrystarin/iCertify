@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const { ObjectId } = Schema.Types;
+const { ObjectId, Mixed } = Schema.Types;
 
 module.exports = model(
 	'Institution',
@@ -42,7 +42,7 @@ module.exports = model(
 						validate: {
 							validator: function (value) {
 								return !this.members?.find(({ user }) =>
-                                    user.equals(value)
+									user.equals(value)
 								);
 							},
 							message: 'User already a member'
@@ -85,6 +85,27 @@ module.exports = model(
 					requirements: {
 						type: String,
 						required: [true, 'Requirements is required']
+					}
+				}
+			],
+			payments: [
+				{
+					type: {
+						type: String,
+						required: [true, 'Payment Type is required'],
+						enum: {
+							values: ['bank', 'ewallet', 'otc'],
+							message: 'Payment type is not supported'
+						}
+					},
+					paymentId: {
+						type: String,
+						required: true,
+						unique: true
+					},
+					details: {
+						type: Mixed,
+						required: [true, 'Payment Details is required']
 					}
 				}
 			]

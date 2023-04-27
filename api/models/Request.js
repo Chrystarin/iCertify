@@ -21,7 +21,16 @@ module.exports = model(
 			status: {
 				type: String,
 				enum: {
-					values: ['pending', 'approved', 'declined', 'paid', 'verified', 'cancelled', 'processing', 'completed'],
+					values: [
+						'pending',
+						'approved',
+						'declined',
+						'paid',
+						'verified',
+						'cancelled',
+						'processing',
+						'completed'
+					],
 					message: "'{VALUE}' is not supported as request status"
 				},
 				default: 'pending'
@@ -36,28 +45,31 @@ module.exports = model(
 				ref: 'Institution',
 				required: true
 			},
-			details: Mixed
-            /**
-             * Join Request - Details
-             * 
-             * idNumber
-             * membership
-             * 
-             * Document Request - Details
-             * 
-             * offeredDoc
-             * statusTimestamps
-             *     approved
-             *     declined
-             *     paid
-             *     verified
-             *     processing
-             *     cancelled
-             *     completed
-             * proof
-             * note
-             * 
-             */
+			details: {
+				type: Mixed,
+				default: {}
+			}
+			/**
+			 * Join Request - Details
+			 *
+			 * idNumber
+			 * membership
+			 *
+			 * Document Request - Details
+			 *
+			 * offeredDoc
+			 * statusTimestamps
+			 *     approved
+			 *     declined
+			 *     paid
+			 *     verified
+			 *     processing
+			 *     cancelled
+			 *     completed
+			 * proof
+			 * note
+			 *
+			 */
 		},
 		{ timestamps: true }
 	)

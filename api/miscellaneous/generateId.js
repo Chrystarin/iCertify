@@ -85,4 +85,12 @@ let accessNonce = 0;
  */
 const genAccessCode = () => generateId(++accessNonce);
 
-module.exports = { genRequestId, genDocId, genAccessCode };
+let paymentNonce = 0;
+/**
+ * Generates a unique id exclusive for Documents offered
+ *
+ * @returns {string}
+ */
+const genPaymentId = () => generateId(++paymentNonce);
+
+module.exports = { genRequestId, genDocId, genAccessCode, genPaymentId };

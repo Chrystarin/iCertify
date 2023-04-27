@@ -55,5 +55,5 @@ module.exports = {
 	isNumber,
 	isDate,
 	isEmail,
-    isBoolean
+	isBoolean
 };

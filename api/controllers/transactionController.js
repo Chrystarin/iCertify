@@ -96,6 +96,8 @@ const saveIpfs = async (req, res, next) => {
 	request.markModified('details');
 	await request.save();
 
+    // ipfsClient.add({c})
+
 	// Pin the document
 	await ipfsClient.pin.add(cid);
 
