@@ -12,6 +12,9 @@ import MintTransferCard from './MintTransferCard';
 import Menu from '@mui/material/Menu';
 import { ethers } from 'ethers';
 import axiosInstance from '../../utils/axios';
+import SidePanelList from '../../components/SidePanelList/SidePanelList';
+import InstitutionCardDesign from '../../images/Resources/InstitutionCardDesign.png'
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
 function GenerateDocuments() {
 
@@ -37,14 +40,13 @@ function GenerateDocuments() {
         // Execute Functions
         fetchDocumentRequests();
 		filterData(sampledata);
-		setTabActive(tab?.toLowerCase())
-    }, [])
+		!tab?  setTabActive("verifyrequest"): setTabActive(tab?.toLowerCase())
+		
+    }, [tab])
 
 	const [anchorElDropDownDocument, setAnchorElDropDownDocument] = React.useState(null);
 	const open = Boolean(anchorElDropDownDocument);
-	const handleClick = (event) => {
-		setAnchorElDropDownDocument(event.currentTarget);
-	};
+	
 	const handleClose = () => {
 		setAnchorElDropDownDocument(null);
 	};
@@ -59,7 +61,6 @@ function GenerateDocuments() {
 		{id:"304232326",name:"Grades",user:"Harold James H. Castillo",status:"approved"},
 		{id:"304232327",name:"Transcript of record",user:"Harold James H. Castillo",status:"approved"}
 	];
-
 	const filterData = (data)=>{
 		setRequestVerify(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[0])));
 		setRequestPayment(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[1])));
@@ -70,10 +71,6 @@ function GenerateDocuments() {
 	const [requestVerify,setRequestVerify] = useState()
 	const [requestPayment,setRequestPayment] = useState()
 	const [requestToProcess,setRequestToProcess] = useState()
-
-
-
-	
 
     const ProcessRequest = async (request) => {
         try {
@@ -95,7 +92,6 @@ function GenerateDocuments() {
     }
 
 	function TabView({requests}) {
-		
 		switch (TabActive) {
 			case 'verifyrequest' :
 				if (requestVerify.length === 0)return <div>No request</div>;
@@ -173,21 +169,16 @@ function GenerateDocuments() {
 				</>
 				break;
 			default:
-				setTabActive("verifyrequest")
 				break;
 		}
 	}
-
-
-	const DocumentSelection = []
-
 
 	if (!requests) return <div>loading...</div>;
 
 	return (
 		<>
 			<div className='AdminPanelContainer'>
-				<section id='CreateDocument'>
+				<section className='AdminPanelContainer__Content' id='CreateDocument'>
 					<div id='Header'>
 						<h2 className='SectionTitle' > 
 							Make Documents
@@ -207,7 +198,11 @@ function GenerateDocuments() {
 								<div id='SearchInputHolder'>
 									<SearchInput />
 								</div>
-								<IconButton aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
+								<IconButton aria-expanded={open ? 'true' : undefined} 
+									onClick={(event) => {
+									setAnchorElDropDownDocument(event.currentTarget);
+									}
+								}>
 									<FilterAltIcon />
 								</IconButton>
 								<Menu
@@ -233,67 +228,90 @@ function GenerateDocuments() {
 						</div>
 					</div>
 
-
 				</section>
-				<div id='SideContent'>
 
-					{TabActive==="VerifyRequest"?<>
-						{/* <div className='Panel__Container'>
-							<h6 className='Panel__Title'>Verified</h6>
-						</div> */}
+				<div className='AdminPanelContainer__SideContent'>
+					<div className='Panel__Container' id='DocumentsAnalytics'>
+						<div className='DocumentsAnalytics__Design'>
+							<img src={InstitutionCardDesign} alt="" />
+						</div>
+						<h5 id='DocumentsAnalytics__Title'>Documents Analytics</h5>
+						<div className="parent">
+							<div className="div1">
+								<h5>1</h5>
+								<p className='BodyText2'>Document Offered</p>
+							</div>
+							<div className="div2">
+								<h5>7</h5>
+								<p className='BodyText2'>Verify</p>
+							</div>
+							<div className="div3">
+								<h6>40</h6>
+								<p className='BodyText3'>Destributed</p>
+							</div>
+							<div className="div4"> 
+								<h6>5</h6>
+								<p className='BodyText3'>Denied</p>
+							</div>
+							<div className="div5"> 
+								<h6>1</h6>
+								<p className='BodyText3'>Requests</p>
+							</div>
+							<div className="div6"> 
+								<h6>5</h6>
+								<p className='BodyText3'>Payment</p>
+							</div>
+						</div>
+						<div id='DocumentsAnalytics__Member' >
+							<PeopleAltIcon id="DocumentsAnalytics__Member__Avatar"/>
+							<div>
+								<h5>300</h5>
+								<p className='BodyText3'>Members</p>
+							</div>
+						</div>
+					</div>
+
+					{TabActive==="verifyrequest"?<>
+						
 					</>:<></>}
 					{TabActive==="verifypayment"?<>
 						<div className='Panel__Container' id="WaitingPayment">
-							<h6 className='Panel__Title'>Waiting for Payment <span>5</span></h6>
-							<ul>
-								<li>
-									
-								</li>
-							</ul>
+							<h6 className='Panel__Title'>Waiting for Payment</h6>
+							<SidePanelList />
 						</div>
 					</>:<></>}
-					{TabActive==="ToProcess"?<>
-						<div className='Panel__Container'>
-							<h6 className='Panel__Title'>to process</h6>
+					{TabActive==="toprocess"?<>
+					<div className='Panel__Container' id="WaitingPayment">
+							<h6 className='Panel__Title'>Complete Transaction</h6>
+							<SidePanelList />
 						</div>
 					</>:<></>}
-					<div className='Panel__Container'>
-						<h6 className='Panel__Title'>Document Analytics</h6>
-					</div>
-					{/* <div className='Panel__Container'>
-						<h6 className='Panel__Title'>Document Analytics</h6>
-						<h5>Total Documents</h5>
-						<p>[ ]</p>
-						<h5>Total Requests</h5>
-						<p>[ ]</p>
-					</div> */}
+					
 				</div>
-
-				
 			</div>
 		</>	
 	);
 }
 export default GenerateDocuments;
 
-									// {request.status=='pending' ? (
-									// 	<MintTransferCard
-									// 		key={
-									// 			request.requestId
-									// 		}
-									// 		address={
-									// 			request.requestor
-									// 				.walletAddress
-									// 		}
-									// 		name={
-									// 			request.requestor.name
-									// 				.firstName +
-									// 			' ' +
-									// 			request.requestor.name
-									// 				.lastName
-									// 		}
-									// 		type='pending'
-									// 		title={request.details.docId}
-									// 		date={request.createdAt}
-									// 		action={()=>ProcessRequest(request)}
-									// 	/>
+// {request.status=='pending' ? (
+// 	<MintTransferCard
+// 		key={
+// 			request.requestId
+// 		}
+// 		address={
+// 			request.requestor
+// 				.walletAddress
+// 		}
+// 		name={
+// 			request.requestor.name
+// 				.firstName +
+// 			' ' +
+// 			request.requestor.name
+// 				.lastName
+// 		}
+// 		type='pending'
+// 		title={request.details.docId}
+// 		date={request.createdAt}
+// 		action={()=>ProcessRequest(request)}
+// 	/>
