@@ -39,10 +39,12 @@ function GenerateDocuments() {
 
         // Execute Functions
         fetchDocumentRequests();
+		// Filter Data to use to different tabs
 		filterData(sampledata);
+		// Check Active Tab through URL
 		!tab?  setTabActive("verifyrequest"): setTabActive(tab?.toLowerCase())
 		
-    }, [tab])
+    }, [])
 
 	const [anchorElDropDownDocument, setAnchorElDropDownDocument] = React.useState(null);
 	const open = Boolean(anchorElDropDownDocument);
@@ -53,24 +55,32 @@ function GenerateDocuments() {
 
 	const keys = ["pending","approved","declined","paid","verified","processing","cancelled","completed"];
 	const sampledata = [
-		{id:"304232321",name:"Transcript of Record",user:"Harold James H. Castillo",status:"pending"},
-		{id:"304232322",name:"Transcript of record",user:"Dianne Chrystalin Brandez",status:"approved"},
-		{id:"304232323",name:"Certificates",user:"Harold James H. Castillo",status:"approved"},
-		{id:"304232324",name:"Transcript of record",user:"Harold James H. Castillo",status:"approved"},
-		{id:"304232325",name:"Certificates",user:"Harold James H. Castillo",status:"approved"},
-		{id:"304232326",name:"Grades",user:"Harold James H. Castillo",status:"approved"},
-		{id:"304232327",name:"Transcript of record",user:"Harold James H. Castillo",status:"approved"}
+		{id:"304232321",name:"Transcript of Record",user:"Harold James H. Castillo",status:"pending",note:"" ,timestamp:"Novebmer 25, 2022"},
+		{id:"304232322",name:"Transcript of record",user:"Dianne Chrystalin Brandez",status:"declined",note:"Ang ganda ni dianne" ,timestamp:"Novebmer 25, 2022"},
+		{id:"304232323",name:"Certificates",user:"Jon Angelo Llagas",status:"completed",note:"" ,timestamp:"Novebmer 25, 2022"},
+		{id:"304232324",name:"Transcript of record",user:"Gian Carlo Dela Cruz",status:"cancelled",note:"I love you wife" ,timestamp:"Novebmer 25, 2022"},
+		{id:"304232325",name:"Certificates",user:"JM Hipolito",status:"approved",note:"" ,timestamp:"Novebmer 25, 2022"},
+		{id:"304232326",name:"Grades",user:"David Embile",status:"approved",note:"" ,timestamp:"Novebmer 25, 2022"},
+		{id:"304232327",name:"Transcript of record",user:"Shiba Castillo",status:"verified",note:"" ,timestamp:"Novebmer 25, 2022"}
 	];
 	const filterData = (data)=>{
 		setRequestVerify(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[0])));
+		setwaitingForPayment(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[4])));
 		setRequestPayment(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[1])));
 		setRequestToProcess(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[3])));
+		setprocessing(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[5])))
+		setCompleted(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[7])))
+		setFailedRequest(data.filter((item)=>[keys[2],keys[6]].some((key)=> item.status?.toString().toLowerCase().includes(key))));
 	}
 
-	//Filtered data per tabs 
-	const [requestVerify,setRequestVerify] = useState()
-	const [requestPayment,setRequestPayment] = useState()
-	const [requestToProcess,setRequestToProcess] = useState()
+	//Filtered data per tabs annd SidePanel
+	const [requestVerify,setRequestVerify] = useState();
+	const [waitingForPayment,setwaitingForPayment] = useState();
+	const [requestPayment,setRequestPayment] = useState();
+	const [requestToProcess,setRequestToProcess] = useState();
+	const [processing,setprocessing] = useState();
+	const [completed,setCompleted] = useState();
+	const [failedRequest,setFailedRequest] = useState();
 
     const ProcessRequest = async (request) => {
         try {
@@ -271,19 +281,31 @@ function GenerateDocuments() {
 						</div>
 					</div>
 
-					{TabActive==="verifyrequest"?<>
-						
-					</>:<></>}
 					{TabActive==="verifypayment"?<>
 						<div className='Panel__Container' id="WaitingPayment">
 							<h6 className='Panel__Title'>Waiting for Payment</h6>
-							<SidePanelList />
+							<SidePanelList  data={waitingForPayment}
+							/>
 						</div>
 					</>:<></>}
+
+					{TabActive==="verifypayment"|| TabActive==="verifyrequest"?<>
+						
+						<div className='Panel__Container' id="WaitingPayment">
+							<h6 className='Panel__Title'>Failed Transaction</h6>
+							<SidePanelList data={failedRequest} failedtransaction/>
+						</div>
+					</>:<></>}
+
+
 					{TabActive==="toprocess"?<>
-					<div className='Panel__Container' id="WaitingPayment">
+						<div className='Panel__Container' id="WaitingPayment">
+							<h6 className='Panel__Title'>Processing Requests</h6>
+							<SidePanelList data={processing}/>
+						</div>
+						<div className='Panel__Container' id="WaitingPayment">
 							<h6 className='Panel__Title'>Complete Transaction</h6>
-							<SidePanelList />
+							<SidePanelList data={completed}/>
 						</div>
 					</>:<></>}
 					
