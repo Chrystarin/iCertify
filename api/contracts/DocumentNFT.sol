@@ -35,6 +35,7 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
 	{
 		// Check if sender is admin of institution
 		require(institutions[msg.sender], "Sender is not an admin of institution");
+        require(!institution[receiver], "Receiver must not be an institution");
         require(!uris[uri], "Document already owned by another address");
 
 		// Generate a unique, new documentd id

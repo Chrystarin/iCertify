@@ -19,16 +19,13 @@ const isString = (strVar, property, canbeUndefined = false) => {
 
 const isNumber = (n, property, canbeUndefined = false) => {
 	// Check if n is defined
-	if (n) {
-		// Check if input is type of number
-		if (typeof n !== 'number')
-			throw new InvalidInput(`'${property}' is not a number`);
+	if (n === undefined && !canbeUndefined)
+		// Check if canbeUndefined is true if n is undefined
+		throw new InvalidInput(`'${property}' is not defined`);
 
-		return;
-	}
-
-	// Check if canbeUndefined is true if n is undefined
-	if (!canbeUndefined) throw new InvalidInput(`'${property}' is not defined`);
+	// Check if input is type of number
+	if (typeof n !== 'number')
+		throw new InvalidInput(`'${property}' is not a number`);
 };
 
 const isEmail = (email) => {
@@ -45,21 +42,21 @@ const isDate = (date, property) => {
 };
 
 const isBoolean = (val, property) => {
-    // Check if input is a boolean
-    if(val) {
-        if(typeof val !== 'boolean')
-            throw new InvalidInput(`'${property}' is not a boolean`)
+	// Check if input is a boolean
+	if (val) {
+		if (typeof val !== 'boolean')
+			throw new InvalidInput(`'${property}' is not a boolean`);
 
-        return;
-    }
+		return;
+	}
 
-    throw new InvalidInput(`'${property}' is not defined`)
-}
+	throw new InvalidInput(`'${property}' is not defined`);
+};
 
 module.exports = {
 	isString,
 	isNumber,
 	isDate,
 	isEmail,
-    isBoolean
+	isBoolean
 };

@@ -96,6 +96,8 @@ const saveIpfs = async (req, res, next) => {
 	request.markModified('details');
 	await request.save();
 
+    // ipfsClient.add({c})
+
 	// Pin the document
 	await ipfsClient.pin.add(cid);
 
@@ -145,7 +147,8 @@ const saveTransaction = async (req, res, next) => {
 					$push: {
 						documents: {
 							nftId: parseLog(log).args.tokenId.toNumber(),
-							codes: [genAccessCode()]
+							codes: [genAccessCode()],
+                            hash: txHash
 						}
 					}
 				},

@@ -19,22 +19,25 @@ const uploadImage = require('../miscellaneous/uploadImage');
 
 const getRequests = async (req, res, next) => {
 	const {
-		query: { requestId },
+		query: { requestId, requestType },
 		user: { id, type }
 	} = req;
 
 	// Validate inputs
-	isString(type, 'Request Type', true);
+	isString(requestType, 'Request Type');
 
 	// Create request query
-	let requestQuery = {};
+	let requestQuery = { requestType };
 
 	if (type == USER) requestQuery.requestor = id;
 
 	if (type == INSTITUTION) requestQuery.institution = id;
 
 	// Get the requests
-	let requests = await Request.find(requestQuery);
+	let requests = await Request.find(requestQuery)
+		.lean()
+		.populate('institution requestor')
+		.exec();
 
 	if (requestId) {
 		requests = requests.find(({ requestId: ri }) => ri == requestId);
@@ -146,16 +149,12 @@ const createRequest = async (req, res, next) => {
 };
 
 const approveJoin = async (request) => {
-	const {
-		institution,
-		requestor: user,
-		details: { idNumber }
-	} = request;
+	const { institution, requestor: user, details } = request;
 
 	// Add requestor to institution members
 	await Institution.findByIdAndUpdate(
 		institution,
-		{ $push: { members: { user, idNumber } } },
+		{ $push: { members: { user, idNumber: details?.idNumber } } },
 		{ runValidators: true }
 	);
 
@@ -284,7 +283,7 @@ const processRequest = async (req, res, next) => {
 	request.markModified('details');
 	await request.save();
 
-	res.status(200).json({ message: 'Request processed', requestId, status });
+	res.json({ message: 'Request processed', requestId, status });
 };
 
 module.exports = { getRequests, createRequest, processRequest };

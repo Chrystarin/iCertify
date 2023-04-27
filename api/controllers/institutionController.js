@@ -12,10 +12,11 @@ const {
 const {
 	InstitutionNotFound,
 	DuplicateEntry,
-	MemberNotFound
+	MemberNotFound,
+	NotFound
 } = require('../miscellaneous/errors');
 const { waitTx, contract } = require('../miscellaneous/transactionUtils');
-const { genDocId } = require('../miscellaneous/generateId');
+const { genDocId, genPaymentId } = require('../miscellaneous/generateId');
 const uploadImage = require('../miscellaneous/uploadImage');
 
 const registerInstitution = async (req, res, next) => {
@@ -88,8 +89,6 @@ const updateInstitution = async (req, res, next) => {
 			address,
 			website,
 			contactNo,
-			profileURI,
-			coverURI,
 			needId,
 			needMembership
 		},
@@ -169,7 +168,7 @@ const getMembers = async (req, res, next) => {
 	isString(walletAddress, 'Wallet Address', true);
 
 	// Find the institution and get the members
-	const institution = await Institution.findOne(req.user.id)
+	const institution = await Institution.findById(req.user.id)
 		.lean()
 		.populate('members.user')
 		.exec();
@@ -253,11 +252,161 @@ const getOfferedDocs = async (req, res, next) => {
 	res.json(docOffers);
 };
 
+const addPayment = async (req, res, next) => {
+	const {
+		user: { id },
+		body: { type }
+	} = req;
+
+	// Validate input
+	isString(type, 'Payment Type');
+
+	const paymentParams = { type, paymentId: genPaymentId() };
+
+	if (type === 'bank') {
+		const { bankName, accountName, accountNumber } = req.body;
+
+		// Validate inputs
+		isString(bankName, 'Bank Name');
+		isString(accountName, 'Account Name');
+		isString(accountNumber, 'Account Number');
+
+		// Add details to paymentParams
+		paymentParams.details = { bankName, accountName, accountNumber };
+	}
+
+	if (type === 'ewallet') {
+		const { ewalletName, accountName, accountNumber } = req.body;
+
+		// Validate inputs
+		isString(ewalletName, 'E-Wallet Name');
+		isString(accountName, 'Account Name');
+		isString(accountNumber, 'Account Number');
+
+		// Add details to paymentParams
+		paymentParams.details = { ewalletName, accountName, accountNumber };
+	}
+
+	if (type === 'otc') {
+		const { otcName, location, instructions } = req.body;
+
+		// Validate inputs
+		isString(otcName, 'Over-The-Counter Name');
+		isString(location, 'Location');
+		isString(instructions, 'Instructions');
+
+		// Add details to paymentParams
+		paymentParams.details = { otcName, location, instructions };
+	}
+
+	// Add payment details to payments array of institution
+	await Institution.findByIdAndUpdate(
+		id,
+		{ $push: { payments: paymentParams } },
+		{ runValidators: true }
+	);
+
+	res.status(201).json({
+		message: 'Payment Details added',
+		paymentId: paymentParams.paymentId
+	});
+};
+
+const editPayment = async (req, res, next) => {
+	const {
+		user: { id },
+		body: { paymentId }
+	} = req;
+
+	// Find institution that has same id and paymentId
+	const institution = await Institution.findOne({
+		_id: 'id',
+		'payments.paymentId': paymentId
+	});
+	if (!institution) throw new NotFound('Payment Details not found');
+
+	// Get the specific payment details by paymentId
+	const payment = institution.payments.find(
+		({ paymentId: pi }) => pi === paymentId
+	);
+
+	if (payment.type === 'bank') {
+		const { bankName, accountName, accountNumber } = req.body;
+
+		// Validate inputs
+		isString(bankName, 'Bank Name');
+		isString(accountName, 'Account Name');
+		isString(accountNumber, 'Account Number');
+
+		// Update details to payment
+		payment.details = { bankName, accountName, accountNumber };
+	}
+
+	if (payment.type === 'ewallet') {
+		const { ewalletName, accountName, accountNumber } = req.body;
+
+		// Validate inputs
+		isString(ewalletName, 'E-Wallet Name');
+		isString(accountName, 'Account Name');
+		isString(accountNumber, 'Account Number');
+
+		// Update details to payment
+		payment.details = { ewalletName, accountName, accountNumber };
+	}
+
+	if (payment.type === 'otc') {
+		const { otcName, location, instructions } = req.body;
+
+		// Validate inputs
+		isString(otcName, 'Over-The-Counter Name');
+		isString(location, 'Location');
+		isString(instructions, 'Instructions');
+
+		// Update details to payment
+		payment.details = { otcName, location, instructions };
+	}
+
+	// Save changes
+	await institution.save();
+
+	res.json({ message: 'Paymen details updated' });
+};
+
+const deletePayment = async (req, res, next) => {
+	const {
+		user: { id },
+		body: { paymentId }
+	} = req;
+
+	// Find institution that has same id and paymentId
+	const institution = await Institution.findOne({
+		_id: 'id',
+		'payments.paymentId': paymentId
+	});
+	if (!institution) throw new NotFound('Payment Details not found');
+
+	// Get index of payment with paymentId in payments of institution
+	const payIdx = institution.payments.findIndex(
+		({ paymentId: pi }) => pi === paymentId
+	);
+
+	// Remove a paymen by payIdx
+	institution.payments.splice(payIdx, 1);
+
+	// Save changes
+	await institution.save();
+
+	res.json({ message: 'Payment details removed' });
+};
+
 module.exports = {
-	registerInstitution,
-	updateInstitution,
+	addOfferedDoc,
 	getInstitutions,
 	getMembers,
-	addOfferedDoc,
-	getOfferedDocs
+	getOfferedDocs,
+	registerInstitution,
+	updateInstitution,
+	addPayment,
+	deletePayment,
+	editPayment
 };
