@@ -14,15 +14,16 @@ const Card = (props) => {
         date,
         role,
         type,
-        link
+        link,
+        accessCode
     } = props;
     return (
-        <Link to={`/m/document/${id}`}>
+        <Link to={`/documents/${accessCode}`}>
             <div className='Card'>
                     {/* <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/> */}
                     <img className='EventName' src={ImagePlaceHolder} alt=""/>
 
-                    <h6 className="EventTitle">{title}qweqeqweqeqeqe</h6>
+                    <h6 className="EventTitle">{title}</h6>
                     <div id='Card__Institution'>
                         <Avatar id="Card__Avatar"/>
                         <p className='BodyText3'>STI College Marikina</p>

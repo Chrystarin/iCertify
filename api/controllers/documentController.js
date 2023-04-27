@@ -15,7 +15,7 @@ const getDocument = async (req, res, next) => {
 
 	// Find user that owns the access code
 	const user = await User.findOne({
-		_id: req.user.id,
+		// _id: req.user.id,
 		'documents.codes': code
 	});
 	if (!user) throw new NotFound('Invalid access code');
@@ -27,7 +27,9 @@ const getDocument = async (req, res, next) => {
 };
 
 const updateMode = async (req, res, next) => {
+    console.log(req.body)
 	const { mode, nftId } = req.body;
+
 
 	// Validate input
 	isNumber(nftId, 'NFT ID');
@@ -37,12 +39,16 @@ const updateMode = async (req, res, next) => {
 	const user = await User.findOne({
 		_id: req.user.id,
 		'documents.nftId': nftId,
-		'documents.mode': { $ne: { mode } }
+		'documents.mode': { $ne: mode }
 	});
 	if (!user) throw new UserNotFound();
 
+	// console.log(user.documents)
+
 	// Update document mode
 	user.documents.find(({ nftId: n }) => n === nftId).mode = mode;
+
+	// console.log(user.documents)
 
 	await user.save();
 

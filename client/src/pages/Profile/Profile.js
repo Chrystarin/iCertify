@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {ethers} from 'ethers';
 
+
 // Import SCSS File
 import './Profile.scss';
 
@@ -29,7 +30,11 @@ function Profile() {
 
     // Constant Declarations
 	const { id } = useParams();
-    const { isAuth } = useAuth();
+    const { isAuth, fetchContract, ConnectWallet, contractAddress, globalWallet, getContract } = useAuth();
+    
+    console.log(globalWallet)
+    
+    console.log(getContract)
 
     // States Declarations
 	const [user, setUser] = useState(null);
@@ -38,8 +43,15 @@ function Profile() {
 
 	// Executes on load
 	useEffect(() => {
+        const createContract = async () => {
+            console.log(await getContract())
+        }
+        createContract();
 		fetchUser();
+        // fetchDocument();
+        // getDocumentData();
 	}, []);
+    
 
     // Retrieves User's Data
     const fetchUser = async () => {
@@ -51,11 +63,40 @@ function Profile() {
             })
             .then((response) => {
                 setUser(response.data);
-                console.log(response.data)
+                // console.log(response.data)
                 setInstitutions(response.data.institutions)
                 setDocuments(response.data.documents)
             });
     };
+
+    const fetchDocument = async () => {
+        await axiosInstance
+            .get(`documents`,{
+                params: {
+                    code: "AIHqKFB3smuXGBbh"
+                }
+            })
+            .then((response) => {
+                console.log(response.data)
+            });
+    };
+
+    const getDocumentData = async () => {
+
+        const wallet = await ConnectWallet();
+        const contract = new ethers.Contract(contractAddress, await fetchContract(), wallet.signer);
+        try{
+            await contract.getDocumentData(
+                0
+            )
+            .then((response)=>{
+                console.log(response)
+            })
+
+        } catch(error) {
+            console.log(error)
+        }
+    }
 
     // Edit User Data
     const EditProfile = async (file) => {
@@ -92,6 +133,7 @@ function Profile() {
 
 	return (
 		<div id='Profile'>
+            <button onClick={()=>getDocumentData()}>Test Function</button>
 			<div id='Profile__Container_Div'>
 				<img
 					id='Profile__Img'
@@ -209,9 +251,10 @@ function Profile() {
 										documents.map((document) => {
 											return (
 												<Card
-													key={document.certificateId}
+													key={document.codes[0]}
 													id={document.certificateId}
-													type={'certificate'}
+                                                    title={"Document"}
+                                                    accessCode={document.codes[0]}
 													image={`https://icertify.infura-ipfs.io/ipfs/${document.ipfsCID}`}
 												/>
 											);

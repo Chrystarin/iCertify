@@ -145,7 +145,8 @@ const saveTransaction = async (req, res, next) => {
 					$push: {
 						documents: {
 							nftId: contract.interface.parseLog(log).args.tokenId.toNumber(),
-							codes: [genAccessCode()]
+							codes: [genAccessCode()],
+                            hash: txHash
 						}
 					}
 				},

@@ -89,7 +89,7 @@ function CreateDocument({manual}) {
             await contract.sendDocument(
                 request.requestor.walletAddress,                    // receiver
                 request.details.offeredDoc.title,                   // type
-                `https://icertify.infura-ipfs.io/ipfs/${path}`,     // uri
+                path,                                               // uri
                 request.details.offeredDoc.docId                    // docId
             )
             .then((response)=>{
@@ -144,7 +144,6 @@ function CreateDocument({manual}) {
             const transaction = await saveTransaction(txHash)
         }
     }
-    
 
     const handleChangeSelectDocument = (e) => {
         setSelectDocument(e.target.value);

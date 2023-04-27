@@ -1,7 +1,10 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const baseURL = 'http://localhost:4000';
+
+const navigate = useNavigate();
 
 const axiosInstance = axios.create({
 	baseURL,
@@ -43,7 +46,7 @@ axiosInstance.interceptors.response.use(
 				// Logout user if refresh token is invalid
 				const response = await axios.post('/auth/logout');
                 localStorage.clear()
-                navigate("/");
+                // navigate("/");
                 window.location.reload(true); 
 				return Promise.reject(error);
 			}

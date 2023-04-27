@@ -12,7 +12,9 @@ function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
     // Smart Contract Address
-    const contractAddress = '0xE8ef6B35b91955f775148F695D105C31461657fd'
+    const contractAddress = '0xE85Fa34A2a7f79AC0B34Ac8d4193C18Ccfc8Ed7A'
+
+    let globalWallet = {}
     
     // Executes onLoad
     useEffect(() => {
@@ -28,6 +30,7 @@ function AuthProvider({ children }) {
 
         // Gets wallet info
         const wallet = await ConnectWallet('Test message')
+        globalWallet = wallet;
 
         try {
             await axiosInstance
@@ -138,6 +141,16 @@ function AuthProvider({ children }) {
         }
     }
 
+    const getContract = async () => {
+        try {
+            const contract = new ethers.Contract(contractAddress, await fetchContract(), globalWallet.signer);
+            return contract;
+        } 
+        catch (error) {
+            console.error(error);
+        }
+    }
+
     // Connect User's Wallet
     const ConnectWallet = async (message) => {
         // Check if metamask is installed
@@ -239,10 +252,12 @@ function AuthProvider({ children }) {
     const value = { 
         user, 
         contractAddress,
+        globalWallet,
         login, 
         logout, 
         register, 
         fetchContract, 
+        getContract,
         ConnectWallet, 
         isLoggedIn, 
         isAuth, 
