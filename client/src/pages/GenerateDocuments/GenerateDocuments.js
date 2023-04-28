@@ -26,17 +26,6 @@ function GenerateDocuments() {
 	const [requests, setRequests] = useState();
 	const [TabActive, setTabActive] = useState("verifyrequest");
 
-    // States for Filtered data per tabs and SidePanel
-	// const [requestVerify, setRequestVerify] = useState();
-	// const [waitingForPayment, setwaitingForPayment] = useState();
-	// const [requestPayment, setRequestPayment] = useState();
-	// const [paymentToVerify, setPaymentToVerify] = useState();
-	// const [processing, setprocessing] = useState();
-	// const [completed, setCompleted] = useState();
-	// const [failedRequest, setFailedRequest] = useState();
-
-    
-
 	// Excecutes on page load
     useEffect(() => {
         // Execute Functions
@@ -73,17 +62,6 @@ function GenerateDocuments() {
 	const handleClose = () => {
 		setAnchorElDropDownDocument(null);
 	};
-
-	
-	const sampledata = [
-		{id:"304232321",name:"Transcript of Record",user:"Harold James H. Castillo",status:"pending",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232322",name:"Transcript of record",user:"Dianne Chrystalin Brandez",status:"declined",note:"Ang ganda ni dianne" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232323",name:"Certificates",user:"Jon Angelo Llagas",status:"completed",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232324",name:"Transcript of record",user:"Gian Carlo Dela Cruz",status:"cancelled",note:"I love you wife" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232325",name:"Certificates",user:"JM Hipolito",status:"approved",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232326",name:"Grades",user:"David Embile",status:"approved",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232327",name:"Transcript of record",user:"Shiba Castillo",status:"verified",note:"" ,timestamp:"Novebmer 25, 2022"}
-	];
 
     const [requestPending, setRequestPending] = useState();
     const [requestApproved, setRequestApproved] = useState();

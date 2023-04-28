@@ -133,7 +133,7 @@ const InstitutionView = () => {
                         </div>
                         <div id="Buttons__Container">
                             {(isAuth(id))?<>
-                                <Button variant="contained" href="update">Update</Button>
+                                <Button variant="contained" href={`/institutions/${id}/edit`}>Update</Button>
                             </>:<>
                                 {(user.type!='institution') ? 
                                     (isJoined(institution)) ? '' :

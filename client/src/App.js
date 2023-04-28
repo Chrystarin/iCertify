@@ -51,7 +51,7 @@ function App() {
                     <Route path='users/:id' element={<Profile />} />
                     <Route path='institutions' element={<Institutions />}/>
                     <Route path='institutions/:id' element={<InstitutionsView owner={false}/>}/>
-                    {/* <Route path='documents/:id' element={<DocumentPage/>}/> */}
+                    <Route path='documents/:id' element={<DocumentPage/>}/>
             </Route>
 
             {/* Member Routes */}
@@ -69,8 +69,7 @@ function App() {
             {/* Institution Routes */}
             <Route element={<ProtectedRoute/>} >
                 <Route element={<Panel />} >
-                    <Route path='institution/view' element={<InstitutionsView owner={true}/>} />
-                    <Route path='institution/edit' element={<InstitutionsUpdate/>}/>
+                    <Route path='institutions/:id/edit' element={<InstitutionsUpdate/>}/>
                     <Route path='analytics' element={<DashboardAdmin />}/>
                     <Route path='members' element={<MemberList />} />
                     <Route path='documents/requests/:tab' element={<CreateDocuments/>} />

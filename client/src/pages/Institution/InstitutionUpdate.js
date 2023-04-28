@@ -17,64 +17,99 @@ import Select from '@mui/material/Select';
 import { Avatar } from '@mui/material';
 import axios from '../../utils/axios';
 
-function ProfileUpdate() {
+import Switch from '@mui/material/Switch';
+// Import Utilities
+import axiosInstance from '../../utils/axios';
+import { useAuth } from "../../utils/AuthContext";
 
-
+function InstitutionUpdate() {
 
 	const navigate = useNavigate();
+
 	const { id } = useParams();
-	const [member, setMember] = useState(null);
+    const [institution, setInstitution] = useState();
+    const [form, setForm] = useState({
+        name: '',
+        instType: '',
+        email: '',
+        about: '',
+        address: '',
+        website: '',
+        contactNo: '',
+        id: false,
+        membership: false
+    });
 
 	// Executes on load
 	useEffect(() => {
-		// Retrieves Member Data
-		axios.get(`members/${id}`).then(({ data }) => setMember(data));
+        fetchInstitution();
 	}, []);
+
+    // Retrieves Institution Data
+    const fetchInstitution = async () => {
+        await axiosInstance
+            .get(`institutions`,{
+                params: {
+                    walletAddress: id
+                }
+            })
+            .then((response) => {
+                setInstitution(response.data)
+                setForm({
+                    name: response.data.name,
+                    instType: response.data.instType,
+                    email: response.data.email,
+                    about: response.data.about,
+                    address: response.data.address,
+                    website: response.data.website,
+                    contactNo: response.data.contactNo,
+                    id: response.data.needs.ID,
+                    membership: response.data.needs.membership
+                })
+            });
+    };
 
 	// Updates form from input
 	function updateForm(e) {
-		return setMember((prev) => {
-			const [key, value] = Object.entries(e)[0];
-			if (key == 'name' || key == 'contact' || key == 'location') {
-				const [property, subValue] = Object.entries(value)[0];
-				prev[key]
-					? (prev[key][property] = subValue)
-					: Object.assign(prev, { [key]: { [property]: subValue } });
-			} else {
-				prev[key] = value;
-			}
-			return prev;
-		});
-	}
+        return setForm((prev) => {
+            const [key, value] = Object.entries(e)[0];
+            prev[key] = value;
+            console.log(form)
+            return prev;
+        });
+    }
 
-	// Submits Data
-	async function Submit(e) {
-		e.preventDefault();
-		await axios
-		.patch(`members/${id}`, JSON.stringify({ ...member }), {
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		})
-		.then((response) => {
-			console.log(response.data);
-			navigate(`/m/${id}`);
-		})
-		.catch((error) => {
-			console.log('Error:' + error);
-			return;
-		});
-	}
-
-
-
-	// Update Visual Value
-	const [dateValue, setdateValue] = React.useState(null);
-	const [genderValue, setgenderValue] = React.useState(null);
+	// Edit Institution Data
+    const EditInstitution = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('body', JSON.stringify({
+                name: form.name,
+                type: form.instType,
+                email: form.email,
+                about: form.about,
+                address: form.address,
+                website: form.website,
+                contactNo: form.contactNo,
+                needId: form.id,
+                needMembership: form.membership
+            }))
+            
+            await axiosInstance.patch(
+                `institutions`, 
+                formData,
+                {headers: {'Content-Type': 'multipart/form-data'}})
+            .then((response)=>{
+                alert("Profile Updated")
+                navigate(`/institutions/${id}`)
+            })
+        } catch (err) {      
+            console.error(err.message);
+        }
+    }
 	
-	// Returns if member is null
-	// if (!member) return <div>loading...</div>;
-
+	// Returns if institution is null
+	if (!institution) return <div>loading...</div>;
 
 	return (
 		<section id='Create_Event'>
@@ -91,7 +126,7 @@ function ProfileUpdate() {
 					</Stepper>
 				</div>
 			</div>
-			<form onSubmit={(e) => Submit(e)} className="formTemplate">
+			<form onSubmit={(e) => EditInstitution(e)} className="formTemplate">
 				<div className='Category__Seperator'>
 					<div className='Category__Title'>
 						<h4>Institution Details</h4>
@@ -102,31 +137,17 @@ function ProfileUpdate() {
 							id='outlined-search'
 							label='Name'
 							type='text'
+                            defaultValue={form.name}
 							required
-							disabled
-							onChange={
-								()=>{}
-								// (e) =>
-								// // 
-								// // updateForm({
-								// // 	about: e.target.value
-								// })
-							}
+							onChange={(e) => updateForm({name: e.target.value})}
 						/>
 						<TextField
 							id='outlined-search'
 							label='About'
 							type='text'
-							required
+                            defaultValue={form.about}
 							multiline
-							onChange={
-								()=>{}
-								// (e) =>
-								// // 
-								// // updateForm({
-								// // 	about: e.target.value
-								// })
-							}
+							onChange={(e) => updateForm({about: e.target.value})}
 						/>
 						<div className='Wrapper_2_1_Inputs'>
 							<FormControl fullWidth>
@@ -134,75 +155,63 @@ function ProfileUpdate() {
 								<Select
 									labelId="demo-simple-select-label"
 									id="demo-simple-select"
-									value={genderValue}
+									defaultValue={form.instType}
 									label="Institution Type"
-									onChange={(event)=>{
-										setgenderValue(event.target.value);
-									}}
-									>
-									<MenuItem value={"Organization"}>Organization</MenuItem>
-									<MenuItem value={"School"}>School</MenuItem>
-									<MenuItem value={"Corporation"}>Corporation</MenuItem>
+									onChange={(e) => updateForm({instType: e.target.value})}
+								>
+									<MenuItem value={"organization"}>Organization</MenuItem>
+									<MenuItem value={"school"}>School</MenuItem>
+									<MenuItem value={"corporation"}>Corporation</MenuItem>
 								</Select>
 							</FormControl>
 							<TextField
 								id='outlined-search'
 								label='Contact Number'
-								type='text'
-								required
-								onChange={
-									()=>{}
-									// (e) =>
-									// // 
-									// // updateForm({
-									// // 	about: e.target.value
-									// })
-								}
+								type='number'
+                                defaultValue={form.contactNo}
+								onChange={(e) => updateForm({contactNo: e.target.value})}
 							/>
 							<TextField
 								id='outlined-search'
 								label='Address'
 								type='text'
-								required
-								onChange={
-									()=>{}
-									// (e) =>
-									// // 
-									// // updateForm({
-									// // 	about: e.target.value
-									// })
-								}
+                                defaultValue={form.address}
+								onChange={(e) => updateForm({address: e.target.value})}
 							/>
 						</div>
 						<div className='Wrapper_2_Inputs'>
 							<TextField
 								id='outlined-search'
 								label='Email'
-								type='text'
-									onChange={
-									()=>{}
-									// (e) =>
-									// // 
-									// // updateForm({
-									// // 	about: e.target.value
-									// })
-								}
+                                type='email'
+								required
+                                defaultValue={form.email}
+								onChange={(e) => updateForm({email: e.target.value})}
 							/>
 							<TextField
 								id='outlined-search'
 								label='Website Link'
 								type='text'
-								onChange={
-									()=>{}
-									// (e) =>
-									// // 
-									// // updateForm({
-									// // 	about: e.target.value
-									// })
-								}
+                                defaultValue={form.website}
+								onChange={(e) => updateForm({website: e.target.value})}
 							/>
 						</div>
+                        <div className='Wrapper_2_Inputs'>
+                            Require Member ID
+                            <Switch 
+                                defaultChecked={form.id}
+                                onChange={() => updateForm({id: (!form.id) })}
+                            />
+                        </div>
+                        <div className='Wrapper_2_Inputs'>
+                            Require Membership Proof
+                            <Switch 
+                                defaultChecked={form.membership}
+                                onChange={() => updateForm({membership: (!form.membership) })}
+                            />
+                        </div>
 					</div>
+                    
 				</div>
 				
 				<div id='Holder_Button'>
@@ -220,4 +229,4 @@ function ProfileUpdate() {
 	);
 }
 
-export default ProfileUpdate;
+export default InstitutionUpdate;
