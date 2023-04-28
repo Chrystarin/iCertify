@@ -85,7 +85,6 @@ const saveIpfs = async (req, res, next) => {
 		institution: id,
 		status: 'verified'
 	});
-
 	if (!request) throw new NotFound('Request with paid status not found');
 
 	// Update request status
@@ -96,7 +95,6 @@ const saveIpfs = async (req, res, next) => {
 	request.markModified('details');
 	await request.save();
 
-    // ipfsClient.add({c})
 
 	// Pin the document
 	await ipfsClient.pin.add(cid);

@@ -45,6 +45,7 @@ function DocumentView() {
     const [owner, setOwner] = useState(null)
     const [tokenURI, setTokenURI] = useState(null)
     const [switchChecked, setSwitchChecked] = useState(false);
+    const [accessCodes, setAccessCodes] = useState(false);
 
     // Executes on load
     useEffect(() => {
@@ -64,6 +65,8 @@ function DocumentView() {
             .then((response) => {
                 setDocumentData(response.data);
                 getDocumentData(response.data);
+                setAccessCodes(response.data.codes);
+                console.log(response.data)
             });
     };
 
@@ -123,13 +126,53 @@ function DocumentView() {
 
     // Updates Document Privacy Mode
     const updateDocumentPrivacy = async () =>{
-        await axiosInstance.patch(
+        await axiosInstance
+        .patch(
             'documents',
             JSON.stringify({
                 mode: (switchChecked ? "private" : "public"),
                 nftId: documentData.nftId
             })
+            
         )
+        .then((response)=>{
+            console.log(response.data)
+        })
+        
+    }
+
+    const createAccessCode = async () => {
+        await axiosInstance
+        .post(
+            'documents',
+            JSON.stringify({
+                nftId: documentData.nftId
+            })
+            
+        )
+        .then((response)=>{
+            console.log(response)
+        })
+        fetchDocument();
+    }
+
+    const deleteAccessCode = async (code) => {
+        
+        console.log(documentData.nftId)
+        await axiosInstance
+        .delete(
+            'documents',
+            {
+                data: {
+                    nftId: documentData.nftId,
+                    code: code
+                }
+            }
+        )
+        .then((response)=>{
+            console.log(response)
+        })
+        fetchDocument();
     }
 
     // Finds Specific Value based on Key Value Pair
@@ -166,7 +209,7 @@ function DocumentView() {
         setModalToOpen("share");
     };
 
-    if(!document || !owner || !institution || !documentData || !tokenURI) return <div>loading...</div>
+    if(!document || !owner || !institution || !documentData || !tokenURI || !accessCodes) return <div>loading...</div>
 
     return (
         <section id='CredentialViewPage_Wrapper'>
@@ -183,11 +226,11 @@ function DocumentView() {
             <div id='CredentialViewSideBar_Container'>
                 <div className='Panel__Container' id='CredentialDetails__Container'>
                     <h5>Document Details</h5>
-                    Public View <Switch 
+                    {/* Public View <Switch 
                         inputProps={{ 'aria-label': 'Set Document as Private' }} 
                         defaultChecked={documentData.mode=="private" ? true : false}
                         onChange={() => {handleTogglePrivacy();}}
-                    /> Private View
+                    /> Private View */}
                     <ul id='ListofDetails'>
                         <li>
                             <h6 className="Details__Title">Name</h6>
@@ -206,21 +249,28 @@ function DocumentView() {
                             <p className='BodyText1 Details__Content'>{documentData.createdAt}</p>
                         </li>
                     </ul>
+                    <br/>
+                    <h6 className="Details__Title">Owner</h6>
                     <a href={`/users/${owner.walletAddress}`}>
                         <div id='SenderReciever__Container' className='Panel__Container'>
-                            <UserPanel Image={UserIcon} SubTitle={owner.walletAddress} Title={owner.name.firstName}/>
+                            <UserPanel Image={(!owner.photo) ? UserIcon : owner.photo} SubTitle={owner.walletAddress} Title={owner.name.firstName}/>
                         </div>
                     </a>
+                    <h6 className="Details__Title">Issuer</h6>
                     <a href={`/institutions/${institution.walletAddress}`}>
                         <div id='SenderReciever__Container' className='Panel__Container'>
-                            <UserPanel Image={UserIcon} SubTitle={institution.walletAddress} Title={institution.name}/>
+                            <UserPanel Image={(!institution.photos?.profile) ? UserIcon : institution.photos?.profile} SubTitle={institution.walletAddress} Title={institution.name}/>
                         </div>
                     </a>
+                    {(isAuth(owner.walletAddress) ? 
+                    
+                        <div id='Button__Wrapper'> 
+                            <Button variant="outlined" startIcon={<ShareIcon/>} onClick={handleToggleShare}> Share</Button>
+                            <Button variant="contained" startIcon={<DownloadIcon/>} onClick={()=>saveAs(`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`, 'image.jpg')}>Download</Button>
+                        </div>
 
-                    <div id='Button__Wrapper'> 
-                        <Button variant="outlined" startIcon={<ShareIcon/>} onClick={handleToggleShare}> Share</Button>
-                        <Button variant="contained" startIcon={<DownloadIcon/>} onClick={()=>saveAs(`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`, 'image.jpg')}>Download</Button>
-                    </div>
+                    : ' ' )}
+                    
                 </div>
             </div>
             
@@ -347,7 +397,23 @@ function DocumentView() {
                 />
                 </FormControl>
                 <div id='LinkShare__Type'>
-                    
+                    <button onClick={()=>createAccessCode()}>Create Access Code</button>
+                    {(accessCodes.length === 0 )?
+                        <p>No Access Codes found!</p>
+                        :
+                        <>
+                            {accessCodes.length > 0 &&
+                            accessCodes.map((code) => {
+                            if(code!=accessCodes[0])
+                            return (
+                                <>
+                                    <p>{code}<button onClick={()=>deleteAccessCode(code)}>Delete</button></p>
+                                </>
+                                
+                            );
+                            })}
+                        </>
+                    }
                 </div>
                 <div id='MakePublic__Container'>
                     <div id='MakePublic__Title'>

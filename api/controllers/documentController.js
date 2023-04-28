@@ -30,7 +30,6 @@ const updateMode = async (req, res, next) => {
     console.log(req.body)
 	const { mode, nftId } = req.body;
 
-
 	// Validate input
 	isNumber(nftId, 'NFT ID');
 	isString(mode, 'Access Mode');
@@ -38,19 +37,17 @@ const updateMode = async (req, res, next) => {
 	// Get the user
 	const user = await User.findOne({
 		_id: req.user.id,
-		'documents.nftId': nftId,
-		'documents.mode': { $ne: mode }
+		'documents.nftId': nftId,   
+		// 'documents.mode': { $ne: mode }
 	});
 	if (!user) throw new UserNotFound();
-
-	// console.log(user.documents)
 
 	// Update document mode
 	user.documents.find(({ nftId: n }) => n === nftId).mode = mode;
 
-	// console.log(user.documents)
-
 	await user.save();
+
+    // console.log(user)
 
 	res.json({ message: `Access mode updated to ${mode}` });
 };
@@ -79,6 +76,8 @@ const createAccess = async (req, res, next) => {
 
 const deleteAccess = async (req, res, next) => {
 	const { nftId, code } = req.body;
+
+    console.log(req.body)
 
 	// Validate input
 	isNumber(nftId, 'NFT ID');

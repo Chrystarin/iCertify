@@ -263,6 +263,8 @@ const addPayment = async (req, res, next) => {
 		body: { type }
 	} = req;
 
+    console.log(req.body)
+
 	// Validate input
 	isString(type, 'Payment Type');
 

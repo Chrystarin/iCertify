@@ -15,6 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import TextField from '@mui/material/TextField';
 
 // Import Utils
 import axiosInstance from '../../utils/axios';
@@ -25,22 +26,41 @@ function CreateDocument({manual}) {
     // Constants Declaration
     const navigate = useNavigate();
     const {id} = useParams();
-    const {fetchContract, ConnectWallet, contractAddress} = useAuth();
+    const {user, fetchContract, ConnectWallet, contractAddress} = useAuth();
     
     // States Declaration
     const [selectDocument, setSelectDocument] = useState();
     const [file, setFile] = useState();
     const [request, setRequest] = useState();
+    const [institution, setInstitution] = useState();
     const [form, setForm] = useState({
         memberAddress: '',
         type: '',
         docId: '',
     });
 
+    
+
     // Excecutes on page load
     useEffect(() => {
+        if (manual && user) fetchInstitution();
         fetchDocumentRequest();
-    }, [])
+        console.log(form)
+    }, [user, form])
+
+    // Retrieves Institution Data
+    const fetchInstitution = async () => {
+        await axiosInstance
+            .get(`institutions`,{
+                params: {
+                    walletAddress: user.walletAddress
+                }
+            })
+            .then((response) => {
+                setInstitution(response.data)
+                console.log(response.data)
+            });
+    };
     
     // Retrieves Document Request
     const fetchDocumentRequest = async () => {
@@ -132,7 +152,10 @@ function CreateDocument({manual}) {
         // Creates Form Data to store Data
         const formData = new FormData();
         formData.append('document', file);
-        formData.append('requestId', id);
+        if(!manual)
+            formData.append('requestId', id);
+        if(manual)
+            formData.append('body', form)
 
         // Calls wallet and prompt transaction confirmation
         const wallet = await ConnectWallet()
@@ -149,11 +172,17 @@ function CreateDocument({manual}) {
         setSelectDocument(e.target.value);
     };
 
-    if (!request) return <div>Loading...</div>
-    if (request.status === 'processing') return <div>Request Processing. Please Wait.</div>
-    if (request.status === 'completed') return <div>Request Already Processed</div>
-    if (request.status != 'verified') return <div>Request Not Yet Verified</div>
-
+    if(!manual){
+        if (!request) return <div>Loading...</div>
+        if (request.status === 'processing') return <div>Request Processing. Please Wait.</div>
+        if (request.status === 'completed') return <div>Request Already Processed</div>
+        if (request.status != 'verified') return <div>Request Not Yet Verified</div>
+    }
+    if(manual){
+        if(!institution) return <div>Loading...</div>
+        if(!user) return <div>Loading...</div>
+    }
+    
     return <>
         <form id='AdminDasboard'>
             <section id='CreateDocument'>
@@ -185,41 +214,38 @@ function CreateDocument({manual}) {
                     
                         <>
                             <div id='SidePanel__Requestor'>
-                                <a href="/">
-                                    <Avatar id="SidePanel__Requestor__Avatar"/>
-                                    <h5>Dianne Chrystalin Brandez</h5>
-
-                                </a>
-                                <Chip id="SidePanel__Requestor__Chip" label="# 02000069502" variant="outlined" onClick={()=>{}} />
+                                <Avatar id="SidePanel__Requestor__Avatar"/>
                             </div>
                             <div id='SidePanel__Date'>
-                                <h6>Expected Date</h6>
-                                <p>October 25 - 30 , 2023 </p>
-                            </div>
-                            <div id='SidePanel__DocumentDetails'>
-                                <div>
-                                    <h6>Document Name :</h6>
-                                    <p>Transcript of Record </p>
-                                </div>
-                                <div id='SidePanel__SelectDocument'>
-                                    <FormControl fullWidth variant='standard'>
-                                        <InputLabel id="demo-simple-select-label">Select Document</InputLabel>
-                                        <Select
+                                <TextField
+                                    id='outlined-search'
+                                    label='Member Wallet Address'
+                                    type='text'
+                                    required
+                                    onChange={(e) => setForm({memberAddress: e.target.value})}
+                                />
+                                <FormControl fullWidth variant='standard'>
+                                    <InputLabel id="demo-simple-select-label">Select Document</InputLabel>
+                                    <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
-                                        value={selectDocument}
+                                        value={institution.docOffers[0]?.title}
                                         label="Age"
-                                        onChange={handleChangeSelectDocument}
-                                        >
-                                        <MenuItem value={10}>Ten</MenuItem>
-                                        <MenuItem value={20}>Twenty</MenuItem>
-                                        <MenuItem value={30}>Thirty</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </div>
+                                        onChange={(e)=>setForm({...form, docId: e.target.value})}
+                                    >
+                                        {institution.docOffers.length > 0 &&
+                                            institution.docOffers.map((document) => {
+                                            return (
+                                                <MenuItem key={document.docId} value={document.docId}>
+                                                    {document.title}
+                                                </MenuItem> 
+                                            );
+                                        })}
+                                    </Select>
+                                </FormControl>
+
                                 <div id='SidePanel__Buttons'>
-                                    <Button variant='outlined'>Back</Button>
-                                    <Button variant='contained' onClick={()=>ProcessDocument(file)}>Submit</Button>
+                                    <Button variant='contained' onClick={()=>ProcessDocument(file)}>Process Document</Button>
                                 </div>
                             </div>
                         </>

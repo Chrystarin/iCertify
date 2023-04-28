@@ -182,8 +182,6 @@ const approveDocument = (request) => {
 };
 
 const processRequest = async (req, res, next) => {
-
-    console.log(req.body)
 	const {
         body: { body },
 		user: { id, type }

@@ -29,7 +29,7 @@ import AddDocumentOffered from './pages/Documents/AddDocumentOffered'
 import InstitutionsUpdate from './pages/Institution/InstitutionUpdate.js';
 import CreateDocument from './pages/Documents/CreateDocument';
 
-import InstitutionRequests from './pages/Requests/InstitutionRequests.js';
+import InstitutionPaymentEdit from './pages/Institution/InstitutionPaymentEdit.js';
 import MemberRequests from './pages/Requests/MemberRequests.js';
 import Test from './pages/Test.js'
 
@@ -70,11 +70,12 @@ function App() {
             <Route element={<ProtectedRoute/>} >
                 <Route element={<Panel />} >
                     <Route path='institutions/:id/edit' element={<InstitutionsUpdate/>}/>
+                    <Route path='institutions/:id/edit/payment' element={<InstitutionPaymentEdit/>}/>
                     <Route path='analytics' element={<DashboardAdmin />}/>
                     <Route path='members' element={<MemberList />} />
                     <Route path='documents/requests/:tab' element={<CreateDocuments/>} />
                     <Route path='documents/request/:id' element={<CreateDocument manual={false}/>} />
-                    <Route path='documents/create' element={<CreateDocument manual={true}/>} />
+                    <Route path='documents/requests/manual' element={<CreateDocument manual={true}/>} />
                     <Route path='documents/add' element={<AddDocumentOffered />} />
                 </Route>
             </Route>
