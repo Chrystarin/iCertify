@@ -202,11 +202,57 @@ select{
     } 
 }
 .NavigationSidetoSide{
+    width: 100%;
     display: flex;
     margin-bottom: 25px;
     .NavigationSidetoSide__Right__Container{
         flex-grow: 1;
         display: flex;
+        gap: 15px;
         justify-content: end;
+    }
+}
+
+
+
+
+
+
+// Template
+
+
+.Container{
+    display: flex;
+    .Container__Content{
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        .Container__Title__Container{
+            .Container__Title{
+                color: var(--accent);
+            }
+            
+            
+        }
+        .Stepper{
+            display: flex;
+            gap: 25px;
+        }
+        .Container__Section{
+            .Container__Navigation{
+                display: flex;
+                .Container__Navigation__left{
+                    flex-grow: 1;
+                }
+                .Container__Navigation__Right{
+                    display: flex;
+                    gap: 25px;
+                }
+            }
+        }
+    }
+    .Container__Sidepanel{
+        width: 370px;
     }
 }

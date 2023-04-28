@@ -69,8 +69,8 @@ function MemberList() {
     if(!members || !joinRequests) return <div>Loading...</div>
 
     return (
-        <div id='AdminDasboard'>
-            <section id='institutions'>
+        <div className='AdminPanelContainer'>
+            <section className='AdminPanelContainer__Content' id='institutions'>
                 <div className='Title__Div'>
                     <h2 className='SectionTitle'>Members</h2>
                     <h5 className='SectionSubTitle'>Members of the institution</h5>
@@ -111,7 +111,7 @@ function MemberList() {
                     <div className='Navigation_Right'>
                     </div>
                 </div>
-                <div id='Panel_institutions'>
+                <div >
                     {(isOpenPanel_Institution === "All")?
                     <>
                         <div className='NavigationSidetoSide'>
@@ -179,7 +179,7 @@ function MemberList() {
                     }
                 </div>
             </section>
-            <div>
+            <div className='AdminPanelContainer__SideContent'>
                 <Analytics/>
             </div>
         </div>

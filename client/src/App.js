@@ -60,6 +60,7 @@ function App() {
                     <Route path='users/:id/edit' element={<ProfileUpdate />}/>
                     <Route path='dashboard' element={<Dashboard />}/>
                     <Route path='documents/list' element={<Document />} />
+                    <Route path='documents/list/:tab' element={<Document />} />
                     <Route path='documents/:id' element={<DocumentPage/>}/>
                     <Route path='institutions/:id/:docId' element={<RequestDocumentForm />}/>
                     <Route path='institutions/:id/join' element={<JoinInstution/>} />
