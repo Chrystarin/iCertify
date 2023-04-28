@@ -28,12 +28,12 @@ function SideNavBar(props) {
                         </a>
                         <span>Members</span>
                     </li>
-                    <li className={window.location.pathname == '/analytics' ? "active" : ""}>
+                    {/* <li className={window.location.pathname == '/analytics' ? "active" : ""}>
                         <a href="/analytics" id=''>
                             <svg className='Svg' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 588.39 588.39"><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M540.4,0H48A48,48,0,0,0,0,48V540.39a48,48,0,0,0,48,48H540.4a48,48,0,0,0,48-48V48A48,48,0,0,0,540.4,0ZM194,520.77H133.6V237.71A12.71,12.71,0,0,1,146.3,225h34.95A12.71,12.71,0,0,1,194,237.71Zm130.42,0H264V321.6a12.1,12.1,0,0,1,12.1-12.1h36.15a12.11,12.11,0,0,1,12.11,12.1Zm117.17,0H381.19V138.71a18.18,18.18,0,0,1,18.18-18.18h24a18.18,18.18,0,0,1,18.18,18.18Z"/></g></g></svg>
                         </a>
                         <span>Analytics</span>
-                    </li>
+                    </li> */}
                 </>
                 :
                 <>

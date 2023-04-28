@@ -19,7 +19,8 @@ import InstitutionsView from './pages/Institution/InstitutionView.js';
 import JoinInstution from './pages/Institution/InstitutionJoin.js';
 import Profile from './pages/Profile/Profile.js';
 import ProfileUpdate from './pages/Profile/ProfileUpdate';
-import RequestDocumentForm from './pages/Documents/DocumentRequestForm'
+import ViewDocumentOffered from './pages/Documents/ViewDocumentOffered.js'
+import DocumentRequestPayment from './pages/Documents/DocumentRequestPayment.js'
 
 // Institution
 import CreateDocuments from './pages/GenerateDocuments/GenerateDocuments.js';
@@ -28,6 +29,7 @@ import MemberList from './pages/Member/MemberList.js';
 import AddDocumentOffered from './pages/Documents/AddDocumentOffered'
 import InstitutionsUpdate from './pages/Institution/InstitutionUpdate.js';
 import CreateDocument from './pages/Documents/CreateDocument';
+import UpdatePaymentMethod from './pages/GenerateDocuments/UpdatePaymentMethod.js'
 
 import InstitutionRequests from './pages/Requests/InstitutionRequests.js';
 import MemberRequests from './pages/Requests/MemberRequests.js';
@@ -62,8 +64,12 @@ function App() {
                     <Route path='documents/list' element={<Document />} />
                     <Route path='documents/list/:tab' element={<Document />} />
                     <Route path='documents/:id' element={<DocumentPage/>}/>
-                    <Route path='institutions/:id/:docId' element={<RequestDocumentForm />}/>
+                    {/* Edited */}
+                    <Route path='institutions/:id/:docId' element={<ViewDocumentOffered />}/>
+                    {/* new */}
+                    <Route path='institutions/payment/:id/:docId' element={<DocumentRequestPayment />}/>
                     <Route path='institutions/:id/join' element={<JoinInstution/>} />
+                    
                 </Route>
             </Route>
 
@@ -78,6 +84,7 @@ function App() {
                     <Route path='documents/request/:id' element={<CreateDocument manual={false}/>} />
                     <Route path='documents/create' element={<CreateDocument manual={true}/>} />
                     <Route path='documents/add' element={<AddDocumentOffered />} />
+                    <Route path='documents/update/payment' element={<UpdatePaymentMethod />} />
                 </Route>
             </Route>
 

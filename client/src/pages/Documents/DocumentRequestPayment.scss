@@ -1,0 +1,72 @@
+#ModeOfPayement__Selection{
+    display: flex; 
+    gap: 25px;
+    .ModeOfPayement__Selection__Cards{
+        cursor: pointer;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        padding: 0 3em;
+        height: 100px;
+        background-color: white;
+        border-radius: 8px;
+        border: .5px solid rgb(237, 237, 237);
+        color: rgb(72, 72, 72);
+        transition: color .5s, box-shadow .3s ease-in-out;
+    }
+    .ModeOfPayement__Selection__Cards:hover{
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+        color: rgb(24, 24, 24);
+    }
+    #Active{
+        background-color: rgb(230, 237, 243);
+        color: var(--accent);
+        border: 1px solid var(--accent);
+        box-shadow: 0 0 8px rgba(40, 89, 157, 0.218);
+    }
+}
+#ModeOfPayement__ItemSelect{
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    flex-wrap: wrap;
+    li{
+        cursor: pointer;
+        background-color: rgb(254, 254, 254);
+        padding:1em 2em;
+        border-radius: 8px;
+        border: .5px solid rgb(237, 237, 237);
+        transition: color .5s, box-shadow .3s ease-in-out,background-color .3s ease-in-out;
+        
+    }
+    li:hover{
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+        color: rgb(33, 119, 130);
+    }
+    li#Active{
+        background-color: var(--accent);
+        color: white;
+        border: 1px solid var(--accent);
+        box-shadow: 0 0 8px rgba(40, 89, 157, 0.218);
+    }
+}
+
+
+#Confirmation{
+    #Confirmation__Container{
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 400px;
+        text-align: center;
+        gap: 25px;
+        h5{
+            color: var(--accent);
+        }
+        p{
+            margin-top: 15px;
+        }
+    }
+}

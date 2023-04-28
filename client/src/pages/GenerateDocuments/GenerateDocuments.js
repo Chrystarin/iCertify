@@ -74,16 +74,6 @@ function GenerateDocuments() {
 		setAnchorElDropDownDocument(null);
 	};
 
-	
-	const sampledata = [
-		{id:"304232321",name:"Transcript of Record",user:"Harold James H. Castillo",status:"pending",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232322",name:"Transcript of record",user:"Dianne Chrystalin Brandez",status:"declined",note:"Ang ganda ni dianne" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232323",name:"Certificates",user:"Jon Angelo Llagas",status:"completed",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232324",name:"Transcript of record",user:"Gian Carlo Dela Cruz",status:"cancelled",note:"I love you wife" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232325",name:"Certificates",user:"JM Hipolito",status:"approved",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232326",name:"Grades",user:"David Embile",status:"approved",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232327",name:"Transcript of record",user:"Shiba Castillo",status:"verified",note:"" ,timestamp:"Novebmer 25, 2022"}
-	];
 
     const [requestPending, setRequestPending] = useState();
     const [requestApproved, setRequestApproved] = useState();
@@ -128,7 +118,7 @@ function GenerateDocuments() {
         }
     }
 
-	function TabView({requests}) {
+	function TabView() {
 		switch (TabActive) {
 			case 'verifyrequest' :
 				if (requestPending.length === 0)return <div>No request</div>;
@@ -218,7 +208,7 @@ function GenerateDocuments() {
 				<section className='AdminPanelContainer__Content' id='CreateDocument'>
 					<div id='Header'>
 						<h2 className='SectionTitle' > 
-							Make Documents
+							Manage Requests Documents
 						</h2>
 						<h5>Create all the requested Documents</h5>
 					</div>
@@ -306,6 +296,8 @@ function GenerateDocuments() {
 								<p className='BodyText3'>Members</p>
 							</div>
 						</div>
+					<Button href='/documents/update/payment' variant='contained' fullWidth>Upadate Payment Method</Button>
+
 					</div>
 
 					{TabActive==="verifypayment"?<>
@@ -335,7 +327,6 @@ function GenerateDocuments() {
 							<SidePanelList data={requestCompleted}/>
 						</div>
 					</>:<></>}
-					
 				</div>
 			</div>
 		</>	

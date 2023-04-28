@@ -155,17 +155,11 @@ select{
 }
 
 .grid {
+    display: flex;
     columns: 18rem;
-    gap: 1rem;
+    gap: 25px;
     counter-reset: grid;
 }
-
-
-.item + .item {
-    margin-top: 1rem;
-}
-
-
 
 #Content{
     #AdminDasboard{
