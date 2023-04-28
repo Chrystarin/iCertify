@@ -11,12 +11,14 @@ function MemberCard(props) {
         member
     } = props;
     const [openModal, setOpenModal] = React.useState(false);
+
+    console.log(image)
     
     return <>
         {member?<>
             <div id='MemberCard'>
                 <a href={`/users/${props.institutionID}`} id='MemberCard__Container'>
-                    <Avatar id="MemberCard__Avatar"/>
+                    <Avatar id="MemberCard__Avatar" src={image}/>
                     <div id='MemberCard__Text'>
                         <h6 id='MemberCard__Name'>{name}</h6>
                         <p className='BodyText3' id='MemberCardID__InstitutionID'>{institutionID}</p>
@@ -28,7 +30,7 @@ function MemberCard(props) {
         <>
             <div id='MemberCard'>
                 <a id='MemberCard__Container' onClick={member?"":()=>{setOpenModal(!openModal)}} className={member?"":"Buttons"}>
-                    <Avatar id="MemberCard__Avatar"/>
+                    <Avatar id="MemberCard__Avatar" src={image}/>
                     <div id='MemberCard__Text'>
                         <h6 id='MemberCard__Name'>{name}</h6>
                         <p className='BodyText3' id='MemberCardID__InstitutionID'>{institutionID}</p>

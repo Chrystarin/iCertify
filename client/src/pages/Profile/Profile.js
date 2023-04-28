@@ -30,7 +30,7 @@ function Profile() {
 
     // Constant Declarations
 	const { id } = useParams();
-    const { isAuth, fetchContract, ConnectWallet, contractAddress } = useAuth();
+    const { isAuth, getContract } = useAuth();
 
     // States Declarations
 	const [user, setUser] = useState(null);
@@ -53,11 +53,28 @@ function Profile() {
             })
             .then((response) => {
                 setUser(response.data);
-                // console.log(response.data)
                 setInstitutions(response.data.institutions)
                 setDocuments(response.data.documents)
+                console.log(response.data)
+
             });
     };
+
+    // Retrieves Document's Metadata
+    const getTokenURI = async (data) => {
+        const contract = await getContract();
+
+        try{
+            await contract
+                .tokenURI(data.nftId)
+                .then((response)=>{
+                    // setTokenURI(response)
+                    return response
+                })
+        } catch(error) {
+            console.log(error)
+        }
+    }
 
     // Edit User Data
     const EditProfile = async (file) => {
@@ -91,7 +108,7 @@ function Profile() {
 
 	// Returns if user is null
 	if (!user || !institutions || !documents) return <div>loading... No user Found</div>;
-
+    
 	return (
 		<div id='Profile'>
 			<div id='Profile__Container_Div'>
@@ -175,15 +192,15 @@ function Profile() {
 								</li>
 								<li>
                                 {(!user.address) ? ' ' :
-                                <div>
-                                    <h6 className='Panel__Title'>Address</h6>
-                                    <div className='Panel__Content__IconText'>
-                                        <LocationOnIcon />
-                                        <p className='BodyText3'>
-                                            {user.address}
-                                        </p>
+                                    <div>
+                                        <h6 className='Panel__Title'>Address</h6>
+                                        <div className='Panel__Content__IconText'>
+                                            <LocationOnIcon />
+                                            <p className='BodyText3'>
+                                                {user.address}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
                                 }
 									
 								</li>
@@ -209,13 +226,16 @@ function Profile() {
 								<div className='Wrapper__Card'>
 									{documents.length > 0 &&
 										documents.map((document) => {
+                                            const tokenUri = getTokenURI(document)
+                                            // const tokenUri = await getTokenURI(document)
 											return (
 												<Card
 													key={document.codes[0]}
 													id={document.certificateId}
-                                                    title={"Document"}
+                                                    title={document.hash}
+                                                    date={document.createdAt}
                                                     accessCode={document.codes[0]}
-													image={`https://icertify.infura-ipfs.io/ipfs/${document.ipfsCID}`}
+													image={`https://icertify.infura-ipfs.io/ipfs/${tokenUri}`}
 												/>
 											);
 										})}

@@ -149,7 +149,7 @@ function Header() {
                             aria-haspopup="true"
                             aria-expanded={openProfile ? 'true' : undefined}
                         >
-                            <Avatar src={(!user.user.photos?.profile) ? '' : user.user.photos.profile } alt=""></Avatar>
+                            <Avatar src={user.type =='user' ? ((!user.user.photo) ? '' : user.user.photo) : ((!user.user.photos?.profile) ? '' : user.user.photos.profile)} alt=""></Avatar>
                         </IconButton>
                     </Tooltip>
                     <Menu
@@ -191,7 +191,7 @@ function Header() {
                         <div id="ProfileDropdown__Container">
                             <a href={`/${user.type}s/${user.walletAddress}`}>
                                 <MenuItem  id='ProfileDropdown__Header'>
-                                    <Avatar src={(!user.user.photos?.profile) ? '' : user.user.photos.profile } alt=""></Avatar>
+                                    <Avatar src={user.type =='user' ? ((!user.user.photo) ? '' : user.user.photo) : ((!user.user.photos?.profile) ? '' : user.user.photos.profile)} alt=""></Avatar>
                                     <div>
                                     <h6>{user.type =='user' ? user.user.name.firstName + ' ' + user.user.name.lastName : user.user.name}</h6>
                                     <div id='ProfileDropdown__Header__Metamask'>

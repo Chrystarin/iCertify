@@ -13,8 +13,13 @@ function AuthProvider({ children }) {
 
     // Smart Contract Address
     const contractAddress = '0x2dA957fcd13c505Db5Bf5B6058278e94c2e5990d'
+    const baseUrl = 'http://localhost:3000'
 
     let globalWallet = {}
+    const RPC = "HTTP://127.0.0.1:7545";
+    
+
+    
     
     // Executes onLoad
     useEffect(() => {
@@ -143,7 +148,8 @@ function AuthProvider({ children }) {
 
     const getContract = async () => {
         try {
-            const contract = new ethers.Contract(contractAddress, await fetchContract(), globalWallet.signer);
+            const provider = new ethers.providers.JsonRpcProvider(RPC);
+            const contract = new ethers.Contract(contractAddress,  await fetchContract(), provider);
             return contract;
         } 
         catch (error) {
@@ -253,6 +259,7 @@ function AuthProvider({ children }) {
         user, 
         contractAddress,
         globalWallet,
+        baseUrl,
         login, 
         logout, 
         register, 

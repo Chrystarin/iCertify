@@ -21,8 +21,14 @@ function InstitutionJoin(props) {
     const { user, isAuth } = useAuth();
     // const [user, setUser] = useState();
     const navigate = useNavigate();
+    const [institution, setInstitution] = useState();
 
-    console.log(user)
+    // console.log(user)
+
+    // Excecutes on page load
+    useEffect(() => {
+		fetchInstitution();
+    }, [])
 
     // Join Institution
     const Join = async (e) => {
@@ -43,6 +49,22 @@ function InstitutionJoin(props) {
             console.error(err.message);
         }
     }
+
+    
+
+    // Retrieves Institution Data
+    const fetchInstitution = async () => {
+        await axiosInstance
+            .get(`institutions`,{
+                params: {
+                    walletAddress: id
+                }
+            })
+            .then((response) => {
+                setInstitution(response.data)
+                console.log(response.data)
+            });
+    };
 
     // Steppers
     const [activeStep,setActiveStep] = useState(0);
@@ -80,8 +102,8 @@ function InstitutionJoin(props) {
             <form className='formTemplate'>
                 <div className="Category__Seperator">
                     <div className="Category__Title">
-                        {/* <h4>Mode of Payment</h4>
-                        <p>Select what mode of payment you want to use</p> */}
+                        <h4>General Information</h4>
+                        <p>This is your basic information</p>
                     </div>
                     <div className="Category__Content">
                         <div id='UserInfo'>
@@ -100,36 +122,44 @@ function InstitutionJoin(props) {
                             </div>
                         </div>
                     </div>
-                    </div>
-                    <div className="Category__Seperator">
-                        <div className="Category__Title">
-                            <h4>Institution ID Number</h4>
-                            <p className='BodyText3'>Select what mode of payment you want to use</p>
-                        </div>
-                        <div className="Category__Content">
-                            <div className='Wrapper_2_1_Inputs'>
-                            <TextField id="outlined-basic" label="ID Number" variant="outlined" />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="Category__Seperator">
-                        <div className="Category__Title">
-                            <h4>Proof of Membership</h4>
-                            <p className='BodyText3'>Assuring that you are a member of this institution</p>
-                        </div>
-                    <div className="Category__Content">
-                        <div id='Category__Content__File'>
-                        <input type="file" id="files" className="hidden"/>
-                        <label htmlFor="files" id='Category__Content__Button'>
-                            <img src={UploadFileImage} alt="" />
-                            <div>
-                                <p className='BodyText3'>Upload any proof of membership</p>
-                                <h5>Click to upload a file</h5>
-                            </div>
-                        </label>
-                        </div>
-                    </div>
                 </div>
+
+                    {institution.needs.ID ? 
+                        <div className="Category__Seperator">
+                            <div className="Category__Title">
+                                <h4>Institution ID Number</h4>
+                                <p className='BodyText3'>Provide your Identification Number from this Institution</p>
+                            </div>
+                            <div className="Category__Content">
+                                <div className='Wrapper_2_1_Inputs'>
+                                <TextField id="outlined-basic" label="ID Number" variant="outlined" />
+                                </div>
+                            </div>
+                        </div>
+                    : ' '}
+                   
+                   {institution.needs.ID ? 
+                    <>
+                        <div className="Category__Seperator">
+                            <div className="Category__Title">
+                                <h4>Proof of Membership</h4>
+                                <p className='BodyText3'>Provide your proof of membership (Ex. ID, Card, Etc.)</p>
+                            </div>
+                            <div className="Category__Content">
+                                <div id='Category__Content__File'>
+                                    <input type="file" id="files" className="hidden"/>
+                                    <label htmlFor="files" id='Category__Content__Button'>
+                                        <img src={UploadFileImage} alt="" />
+                                        <div>
+                                            <p className='BodyText3'>Upload any proof of membership</p>
+                                            <h5>Click to upload a file</h5>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                   : ' '}
                 <div id="Holder_Button">
                     <Button variant="contained" size="large" onClick={Join}>Submit</Button>
                 </div>

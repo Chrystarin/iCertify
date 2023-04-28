@@ -118,7 +118,7 @@ function CreateDocument({manual}) {
             .then((response) => {
                 console.log("Document Processing")
                 alert("Document Processing!")
-                navigate("/documents/requests")
+                navigate("/documents/requests/toprocess")
             });
             
         } catch (error) {
@@ -181,7 +181,7 @@ function CreateDocument({manual}) {
             </section>
             <div id='SidePanel'>
                 <div id='SidePanel__Info' className='Panel__Container'>
-                    {!manual ?
+                    {manual ?
                     
                         <>
                             <div id='SidePanel__Requestor'>

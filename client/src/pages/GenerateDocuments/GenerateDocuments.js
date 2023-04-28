@@ -331,7 +331,7 @@ function GenerateDocuments() {
 							<SidePanelList data={requestProcessing}/>
 						</div>
 						<div className='Panel__Container' id="WaitingPayment">
-							<h6 className='Panel__Title'>Complete Transaction</h6>
+							<h6 className='Panel__Title'>Completed Transaction</h6>
 							<SidePanelList data={requestCompleted}/>
 						</div>
 					</>:<></>}

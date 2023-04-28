@@ -23,6 +23,7 @@ function MemberList() {
 				.get(`institutions/members`)
 				.then((response) => {
 					setMembers(response.data)
+                    console.log(response.data)
 				});
 		};
 
@@ -134,7 +135,8 @@ function MemberList() {
                                         <MemberCard 
                                             key={member.user.walletAddress} 
                                             name={member.user.name.firstName + ' ' + member.user.name.lastName } 
-                                            institutionID={member.user.walletAddress} 
+                                            institutionID={member.user.walletAddress}
+                                            image={member.user.photo} 
                                             member={true}
                                         />
                                     );
@@ -168,6 +170,7 @@ function MemberList() {
                                             name={`${request.requestor.name.firstName}`+" "+`${request.requestor.name.lastName}`}
                                             institutionID={request.requestor.walletAddress} 
                                             member={false}
+                                            image={request.requestor.photo} 
                                             onClick={()=>AcceptRequest(request)}
                                         />
                                     );
