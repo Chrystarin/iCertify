@@ -238,6 +238,11 @@ select{
         .Stepper{
             display: flex;
             gap: 25px;
+            .Stepper__Cut{
+                height: 100%;
+                width: 2px;
+                background-color: rgb(131, 131, 131);
+            }
         }
         .Container__Section{
             .Container__Navigation{

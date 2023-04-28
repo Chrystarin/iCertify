@@ -14,6 +14,8 @@ import Menu from '@mui/material/Menu';
 import { Avatar } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import SellIcon from '@mui/icons-material/Sell';
+import TextField from '@mui/material/TextField';
+
 function Documents(){
     const [address, setAddress] = useState("");
     const [ownedCertificates, setOwnedCertificates] = useState(null);
@@ -44,33 +46,39 @@ function Documents(){
         // };
         // checkWallet();
         // fetchOwnedCertificates();
-        if (tab == "mycollections")
-            setStepper("mycollections")
-        else if (tab == "myrequests")
+        if (tab == "myrequests")
             setStepper("myrequests")
+        else if (tab == "topay")
+            setStepper("topay")
+        else if (tab == "torecieve")
+            setStepper("torecieve")
+        else if (tab == "failedtransactions")
+            setStepper("failedtransactions")
         else 
-            setStepper("mycollections")
+            setStepper("myrequests")
         filterData(sampledata);
     },[])
     
     const sampledata = [
-		{id:"304232321",name:"Transcript of Record",user:"Harold James H. Castillo",status:"pending",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232322",name:"Transcript of record",user:"Dianne Chrystalin Brandez",status:"declined",note:"Ang ganda ni dianne" ,timestamp:"Novebmer 25, 2022"},
+		{id:"304232321",name:"Transcript of Record",user:"Harold James H. Castillo",status:"cancelled",note:"" ,timestamp:"Novebmer 25, 2022"},
+		{id:"304232322",name:"Transcript of record",user:"Dianne Chrystalin Brandez",status:"pending",note:"Ang ganda ni dianne" ,timestamp:"Novebmer 25, 2022"},
 		{id:"304232323",name:"Certificates",user:"Jon Angelo Llagas",status:"completed",note:"" ,timestamp:"Novebmer 25, 2022"},
 		{id:"304232324",name:"Transcript of record",user:"Gian Carlo Dela Cruz",status:"cancelled",note:"I love you wife" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232325",name:"Certificates",user:"JM Hipolito",status:"approved",note:"" ,timestamp:"Novebmer 25, 2022"},
+		{id:"304232325",name:"Certificates",user:"JM Hipolito",status:"paid",note:"" ,timestamp:"Novebmer 25, 2022"},
 		{id:"304232326",name:"Grades",user:"David Embile",status:"approved",note:"" ,timestamp:"Novebmer 25, 2022"},
 		{id:"304232327",name:"Transcript of record",user:"Shiba Castillo",status:"verified",note:"" ,timestamp:"Novebmer 25, 2022"}
 	];
     const keys = ["pending","approved","declined","paid","verified","processing","cancelled","completed"];
     const filterData = (data) => {
-        setOwnedDocuments(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[7])));
-        setRequests(data.filter((item)=>[keys[0],keys[1],keys[2],keys[3],keys[4],keys[5],keys[6]].some((key)=> item.status?.toString().toLowerCase().includes(key))));
+        setMyRequests(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[0])));
+        setToPay(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[1])));
+        setToRecieve(data.filter((item)=> [keys[3],keys[4],keys[5]].some((key)=> item.status?.toString().toLowerCase().includes(key))));
+        setFailedtransactions(data.filter((item)=> [keys[2],keys[6]].some((key)=> item.status?.toString().toLowerCase().includes(key))))
     }
-
-    const [ownedDocuments, setOwnedDocuments] = useState();
-    const [request, setRequests] = useState();
-
+    const [myRequest, setMyRequests] = useState();
+    const [toPay, setToPay] = useState();
+    const [toRecieve, setToRecieve] = useState();
+    const [failedtransactions, setFailedtransactions] = useState();
     // if (!ownedCertificates)
 	// 	return <div>loading... No OwnedCertificates Found</div>;
 
@@ -84,23 +92,44 @@ function Documents(){
                 <div className='Stepper'>
                     <Button 
                         variant={
-                            stepper === 'mycollections'
-                                ? 'contained'
-                                : ''
-                        }
-                        onClick={() => setStepper('mycollections')}
-                    >
-                        My Collections
-                    </Button>
-                    <Button 
-                        variant={
                             stepper === 'myrequests'
                                 ? 'contained'
                                 : ''
-                    }
-                    onClick={() => setStepper('myrequests')}
+                        }
+                        onClick={() => setStepper('myrequests')}
                     >
-                        My Requests	
+                        My Requests
+                    </Button>
+                    <Button 
+                        variant={
+                            stepper === 'topay'
+                                ? 'contained'
+                                : ''
+                    }
+                    onClick={() => setStepper('topay')}
+                    >
+                        To Pay 
+                    </Button>
+                    <Button 
+                        variant={
+                            stepper === 'torecieve'
+                                ? 'contained'
+                                : ''
+                    }
+                    onClick={() => setStepper('torecieve')}
+                    >
+                        To Recieve 
+                    </Button>
+                    <div className='Stepper__Cut'></div>
+                    <Button 
+                        variant={
+                            stepper === 'failedtransactions'
+                                ? 'contained'
+                                : ''
+                    }
+                    onClick={() => setStepper('failedtransactions')}
+                    >
+                        Failed Transactions
                     </Button>
                 </div>
                 <div className='Container__Section'>
@@ -135,44 +164,47 @@ function Documents(){
                     </div>
                     
                 </div>
-                {stepper==="mycollections"?
-                    <div className='Container_Section'>
-                        <div className='Wrapper__Card'>
-                            {/* {(ownedCertificates.length === 0 )?
-                                <>
-                                    <div className='EmtpyCard'>
-                                        <div>
-                                            <img src={Empty} alt="" />
-                                            <p>No certificates available!</p>
-                                        </div>
-                                    </div>
+            
+                
+                <div className='Container_Section'>
+                    <div className='Wrapper__Card'>
+                        {stepper==="myrequests"?<>
+                            {myRequest.map((request) => {
+                                return <>
+                                    <RequesctCard data={request} type={stepper}/>
                                 </>
-                                :
-                                <>
-                                    {ownedCertificates.length > 0 &&
-                                        ownedCertificates.map((ownedCertificate) => {
-                                            return (
-                                                <Card
-                                                    key={ownedCertificate.certificateId}
-                                                    id={ownedCertificate.certificateId}
-                                                    title={ownedCertificate.title}
-                                                    type={'certificate'}
-                                                    image={`https://icertify.infura-ipfs.io/ipfs/${ownedCertificate.ipfsCID}`}
-                                                />
-                                                // <Card
-                                                //     key={ownedCertificate.certificateId}
-                                                //     id={ownedCertificate.certificateId}
-                                                //     type={'certificate'}
-                                                //     image={`https://icertify.infura-ipfs.io/ipfs/${ownedCertificate.ipfsCID}`}
-                                                // />
-                                            );
-                                    })}
+                            })}
+                        </>:""}
+                        {stepper==="topay"?<>
+                            {toPay.map((request) => {
+                                return <>
+                                    <RequesctCard data={request} type={stepper}/>
                                 </>
-                            } */}
-                        </div>
+                            })}
+                        </>:""}
+                        {stepper==="torecieve"?<>
+                            {toRecieve.map((request) => {
+                                return <>
+                                    <RequesctCard data={request}  type={stepper}/>
+                                </>
+                            })}
+                        </>:""}
+                        {stepper==="failedtransactions"?<>
+                            {failedtransactions.map((request) => {
+                                return <>
+                                    <RequesctCard data={request}  type={stepper}/>
+                                </>
+                            })}
+                        </>:""}
+                        
                     </div>
-                :""}
-                {stepper==="myrequests"?
+                </div>
+                
+                
+
+
+
+                {/* {stepper==="myrequests"?
                     <div className='Container_Section'>
                         <div className='Wrapper__Card'>
                             {request.map((request) => {
@@ -182,29 +214,29 @@ function Documents(){
                             })}
                         </div>
                     </div>
-                :""}
+                :""} */}
                 
             </section>
         </div>
     )
 }
 
-function RequesctCard({data}){
+function RequesctCard({data,type}){
     const [status,setStatus] = useState("Failed");
     const [anchorElNote, setAnchorElNote] = React.useState(null);
 	const openNote = Boolean(anchorElNote);
     useEffect(()=> {
-        switch (data.status) {
-            case "pending"  :
+        switch (type) {
+            case "myrequests"  :
                 setStatus("Pending")
                 break;
-            case "approved"  :
+            case "topay"  :
                 setStatus("Payment")
                 break;
-            case "paid" || "processing"  :
+            case "torecieve"  :
                 setStatus("Processing")
                 break;
-            case "declined" || "cancelled" :
+            case "failedtransactions" :
                 setStatus("Failed")
                 break;
             default:
@@ -220,7 +252,6 @@ function RequesctCard({data}){
                 <h6 className='RequestCardUser__Header__InstitutionName'>STI College Marikina</h6>
             </div>
             <div className='RequestCardUser__Body'>
-
                 <h5>Transcript of Record</h5>
                 <p className='BodyText3 RequestCardUser__Body__Status' id={status}>{status}</p>
                 <ul className='RequestCardUser__Body__MoreInfo'>
@@ -234,44 +265,68 @@ function RequesctCard({data}){
                     </li>
                 </ul>
             </div>
-            {(status === "Failed")?<>
-                <div className='RequestCardUser__Footer'>
-                    <Button 
-                        className='RequestCardUser__Footer__Note' 
-                        variant='contained' 
-                        onClick={(event) => {
-                            setAnchorElNote(event.currentTarget);
-                        }}
-                    >View Note
-                    </Button>
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorElNote}
-                        open={openNote}
-                        onClose={() => {
-                            setAnchorElNote(null);
-                        }}
-                    >
-                        <div id='SelectDocumentDropdown'>
-                            <h5 id='SelectDocumentDropdown__Title'>Note:</h5>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reiciendis doloremque ullam magni nam sunt optio voluptas autem excepturi explicabo nesciunt?</p>
-                        </div>
-                    </Menu>
-                </div>
-            </>
-            :
-            <>
-                <div className='RequestCardUser__Footer'>
-                    <div className='RequestCardUser__Footer__Buttons'>
-                        <Button className='RequestCardUser__Footer__Cancel' variant='contained'>Cancel</Button>
-                        {(status === "Payment")?<Button variant='contained' >Pay</Button>:<></>}
-                        {(status === "Pending")?<Button variant='contained' disabled>Pay</Button>:<></>}
+            {status==="Processing"?<>
+            
+            </>:<>
+                {(status === "Failed")?<>
+                    <div className='RequestCardUser__Footer'>
+                        <Button 
+                            className='RequestCardUser__Footer__Note' 
+                            variant='contained' 
+                            onClick={(event) => {
+                                setAnchorElNote(event.currentTarget);
+                            }}
+                        >View Note
+                        </Button>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorElNote}
+                            open={openNote}
+                            onClose={() => {
+                                setAnchorElNote(null);
+                            }}
+                        >
+                            <div id='SelectDocumentDropdown'>
+                                <h5 id='SelectDocumentDropdown__Title'>Note:</h5>
+                                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reiciendis doloremque ullam magni nam sunt optio voluptas autem excepturi explicabo nesciunt?</p>
+                            </div>
+                        </Menu>
                     </div>
-                </div>
-            </>
-            }
-
-
+                </>
+                :
+                <>
+                    <div className='RequestCardUser__Footer'>
+                        <div className='RequestCardUser__Footer__Buttons'>
+                            <Button 
+                                className='RequestCardUser__Footer__Cancel' 
+                                variant='contained' 
+                                onClick={(event) => {
+                                    setAnchorElNote(event.currentTarget);
+                                }}
+                            >Cancel</Button>
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorElNote}
+                                open={openNote}
+                                onClose={() => {
+                                    setAnchorElNote(null);
+                                }}
+                            >
+                                <div id='CancelRequest'>
+                                    <h5 id='SelectDocumentDropdown__Title'>Why will you cancel?</h5>
+                                    <TextField multiline id="standard-basic"  variant="standard" />
+                                    <Button variant='contained'>Cancel This Request</Button>
+                                </div>
+                            </Menu>
+                            {(status === "Payment")?<Button variant='contained' >Pay</Button>:<></>}
+                            {(status === "Pending")?<Button variant='contained' disabled>Pay</Button>:<></>}
+                        </div>
+                    </div>
+                </>
+                }
+            
+            </>}
+            
             
         </div>
     </>

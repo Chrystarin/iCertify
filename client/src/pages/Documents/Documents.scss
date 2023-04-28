@@ -68,5 +68,13 @@
     .RequestCardUser__Footer__Note__Container{
         padding: 1em;
         width: 300%;
+        
     }
+}
+#CancelRequest{
+    width: 400px;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
