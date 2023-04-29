@@ -23,6 +23,8 @@ const getRequests = async (req, res, next) => {
 		user: { id, type }
 	} = req;
 
+    console.log(req.query)
+
 	// Validate inputs
 	isString(requestType, 'Request Type');
 
@@ -189,8 +191,10 @@ const processRequest = async (req, res, next) => {
 
     const {
 		requestId,
-		status
+		status,
 	} = JSON.parse(body)
+
+    console.log(req.body)
 
 	// Validate inputs
 	isString(requestId, 'Request ID');
@@ -264,7 +268,7 @@ const processRequest = async (req, res, next) => {
 						rqst.details.statusTimestamps = {}
 
 					rqst.details.statusTimestamps.declined = new Date();
-					rqst.details.note = req.body.note;
+					rqst.details.note = JSON.parse(req.body.body).note;
 				}
 
 				request = rqst;

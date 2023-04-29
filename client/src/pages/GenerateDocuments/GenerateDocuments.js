@@ -84,12 +84,13 @@ function GenerateDocuments() {
 		setRequestFailed(data.filter((item)=>[keys[2],keys[6]].some((key)=> item.status?.toString().toLowerCase().includes(key))));
 	}
 
-    const ProcessRequest = async (request, action) => {
+    const ProcessRequest = async (request, action, note) => {
         try {
             const formData = new FormData();
             formData.append('body', JSON.stringify({
                 requestId: request.requestId,
                 status: action,
+                note: (!note ? '' : note)
             }))
 
             await axiosInstance.patch(
@@ -121,6 +122,7 @@ function GenerateDocuments() {
                                             type={keys[0]}
                                             title={request.details.offeredDoc.title}
                                             date={request.createdAt}
+                                            decline={(e)=>ProcessRequest(request, 'declined', e)}
                                             action={()=>ProcessRequest(request, 'approved')}
                                             id={request.requestor.walletAddress}
                                             status={request.status}

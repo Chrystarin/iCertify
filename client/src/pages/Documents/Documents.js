@@ -2,11 +2,9 @@ import React,{useEffect,useState} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import './Documents.scss'
-import {ethers} from 'ethers';
+
 import SearchInput from '../../components/SearchInput/SearchInput';
-import Empty from '../../images/icons/empty-folder.png'
-import Card from '../../components/Card/Card.js';
-import axios from '../../utils/axios';
+
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -16,36 +14,28 @@ import EventIcon from '@mui/icons-material/Event';
 import SellIcon from '@mui/icons-material/Sell';
 import TextField from '@mui/material/TextField';
 
+import axiosInstance from '../../utils/axios';
+
 function Documents(){
-    const [address, setAddress] = useState("");
-    const [ownedCertificates, setOwnedCertificates] = useState(null);
+
     const {tab} = useParams();
     const navigate = useNavigate();
-	const [stepper, setStepper] = useState('JoinedInstitutions');
 
-    const [anchorElDropDownDocument, setAnchorElDropDownDocument] = React.useState(null);
-	const open = Boolean(anchorElDropDownDocument);
+    const [requests, setRequests] = useState();
+    const [myRequest, setMyRequests] = useState();
+    const [toPay, setToPay] = useState();
+    const [toRecieve, setToRecieve] = useState();
+    const [failedtransactions, setFailedtransactions] = useState();
+
+	
+    const [anchorElDropDownDocument, setAnchorElDropDownDocument] = useState(null);
+    const open = Boolean(anchorElDropDownDocument);
+    const [stepper, setStepper] = useState('JoinedInstitutions');
+    
+    
+    
 	
     useEffect(()=> {
-        // const checkWallet = async () => {
-        //     try{
-        //         const provider = new ethers.providers.Web3Provider(window.ethereum);
-        //         const signer = provider.getSigner();
-        //         setAddress(await signer.getAddress());
-        //     }
-        //     catch(err){
-        //         console.error(err.message);
-        //     }
-        // }
-        // const fetchOwnedCertificates = async () => {
-        //     const response = await axios
-        //         .get(`members/${address}/certificates`)
-        //         .then((response) => {
-        //             setOwnedCertificates(response.data);
-        //         });
-        // };
-        // checkWallet();
-        // fetchOwnedCertificates();
         if (tab == "myrequests")
             setStepper("myrequests")
         else if (tab == "topay")
@@ -56,7 +46,9 @@ function Documents(){
             setStepper("failedtransactions")
         else 
             setStepper("myrequests")
-        filterData(sampledata);
+        
+        fetchDocumentRequests();
+        
     },[])
     
     const sampledata = [
@@ -68,26 +60,65 @@ function Documents(){
 		{id:"304232326",name:"Grades",user:"David Embile",status:"approved",note:"" ,timestamp:"Novebmer 25, 2022"},
 		{id:"304232327",name:"Transcript of record",user:"Shiba Castillo",status:"verified",note:"" ,timestamp:"Novebmer 25, 2022"}
 	];
+
     const keys = ["pending","approved","declined","paid","verified","processing","cancelled","completed"];
+
     const filterData = (data) => {
-        setMyRequests(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[0])));
+        setMyRequests(data.filter((item)=> [keys[0],keys[3]].some((key)=> item.status?.toString().toLowerCase().includes(key))))
         setToPay(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[1])));
-        setToRecieve(data.filter((item)=> [keys[3],keys[4],keys[5]].some((key)=> item.status?.toString().toLowerCase().includes(key))));
+        setToRecieve(data.filter((item)=> [keys[4],keys[5]].some((key)=> item.status?.toString().toLowerCase().includes(key))));
         setFailedtransactions(data.filter((item)=> [keys[2],keys[6]].some((key)=> item.status?.toString().toLowerCase().includes(key))))
     }
-    const [myRequest, setMyRequests] = useState();
-    const [toPay, setToPay] = useState();
-    const [toRecieve, setToRecieve] = useState();
-    const [failedtransactions, setFailedtransactions] = useState();
-    // if (!ownedCertificates)
-	// 	return <div>loading... No OwnedCertificates Found</div>;
+
+    // Retrieves Document Requests
+    const fetchDocumentRequests = async () => {
+        await axiosInstance
+            .get(`requests`,{
+                params: {
+                    requestType: 'document'
+                }
+            })
+            .then((response) => { 
+                setRequests(response.data)
+                filterData(response.data);
+                console.log(response.data)
+            });
+    };
+
+    const ProcessRequest = async (request, action) => {
+        try {
+            console.log(request)
+            const formData = new FormData();
+            formData.append('body', JSON.stringify({
+                requestId: request.requestId,
+                status: action,
+            }))
+
+            await axiosInstance.patch(
+                `requests`,
+                formData,
+                {headers: {
+                      'Content-Type': 'multipart/form-data'
+                }}
+            )
+            .then((response)=>{
+                alert(`Document ${action}!`)
+                console.log(response.data)
+                fetchDocumentRequests();
+            })
+        } catch (err) {      
+            console.error(err.message);
+        }
+    }
+
+    if (!requests) return <div>loading...</div>;
 
     return (
         <div className='Container' id='Documents'>
             <section  className='Container__Content'>
                 <div className='Container__Title__Container'>
-                    <h2 className='Container__Title'>Documents</h2>
-                    <h5 className='SectionSubTitle'>My Collections of Documents</h5>
+                    <h2 className='Container__Title'>Document Requests</h2>
+                    <h5 className='SectionSubTitle'>My Collections of Document Requests</h5>
                 </div>
                 <div className='Stepper'>
                     <Button 
@@ -162,7 +193,6 @@ function Documents(){
                             </Menu>
                         </div>
                     </div>
-                    
                 </div>
             
                 
@@ -171,28 +201,28 @@ function Documents(){
                         {stepper==="myrequests"?<>
                             {myRequest.map((request) => {
                                 return <>
-                                    <RequesctCard data={request} type={stepper}/>
+                                    <RequestCard data={request} type={stepper}/>
                                 </>
                             })}
                         </>:""}
                         {stepper==="topay"?<>
                             {toPay.map((request) => {
                                 return <>
-                                    <RequesctCard data={request} type={stepper}/>
+                                    <RequestCard data={request} type={stepper}/>
                                 </>
                             })}
                         </>:""}
                         {stepper==="torecieve"?<>
                             {toRecieve.map((request) => {
                                 return <>
-                                    <RequesctCard data={request}  type={stepper}/>
+                                    <RequestCard data={request}  type={stepper}/>
                                 </>
                             })}
                         </>:""}
                         {stepper==="failedtransactions"?<>
                             {failedtransactions.map((request) => {
                                 return <>
-                                    <RequesctCard data={request}  type={stepper}/>
+                                    <RequestCard data={request}  type={stepper}/>
                                 </>
                             })}
                         </>:""}
@@ -200,110 +230,67 @@ function Documents(){
                     </div>
                 </div>
                 
-                
-
-
-
-                {/* {stepper==="myrequests"?
-                    <div className='Container_Section'>
-                        <div className='Wrapper__Card'>
-                            {request.map((request) => {
-                                return <>
-                                    <RequesctCard data={request} keys={keys}/>
-                                </>
-                            })}
-                        </div>
-                    </div>
-                :""} */}
-                
             </section>
         </div>
     )
-}
 
-function RequesctCard({data,type}){
-    const [status,setStatus] = useState("Failed");
-    const [anchorElNote, setAnchorElNote] = React.useState(null);
-	const openNote = Boolean(anchorElNote);
-    useEffect(()=> {
-        switch (type) {
-            case "myrequests"  :
-                setStatus("Pending")
-                break;
-            case "topay"  :
-                setStatus("Payment")
-                break;
-            case "torecieve"  :
-                setStatus("Processing")
-                break;
-            case "failedtransactions" :
-                setStatus("Failed")
-                break;
-            default:
-                break;
-        }
-    },[])
-
-
-    return <>
-        <div className='RequestCardUser'>
-            <div className='RequestCardUser__Header'>
-                <Avatar className='RequestCardUser__Header__Avatar'/>
-                <h6 className='RequestCardUser__Header__InstitutionName'>STI College Marikina</h6>
-            </div>
-            <div className='RequestCardUser__Body'>
-                <h5>Transcript of Record</h5>
-                <p className='BodyText3 RequestCardUser__Body__Status' id={status}>{status}</p>
-                <ul className='RequestCardUser__Body__MoreInfo'>
-                    <li>
-                        <EventIcon/>
-                        <p><span>October 25, 2022</span> <span>Requested</span></p>
-                    </li>
-                    <li>
-                        <SellIcon/>
-                        <p>500 pesos</p>
-                    </li>
-                </ul>
-            </div>
-            {status==="Processing"?<>
-            
-            </>:<>
-                {(status === "Failed")?<>
-                    <div className='RequestCardUser__Footer'>
-                        <Button 
-                            className='RequestCardUser__Footer__Note' 
-                            variant='contained' 
-                            onClick={(event) => {
-                                setAnchorElNote(event.currentTarget);
-                            }}
-                        >View Note
-                        </Button>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorElNote}
-                            open={openNote}
-                            onClose={() => {
-                                setAnchorElNote(null);
-                            }}
-                        >
-                            <div id='SelectDocumentDropdown'>
-                                <h5 id='SelectDocumentDropdown__Title'>Note:</h5>
-                                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reiciendis doloremque ullam magni nam sunt optio voluptas autem excepturi explicabo nesciunt?</p>
-                            </div>
-                        </Menu>
-                    </div>
-                </>
-                :
-                <>
-                    <div className='RequestCardUser__Footer'>
-                        <div className='RequestCardUser__Footer__Buttons'>
+    function RequestCard({data,type}){
+        const [status,setStatus] = useState("Failed");
+        const [anchorElNote, setAnchorElNote] = React.useState(null);
+        const openNote = Boolean(anchorElNote);
+        useEffect(()=> {
+            switch (type) {
+                case "myrequests"  :
+                    setStatus("Pending")
+                    break;
+                case "topay"  :
+                    setStatus("Payment")
+                    break;
+                case "torecieve"  :
+                    setStatus("Processing")
+                    break;
+                case "failedtransactions" :
+                    setStatus("Failed")
+                    break;
+                default:
+                    break;
+            }
+        },[])
+    
+    
+        return <>
+            <div className='RequestCardUser'>
+                <div className='RequestCardUser__Header'>
+                    <Avatar className='RequestCardUser__Header__Avatar'/>
+                    <h6 className='RequestCardUser__Header__InstitutionName'>{data.institution.name}</h6>
+                </div>
+                <div className='RequestCardUser__Body'>
+                    <h5>Transcript of Record</h5>
+                    <p className='BodyText3 RequestCardUser__Body__Status' id={status}>{(data.status).toUpperCase()}</p>
+                    <ul className='RequestCardUser__Body__MoreInfo'>
+                        <li>
+                            <EventIcon/>
+                            <p><span>{data.createdAt}</span> <span>Requested</span></p>
+                        </li>
+                        <li>
+                            <SellIcon/>
+                            <p>{data.details.offeredDoc.price} PHP</p>
+                        </li>
+                    </ul>
+                </div>
+                {status==="Processing"?<>
+                
+                </>:<>
+                    {(status === "Failed")?<>
+                        <div className='RequestCardUser__Footer'>
                             <Button 
-                                className='RequestCardUser__Footer__Cancel' 
+                                className='RequestCardUser__Footer__Note' 
                                 variant='contained' 
                                 onClick={(event) => {
                                     setAnchorElNote(event.currentTarget);
                                 }}
-                            >Cancel</Button>
+                            >View Note
+                            </Button>
                             <Menu
                                 id="basic-menu"
                                 anchorEl={anchorElNote}
@@ -312,25 +299,37 @@ function RequesctCard({data,type}){
                                     setAnchorElNote(null);
                                 }}
                             >
-                                <div id='CancelRequest'>
-                                    <h5 id='SelectDocumentDropdown__Title'>Why will you cancel?</h5>
-                                    <TextField multiline id="standard-basic"  variant="standard" />
-                                    <Button variant='contained'>Cancel This Request</Button>
+                                <div id='SelectDocumentDropdown'>
+                                    <h5 id='SelectDocumentDropdown__Title'>Note:</h5>
+                                    <p>{(!data.details?.note) ? 'None' : data.details.note}</p>
                                 </div>
                             </Menu>
-                            {(status === "Payment")?<Button variant='contained' >Pay</Button>:<></>}
-                            {(status === "Pending")?<Button variant='contained' disabled>Pay</Button>:<></>}
                         </div>
-                    </div>
-                </>
-                }
-            
-            </>}
-            
-            
-        </div>
-    </>
+                    </>
+                    :
+                    <>
+                        <div className='RequestCardUser__Footer'>
+                            <div className='RequestCardUser__Footer__Buttons'>
+                                <Button 
+                                    className='RequestCardUser__Footer__Cancel' 
+                                    variant='contained' 
+                                    onClick={()=>ProcessRequest(data, 'cancelled')}
+                                >
+                                    Cancel
+                                </Button>
+                                {(status === "Payment")?<Button variant='contained' onClick={()=>navigate(`/requests/pay/${data.requestId}`)}>Pay</Button>:<></>}
+                                {(status === "Pending")?<Button variant='contained' disabled>Pay</Button>:<></>}
+                            </div>
+                        </div>
+                    </>
+                    }
+                </>}
+            </div>
+        </>
+    }
 }
+
+
 export default Documents
 
 

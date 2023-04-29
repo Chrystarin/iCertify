@@ -38,12 +38,8 @@ import Test from './pages/Test.js'
 function App() {
 	return (
 		<Routes>
-
             {/* Error Routes */}
             <Route path='*' element={<Error />}/>
-            <Route path='/test' element={<Test />}/>
-
-            <Route path='/requests' element={<MemberRequests />}/>
 
 			{/* Public Routes */}
             <Route path='/' element={<Panel/>}>
@@ -60,10 +56,9 @@ function App() {
             <Route element={<ProtectedRoute/>} >
                 <Route element={<Panel/>}>
                     <Route path='users/:id/edit' element={<ProfileUpdate />}/>
-                    <Route path='dashboard' element={<Dashboard />}/>
-                    <Route path='documents/list' element={<Document />} />
-                    <Route path='documents/list/:tab' element={<Document />} />
-                    <Route path='documents/:id' element={<DocumentPage/>}/>
+                    <Route path='requests' element={<Document />} />
+                    <Route path='requests/:tab' element={<Document />} />
+                    <Route path='requests/pay/:reqId' element={<DocumentRequestPayment />}/>
                     {/* Edited */}
                     <Route path='institutions/:id/:docId' element={<ViewDocumentOffered />}/>
                     {/* new */}

@@ -14,10 +14,12 @@ function MintTransferCard(props) {
 		setAnchorEl(event.currentTarget);
 	};
 	const handleClose = () => {
+        props.decline(note)
 		setAnchorEl(null);
 	};
 
 
+    const [note, setNote] = useState();
 	const [OpenModal, setOpenModal] = useState(false);
 	const {
 		requestId,
@@ -70,6 +72,7 @@ function MintTransferCard(props) {
 								multiline
 								maxRows={4}
 								variant="standard"
+                                onChange={(e)=>setNote(e.target.value)}
 								/>
 								<div>
 									<Button variant='contained' onClick={handleClose}>Ok</Button>
