@@ -43,6 +43,8 @@ const getRequests = async (req, res, next) => {
 
 	if (requestId) {
 		requests = requests.find(({ requestId: ri }) => ri == requestId);
+		console.log(requests);
+
 		if (!requests) throw new NotFound('Request not found');
 	}
 
@@ -194,7 +196,8 @@ const processRequest = async (req, res, next) => {
 		status,
 	} = JSON.parse(body)
 
-    console.log(JSON.parse(req.body.body))
+    // console.log(JSON.parse(req.body.body))
+	// console.log(type)
 
 	// Validate inputs
 	isString(requestId, 'Request ID');
@@ -204,6 +207,7 @@ const processRequest = async (req, res, next) => {
 
 	if (type === USER) {
 		const rqst = await Request.findOne({ requestId, requestor: id });
+		console.log(rqst);
 		switch (status) {
 			case 'paid':
 				// Check rqst status if approved
@@ -227,6 +231,9 @@ const processRequest = async (req, res, next) => {
 			case 'cancelled':
 				// Check if rqst status if pending or approved
 				if (!['pending', 'approved'].includes(rqst.status)) break;
+
+				if(rqst.details.statusTimestamps === undefined)
+					rqst.details.statusTimestamps = {}
 
 				rqst.details.statusTimestamps.cancelled = new Date();
 

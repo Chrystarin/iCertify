@@ -40,10 +40,12 @@ function DocumentRequestForm() {
         await axiosInstance
             .get(`requests`,{
                 params: {
-                    requestType: 'document'
+                    requestType: 'document',
+                    requestId: reqId
                 }
             })
             .then((response) => { 
+                console.log(response.data)
                 setRequest(findValue(response.data, reqId))
                 console.log(findValue(response.data, reqId))
             });
