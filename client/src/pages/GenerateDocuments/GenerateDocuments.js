@@ -255,28 +255,28 @@ function GenerateDocuments() {
 						<h5 id='DocumentsAnalytics__Title'>Documents Analytics</h5>
 						<div className="parent">
 							<div className="div1">
-								<h5>1</h5>
-								<p className='BodyText2'>Document Offered</p>
+								<h5>{requestPending.length}</h5>
+								<p className='BodyText2'>To Approve</p>
 							</div>
 							<div className="div2">
-								<h5>7</h5>
-								<p className='BodyText2'>Verify</p>
+								<h5>{requestPaid.length}</h5>
+								<p className='BodyText2'>To Verify</p>
 							</div>
 							<div className="div3">
-								<h6>40</h6>
-								<p className='BodyText3'>Destributed</p>
+								<h6>{requestCompleted.length}</h6>
+								<p className='BodyText3'>Completed</p>
 							</div>
 							<div className="div4"> 
-								<h6>5</h6>
-								<p className='BodyText3'>Denied</p>
+								<h6>{requestFailed.length}</h6>
+								<p className='BodyText3'>Failed</p>
 							</div>
 							<div className="div5"> 
-								<h6>1</h6>
-								<p className='BodyText3'>Requests</p>
+								<h6>{requestProcessing.length}</h6>
+								<p className='BodyText3'>Processing</p>
 							</div>
 							<div className="div6"> 
-								<h6>5</h6>
-								<p className='BodyText3'>Payment</p>
+								<h6>{requests.length}</h6>
+								<p className='BodyText3'>Total</p>
 							</div>
 						</div>
 						<div id='DocumentsAnalytics__Member' >

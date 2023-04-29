@@ -83,7 +83,9 @@ function InstitutionUpdate() {
     }
 
 	// Edit Institution Data
-    const EditInstitution = async () => {
+    const EditInstitution = async (e) => {
+        e.preventDefault();
+        
         try {
             const formData = new FormData();
             formData.append('body', JSON.stringify({
@@ -134,6 +136,10 @@ function InstitutionUpdate() {
 					</Stepper>
 				</div>
 			</div>
+
+            <form onSubmit={(e) => EditInstitution(e)} className="formTemplate">
+
+            
 				<div className='Category__Seperator'>
 					<div className='Category__Title'>
 						<h4>Institution Details</h4>
@@ -236,6 +242,7 @@ function InstitutionUpdate() {
 						Update
 					</Button>
 				</div>
+            </form>
 		</section>
 	);
 }

@@ -82,6 +82,7 @@ function DocumentRequestForm() {
             .then((response)=>{
                 alert(`Document Paid!`)
                 console.log(response.data)
+                navigate("/requests")
             })
         } catch (err) {      
             console.error(err.message);

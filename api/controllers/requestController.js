@@ -194,7 +194,7 @@ const processRequest = async (req, res, next) => {
 		status,
 	} = JSON.parse(body)
 
-    console.log(req.body)
+    console.log(JSON.parse(req.body.body))
 
 	// Validate inputs
 	isString(requestId, 'Request ID');

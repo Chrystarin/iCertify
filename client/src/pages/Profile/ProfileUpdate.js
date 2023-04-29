@@ -93,14 +93,14 @@ function ProfileUpdate() {
 		try {
             const formData = new FormData();
             formData.append('body', JSON.stringify({
-                firstName: form.firstName ? form.firstName : user.name.firstName,
-                middleName: form.middleName ? form.middleName : (user.name.middleName ? form.middleName : user.name.middleName),
-                lastName: form.lastName ? form.lastName : user.name.lastName,
-                email: form.email ? form.email : user.email,
-                birthDate: form.birthDate ? form.birthDate : user.birthDate,
-                address: form.address ? form.address : (user.address ? form.address : user.address),
-                contactNo: form.contactNo ? form.contactNo : (user.contactNo ? form.contactNo : user.contactNo),
-                about: form.about ? form.about : (user.about ? form.about : user.about),
+                firstName: form.firstName,
+                middleName: form.middleName,
+                lastName: form.lastName,
+                email: form.email,
+                birthDate: form.birthDate,
+                address: form.address,
+                contactNo: form.contactNo,
+                about: form.about,
             }))
             await axiosInstance.patch(
                 `users`, 
@@ -155,14 +155,14 @@ function ProfileUpdate() {
 								label='First Name'
 								type='text'
 								required
-								defaultValue={form.firstName ? form.firstName : ''}
-								onChange={(e) =>setForm({firstName: e.target.value})}
+								defaultValue={form.firstName}
+                                onChange={(e) => updateForm({firstName: e.target.value})}
 							/>
 							<TextField
 								id='outlined-search'
 								label='Middle Name'
 								type='text'
-								defaultValue={form.middleName ? form.middleName : ''}
+								defaultValue={form.middleName}
 								onChange={(e) =>updateForm({middleName: e.target.value})}
 							/>
 							<TextField
@@ -170,7 +170,7 @@ function ProfileUpdate() {
 								label='Last Name'
 								type='text'
 								required
-								defaultValue={form.lastName ? form.lastName : ''}
+								defaultValue={form.lastName}
 								onChange={(e) =>updateForm({lastName: e.target.value})}
 							/>
 						</div>
@@ -179,7 +179,7 @@ function ProfileUpdate() {
 							label='About '
 							type='text'
 							multiline
-							defaultValue={form.about ? form.about : ''}
+							defaultValue={form.about}
 							onChange={(e) =>updateForm({about: e.target.value})}
 						/>
 						<div className='Wrapper_1_2_Inputs'>
@@ -187,7 +187,7 @@ function ProfileUpdate() {
 								id='outlined-search'
 								label='Address'
 								type='text'
-								defaultValue={form.address ? form.address : ''}
+								defaultValue={form.address}
 								onChange={(e) =>updateForm({address: e.target.value})}
 							/>
 							{/* <FormControl fullWidth>
@@ -211,10 +211,10 @@ function ProfileUpdate() {
 									label="Birthday"
 									inputFormat="MM/DD/YYYY"
 									value={form.birthDate}
-									onChange={(newValue)=>{
-										setdateValue(newValue)
-									}}
-                                    // onChange={(e) =>updateForm({birthDate: e.target.value})}
+									// onChange={(newValue)=>{
+									// 	setdateValue(newValue)
+									// }}
+                                    onChange={(e) =>updateForm({birthDate: e.target.value})}
 									renderInput={(params) => <TextField {...params} />}
 								/>
 							</LocalizationProvider>
@@ -225,14 +225,14 @@ function ProfileUpdate() {
 								label='Email'
 								type='email'
 								required
-								defaultValue={form.email ? form.email : ''}
+								defaultValue={form.email}
 								onChange={(e) =>updateForm({email: e.target.value})}
 							/>
 							<TextField
 								id='outlined-search'
 								label='Contact Number'
 								type='text'
-								defaultValue={form.contactNo ? form.contactNo: ''}
+								defaultValue={form.contactNo}
 								onChange={(e) =>updateForm({contactNo: e.target.value})}
 							/>
 							
