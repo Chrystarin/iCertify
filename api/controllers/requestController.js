@@ -207,7 +207,6 @@ const processRequest = async (req, res, next) => {
 
 	if (type === USER) {
 		const rqst = await Request.findOne({ requestId, requestor: id });
-		console.log(rqst);
 		switch (status) {
 			case 'paid':
 				// Check rqst status if approved
