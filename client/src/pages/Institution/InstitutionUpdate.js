@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 
+// Import Stylesheets
 import './InstitutionUpdate.scss';
 import './../../styles/Form.scss';
 
+// Import Components
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -14,19 +16,20 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Avatar } from '@mui/material';
-import axios from '../../utils/axios';
-
 import Switch from '@mui/material/Switch';
+
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
 
 function InstitutionUpdate() {
 
+    // Constant Declarations
 	const navigate = useNavigate();
-
 	const { id } = useParams();
+    const {isAuth} = useAuth();
+
+    // State Declarations
     const [institution, setInstitution] = useState();
     const [form, setForm] = useState({
         name: '',
@@ -42,6 +45,7 @@ function InstitutionUpdate() {
 
 	// Executes on load
 	useEffect(() => {
+        
         fetchInstitution();
 	}, []);
 
@@ -74,7 +78,6 @@ function InstitutionUpdate() {
         return setForm((prev) => {
             const [key, value] = Object.entries(e)[0];
             prev[key] = value;
-            console.log(form)
             return prev;
         });
     }
@@ -109,7 +112,12 @@ function InstitutionUpdate() {
     }
 	
 	// Returns if institution is null
-	if (!institution) return <div>loading...</div>;
+	if (!institution) 
+        return <div>loading...</div>;
+
+    // Redirects to Unauthorized Page if User not Institution Admin
+    if (!isAuth(id))
+        navigate("/unauthorized")
 
 	return (
 		<section id='Create_Event'>
@@ -126,7 +134,6 @@ function InstitutionUpdate() {
 					</Stepper>
 				</div>
 			</div>
-			<form onSubmit={(e) => EditInstitution(e)} className="formTemplate">
 				<div className='Category__Seperator'>
 					<div className='Category__Title'>
 						<h4>Institution Details</h4>
@@ -215,16 +222,20 @@ function InstitutionUpdate() {
 				</div>
 				
 				<div id='Holder_Button'>
-					
-					<Button variant='outlined'>cancel</Button>
+					<Button 
+                        variant='outlined'
+                        onClick={()=>{navigate(`/institutions/${id}`)}}
+                    >
+                        Cancel
+                    </Button>
 					<Button
 						variant='contained'
 						type="submit"
+                        onClick={(e) => EditInstitution(e)}
 					>
 						Update
 					</Button>
 				</div>
-			</form>
 		</section>
 	);
 }
