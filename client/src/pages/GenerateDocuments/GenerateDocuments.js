@@ -106,7 +106,7 @@ function GenerateDocuments() {
         }
     }
 
-	function TabView({requests}) {
+	function TabView() {
 		switch (TabActive) {
 			case 'verifyrequest' :
 				if (requestPending.length === 0)return <div>No request</div>;
@@ -196,7 +196,7 @@ function GenerateDocuments() {
 				<section className='AdminPanelContainer__Content' id='CreateDocument'>
 					<div id='Header'>
 						<h2 className='SectionTitle' > 
-							Make Documents
+							Manage Requests Documents
 						</h2>
 						<h5>Create all the requested Documents</h5>
 					</div>
@@ -284,6 +284,8 @@ function GenerateDocuments() {
 								<p className='BodyText3'>Members</p>
 							</div>
 						</div>
+					<Button href='/documents/update/payment' variant='contained' fullWidth>Upadate Payment Method</Button>
+
 					</div>
 
 					{TabActive==="verifypayment"?<>
@@ -313,7 +315,6 @@ function GenerateDocuments() {
 							<SidePanelList data={requestCompleted}/>
 						</div>
 					</>:<></>}
-					
 				</div>
 			</div>
 		</>	

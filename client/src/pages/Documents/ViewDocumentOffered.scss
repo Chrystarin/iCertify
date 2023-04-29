@@ -36,7 +36,9 @@
             max-width: 1300px;
             margin: auto;
             display: flex;
-            gap: 140px;
+            ul:nth-child(1){
+                flex-grow: 1;
+            }
             ul:nth-child(2){
                 width: 400px;
             }
@@ -61,54 +63,15 @@
                     }
                 }
             }
+            
         }
-    }
-}
-
-#ModeOfPayement{
-        
-        #ModeOfPayement__Selection{
-        flex-grow: 1;
-        display: flex;
-        flex-direction:column;
-        #ModeOfPayement__Selection__List{
-            margin-bottom: 25px;
+        #Holder_Button{
+            width: 100%;
+            max-width: 1300px;
+            margin: 40px auto 0;
             display: flex;
-            gap: 25px;
-            #ModeOfPayement__Selection__Cards{
-                background-color: white;
-                border-radius: 8px;
-                box-shadow: 0 0 15px rgba(0, 0, 0, 0.033);
-                padding: 1em;
-                cursor: pointer;
-            }
-            #ModeOfPayement__Selection__Cards.active{
-                border: 2px solid var(--accent);
-            }
+            justify-content: end;
         }
     }
-    #ModeOfPayement__Reciept{
-        background-color: white;
-        border-radius: 8px;
-        width: 400px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.033);
-        
-    }
-}
-#Confirmation{
-    #Confirmation__Container{
-        margin: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 400px;
-        text-align: center;
-        gap: 25px;
-        h5{
-            color: var(--accent);
-        }
-        p{
-            margin-top: 15px;
-        }
-    }
+    
 }

@@ -1,5 +1,80 @@
-#Credential{
-    #CredentialVIewPanel{
-        margin-top: 35px;
+.RequestCardUser{
+    width: 300px;
+    background-color: white;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.036);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .RequestCardUser__Header,.RequestCardUser__Body,.RequestCardUser__Footer{
+        padding: 1em;
     }
+    .RequestCardUser__Header{
+        background-color: var(--dark1);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        color: white;
+        .RequestCardUser__Header__Avatar{
+            width: 30px;
+            height: 30px;
+        }
+    }   
+    .RequestCardUser__Body{
+        .RequestCardUser__Body__Status{
+            margin-bottom: 20px;
+        }
+        #Pending{
+            color: orange;
+        }
+        #Payment{
+            color: rgb(235, 217, 57);
+        }
+        #Processing{
+            color: rgb(15, 137, 213);
+        }
+        #Failed{
+            color: rgb(213, 15, 61);
+        }
+        .RequestCardUser__Body__MoreInfo{
+            display: flex;
+            gap: 10px;
+            flex-direction: column;
+            li{
+                display: flex;
+                gap: 5px;
+                align-items: center;
+            }
+        }
+    }
+    .RequestCardUser__Footer{
+        padding-top: 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        .RequestCardUser__Footer__Buttons{
+            display: grid;
+            grid-template-columns: 40% 55%;
+            gap: 5%;
+            
+        }
+        .RequestCardUser__Footer__Cancel,.RequestCardUser__Footer__Note{
+            background-color: white;
+            color: black;
+        }
+        
+        
+    }
+    .RequestCardUser__Footer__Note__Container{
+        padding: 1em;
+        width: 300%;
+        
+    }
+}
+#CancelRequest{
+    width: 400px;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
 }
