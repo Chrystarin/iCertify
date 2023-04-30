@@ -17,7 +17,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import DescriptionIcon from '@mui/icons-material/Description';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
-
+import MetaMaskIcon from './../../images/icons/fox.png';
 // Import Images
 import Logo from '../../images/placeholder/placeholder_profile.jpg';
 import Wallpaper from '../../images/placeholder/placeholder_cover.jpg'
@@ -94,11 +94,14 @@ const InstitutionView = () => {
                 <div id="Institution__Wallpaper__Container">
                     <img src={(!institution.photos?.cover) ? Wallpaper : institution.photos.cover } alt="" />
                     {isAuth(id)?<>
-                        <div id="Institution__Wallpaper__Update">
-                            <input type="file" onChange={(e) => EditInstitution({selected:'cover', file:e.target.files[0]})} />
-                            <InsertPhotoIcon id="Institution__Wallpaper__Update__Icon"/>
-                            <p>Update Cover Photo</p>
-                        </div>
+                        <input id="UpdateCoverPhoto" className="hidden" type="file" onChange={(e) => EditInstitution({selected:'cover', file:e.target.files[0]})} />
+                        <label htmlFor="UpdateCoverPhoto" >
+                            <div id="Institution__Wallpaper__Update">
+                                <InsertPhotoIcon id="Institution__Wallpaper__Update__Icon"/>
+                                <p>Update Cover Photo</p>
+                            </div>
+                        </label>
+                        
                         </>:<></>
                     }
                 </div>
@@ -106,29 +109,33 @@ const InstitutionView = () => {
                     <div id="AvatarProfile__Holder">
                         <Avatar src={(!institution.photos?.profile) ? Logo : institution.photos.profile } id="AvatarProfile__Avatar"/>
                         {isAuth(id)?<>
-                            <input type="file" onChange={(e) => EditInstitution({selected:'profile', file:e.target.files[0]})} />
-                            <div id="AvatarProfile__Update" onClick={()=>{alert()}}>
-                                <InsertPhotoIcon id="AvatarProfile__Upadate__Icon"/>
-                                <p>Update</p>
-                                
-                            </div></>:
-                            <></>
+                            <input id="ProfilePicture" className="hide" type="file" onChange={(e) => EditInstitution({selected:'profile', file:e.target.files[0]})} />
+                            <label htmlFor="ProfilePicture">
+                                <div id="AvatarProfile__Update">
+                                    <InsertPhotoIcon id="AvatarProfile__Upadate__Icon"/>
+                                    <p>Update</p>
+                                </div>
+                            </label>
+                            </>:<></>
                         }
                         
                     </div>
                     <div id="InstitutionInformationNavigation__Container">
                         <div id="InstitutionInformation__Container">
-                            <h3>{institution.name}</h3>
-                            <p>{institution.walletAddress}</p>
+                            <h3 id="InstitutionInformation__Container__Name">{institution.name}</h3>
                             <ul>
                                 <li>
                                     <GroupIcon/>
-                                    <h6>{institution.members.length}</h6>
+                                    <p>{institution.members.length}</p>
                                 </li>
                                 <li>
                                     <DescriptionIcon/>
-                                    <h6>{institution.docOffers.length}</h6>
-                                </li>   
+                                    <p>{institution.docOffers.length}</p>
+                                </li> 
+                                <li>
+                                    <img className="InstitutionInformation__Container__Icon" src={MetaMaskIcon}></img>
+                                    <p>{institution.walletAddress}</p>
+                                </li>  
                             </ul>
                         </div>
                         <div id="Buttons__Container">
