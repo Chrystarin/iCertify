@@ -158,41 +158,57 @@ const InstitutionView = () => {
             <div id="InstitutionBody">
                 <div id="InstitutionBody__Sidepanel">
                     <div id="Sticky">
-                        <div className="Panel__Container">
-                            <h6 className="Panel__Title">About Us</h6>
-                            <p className="BodyText3">{institution.about}</p>
-                        </div>
+                        {institution.about?<>
+                            <div className="Panel__Container">
+                                <h6 className="Panel__Title">About Us</h6>
+                                <p className="BodyText3">{institution.about}</p>
+                            </div>
+                        </>:<></>}
+                        
                         <div className="Panel__Container">
                             <ul className="Panel__MultipleContent">
-                                <li>
-                                    <h6 className="Panel__Title">Location</h6>
-                                    <div className="Panel__Content__IconText">
-                                        <LocationOnIcon/>
-                                        <p className="BodyText3">{institution.address}</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h6 className="Panel__Title">Contact Number</h6>
-                                    <div className="Panel__Content__IconText">
-                                        <CallIcon/>
-                                        <p className="BodyText3">{institution.contactNo}</p>
-                                    </div>
-                                    
-                                </li>
-                                <li>
-                                    <h6 className="Panel__Title">Email</h6>
-                                    <div className="Panel__Content__IconText">
-                                        <EmailIcon/>
-                                        <p className="BodyText3">{institution.email}</p>
-                                    </div>
-                                </li>
-                                <li>
-                                    <h6 className="Panel__Title">Website</h6>
-                                    <div className="Panel__Content__IconText">
-                                        <EmailIcon/>
-                                        <p className="BodyText3">{institution.website}</p>
-                                    </div>
-                                </li>
+                                {institution.address?
+                                    <li>
+                                        <h6 className="Panel__Title">Location</h6>
+                                        <div className="Panel__Content__IconText">
+                                            <LocationOnIcon/>
+                                            <p className="BodyText3">{institution.address}</p>
+                                        </div>
+                                    </li>
+                                :<></>}
+                                
+                                {institution.contactNo?
+                                    <li>
+                                        <h6 className="Panel__Title">Contact Number</h6>
+                                        <div className="Panel__Content__IconText">
+                                            <CallIcon/>
+                                            <p className="BodyText3">{institution.contactNo}</p>
+                                        </div>
+                                        
+                                    </li>
+                                :<></>}
+                                
+                                {institution.email?
+                                    <li>
+                                        <h6 className="Panel__Title">Email</h6>
+                                        <div className="Panel__Content__IconText">
+                                            <EmailIcon/>
+                                            <p className="BodyText3">{institution.email}</p>
+                                        </div>
+                                    </li>
+                                :<></>}
+                                
+
+                                {institution.website?
+                                    <li>
+                                        <h6 className="Panel__Title">Website</h6>
+                                        <div className="Panel__Content__IconText">
+                                            <EmailIcon/>
+                                            <p className="BodyText3">{institution.website}</p>
+                                        </div>
+                                    </li>
+                                :<></>}
+                                
                                 
                             </ul>
                         </div>
