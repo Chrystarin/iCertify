@@ -16,6 +16,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
+import GetAppIcon from '@mui/icons-material/GetApp';
 
 // Import Utils
 import axiosInstance from '../../utils/axios';
@@ -188,7 +189,7 @@ function CreateDocument({manual}) {
             <section id='CreateDocument'>
                 <div id='CreateDocument__Container'> 
                     { (!file)?
-                        <div id='uploadDocument__Container'>
+                        <div className='uploadDocument__Container'>
                             <input type="file" name='uploadDocument' id='uploadDocument' className='hidden'  onChange={(e)=>setFile(e.target.files[0])} /> 
                             <label htmlFor="uploadDocument" id='uploadDocument__Click'>
                                 <img src={UploadFileImage} alt="" />
@@ -200,10 +201,23 @@ function CreateDocument({manual}) {
                         </div>
                     :
                         <div>
-                            <div id='uploadDocument__Container'>
+                            <div id='uploadDocument__ViewUploaded__Container'>
                                 {file && <img src={URL.createObjectURL(file)} alt="uploaded" id='CreateDocument__Image'/>}
+                                <div id='uploadDocument__ViewUploaded__Container__Footer'>
+                                    {/* Footer  attach this ID to the element that the footer will show uploadDocument__ViewUploaded__Container__Footer__Image*/}
+                                    {/* <img src="" alt="" /> */}
+                                </div>
                             </div>
-                            <input type="file" onChange={(e)=>setFile(e.target.files[0])} /> 
+                            <div className='uploadDocument__ViewUploaded__ReUploadButton'>
+                                <input id='reupload' type="file" onChange={(e)=>setFile(e.target.files[0])}  className='hidden' /> 
+                                <label htmlFor="reupload">
+                                    <div>
+                                        <GetAppIcon/>
+                                        <h6 className='BodyText3'>Upload Another</h6>
+                                    </div>
+                                </label>
+                            </div>
+                            
                         </div>
                     }
                 </div>
@@ -211,12 +225,11 @@ function CreateDocument({manual}) {
             <div id='SidePanel'>
                 <div id='SidePanel__Info' className='Panel__Container'>
                     {manual ?
-                    
                         <>
                             <div id='SidePanel__Requestor'>
                                 <Avatar id="SidePanel__Requestor__Avatar"/>
                             </div>
-                            <div id='SidePanel__Date'>
+                            <div className='SidePanel__Date'>
                                 <TextField
                                     id='outlined-search'
                                     label='Member Wallet Address'
@@ -262,33 +275,47 @@ function CreateDocument({manual}) {
                                     onClick={()=>{navigate(`/users/${request.requestor.walletAddress}`)}} 
                                 />
                             </div>
-                            <div id='SidePanel__Date'>
+                            <div className='SidePanel__Date'>
                                 <div>
                                     <h6>Document Requested:</h6>
                                     <p>{request.details.offeredDoc.title}</p>
+                                </div>
+                                <div>
                                     <h6>Price:</h6>
                                     <p>{request.details.offeredDoc.price}</p>
+                                </div>
+                                <div>
                                     <h6>Description:</h6>
                                     <p>{request.details.offeredDoc.description}</p>
+                                </div>
+                                <div>
                                     <h6>Requirements:</h6>
                                     <p>{request.details.offeredDoc.requirements}</p>
                                 </div>
                             </div>
                             {(!request.details.proof) ? '':
-                                <div id='SidePanel__Date'>
+                                <div className='SidePanel__Date'>
                                     <h6>Proof of Payment:</h6>
-                                    <p><button><a href={request.details.proof} target="_blank">View</a></button></p>
+                                    <Button id='ProofofPaymentButton' href={request.details.proof} target="_blank" variant='contained' >view image</Button>
                                 </div>
                             }
-                            <div id='SidePanel__Date'>
-                                <h6>Requested:</h6>
-                                <p>{request.createdAt}</p>
-                                <h6>Approved:</h6>
-                                <p>{request.details.statusTimestamps.approved}</p>
-                                <h6>Paid:</h6>
-                                <p>{request.details.statusTimestamps.paid}</p>
-                                <h6>Verified:</h6>
-                                <p>{request.details.statusTimestamps.verified}</p>
+                            <div className='SidePanel__Date'>
+                                <div>
+                                    <h6>Requested:</h6>
+                                    <p>{request.createdAt}</p>
+                                </div>
+                                <div>
+                                    <h6>Approved:</h6>
+                                    <p>{request.details.statusTimestamps.approved}</p>
+                                </div>
+                                <div>
+                                    <h6>Paid:</h6>
+                                    <p>{request.details.statusTimestamps.paid}</p>
+                                </div>
+                                <div>
+                                    <h6>Verified:</h6>
+                                    <p>{request.details.statusTimestamps.verified}</p>
+                                </div>
                             </div>
                             <div id='SidePanel__Buttons'>
                                 <Button variant='outlined'>Decline</Button>

@@ -14,7 +14,7 @@ import InstitutionCard from '../../components/Card/InstitutionCard.js'
 
 // Import Icons & images 
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
-import CallIcon from '@mui/icons-material/Call';
+import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MetaMaskIcon from './../../images/icons/fox.png';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
@@ -208,7 +208,17 @@ function Profile() {
                                         </div>
                                     </div>
                                 }
-									
+                                {(!user.email) ? ' ' :
+                                <div>
+                                    <h6 className='Panel__Title'>Email</h6>
+                                    <div className='Panel__Content__IconText'>
+                                        <EmailIcon />
+                                        <p className='BodyText3'>
+                                            {user.email}
+                                        </p>
+                                    </div>
+                                </div>
+                                }
 								</li>
 							</ul>
 						</div>
