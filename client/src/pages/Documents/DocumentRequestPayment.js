@@ -145,8 +145,6 @@ function DocumentRequestForm() {
                     <div className="Category__Content">
                         <div id='ModeOfPayement__Selection'>
 
-                           
-
                             <div 
                                 className='ModeOfPayement__Selection__Cards' 
                                 onClick={()=>setPaymentValue(paymentValue => ({

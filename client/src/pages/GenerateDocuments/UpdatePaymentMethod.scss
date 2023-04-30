@@ -1,6 +1,18 @@
 #ModeOfPayement__Selection{
     display: flex; 
+    align-items: center;
     gap: 25px;
+    #ModeOfPayement__Selection__Add{
+        button{
+            background-color: white;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.072);
+            transition: background-color .5s ease-in-out;
+        }
+        button:hover{
+            background-color: var(--accent);
+            color: white;
+        }
+    }
     .ModeOfPayement__Selection__Cards{
         cursor: pointer;
         display: flex;
@@ -26,12 +38,31 @@
         box-shadow: 0 0 8px rgba(40, 89, 157, 0.218);
     }
 }
-#ModeOfPayement__ItemSelect{
+#ModeOfPayement__ItemSelect__Edit{
     list-style: none;
     display: flex;
+    align-items: center;
     gap: 25px;
     flex-wrap: wrap;
     li{
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        button{
+            display: none;
+            background-color: white;
+            color: black;
+        }
+        button#Active{
+            display: inherit;
+            opacity: 1;
+        }
+        button:hover{
+            background-color: var(--accent);
+            color: white;
+        }
+    }
+    .ModeOfPayement__ItemSelect__List{
         cursor: pointer;
         background-color: rgb(254, 254, 254);
         padding:1em 2em;
@@ -40,11 +71,11 @@
         transition: color .5s, box-shadow .3s ease-in-out,background-color .3s ease-in-out;
         
     }
-    li:hover{
+    .ModeOfPayement__ItemSelect__List:hover{
         box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
         color: rgb(33, 119, 130);
     }
-    li#Active{
+    .ModeOfPayement__ItemSelect__List#Active{
         background-color: var(--accent);
         color: white;
         border: 1px solid var(--accent);
@@ -69,4 +100,39 @@
             margin-top: 15px;
         }
     }
+}
+#AddPaymentMethodModal{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    padding: 2em 1em 1em;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.051);
+    min-width: 700px;
+    display: flex;
+    gap: 15px;
+    flex-direction: column;
+    #AddPaymentMethodModal__Instruction__Container{
+        max-height: 300px;
+        overflow-Y: scroll;
+        padding-top: .4em;
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+    #AddPaymentMethodModal__Instruction__Container::-webkit-scrollbar {
+        width: 0;
+        
+    }
+    #AddPaymentMethodModal__Buttons{
+        display: flex;
+        justify-content: end;
+        gap: 15px;
+        #AddPaymentMethodModal__Cancel{
+            color: black;
+            background-color: white;
+        }
+    }
+    
 }
