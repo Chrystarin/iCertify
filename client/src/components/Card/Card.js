@@ -21,7 +21,7 @@ const Card = (props) => {
         <Link to={`/documents/${accessCode}`}>
             <div className='Card'>
                     <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
-                    <img className='EventName' src={ImagePlaceHolder} alt=""/>
+                    {/* <img className='EventName' src={ImagePlaceHolder} alt=""/> */}
 
                     <h6 className="EventTitle">{title}</h6>
                     <div id='Card__Institution'>

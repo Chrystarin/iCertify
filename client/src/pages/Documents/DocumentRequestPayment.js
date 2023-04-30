@@ -1,27 +1,26 @@
 import React,{useState, useEffect} from 'react'
 import { useParams, useNavigate } from "react-router-dom";
 
+// Import Stylesheets
 import './../../styles/Form.scss';
 import './DocumentRequestPayment.scss';
 
-import DocumentIcon from '../../images/icons/DocumentIcon.png';
+// Import Components
 import Button from '@mui/material/Button';
-import ThankyouImage from '../../images/Resources/Design/Thankyou.png'
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import { TextField } from '@mui/material';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import WalletIcon from '@mui/icons-material/Wallet';
+
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
 import UploadFileImage from './../../images/Resources/Design/UploadFile.png'
+
 function DocumentRequestForm() {
 
-    const { user, isAuth, isJoined } = useAuth();
-    const { id, reqId } = useParams();
+    const { reqId } = useParams();
     const navigate = useNavigate();
 
     // Constants Declarations
@@ -45,25 +44,9 @@ function DocumentRequestForm() {
                 }
             })
             .then((response) => { 
-                console.log(response.data)
-                setRequest(findValue(response.data, reqId))
-                // console.log(findValue(response.data, reqId))
+                setRequest(response.data)
             });
     };
-
-    function findValue(obj, val) {
-        for (let key in obj) {
-            if (typeof obj[key] === 'object') {
-                const result = findValue(obj[key], val);
-                if (result !== undefined) {
-                return result;
-                }
-            } else if (obj[key] === val) {
-                return obj;
-            }
-        }
-        return undefined;
-    }
 
     const PayDocument = async () => {
         try {

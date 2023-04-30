@@ -37,10 +37,32 @@ function Profile() {
     const [institutions, setInstitutions] = useState(null);
 	const [documents, setDocuments] = useState(null);
 
+    const [mappedDocuments, setMappedDocuments] = useState([]);
+
 	// Executes on load
 	useEffect(() => {
 		fetchUser();
 	}, []);
+
+    const mapDocumentsAsync = async (data) => {
+        const mappedDocs = await Promise.all(
+            data.map(async (document) => {
+            const docData = await getDocumentData(document.nftId)
+            const image = `https://icertify.infura-ipfs.io/ipfs/${await getTokenURI(document.nftId)}`;
+            return (
+                <Card
+                    key={document.codes[0]}
+                    id={document.certificateId}
+                    title={docData._type}
+                    date={document.createdAt}
+                    accessCode={document.codes[0]}
+                    image={image}
+                />
+            );
+          })
+        );
+        setMappedDocuments(mappedDocs);
+      };
 
 
     // Retrieves User's Data
@@ -55,22 +77,27 @@ function Profile() {
                 setUser(response.data);
                 setInstitutions(response.data.institutions)
                 setDocuments(response.data.documents)
-                console.log(response.data)
-
+                mapDocumentsAsync(response.data.documents);
             });
     };
 
     // Retrieves Document's Metadata
     const getTokenURI = async (data) => {
         const contract = await getContract();
-
         try{
-            await contract
-                .tokenURI(data.nftId)
-                .then((response)=>{
-                    // setTokenURI(response)
-                    return response
-                })
+            const response = await contract.tokenURI(data);
+            return response
+        } catch(error) {
+            console.log(error)
+        }
+    }
+
+    // Retrieves Document's Metadata
+    const getDocumentData = async (data) => {
+        const contract = await getContract();
+        try{
+            const response = await contract.getDocumentData(data);
+            return response
         } catch(error) {
             console.log(error)
         }
@@ -224,21 +251,7 @@ function Profile() {
 							:
 							<>
 								<div className='Wrapper__Card'>
-									{documents.length > 0 &&
-										documents.map((document) => {
-                                            const tokenUri = getTokenURI(document)
-                                            // const tokenUri = await getTokenURI(document)
-											return (
-												<Card
-													key={document.codes[0]}
-													id={document.certificateId}
-                                                    title={document.hash}
-                                                    date={document.createdAt}
-                                                    accessCode={document.codes[0]}
-													image={`https://icertify.infura-ipfs.io/ipfs/${tokenUri}`}
-												/>
-											);
-										})}
+                                    {mappedDocuments}
 								</div>
 							</>
 						}			
