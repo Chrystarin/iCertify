@@ -6,9 +6,11 @@ import IDSample from '../../images/placeholder/IDSample.jpg'
 function MemberCard(props) {
     const {
         name,
+        walletAddress,
         institutionID,
         image,
-        member
+        member,
+        membershipProof
     } = props;
     const [openModal, setOpenModal] = React.useState(false);
 
@@ -33,7 +35,15 @@ function MemberCard(props) {
                     <Avatar id="MemberCard__Avatar" src={image}/>
                     <div id='MemberCard__Text'>
                         <h6 id='MemberCard__Name'>{name}</h6>
-                        <p className='BodyText3' id='MemberCardID__InstitutionID'>{institutionID}</p>
+                        
+                        { (institutionID==="null" || !institutionID)
+                            ? <p className='BodyText3' id='MemberCardID__InstitutionID'>{walletAddress}</p>
+                            : <p className='BodyText3' id='MemberCardID__InstitutionID'>{institutionID}</p>
+                        }
+
+                            {/* <p className='BodyText3' id='MemberCardID__InstitutionID'>{walletAddress}</p>
+                            <p className='BodyText3' id='MemberCardID__InstitutionID'>{institutionID}</p> */}
+                        
                     </div>
                 </a>
                 <div id='MemberCardID__Buttons'>
@@ -50,7 +60,7 @@ function MemberCard(props) {
         aria-describedby="modal-modal-description"
         >
             <div id='MemberCardModal'>
-                <img src={IDSample} alt="" />
+                <img src={membershipProof} alt="" />
             </div>
         </Modal>
     </>

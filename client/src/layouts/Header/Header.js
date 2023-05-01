@@ -77,7 +77,7 @@ function Header() {
             <div id='Navigation_Content'> 
                 <div id="NotificatonHolder"ref={menuRef}>
                     <div id="ProfileDropdown">
-                        <Tooltip title="Notification">
+                        {/* <Tooltip title="Notification">
                             <IconButton
                             onClick={handleClickNotification}
                             size="small"
@@ -135,7 +135,7 @@ function Header() {
                             
                             </ul>
                             </div>
-                        </Menu>
+                        </Menu> */}
                     </div>
                 </div>           
                 

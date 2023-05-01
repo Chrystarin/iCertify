@@ -42,19 +42,18 @@ function InstitutionJoin(props) {
             formData.append('type', 'join');
             formData.append('walletAddress', id);
             formData.append('idNumber', memberId ? memberId : null);
-            formData.append('proof', memberProof);
+            formData.append('proof', memberProof ? memberProof : null);
 
             // Log the contents of the FormData to the console
             formData.forEach((value, key) => {
                 console.log(key, value);
             });
             
-
             await axiosInstance
                 .post(
                     `requests`, 
                     formData,
-                )
+                    {headers: {'Content-Type': 'multipart/form-data'}})
                 .then((response) => {
                     console.log(response.data)
                     alert("Join Request Sent! Wait for the admin to approve your request")

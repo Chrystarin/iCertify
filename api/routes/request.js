@@ -24,7 +24,7 @@ router.get('/', getRequests);
  * type [join | document]
  * walletAddress
  */
-router.post('/', onlyUser, createRequest);
+router.post('/', fileUpload(), onlyUser, createRequest);
 
 /**
  * Process request

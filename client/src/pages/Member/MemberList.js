@@ -23,7 +23,7 @@ function MemberList() {
 				.get(`institutions/members`)
 				.then((response) => {
 					setMembers(response.data)
-                    console.log(response.data)
+                    // console.log(response.data)
 				});
 		};
 
@@ -168,8 +168,10 @@ function MemberList() {
                                         <MemberCard 
                                             key={request.requestor.walletAddress} 
                                             name={`${request.requestor.name.firstName}`+" "+`${request.requestor.name.lastName}`}
-                                            institutionID={request.requestor.walletAddress} 
+                                            walletAddress={request.requestor.walletAddress} 
+                                            institutionID={request.details.idNumber}
                                             member={false}
+                                            membershipProof={request.details.membership}
                                             image={request.requestor.photo} 
                                             onClick={()=>AcceptRequest(request)}
                                         />
