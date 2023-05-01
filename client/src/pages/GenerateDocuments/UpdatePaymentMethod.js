@@ -23,8 +23,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-
-
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
@@ -36,7 +34,10 @@ function DocumentRequestForm() {
 
     const { id } = useParams();
 
-    const [open, setOpen] = useState(false);
+
+    const [openAddModal, setOpenAddModal] = useState(false);
+    const [openEditModal, setOpenEditModal] = useState(false);
+    const [selectedPayment, setSelectedPayment] = useState();
     const [paymentValue,setPaymentValue] = useState({
       modePayment:"EWallet",
       modePayment_Item:"",
@@ -121,28 +122,15 @@ function DocumentRequestForm() {
             return prev;
         });
     }
-
-
-  // Stepper
-  const [activeStep,setActiveStep] = useState(0);
-  function nextStep(){
-      if(activeStep !== 2){
-        setActiveStep(activeStep+1);
-      }
-  }
-  function backStep(){
-    if(activeStep > 0){
-      setActiveStep(activeStep-1);
-    }
-  } 
+    
   
-  if(!institution || !payments) return <div>Loading...</div>
+    if(!institution || !payments) return <div>Loading...</div>
 
     return (
         <section>
         <div id="Stepper">
             <div id="Holder_Stepper">
-                <Stepper activeStep={activeStep}>
+                <Stepper >
                     <Step>
                         <StepLabel>Payment Method</StepLabel>
                     </Step>
@@ -199,7 +187,7 @@ function DocumentRequestForm() {
                         <p className='BodyText2'>Over The Counter</p>
                     </div>
                     <div id='ModeOfPayement__Selection__Add'>
-                        <IconButton aria-label="delete" size="large" onClick={() => setOpen(true)}>  
+                        <IconButton aria-label="delete" size="large" onClick={() => setOpenAddModal(true)}>  
                             <AddIcon fontSize="inherit" />
                         </IconButton>
                     </div>
@@ -225,7 +213,7 @@ function DocumentRequestForm() {
                                         </div>
                                         <IconButton 
                                             aria-label="delete" 
-                                            onClick={() => setOpen(true)} 
+                                            onClick={() => {setOpenEditModal(true); setSelectedPayment(payment);}} 
                                             id={paymentValue.modePayment_Item.bankName===payment.details.bankName?"Active":""}
                                         >  
                                             <EditIcon fontSize="inherit" />
@@ -250,7 +238,7 @@ function DocumentRequestForm() {
                                         >
                                             {payment.details.ewalletName}
                                         </div>
-                                        <IconButton aria-label="delete" onClick={() => setOpen(true)} id={paymentValue.modePayment_Item.ewalletName===payment.details.ewalletName?"Active":""}>  
+                                        <IconButton aria-label="delete"  onClick={() => {setOpenEditModal(true); setSelectedPayment(payment);}}  id={paymentValue.modePayment_Item.ewalletName===payment.details.ewalletName?"Active":""}>  
                                             <EditIcon fontSize="inherit" />
                                         </IconButton>
                                     </li>
@@ -273,7 +261,7 @@ function DocumentRequestForm() {
                                         >
                                             {payment.details.otcName}
                                         </div>
-                                        <IconButton aria-label="delete" onClick={() => setOpen(true)} id={paymentValue.modePayment_Item.otcName===payment.details.otcName?"Active":""}>  
+                                        <IconButton aria-label="delete"  onClick={() => {setOpenEditModal(true); setSelectedPayment(payment);}}  id={paymentValue.modePayment_Item.otcName===payment.details.otcName?"Active":""}>  
                                             <EditIcon fontSize="inherit" />
                                         </IconButton>
                                     </li>
@@ -320,12 +308,22 @@ function DocumentRequestForm() {
         </div>
 
         <Modal
-            open={open}
-            onClose={()=>setOpen(false)}
+            open={openAddModal}
+            onClose={()=>setOpenAddModal(false)}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <AddPaymentMethod close={()=>setOpen(false)}/>
+            <AddPaymentMethod close={()=>setOpenAddModal(false)}/>
+        </Modal>
+
+        <Modal
+            open={openEditModal}
+           
+            onClose={()=>setOpenEditModal(false)}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+        >
+            <EditPaymentMethod close={()=>setOpenEditModal(false)}  data={selectedPayment}/>
         </Modal>
         </section>
     )
@@ -442,35 +440,58 @@ function DocumentRequestForm() {
 
     function EditPaymentMethod({close, data}){
 
-        const [modeOfPaymentForm, setModeOfPaymentForm] = useState('');
+        const [modeOfPaymentForm, setModeOfPaymentForm] = useState(data.type);
+        const [editForm, setEditForm] = useState({
+            type: data.type,
+            typeName: (
+                data.type==="bank" ? data.details.bankName :''+
+                data.type==="ewallet" ? data.details.ewalletName :''+
+                data.type==="otc" ? data.details.otcName :''
+            ),
+            accountName: data.details.accountName,
+            accountNum: data.details.accountNumber,
+            location: data.details.location,
+            instructions: data.details.instructions
+        });
         
+        // Updates form from input
+        function updateEditForm(e) {
+            return setEditForm((prev) => {
+                const [key, value] = Object.entries(e)[0];
+                prev[key] = value;
+                return prev;
+            });
+        }
+
+        // Edit Institution Data
+    const EditInstitution = async (e) => {
+        e.preventDefault();
+        
+        try {
+            const formData = new FormData();
+            
+            await axiosInstance.patch(`institutions/payment`, JSON.stringify({
+
+            })
+            )
+            .then((response)=>{
+                alert("Payment Updated Updated")
+                fetchInstitution();
+                close()
+            })
+        } catch (err) {      
+            console.error(err.message);
+        }
+    }
 
         const handleChange = (event) => {
             setModeOfPaymentForm(event.target.value);
             updateForm({type: event.target.value})
         };
-
-        // Finds Specific Value based on Key Value Pair
-        function findValue(obj, val) {
-            for (let key in obj) {
-                if (typeof obj[key] === 'object') {
-                    const result = findValue(obj[key], val);
-                    if (result !== undefined) {
-                    return result;
-                    }
-                } else if (obj[key] === val) {
-                    return obj;
-                }
-            }
-            return undefined;
-        }
-
-        console.log(findValue(payments, data.paymentId))
         
-        return 
-        <>
+        return <>
             <div id='AddPaymentMethodModal'>
-                <h4>Add Payment Method</h4>
+                <h4>Edit Payment Method</h4>
                 <hr />
                 <div className='Wrapper_2_Inputs'>
                 <FormControl fullWidth>
@@ -497,7 +518,8 @@ function DocumentRequestForm() {
                         }
                         type='text'
                         required
-                        onChange={(e) => updateForm({typeName: e.target.value})}
+                        onChange={(e) => updateEditForm({typeName: e.target.value})}
+                        defaultValue={editForm.typeName}
                     />
                 :''
 
@@ -515,7 +537,8 @@ function DocumentRequestForm() {
                             type='text'
                             required
                             minRows={3}
-                            onChange={(e) => updateForm({location: e.target.value})}
+                            onChange={(e) => updateEditForm({location: e.target.value})}
+                            defaultValue={editForm.location}
                         />
                     </div>
                     <div id='AddPaymentMethodModal__Instruction__Container'>
@@ -526,7 +549,8 @@ function DocumentRequestForm() {
                             type='text'
                             required
                             minRows={3}
-                            onChange={(e) => updateForm({instructions: e.target.value})}
+                            onChange={(e) => updateEditForm({instructions: e.target.value})}
+                            defaultValue={editForm.instructions}
                         />
                     </div>
                 </>
@@ -543,7 +567,8 @@ function DocumentRequestForm() {
                             type='text'
                             required
                             minRows={3}
-                            onChange={(e) => updateForm({accountName: e.target.value})}
+                            onChange={(e) => updateEditForm({accountName: e.target.value})}
+                            defaultValue={editForm.accountName}
                         />
                     </div>
                     <div id='AddPaymentMethodModal__Instruction__Container'>
@@ -553,7 +578,8 @@ function DocumentRequestForm() {
                             type='text'
                             required
                             minRows={3}
-                            onChange={(e) => updateForm({accountNum: e.target.value})}
+                            onChange={(e) => updateEditForm({accountNum: e.target.value})}
+                            defaultValue={editForm.accountNum}
                         />
                     </div>
                 </>
@@ -562,8 +588,9 @@ function DocumentRequestForm() {
                 )}
             
                 <div id='AddPaymentMethodModal__Buttons'>
+                <Button variant='contained' onClick={()=>{console.log("delete")}}>Delete</Button>
                 <Button variant='contained' id="AddPaymentMethodModal__Cancel" onClick={close}>Cancel</Button>
-                <Button variant='contained' onClick={()=>{addPayment();close()}}>Submit</Button>
+                <Button variant='contained' onClick={()=>{}}>Submit</Button>
                 </div>
             </div>
             

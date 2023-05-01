@@ -337,7 +337,7 @@ function CreateDocument({manual}) {
                                 </div>
                             </div>
                             <div id='SidePanel__Buttons'>
-                                <Button variant='outlined'>Decline</Button>
+                                {/* <Button variant='outlined'>Decline</Button> */}
                                 <Button variant='contained' onClick={()=>ProcessDocument(file)}>Process</Button>
                             </div>
                         </>
