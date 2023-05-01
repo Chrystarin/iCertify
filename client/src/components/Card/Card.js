@@ -20,14 +20,16 @@ const Card = (props) => {
     return (
         <Link to={`/documents/${accessCode}`}>
             <div className='Card'>
+                <div className='Card__Image___Container'>
                     <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
+                </div>
                     {/* <img className='EventName' src={ImagePlaceHolder} alt=""/> */}
 
-                    <h6 className="EventTitle">{title}</h6>
-                    <div id='Card__Institution'>
-                        {/* <Avatar id="Card__Avatar"/> */}
-                        <p className='BodyText3'>{props.date}</p>
-                    </div>
+                <h6 className="EventTitle">{title}</h6>
+                <div id='Card__Institution'>
+                    {/* <Avatar id="Card__Avatar"/> */}
+                    <p className='BodyText3'>{props.date}</p>
+                </div>
             </div>
         </Link>
 

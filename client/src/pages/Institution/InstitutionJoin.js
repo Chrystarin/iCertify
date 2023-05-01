@@ -11,6 +11,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { TextField,Avatar } from '@mui/material';
 import UploadFileImage from './../../images/Resources/Design/UploadFile.png'
+import Loading from '../../components/Loading/Loading';
 
 // Import Utilities
 import axiosInstance from '../../utils/axios';
@@ -100,7 +101,7 @@ function InstitutionJoin(props) {
         Discount: "None"
     }
 
-    if (!user || !institution) return <div>Loading...</div>
+    if (!user || !institution) return <Loading/>
   
     return (
         <section>

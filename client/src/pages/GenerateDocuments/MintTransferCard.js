@@ -7,6 +7,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Menu from '@mui/material/Menu';
 import TextField from '@mui/material/TextField';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 function MintTransferCard(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -32,7 +33,17 @@ function MintTransferCard(props) {
 		status,
 		key
 	} = props;
-
+	const ShortingWallet = (data) =>{
+        let startString = "";
+        let EndString = "";
+        for (let i= 0; i < 6; i++) {
+            startString = startString + data.charAt(i)
+        }
+        for (let i = data.length-4; i < data.length; i++) {
+            EndString = EndString + data.charAt(i);
+        }
+        return startString + "..." + EndString
+    }
 
 	return (
 		<>
@@ -47,13 +58,15 @@ function MintTransferCard(props) {
 				</a>
 				<p id='MintTransferCard__Title' className='BodyText3'>{title}</p>
 				<div id='MintTransferCard__ID'>
-
 					<Tooltip title="Copy">
-						<Chip  label={id} onClick={()=>{}} icon={<ContentCopyIcon fontSize="small" />}/>
+						<Chip  label={"View Payment"} onClick={()=>{}} icon={<RemoveRedEyeIcon fontSize="small" />}/>
+					</Tooltip>
+					<Tooltip title="Copy">
+						<Chip  label={ShortingWallet(id)} onClick={()=>{}} icon={<ContentCopyIcon fontSize="small" />}/>
 					</Tooltip>
 				</div>
 				{status==="pending"|| status==="paid"?<>
-					<div id='MintTransferCard__Buttons'>
+					<div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_2'>
 						<Button variant='outlined' onClick={handleClick}>Decline</Button>
 						<Menu
 							id="basic-menu"
@@ -83,7 +96,7 @@ function MintTransferCard(props) {
 					</div>
 				</>:<></>}
 				{status==="verified"?<>
-					<div id='MintTransferCard__Buttons'>
+					<div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_1'>
 						<Button variant='contained' onClick={props.action}>Process</Button>
 					</div>
 				</>:<></>}

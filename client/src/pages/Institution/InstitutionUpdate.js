@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 // Import Stylesheets
 import './InstitutionUpdate.scss';
 import './../../styles/Form.scss';
-
+import Loading from '../../components/Loading/Loading';
 // Import Components
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
@@ -115,7 +115,7 @@ function InstitutionUpdate() {
 	
 	// Returns if institution is null
 	if (!institution) 
-        return <div>loading...</div>;
+        return <Loading/>;
 
     // Redirects to Unauthorized Page if User not Institution Admin
     if (!isAuth(id))

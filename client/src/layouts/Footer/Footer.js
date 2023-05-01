@@ -20,7 +20,7 @@ function Footer() {
                     <input type="text" name="Email" id="" placeholder="YourEmail@email.com"/>
                     <button>></button>
                 </form>
-                <h6>©2022 iCertify - Bicol IT</h6>
+                <h6>© 2023 iCertify</h6>
             </div>
             <div id="Container_Right_Footer">
                 <div id="Wrapper_Right_Footer">

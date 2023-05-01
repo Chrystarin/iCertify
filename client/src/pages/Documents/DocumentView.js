@@ -22,7 +22,7 @@ import DocumentFooterImage from '../../images/iCertifyBranding/icertify_footerBl
 import Placeholder from '../../images/placeholder/QR.PNG';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
-
+import Loading from '../../components/Loading/Loading';
 import { styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import IconButton from '@mui/material/IconButton';
@@ -275,7 +275,7 @@ function DocumentView() {
         setModalToOpen("share");
     };
 
-    if(!document || !owner || !institution || !documentData || !tokenURI || !accessCodes) return <div>loading...</div>
+    if(!document || !owner || !institution || !documentData || !tokenURI || !accessCodes) return <Loading/>
 
     return (
         <section id='CredentialViewPage_Wrapper'>

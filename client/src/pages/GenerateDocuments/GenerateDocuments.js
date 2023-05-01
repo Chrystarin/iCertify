@@ -3,12 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import './GenerateDocuments.scss';
 import './../../styles/Main.scss';
-
+import Loading from '../../components/Loading/Loading';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SearchInput from '../../components/SearchInput/SearchInput';
 import MintTransferCard from './MintTransferCard';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
 import Menu from '@mui/material/Menu';
 import { ethers } from 'ethers';
 import axiosInstance from '../../utils/axios';
@@ -190,7 +191,7 @@ function GenerateDocuments() {
 		}
 	}
 
-	if (!requests) return <div>loading...</div>;
+	if (!requests) return <Loading/>;
 
 	return (
 		<>
@@ -256,34 +257,34 @@ function GenerateDocuments() {
 						<div className="parent">
 							<div className="div1">
 								<h5>{requestPending.length}</h5>
-								<p className='BodyText2'>To Approve</p>
+								<p className='BodyText2'>To Verify</p>
 							</div>
 							<div className="div2">
 								<h5>{requestPaid.length}</h5>
-								<p className='BodyText2'>To Verify</p>
+								<p className='BodyText2'>To Process</p>
 							</div>
 							<div className="div3">
 								<h6>{requestCompleted.length}</h6>
-								<p className='BodyText3'>Completed</p>
+								<p className='BodyText3'>Requests</p>
 							</div>
 							<div className="div4"> 
 								<h6>{requestFailed.length}</h6>
-								<p className='BodyText3'>Failed</p>
+								<p className='BodyText3'>Payments</p>
 							</div>
 							<div className="div5"> 
 								<h6>{requestProcessing.length}</h6>
-								<p className='BodyText3'>Processing</p>
+								<p className='BodyText3'>Document</p>
 							</div>
 							<div className="div6"> 
 								<h6>{requests.length}</h6>
-								<p className='BodyText3'>Total</p>
+								<p className='BodyText3'>Processing</p>
 							</div>
 						</div>
 						<div id='DocumentsAnalytics__Member' >
-							<PeopleAltIcon id="DocumentsAnalytics__Member__Avatar"/>
+							<FileOpenIcon id="DocumentsAnalytics__Member__Avatar"/>
 							<div>
 								<h5>300</h5>
-								<p className='BodyText3'>Members</p>
+								<p className='BodyText3'>Total Released Documents</p>
 							</div>
 						</div>
 					<Button href='/documents/update/payment' variant='contained' fullWidth>Upadate Payment Method</Button>

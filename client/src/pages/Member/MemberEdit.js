@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField';
-
+import Loading from '../../components/Loading/Loading';
 import axios from '../../config/axios';
 
 const MemberEdit = (props) => {
@@ -58,7 +58,7 @@ const MemberEdit = (props) => {
     }
 
     // Returns if member is null
-    if(!member) return <div>loading...</div>
+    if(!member) return <Loading/>
 
     return (
         <div>

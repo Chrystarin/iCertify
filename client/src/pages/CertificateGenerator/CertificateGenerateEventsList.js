@@ -5,6 +5,7 @@ import '../MintTransfer/MintTransfer.scss';
 import './../../styles/Main.scss';
 import Card from '../../components/Card/Card';
 import axios from '../../utils/axios';
+import Loading from '../../components/Loading/Loading';
 
 function CertificateGenerateEventsList() {
 	const navigate = useNavigate();
@@ -22,7 +23,7 @@ function CertificateGenerateEventsList() {
         fetchEvents()
     }, [])
 
-	if (!events) return <div>loading...</div>;
+	if (!events) return <Loading/>;
 
 	return (
 		<>

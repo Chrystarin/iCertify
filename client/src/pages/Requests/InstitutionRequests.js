@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {useNavigate} from 'react-router-dom';
 import axiosInstance from '../../utils/axios';
-
+import Loading from '../../components/Loading/Loading';
 function InstitutionRequests() {
     const navigate = useNavigate()
 	const [requests, setRequests] = useState();
@@ -47,7 +47,7 @@ function InstitutionRequests() {
         }
     }
 
-	if (!requests) return <div>loading...</div>;
+	if (!requests) return <Loading/>;
 
 	return (
 		<>

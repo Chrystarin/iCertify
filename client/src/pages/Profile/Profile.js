@@ -11,7 +11,8 @@ import UserPanelInfo from '../../components/UserPanel/UserPanelInfo.js';
 import Card from '../../components/Card/Card.js';
 import { Button } from '@mui/material';
 import InstitutionCard from '../../components/Card/InstitutionCard.js'
-
+import Loading from '../../components/Loading/Loading';
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 // Import Icons & images 
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import EmailIcon from '@mui/icons-material/Email';
@@ -37,7 +38,11 @@ function Profile() {
 	const [user, setUser] = useState(null);
     const [institutions, setInstitutions] = useState(null);
 	const [documents, setDocuments] = useState(null);
-
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
     const [mappedDocuments, setMappedDocuments] = useState([]);
 
 	// Executes on load
@@ -128,7 +133,12 @@ function Profile() {
             )
             .then((response)=>{
                 fetchUser();
-                alert("Profile Updated! Kindly wait a few moments for the changes to apply.")
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:"success",
+                    note:"Profile Updated!"
+                }));
             })
         } catch (err) {      
             console.error(err.message);
@@ -136,17 +146,24 @@ function Profile() {
     }
     
 	// Returns if user is null
-	if (!user || !institutions || !documents) return <div>loading... No user Found</div>;
-
-
-
+	if (!user || !institutions || !documents)return <Loading/>;
+    
 	return (
 		<div id='Profile'>
 			<div id='Profile__Container_Div'>
                 <div id='Profile__Img'>
                     <img src={(!user.photo) ? UserIcon : user.photo }/>
                     {(isAuth(id)) ? <>
-                        <input id='UpdateProfile' type="file" className='hidden' onChange={(e) => EditProfile(e.target.files[0])} />
+                        <input id='UpdateProfile' type="file" className='hidden' 
+                        onChange={(e) => {
+                            setOpenSnackBar(openSnackBar => ({
+                                ...openSnackBar,
+                                open:true,
+                                type:"info",
+                                note:"Processing on updating profile"
+                            }));
+                            EditProfile(e.target.files[0]);
+                        }}/>
                         <label htmlFor="UpdateProfile">
                             <div id='Profile__Img__Update'>
                                 <InsertPhotoIcon id="AvatarProfile__Upadate__Icon"/>
@@ -310,6 +327,7 @@ function Profile() {
 					</section>
 				</div>
 			</div>
+            <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
 		</div>
 	);
 }

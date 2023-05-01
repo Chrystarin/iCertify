@@ -8,7 +8,7 @@ import ImageAds from '../../images/Resources/Ads.png'
 
 import Button from '@mui/material/Button';
 import InstitutionCard from '../../components/Card/InstitutionCard.js'
-
+import Loading from '../../components/Loading/Loading';
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
@@ -57,7 +57,7 @@ function Institutions(props) {
 	}, []);
 
     // Returns if institutions is null
-    if (!institutions || !joinedInstitutions) return <div>loading...</div>;
+    if (!institutions || !joinedInstitutions) return <Loading/>;
 
     // Returns Institutions View
 	return (

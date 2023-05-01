@@ -16,6 +16,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { Avatar } from '@mui/material';
 import axios from '../../utils/axios';
+import Loading from '../../components/Loading/Loading';
 
 import Switch from '@mui/material/Switch';
 // Import Utilities
@@ -107,7 +108,7 @@ function InstitutionPaymentEdit() {
     }
 
 	// Returns if institution is null
-	if (!institution) return <div>loading...</div>;
+	if (!institution) return <Loading/>;
 
 	return (
 		<>

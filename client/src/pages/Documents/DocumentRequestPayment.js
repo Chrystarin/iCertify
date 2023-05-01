@@ -5,6 +5,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import './../../styles/Form.scss';
 import './DocumentRequestPayment.scss';
 
+
+
 // Import Components
 import Button from '@mui/material/Button';
 import Stepper from '@mui/material/Stepper';
@@ -12,7 +14,8 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import WalletIcon from '@mui/icons-material/Wallet';
-
+import DownloadIcon from '@mui/icons-material/Download';
+import Loading from '../../components/Loading/Loading';
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
@@ -87,7 +90,7 @@ function DocumentRequestForm() {
         }
     }
   
-    if(!request) return <div>Loading...</div>
+    if(!request) return <Loading/>
 
     return (
         <section>
@@ -287,19 +290,26 @@ function DocumentRequestForm() {
                 { (!proofOfPayment)?
                     <div className="Category__Content">
                         <div id='Category__Content__File'>
-                        <input type="file" id="files" className="hidden" onChange={(e)=>setProofOfPayment(e.target.files[0])}/>
-                        <label htmlFor="files" id='Category__Content__Button'>
-                            <img src={UploadFileImage} alt="" />
-                            <div>
-                                <p className='BodyText3'>Upload any proof of payment</p>
-                                <h5>Click to upload a file</h5>
-                            </div>
-                        </label>
+                            <input type="file" id="files" className="hidden" onChange={(e)=>setProofOfPayment(e.target.files[0])}/>
+                            <label htmlFor="files" id='Category__Content__Button'>
+                                <img src={UploadFileImage} alt="" />
+                                <div>
+                                    <p className='BodyText3'>Upload any proof of payment</p>
+                                    <h5>Click to upload a file</h5>
+                                </div>
+                            </label>
                         </div>
                     </div>
                 :
                     <div className="Category__Content">
-                        <div id='Category__Content__File'>
+                        <div id='UploadAgain' >
+                            <input type="file" id="files" className="hidden" onChange={(e)=>setProofOfPayment(e.target.files[0])}/>
+                            <label htmlFor="files" id='file' >
+                                <DownloadIcon/>
+                                <h6>Upload Another</h6>
+                            </label>
+                        </div>
+                        <div id='proofOfPayement'>
                             {proofOfPayment && <img src={URL.createObjectURL(proofOfPayment)} alt="uploaded" id='CreateDocument__Image'/>}
                             {/* <img src={proofOfPayment} alt="uploaded" id='CreateDocument__Image'/> */}
                         </div>

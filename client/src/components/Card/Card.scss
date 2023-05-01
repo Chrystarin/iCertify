@@ -5,15 +5,21 @@
     padding: .5em;
     opacity: 1;
     border: 1px solid rgba(128, 128, 128, 0.122);
-    max-width: 250px;
+    max-width: 280px;
+    .Card__Image___Container{
+        width: 100%;
+        overflow: hidden;
+        height: 320px;
+        border-radius: 5px;
 
+        img{
+            width: 100%;
+        }
+    }
     a{
         text-decoration: none;
     }
-    img{
-        width: 100%;
-        border-radius: 5px;
-    }
+    
     .EventTitle{
         margin: 5px 0;
         color: black;
@@ -30,6 +36,4 @@
             height: 1em;
         }
     }
-    
-   
 }
