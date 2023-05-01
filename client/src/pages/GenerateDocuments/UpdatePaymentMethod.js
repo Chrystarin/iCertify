@@ -91,6 +91,7 @@ function DocumentRequestForm() {
             )
             .then((response) => {
                 fetchInstitution();
+                alert("Payment Method Added")
                 console.log(response.data)
             });
     };
@@ -464,25 +465,44 @@ function DocumentRequestForm() {
         }
 
         // Edit Institution Data
-    const EditInstitution = async (e) => {
-        e.preventDefault();
-        
-        try {
-            const formData = new FormData();
-            
-            await axiosInstance.patch(`institutions/payment`, JSON.stringify({
-
-            })
-            )
-            .then((response)=>{
-                alert("Payment Updated Updated")
-                fetchInstitution();
-                close()
-            })
-        } catch (err) {      
-            console.error(err.message);
+        const EditInstitution = async () => {
+            try {
+                await axiosInstance.patch(`institutions/payment`, JSON.stringify({
+                    paymentId: data.paymentId,
+                    type: editForm.type,
+                    bankName: editForm.type==="bank" ? editForm.typeName : null,
+                    ewalletName: editForm.type==="ewallet" ? editForm.typeName : null,
+                    otcName: editForm.type==="otcName" ? editForm.typeName : null,
+                    accountName: !(editForm.type==="otcName") ? editForm.accountName : null,
+                    accountNumber: !(editForm.type==="otcName") ? editForm.accountNum : null,
+                    location: (editForm.type==="otcName") ? editForm.location : null,
+                    instructions: (editForm.type==="otcName") ? editForm.instructions : null,
+                })
+                )
+                .then((response)=>{
+                    alert("Payment Method Details Updated")
+                    fetchInstitution();
+                    close()
+                })
+            } catch (err) {      
+                console.error(err.message);
+            }
         }
-    }
+
+        const DeletePayment = async () => {
+            await axiosInstance
+                .delete(`institutions/payment`,
+                {
+                    data: {
+                        paymentId: data.paymentId
+                    }
+                }
+                )
+                .then((response) => {
+                    alert("Payment Method Deleted")
+                });
+                fetchInstitution();
+        };
 
         const handleChange = (event) => {
             setModeOfPaymentForm(event.target.value);
@@ -588,9 +608,9 @@ function DocumentRequestForm() {
                 )}
             
                 <div id='AddPaymentMethodModal__Buttons'>
-                <Button variant='contained' onClick={()=>{console.log("delete")}}>Delete</Button>
+                <Button variant='contained' onClick={()=>{DeletePayment()}}>Delete</Button>
                 <Button variant='contained' id="AddPaymentMethodModal__Cancel" onClick={close}>Cancel</Button>
-                <Button variant='contained' onClick={()=>{}}>Submit</Button>
+                <Button variant='contained' onClick={()=>{EditInstitution()}}>Submit</Button>
                 </div>
             </div>
             

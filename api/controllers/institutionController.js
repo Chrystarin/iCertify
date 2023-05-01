@@ -325,8 +325,6 @@ const editPayment = async (req, res, next) => {
 		body: { paymentId }
 	} = req;
 
-    console.log(req.body)
-
 	// Find institution that has same id and paymentId
 	const institution = await Institution.findOne({
 		_id: id,
