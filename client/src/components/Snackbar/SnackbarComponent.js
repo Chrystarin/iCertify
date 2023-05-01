@@ -50,7 +50,7 @@ function SnackbarComponent(props) {
     return <>
         <Snackbar open={props.open.open} autoHideDuration={6000} onClose={onclose}>
             <Alert onClose={onclose} severity={props.open.type} sx={{ width: '100%' }}>
-                {props.open.status}
+                {props.open.note}
             </Alert>
         </Snackbar>
     </>

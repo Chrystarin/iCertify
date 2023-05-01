@@ -8,7 +8,7 @@ import './InstitutionView.scss'
 import Button from '@mui/material/Button';
 import { Avatar } from "@mui/material";
 import DocumentRequestCard from "./../../components/Card/DocumentRequestCard";
-
+import SnackbarComponent from "../../components/Snackbar/SnackbarComponent";
 // Import Icons
 import GroupIcon from '@mui/icons-material/Group';
 import CallIcon from '@mui/icons-material/Call';
@@ -32,7 +32,11 @@ const InstitutionView = () => {
     const { id } = useParams();
     const { user, isAuth, isJoined } = useAuth();
     const [institution, setInstitution] = useState();
-
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
     // Retrieves Institution Data
     const fetchInstitution = async () => {
         await axiosInstance
@@ -49,6 +53,7 @@ const InstitutionView = () => {
 
     // Edit Institution Data
     const EditInstitution = async ({selected, file}) => {
+        
         try {
             const formData = new FormData();
             formData.append(selected, file);
@@ -68,13 +73,24 @@ const InstitutionView = () => {
                 `institutions`, 
                 formData,
                 {headers: {
-                      'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data'
                 }})
             .then((response)=>{
                 fetchInstitution();
-                alert("Profile Updated! Kindly wait a few moments for the changes to apply.")
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:"success",
+                    note:"Your changes has been applied."
+                }))
             })
-        } catch (err) {      
+        } catch (err) { 
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:"error",
+                note:"Your changes has failed"
+            }))     
             console.error(err.message);
         }
     }
@@ -94,7 +110,16 @@ const InstitutionView = () => {
                 <div id="Institution__Wallpaper__Container">
                     <img src={(!institution.photos?.cover) ? Wallpaper : institution.photos.cover } alt="" />
                     {isAuth(id)?<>
-                        <input id="UpdateCoverPhoto" className="hidden" type="file" onChange={(e) => EditInstitution({selected:'cover', file:e.target.files[0]})} />
+                        <input id="UpdateCoverPhoto" className="hidden" type="file" 
+                        onChange={(e) => {
+                            EditInstitution({selected:'cover', file:e.target.files[0]})
+                            setOpenSnackBar(openSnackBar => ({
+                                ...openSnackBar,
+                                open:true,
+                                type:"info",
+                                note:"Kindly wait a few moments for wallpaper update."
+                            }))
+                        }}/>
                         <label htmlFor="UpdateCoverPhoto" >
                             <div id="Institution__Wallpaper__Update">
                                 <InsertPhotoIcon id="Institution__Wallpaper__Update__Icon"/>
@@ -105,11 +130,23 @@ const InstitutionView = () => {
                         </>:<></>
                     }
                 </div>
+                <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/> 
                 <div id="Institution__AvatarProfileButtons__Container">
                     <div id="AvatarProfile__Holder">
                         <Avatar src={(!institution.photos?.profile) ? Logo : institution.photos.profile } id="AvatarProfile__Avatar"/>
                         {isAuth(id)?<>
-                            <input id="ProfilePicture" className="hide" type="file" onChange={(e) => EditInstitution({selected:'profile', file:e.target.files[0]})} />
+                            <input id="ProfilePicture" className="hide" type="file" 
+                            onChange={(e) => {
+                                EditInstitution({selected:'profile', file:e.target.files[0]})
+                                setOpenSnackBar(openSnackBar => ({
+                                    ...openSnackBar,
+                                    open:true,
+                                    type:"info",
+                                    note:"Kindly wait a few moments for profile picture update."
+                                }))
+                                
+                                
+                            }} />
                             <label htmlFor="ProfilePicture">
                                 <div id="AvatarProfile__Update">
                                     <InsertPhotoIcon id="AvatarProfile__Upadate__Icon"/>
@@ -251,6 +288,7 @@ const InstitutionView = () => {
                     </div>
                 </div>
             </div>
+
         </div>
     )
 }
