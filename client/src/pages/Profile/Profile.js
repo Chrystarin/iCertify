@@ -78,6 +78,7 @@ function Profile() {
                 setUser(response.data);
                 setInstitutions(response.data.institutions)
                 setDocuments(response.data.documents)
+                console.log(response.data)
                 mapDocumentsAsync(response.data.documents);
             });
     };

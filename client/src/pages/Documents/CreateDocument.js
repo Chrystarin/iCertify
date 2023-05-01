@@ -36,17 +36,14 @@ function CreateDocument({manual}) {
     const [institution, setInstitution] = useState();
     const [form, setForm] = useState({
         memberAddress: '',
-        type: '',
         docId: '',
+        docTitle: ''
     });
-
-    
 
     // Excecutes on page load
     useEffect(() => {
         if (manual && user) fetchInstitution();
         fetchDocumentRequest();
-        console.log(form)
     }, [user, form])
 
     // Retrieves Institution Data
@@ -59,7 +56,6 @@ function CreateDocument({manual}) {
             })
             .then((response) => {
                 setInstitution(response.data)
-                console.log(response.data)
             });
     };
     
@@ -79,6 +75,7 @@ function CreateDocument({manual}) {
 
     // Uploads Document to IPFS
     const uploadToIpfs = async (data) => {
+        console.log(data)
 
         let path = {}
 
@@ -102,16 +99,23 @@ function CreateDocument({manual}) {
 
     // Mints Document to the Blockchain Network and Sends to Requestor
     const mintDocument = async (wallet, path) => {
+
+        console.log(form)
+        console.log(path)
        
         let txHash = {}
-        const contract = new ethers.Contract(contractAddress, await fetchContract(), wallet.signer);
+        const contract = new ethers.Contract(
+            contractAddress, 
+            await fetchContract(), 
+            wallet.signer
+        );
 
         try{
             await contract.sendDocument(
-                request.requestor.walletAddress,                    // receiver
-                request.details.offeredDoc.title,                   // type
+                manual ? form.memberAddress : request.requestor.walletAddress,                    // receiver
+                manual ? "Document" : request.details.offeredDoc.title,                   // type
                 path,                                               // uri
-                request.details.offeredDoc.docId                    // docId
+                manual ? form.docId : request.details.offeredDoc.docId                    // docId
             )
             .then((response)=>{
                 txHash = response.hash
@@ -131,8 +135,8 @@ function CreateDocument({manual}) {
             await axiosInstance.post(
                 "transactions/save",
                 JSON.stringify({
-                    requestId: request.requestId,
-                    walletAddress: request.requestor.walletAddress,
+                    requestId: manual ? null : request.requestId,
+                    walletAddress: manual ? form.memberAddress : request.requestor.walletAddress,
                     txHash: txHash
                 })
             )
@@ -149,6 +153,7 @@ function CreateDocument({manual}) {
 
     // Process the Uploaded Document
     const ProcessDocument = async (file) => {
+        console.log(form)
 
         // Creates Form Data to store Data
         const formData = new FormData();
@@ -242,9 +247,11 @@ function CreateDocument({manual}) {
                                     <Select
                                         labelId="demo-simple-select-label"
                                         id="demo-simple-select"
-                                        value={institution.docOffers[0]?.title}
-                                        label="Age"
-                                        onChange={(e)=>setForm({...form, docId: e.target.value})}
+                                        value={form.docId}
+                                        label="Document"
+                                        onChange={(e)=>{
+                                            setForm({...form, docId: e.target.value})
+                                        }}
                                     >
                                         {institution.docOffers.length > 0 &&
                                             institution.docOffers.map((document) => {

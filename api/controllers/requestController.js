@@ -23,8 +23,6 @@ const getRequests = async (req, res, next) => {
 		user: { id, type }
 	} = req;
 
-    console.log(req.query)
-
 	// Validate inputs
 	isString(requestType, 'Request Type');
 
@@ -56,7 +54,10 @@ const createRequest = async (req, res, next) => {
 		body: { type, walletAddress },
 		user: { id }
 	} = req;
-
+    
+    console.log(req.body)
+    console.log(req.files)
+    
 	// Validate inputs
 	isString(type, 'Request Type');
 	isString(walletAddress, 'Institution Wallet Address');

@@ -12,14 +12,11 @@ function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
     // Smart Contract Address
-    const contractAddress = '0x2dA957fcd13c505Db5Bf5B6058278e94c2e5990d'
+    const contractAddress = '0x396dcefd5F07Ae59ed4369356CDa42cBb33d931f'
     const baseUrl = 'http://localhost:3000'
 
     let globalWallet = {}
     const RPC = "HTTP://127.0.0.1:7545";
-    
-
-    
     
     // Executes onLoad
     useEffect(() => {

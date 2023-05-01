@@ -22,6 +22,8 @@ function InstitutionJoin(props) {
     // const [user, setUser] = useState();
     const navigate = useNavigate();
     const [institution, setInstitution] = useState();
+    const [memberId, setMemberId] = useState();
+    const [memberProof, setMemberProof] = useState();
 
     // console.log(user)
 
@@ -34,11 +36,25 @@ function InstitutionJoin(props) {
     const Join = async (e) => {
         e.preventDefault();
         try{
+            const formData = new FormData();
+            console.log(memberProof)
+            
+            formData.append('type', 'join');
+            formData.append('walletAddress', id);
+            formData.append('idNumber', memberId ? memberId : null);
+            formData.append('proof', memberProof);
+
+            // Log the contents of the FormData to the console
+            formData.forEach((value, key) => {
+                console.log(key, value);
+            });
+            
+
             await axiosInstance
-                .post(`requests`, JSON.stringify({
-                    type: 'join',
-                    walletAddress: id
-                }))
+                .post(
+                    `requests`, 
+                    formData,
+                )
                 .then((response) => {
                     console.log(response.data)
                     alert("Join Request Sent! Wait for the admin to approve your request")
@@ -62,7 +78,6 @@ function InstitutionJoin(props) {
             })
             .then((response) => {
                 setInstitution(response.data)
-                console.log(response.data)
             });
     };
 
@@ -86,7 +101,7 @@ function InstitutionJoin(props) {
         Discount: "None"
     }
 
-    if (!user) return <div>Loading...</div>
+    if (!user || !institution) return <div>Loading...</div>
   
     return (
         <section>
@@ -132,7 +147,7 @@ function InstitutionJoin(props) {
                             </div>
                             <div className="Category__Content">
                                 <div className='Wrapper_2_1_Inputs'>
-                                <TextField id="outlined-basic" label="ID Number" variant="outlined" />
+                                <TextField id="outlined-basic" label="ID Number" variant="outlined" onChange={(e)=>setMemberId(e.target.value)}/>
                                 </div>
                             </div>
                         </div>
@@ -147,14 +162,19 @@ function InstitutionJoin(props) {
                             </div>
                             <div className="Category__Content">
                                 <div id='Category__Content__File'>
-                                    <input type="file" id="files" className="hidden"/>
-                                    <label htmlFor="files" id='Category__Content__Button'>
+                                    <input type="file" id="files" className="hidden" onChange={(e)=>setMemberProof(e.target.files[0])}/>
+                                    {(!memberProof) ?
+                                     <label htmlFor="files" id='Category__Content__Button'>
                                         <img src={UploadFileImage} alt="" />
                                         <div>
                                             <p className='BodyText3'>Upload any proof of membership</p>
                                             <h5>Click to upload a file</h5>
                                         </div>
                                     </label>
+                                    :
+                                        <img src={URL.createObjectURL(memberProof)} alt="" />
+                                    }
+                                   
                                 </div>
                             </div>
                         </div>

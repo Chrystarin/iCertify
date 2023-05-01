@@ -49,8 +49,8 @@ module.exports = model(
 					},
 					hash: {
 						type: String,
-                        unique: true,
-						requried: [true, 'Transaction Hash is required']
+                        index: { unique: true, sparse: true },
+						required: [true, 'Transaction Hash is required']
 					},
 					createdAt: { type: Date, default: new Date() }
 				}
