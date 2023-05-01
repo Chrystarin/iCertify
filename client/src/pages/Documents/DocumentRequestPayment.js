@@ -15,6 +15,7 @@ import StepLabel from '@mui/material/StepLabel';
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import WalletIcon from '@mui/icons-material/Wallet';
 import DownloadIcon from '@mui/icons-material/Download';
+import Loading from '../../components/Loading/Loading';
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
@@ -89,7 +90,7 @@ function DocumentRequestForm() {
         }
     }
   
-    if(!request) return <div>Loading...</div>
+    if(!request) return <Loading/>
 
     return (
         <section>

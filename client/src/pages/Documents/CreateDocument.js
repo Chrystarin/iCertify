@@ -15,7 +15,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
-
+import Loading from '../../components/Loading/Loading';
 
 
 // Icons or images
@@ -200,8 +200,8 @@ function CreateDocument({manual}) {
         if (request.status != 'verified') return <div>Request Not Yet Verified</div>
     }
     if(manual){
-        if(!institution) return <div>Loading...</div>
-        if(!user) return <div>Loading...</div>
+        if(!institution) return <Loading/>
+        if(!user) return <Loading/>
     }
     
     return <>

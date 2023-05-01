@@ -5,6 +5,7 @@ import './../../styles/Form.scss';
 import './UpdatePaymentMethod.scss';
 
 import StoreIcon from '@mui/icons-material/Store';
+import Loading from '../../components/Loading/Loading';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DocumentIcon from '../../images/icons/DocumentIcon.png';
@@ -124,7 +125,7 @@ function DocumentRequestForm() {
     }
     
   
-    if(!institution || !payments) return <div>Loading...</div>
+    if(!institution || !payments) return <Loading/>
 
     return (
         <section>

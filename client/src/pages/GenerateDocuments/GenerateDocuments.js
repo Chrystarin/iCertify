@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 
 import './GenerateDocuments.scss';
 import './../../styles/Main.scss';
-
+import Loading from '../../components/Loading/Loading';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
@@ -191,7 +191,7 @@ function GenerateDocuments() {
 		}
 	}
 
-	if (!requests) return <div>loading...</div>;
+	if (!requests) return <Loading/>;
 
 	return (
 		<>

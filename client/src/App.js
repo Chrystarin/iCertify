@@ -41,7 +41,7 @@ function App() {
             {/* Error Routes */}
             <Route path='*' element={<Error />}/>
             {/* For Unautherize  */}
-            {/* <Route path='*' element={<Error unautherize="true"/>}/> */}
+            <Route path='/unautherize' element={<Error unautherize="true"/>}/>
 			{/* Public Routes */}
             <Route path='/' element={<Panel/>}>
                     <Route path='' element={<LandingPage/>}/>

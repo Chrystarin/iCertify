@@ -11,7 +11,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { TextField } from '@mui/material';
-
+import Loading from '../../components/Loading/Loading';
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
@@ -77,7 +77,7 @@ function DocumentRequestForm() {
     }
 
     if(!institution || !document) 
-        return <div>Loading...</div>
+        return <Loading/>
 
     if(isJoined(id))
         navigate(`/unauthorized`)

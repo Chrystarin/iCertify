@@ -13,7 +13,7 @@ import { Avatar } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import SellIcon from '@mui/icons-material/Sell';
 import TextField from '@mui/material/TextField';
-
+import Loading from '../../components/Loading/Loading';
 import axiosInstance from '../../utils/axios';
 
 function Documents(){
@@ -111,7 +111,7 @@ function Documents(){
         }
     }
 
-    if (!requests) return <div>loading...</div>;
+    if (!requests) return <Loading/>;
 
     return (
         <div className='Container' id='Documents'>

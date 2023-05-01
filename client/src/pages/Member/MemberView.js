@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {ethers} from 'ethers';
-
+import Loading from "../../components/Loading/Loading";
 const MemberView = (props) => {
   const { id } = useParams()
   const [member, setMember] = useState(props)
@@ -20,7 +20,7 @@ const MemberView = (props) => {
       fetchMember()
   }, [])
 
-  if(!member) return <div>loading...</div>
+  if(!member) return <Loading/>
 
   async function isConnected() {
     const accounts = await window.ethereum.request({method: 'eth_accounts'});       

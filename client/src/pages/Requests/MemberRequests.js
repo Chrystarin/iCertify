@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import axiosInstance from '../../utils/axios';
-
+import Loading from '../../components/Loading/Loading';
 function MemberRequests() {
 
 	const [requests, setRequests] = useState();
@@ -55,7 +55,7 @@ function MemberRequests() {
         }
     }
 
-	if (!requests) return <div>loading...</div>;
+	if (!requests) return <Loading/>;
 
 	return (
 		<>

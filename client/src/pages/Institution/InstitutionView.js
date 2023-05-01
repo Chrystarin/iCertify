@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import { Avatar } from "@mui/material";
 import DocumentRequestCard from "./../../components/Card/DocumentRequestCard";
 import SnackbarComponent from "../../components/Snackbar/SnackbarComponent";
+import Loading from "../../components/Loading/Loading";
 // Import Icons
 import GroupIcon from '@mui/icons-material/Group';
 import CallIcon from '@mui/icons-material/Call';
@@ -101,7 +102,7 @@ const InstitutionView = () => {
     }, [])
 
     // Returns if no data retrieved
-    if(!institution) return <div>loading...</div>
+    if(!institution) return <Loading/>
     
     return (
         <div id="Institutioin__View">

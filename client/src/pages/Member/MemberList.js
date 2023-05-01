@@ -5,7 +5,7 @@ import SearchInput from '../../components/SearchInput/SearchInput.js';
 import IconButton from '@mui/material/IconButton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Analytics from '../../layouts/Analytics/Analytics.js';
-
+import Loading from '../../components/Loading/Loading.js';
 import axiosInstance from '../../utils/axios';
 
 function MemberList() {
@@ -67,7 +67,7 @@ function MemberList() {
         }
     }
 
-    if(!members || !joinRequests) return <div>Loading...</div>
+    if(!members || !joinRequests) return <Loading/>
 
     return (
         <div className='AdminPanelContainer'>

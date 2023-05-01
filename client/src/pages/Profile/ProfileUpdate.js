@@ -18,7 +18,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
+import Loading from '../../components/Loading/Loading';
 import axios from '../../utils/axios';
 
 // Import Utilities
@@ -122,7 +122,7 @@ function ProfileUpdate() {
 	// const [genderValue, setgenderValue] = useState(null);
 	
 	// Returns if member is null
-	if (!user) return <div>loading...</div>;
+	if (!user) return <Loading/>;
 
     console.log(form)
     

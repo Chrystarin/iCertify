@@ -258,6 +258,7 @@ select{
     }
 }
 
+
 .Errors{
     display: flex;
     flex-direction: column;
@@ -270,11 +271,36 @@ select{
     }
     .Errors__Message{
         text-align: center;
-        h1{
+        h3{
             color: var(--accent);
             margin-bottom: 5px;
         }
         h5{
+            opacity: .5;
+        }
+    }
+}
+.Loading{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    flex-direction: column;
+    img{
+        height: 50%;
+    }
+    .Loading__Message{
+        text-align: center;
+        h3{
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+        h6{
             opacity: .5;
         }
     }
