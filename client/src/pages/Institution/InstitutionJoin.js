@@ -86,7 +86,7 @@ function InstitutionJoin(props) {
         Discount: "None"
     }
 
-    if (!user) return <div>Loading...</div>
+    if (!user || !institution) return <div>Loading...</div>
   
     return (
         <section>
