@@ -46,7 +46,7 @@ function DocumentRequestCard(props) {
       </div>
       <div id='DocumentRequestCard__Navigation'>
         {props.owner?<>
-          <React.Fragment>
+          {/* <React.Fragment>
             <Tooltip title="Menu">
               <IconButton
                 onClick={handleClickMenu}
@@ -128,7 +128,7 @@ function DocumentRequestCard(props) {
               </div>
             </Menu>
           </React.Fragment>
-          <Button id="DocumentRequestCard__Button" variant="outlined">Manage Requests</Button>
+          <Button id="DocumentRequestCard__Button" variant="outlined">Manage Requests</Button> */}
         </>: 
         (props.member) 
             ? <Button id="DocumentRequestCard__Button" variant="outlined" href={props.link}>Request Document</Button>

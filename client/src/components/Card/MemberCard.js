@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './MemberCard.scss'
 import { Avatar,Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
@@ -12,9 +12,7 @@ function MemberCard(props) {
         member,
         membershipProof
     } = props;
-    const [openModal, setOpenModal] = React.useState(false);
-
-    console.log(image)
+    const [openModal, setOpenModal] = useState(false);
     
     return <>
         {member?<>

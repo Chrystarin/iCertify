@@ -32,6 +32,13 @@ const InstitutionView = () => {
     const { id } = useParams();
     const { user, isAuth, isJoined } = useAuth();
     const [institution, setInstitution] = useState();
+    const [request, setRequest] = useState();
+
+    // Excecutes on page load
+    useEffect(() => {
+		fetchInstitution();
+        fetchDocumentRequests();
+    }, [])
 
     // Retrieves Institution Data
     const fetchInstitution = async () => {
@@ -43,9 +50,37 @@ const InstitutionView = () => {
             })
             .then((response) => {
                 setInstitution(response.data)
-                console.log(response.data)
             });
     };
+
+    // Retrieves Document Requests
+    const fetchDocumentRequests = async () => {
+        await axiosInstance
+            .get(`requests`,{
+                params: {
+                    requestType: 'join'
+                }
+            })
+            .then((response) => { 
+                setRequest(findValue(response.data, "dfgndf"))
+            });
+    };
+
+    // Finds Specific Value based on Key Value Pair
+    function findValue(obj, val) {
+        for (let key in obj) {
+            if (typeof obj[key] === 'object') {
+                const result = findValue(obj[key], val);
+                if (result !== undefined) {
+                return result;
+                }
+            } else if (obj[key] === val) {
+                return obj;
+            }
+        }
+        return undefined;
+    }
+
 
     // Edit Institution Data
     const EditInstitution = async ({selected, file}) => {
@@ -78,11 +113,6 @@ const InstitutionView = () => {
             console.error(err.message);
         }
     }
-
-    // Excecutes on page load
-    useEffect(() => {
-		fetchInstitution();
-    }, [])
 
     // Returns if no data retrieved
     if(!institution) return <div>loading...</div>
@@ -144,8 +174,15 @@ const InstitutionView = () => {
                             </>:<>
                                 {(user.type!='institution') ? 
                                     (isJoined(institution)) ? '' :
+
+                                    (!request) 
+                                    ? 
                                     <Button variant="contained" href={`/institutions/${id}/join`}>
                                         Join
+                                    </Button>
+                                    :
+                                    <Button disabled variant="contained" href={`/institutions/${id}/join`}>
+                                        Request Sent
                                     </Button>
                                 : ''
                                 }

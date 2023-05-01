@@ -23,7 +23,6 @@ function MemberList() {
 				.get(`institutions/members`)
 				.then((response) => {
 					setMembers(response.data)
-                    // console.log(response.data)
 				});
 		};
 
@@ -37,7 +36,6 @@ function MemberList() {
                 })
 				.then((response) => { 
 					setJoinRequests(response.data)
-                    console.log(response.data)
 				});
 		};
 

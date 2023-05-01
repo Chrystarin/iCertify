@@ -51,16 +51,6 @@ function Documents(){
         
     },[])
     
-    const sampledata = [
-		{id:"304232321",name:"Transcript of Record",user:"Harold James H. Castillo",status:"cancelled",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232322",name:"Transcript of record",user:"Dianne Chrystalin Brandez",status:"pending",note:"Ang ganda ni dianne" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232323",name:"Certificates",user:"Jon Angelo Llagas",status:"completed",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232324",name:"Transcript of record",user:"Gian Carlo Dela Cruz",status:"cancelled",note:"I love you wife" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232325",name:"Certificates",user:"JM Hipolito",status:"paid",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232326",name:"Grades",user:"David Embile",status:"approved",note:"" ,timestamp:"Novebmer 25, 2022"},
-		{id:"304232327",name:"Transcript of record",user:"Shiba Castillo",status:"verified",note:"" ,timestamp:"Novebmer 25, 2022"}
-	];
-
     const keys = ["pending","approved","declined","paid","verified","processing","cancelled","completed"];
 
     const filterData = (data) => {
