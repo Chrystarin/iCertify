@@ -4,7 +4,6 @@
     #CredentialView_Container{
         flex-grow: 1;
         #CredentialViewingPanel__Container{
-            min-height: 600px;
             position: relative;
             #FullView__Container{
                 position: absolute;
@@ -69,6 +68,14 @@
     
     #FullView__Container{
         max-height: 90vh;
+        overflow-y: scroll;
+        width: 80vw;
+        #FullView__Img{
+            width: 100%;
+        }
+    }
+    #FullView__Container::-webkit-scrollbar {
+        width: 0px;
     }
     #FullView__Buttons{
         display: flex;
@@ -83,4 +90,89 @@
 }
 .CredentialViewingPanel__FullImage{
     height: 100%;
+}
+#uploadDocument__ViewUploaded__Container__Footer{
+    border-top: 2px solid rgb(192, 192, 192);
+    margin-top: 10px;
+    width: 100%;
+    padding: 20px 1em ;
+    display: flex;
+    align-items: center;
+    #uploadDocument__ViewUploaded__Container__Footer__Image{
+        flex-grow: 1;
+    }
+    #uploadDocument__ViewUploaded__Container__Footer__QR{
+        border-radius: 8px;
+        background-color: white;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.214);
+        height: 80px;
+        width: 80px;
+        padding: .5em;
+        svg{
+            width: 100%;
+            height: 100%;
+        }
+    }
+}
+
+
+#ShareModal{
+    display: flex;
+    gap: 25px;
+    z-index: 99;
+    .ShareModal__Title{
+        padding-top: 10px;
+        border-bottom: 1px solid rgb(208, 208, 208);
+        padding-bottom: 15px;
+    }
+    #ShareModal__Container{
+        width: 600px;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+
+        #GenerateAccessCode{
+            margin-top: 10px;
+            #GenerateAccessCode__Add{
+                display: flex;
+                align-items: center;
+                h6{
+                    flex-grow: 1;
+                }
+            }
+            #LinkShare__Type{
+                list-style: none;
+                display: flex;
+                gap: 10px;
+                flex-direction: column;
+                li{
+                    display: flex;
+                    align-items: center;
+                    gap: 10px;
+                    p{
+                        flex-grow: 1;
+                    }
+                }
+            }
+        }
+    }
+    #LinkShare__Type{
+        flex-grow: 1;
+    }
+    #MakePublic__Container{
+        border-top: 1px rgba(0, 0, 0, 0.12) solid;
+        padding-top: 1em;
+        display: flex;
+        #MakePublic__Title{
+            flex-grow: 1;
+        }
+        .css-j204z7-MuiFormControlLabel-root{
+            margin-right: 0px;
+        }
+    }
+    #ShareModal__Buttons{
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
 }

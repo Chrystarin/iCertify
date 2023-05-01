@@ -18,6 +18,10 @@ import ShareIcon from '@mui/icons-material/Share';
 import DownloadIcon from '@mui/icons-material/Download';
 import UserIcon from './../../images/icons/user-round.png';
 import Switch from '@mui/material/Switch';
+import DocumentFooterImage from '../../images/iCertifyBranding/icertify_footerBlack.png';
+import Placeholder from '../../images/placeholder/QR.PNG';
+import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -48,7 +52,7 @@ function DocumentView() {
     const [institution, setInstitution] = useState(null);
     const [owner, setOwner] = useState(null)
     const [tokenURI, setTokenURI] = useState(null)
-    const [switchChecked, setSwitchChecked] = useState(false);
+    const [switchChecked, setSwitchChecked] = useState(true);
     const [accessCodes, setAccessCodes] = useState(false);
     const [qrCode, setQRCode] = useState();
 
@@ -75,6 +79,17 @@ function DocumentView() {
             });
     };
 
+    const ShortingWallet = (data) =>{
+        let startString = "";
+        let EndString = "";
+        for (let i= 0; i < 6; i++) {
+            startString = startString + data.charAt(i)
+        }
+        for (let i = data.length-4; i < data.length; i++) {
+            EndString = EndString + data.charAt(i);
+        }
+        return startString + "..." + EndString
+    }
     // Retrieves Document's Metadata
     const getDocumentData = async (data) => {
         const contract = await getContract();
@@ -182,6 +197,9 @@ function DocumentView() {
 
     const generateQrCode = (accessCode) => {
         setQRCode(baseUrl + "/documents/" + accessCode);
+        navigator.clipboard.writeText(`${baseUrl}/documents/${accessCode}`)
+        alert("Link Copied and QR Code Updated!");
+        handleToggleShare();
     }
 
     // Finds Specific Value based on Key Value Pair
@@ -201,22 +219,21 @@ function DocumentView() {
 
 
     const handleTogglePrivacy = () => {
-        setSwitchChecked(!switchChecked)
         updateDocumentPrivacy();
     }
 
     // Download Document as Image
     const DownloadDocument = (filename) => {
         const element = docRef.current;
-      
+
         // Get all images inside the element
         const images = Array.from(element.getElementsByTagName("img"));
-      
+
         // Create an array of promises that resolve when each image has loaded or failed to load
         const imageLoadPromises = images.map((img) => {
-          return new Promise((resolve) => {
+        return new Promise((resolve) => {
             if (img.complete && img.naturalWidth !== 0) {
-              resolve();
+                resolve();
             } else {
                 img.addEventListener("load", () => {
                     resolve();
@@ -225,9 +242,8 @@ function DocumentView() {
                     resolve();
                 });
             }
-          });
         });
-      
+        });
         // Wait for all image loading promises to resolve
         Promise.all(imageLoadPromises).then(() => {
             // Create the canvas when all images are loaded
@@ -245,7 +261,6 @@ function DocumentView() {
         });
     };
 
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -255,7 +270,7 @@ function DocumentView() {
         setModalToOpen("full");
     };
 
-    const handleToggleShare = (ToOpen) => {
+    const handleToggleShare = () => {
         setOpen(!open);
         setModalToOpen("share");
     };
@@ -269,17 +284,23 @@ function DocumentView() {
                     <div id="DocumentFile" ref={docRef}>
                         <img className='CredentialViewingPanel__Image' src={`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`} alt="" />
                         <div>
-                            {qrCode && (
-                                <QRCode
-                                    title="iCertify QR Code"
-                                    value={qrCode}
-                                    bgColor={'#FFFFFF'}
-                                    fgColor={'#000000'}
-                                    size={100}
-                                    className="qrcode"
-                                    id="qrcode"
-                                />
-                            )}
+                    
+                            <div id='uploadDocument__ViewUploaded__Container__Footer'>
+                                <div id='uploadDocument__ViewUploaded__Container__Footer__Image'>
+                                    <img src={DocumentFooterImage} alt="" />
+                                </div>
+                                <div id='uploadDocument__ViewUploaded__Container__Footer__QR'>
+                                    <QRCode
+                                        title="iCertify QR Code"
+                                        value={qrCode ? qrCode : documentData.codes[0]}
+                                        bgColor={'#FFFFFF'}
+                                        fgColor={'#000000'}
+                                        size={100}
+                                        className="qrcode"
+                                        id="qrcode"
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id='FullView__Container'>
@@ -316,16 +337,14 @@ function DocumentView() {
                         </li>
                     </ul>
                     <br/>
-                    <h6 className="Details__Title">Owner</h6>
                     <a href={`/users/${owner.walletAddress}`}>
                         <div id='SenderReciever__Container' className='Panel__Container'>
-                            <UserPanel Image={(!owner.photo) ? UserIcon : owner.photo} SubTitle={owner.walletAddress} Title={owner.name.firstName}/>
+                            <UserPanel Image={(!owner.photo) ? UserIcon : owner.photo} SubTitle={ShortingWallet(owner.walletAddress)} Title={owner.name.firstName + " (Owner)"}/>
                         </div>
                     </a>
-                    <h6 className="Details__Title">Issuer</h6>
                     <a href={`/institutions/${institution.walletAddress}`}>
                         <div id='SenderReciever__Container' className='Panel__Container'>
-                            <UserPanel Image={(!institution.photos?.profile) ? UserIcon : institution.photos?.profile} SubTitle={institution.walletAddress} Title={institution.name}/>
+                            <UserPanel Image={(!institution.photos?.profile) ? UserIcon : institution.photos?.profile} SubTitle={ShortingWallet(institution.walletAddress)} Title={institution.name + " (Institution)"}/>
                         </div>
                     </a>
                     {(isAuth(owner.walletAddress) ? 
@@ -358,7 +377,7 @@ function DocumentView() {
                 
                     <div id='FullViewModal' >
                     <div id='FullView__Container' className='Panel__Container'>
-                    <img className='CredentialViewingPanel__FullImage' src={`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`} alt=""/>
+                    <img id='FullView__Img' className='CredentialViewingPanel__FullImage' src={`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`} alt=""/>
                     </div>
                     <div id='FullView__Buttons'>
                         <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={handleToggleFull}>
@@ -380,128 +399,106 @@ function DocumentView() {
     }
 
     function ShareModal(props){
-        
+        const label = { inputProps: { 'aria-label': 'Size switch demo' } };
+        const [checked, setChecked] = React.useState(false);
+
+
         const link = window.location.href;
-        
+
+
         const handleClickCopyLink = (event) => {
             navigator.clipboard.writeText(`${baseUrl}/documents/${documentData.codes[0]}`)
             alert("Link copied : "+ link)
         };
 
-        const IOSSwitch = styled((props) => (
-        <Switch focusVisibleClassName=".Mui-focusVisible" disableRipple {...props} />
-        ))(({ theme }) => ({
-        width: 42,
-        height: 26,
-        padding: 0,
-        '& .MuiSwitch-switchBase': {
-            padding: 0,
-            margin: 2,
-            transitionDuration: '300ms',
-            '&.Mui-checked': {
-            transform: 'translateX(16px)',
-            color: '#fff',
-            '& + .MuiSwitch-track': {
-                backgroundColor: theme.palette.mode === 'dark' ? '#2ECA45' : '#65C466',
-                opacity: 1,
-                border: 0,
-            },
-            '&.Mui-disabled + .MuiSwitch-track': {
-                opacity: 0.5,
-            },
-            },
-            '&.Mui-focusVisible .MuiSwitch-thumb': {
-            color: '#33cf4d',
-            border: '6px solid #fff',
-            },
-            '&.Mui-disabled .MuiSwitch-thumb': {
-            color:
-                theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[600],
-            },
-            '&.Mui-disabled + .MuiSwitch-track': {
-            opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
-            },
-        },
-        '& .MuiSwitch-thumb': {
-            boxSizing: 'border-box',
-            width: 22,
-            height: 22,
-        },
-        '& .MuiSwitch-track': {
-            borderRadius: 26 / 2,
-            backgroundColor: theme.palette.mode === 'light' ? '#E9E9EA' : '#39393D',
-            opacity: 1,
-            transition: theme.transitions.create(['background-color'], {
-            duration: 500,
-            }),
-        },
-        }));
 
         return (
             <div id='ShareModal'>
-            <div id='ShareModal__Container' className='Panel__Container'>
-                <h4 className='Panel__Title'>Share Credential </h4>
-                <FormControl sx={{width: '100%'}} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-Link" >Link</InputLabel>
-                <OutlinedInput
-                    id="outlined-adornment-Link"
-                    endAdornment={
-                    <InputAdornment position="end">
-                        <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={() => handleClickCopyLink()}
-                        edge="end"
-                        >
-                            <ContentCopyIcon/>
-                        </IconButton>
-                    </InputAdornment>
-                    }
-                    label="Link"
-                    value={link}
-                />
-                </FormControl>
-                <div id='LinkShare__Type'>
-                    <button onClick={()=>createAccessCode()}>Create Access Code</button>
-                    {(accessCodes.length === 0 )?
-                        <p>No Access Codes found!</p>
-                        :
-                        <>
-                            {accessCodes.length > 0 &&
-                            accessCodes.map((code) => {
-                            if(code!=accessCodes[0])
-                            return (
-                                <>
-                                    <p>
-                                        {code}
-                                        <button onClick={()=>deleteAccessCode(code)}>Delete</button>
-                                        <button onClick={()=>generateQrCode(code)}>Generate</button>
-                                    </p>
-                                </>
-                                
-                            );
-                            })}
-                        </>
-                    }
-                </div>
-                <div id='MakePublic__Container'>
-                    <div id='MakePublic__Title'>
-                        <h6>Make it Public</h6>
-                        <p className='BodyText3'>This certificate can be seen to your User Profile</p>
+                <div id='ShareModal__Container' className='Panel__Container'>
+                    <h4 className='ShareModal__Title'>Share Credential </h4>
+                    <div>
+                        <FormControl sx={{width: '100%'}} variant="outlined">
+                            <InputLabel htmlFor="outlined-adornment-Link" >Link</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-Link"
+                                endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                    aria-label="toggle password visibility"
+                                    onClick={() => handleClickCopyLink()}
+                                    edge="end"
+                                    >
+                                        <ContentCopyIcon/>
+                                    </IconButton>
+                                </InputAdornment>
+                                }
+                                label="Link"
+                                value={link}
+                            />
+                        </FormControl>
+                        <div id='GenerateAccessCode'>
+                            <div id='GenerateAccessCode__Add'>
+                                <h6>Generate Access Code</h6>
+                                <IconButton
+                                onClick={()=>createAccessCode()}
+                                >
+                                    <AddIcon/>
+                                </IconButton>
+                            </div>
+                            <ul id='LinkShare__Type'>
+                                {(accessCodes.length === 1 )?
+                                    ""
+                                    // <p>No Access Codes found!</p>
+                                    :
+                                    <>
+                                        {accessCodes.length > 0 &&
+                                        accessCodes.map((code) => {
+                                            if(code!=accessCodes[0])
+                                            return (
+                                                <>
+                                                    <li>
+                                                        <p>{code}</p>
+                                                        <IconButton
+                                                            onClick={()=>deleteAccessCode(code)}
+                                                        >
+                                                            <CloseIcon/>
+                                                        </IconButton>
+                                                        <Button variant='contained' onClick={()=>generateQrCode(code)}>Share</Button>
+                                                    </li>
+                                                </>
+                                                
+                                            );
+                                        })}
+                                    </>
+                                }
+                            </ul>
+                        </div>
                     </div>
-                    <FormControlLabel 
-                        control={<IOSSwitch/>}
-                        defaultChecked={documentData.mode=="public" ? true : false}
-                        onChange={() => {handleTogglePrivacy();}}
-                    />
+
+                    
+                    <div id='MakePublic__Container'>
+                        <div id='MakePublic__Title'>
+                            <h6>Make it Public</h6>
+                            <p className='BodyText3'>This certificate can be seen to your User Profile</p>
+                        </div>
+                        <Switch
+                            checked={checked}
+                            onChange={(event)=>{
+                                handleTogglePrivacy();
+                                setChecked(event.target.checked);
+                            }}
+                            inputProps={{ 'aria-label': 'controlled' }}
+                        />
+                    </div>
+
+                
+
                 </div>
-            </div>
-            <div id='ShareModal__Buttons'>
-                <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={props.ChangeHandler}>
-                    <FullscreenExitIcon />
-                </Fab> 
-            </div>
+                <div id='ShareModal__Buttons'>
+                    <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={props.ChangeHandler}>
+                        <FullscreenExitIcon />
+                    </Fab> 
+                </div>
             </div>
         )
     }

@@ -8,7 +8,6 @@ import './CreateDocument.scss';
 // Import Components
 import { Avatar } from '@mui/material';
 import Button from '@mui/material/Button';
-import UploadFileImage from './../../images/Resources/Design/UploadFile.png'
 import Chip from '@mui/material/Chip';
 import SearchInput from '../../components/SearchInput/SearchInput';
 import MenuItem from '@mui/material/MenuItem';
@@ -16,7 +15,12 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
+
+
+
+// Icons or images
 import GetAppIcon from '@mui/icons-material/GetApp';
+import UploadFileImage from './../../images/Resources/Design/UploadFile.png'
 
 // Import Utils
 import axiosInstance from '../../utils/axios';
@@ -173,6 +177,17 @@ function CreateDocument({manual}) {
             const transaction = await saveTransaction(txHash)
         }
     }
+    const ShortingWallet = (data) =>{
+        let startString = "";
+        let EndString = "";
+        for (let i= 0; i < 6; i++) {
+            startString = startString + data.charAt(i)
+        }
+        for (let i = data.length-4; i < data.length; i++) {
+            EndString = EndString + data.charAt(i);
+        }
+        return startString + "..." + EndString
+    }
 
     const handleChangeSelectDocument = (e) => {
         setSelectDocument(e.target.value);
@@ -208,10 +223,7 @@ function CreateDocument({manual}) {
                         <div>
                             <div id='uploadDocument__ViewUploaded__Container'>
                                 {file && <img src={URL.createObjectURL(file)} alt="uploaded" id='CreateDocument__Image'/>}
-                                <div id='uploadDocument__ViewUploaded__Container__Footer'>
-                                    {/* Footer  attach this ID to the element that the footer will show uploadDocument__ViewUploaded__Container__Footer__Image*/}
-                                    {/* <img src="" alt="" /> */}
-                                </div>
+                                
                             </div>
                             <div className='uploadDocument__ViewUploaded__ReUploadButton'>
                                 <input id='reupload' type="file" onChange={(e)=>setFile(e.target.files[0])}  className='hidden' /> 
@@ -277,7 +289,7 @@ function CreateDocument({manual}) {
                                     <h5>{request.requestor.name.firstName + " " + request.requestor.name.lastName}</h5>
                                 </a>
                                 <Chip 
-                                    id="SidePanel__Requestor__Chip" label={request.requestor.walletAddress} 
+                                    id="SidePanel__Requestor__Chip" label={ShortingWallet(request.requestor.walletAddress)} 
                                     variant="outlined" 
                                     onClick={()=>{navigate(`/users/${request.requestor.walletAddress}`)}} 
                                 />
