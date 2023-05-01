@@ -182,9 +182,9 @@ function MemberList() {
                     }
                 </div>
             </section>
-            <div className='AdminPanelContainer__SideContent'>
+            {/* <div className='AdminPanelContainer__SideContent'>
                 <Analytics/>
-            </div>
+            </div> */}
         </div>
     )
 }

@@ -13,15 +13,25 @@ function MemberCard(props) {
     const [openModal, setOpenModal] = React.useState(false);
 
     console.log(image)
-    
+    const ShortingWallet = (data) =>{
+        let startString = "";
+        let EndString = "";
+        for (let i= 0; i < 6; i++) {
+            startString = startString + data.charAt(i)
+        }
+        for (let i = data.length-4; i < data.length; i++) {
+            EndString = EndString + data.charAt(i);
+        }
+        return startString + "..." + EndString
+    }
     return <>
         {member?<>
             <div id='MemberCard'>
                 <a href={`/users/${props.institutionID}`} id='MemberCard__Container'>
                     <Avatar id="MemberCard__Avatar" src={image}/>
                     <div id='MemberCard__Text'>
-                        <h6 id='MemberCard__Name'>{name}</h6>
-                        <p className='BodyText3' id='MemberCardID__InstitutionID'>{institutionID}</p>
+                        <h6 className='BodyText2' id='MemberCard__Name'>{name}</h6>
+                        <p className='BodyText3' id='MemberCardID__InstitutionID'>{ShortingWallet(institutionID)}</p>
                     </div>
                 </a>
             </div>
@@ -32,8 +42,8 @@ function MemberCard(props) {
                 <a id='MemberCard__Container' onClick={member?"":()=>{setOpenModal(!openModal)}} className={member?"":"Buttons"}>
                     <Avatar id="MemberCard__Avatar" src={image}/>
                     <div id='MemberCard__Text'>
-                        <h6 id='MemberCard__Name'>{name}</h6>
-                        <p className='BodyText3' id='MemberCardID__InstitutionID'>{institutionID}</p>
+                        <h6 className='BodyText2' id='MemberCard__Name'>{name}</h6>
+                        <p className='BodyText3' id='MemberCardID__InstitutionID'>{ShortingWallet(institutionID)}</p>
                     </div>
                 </a>
                 <div id='MemberCardID__Buttons'>
