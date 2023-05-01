@@ -13,7 +13,8 @@ import { Button } from '@mui/material';
 import InstitutionCard from '../../components/Card/InstitutionCard.js'
 
 // Import Icons & images 
-import CallIcon from '@mui/icons-material/Call';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import MetaMaskIcon from './../../images/icons/fox.png';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
@@ -132,23 +133,30 @@ function Profile() {
             console.error(err.message);
         }
     }
-
+    
 	// Returns if user is null
 	if (!user || !institutions || !documents) return <div>loading... No user Found</div>;
-    
+
+
+
 	return (
 		<div id='Profile'>
 			<div id='Profile__Container_Div'>
-				<img
-					id='Profile__Img'
-					src={(!user.photo) ? UserIcon : user.photo }
-					alt=''
-				/>
-                {(isAuth(id)) ? 
-                    <input type="file" onChange={(e) => EditProfile(e.target.files[0])} />
-                : ''}
+                <div id='Profile__Img'>
+                    <img src={(!user.photo) ? UserIcon : user.photo }/>
+                    {(isAuth(id)) ? <>
+                        <input id='UpdateProfile' type="file" className='hidden' onChange={(e) => EditProfile(e.target.files[0])} />
+                        <label htmlFor="UpdateProfile">
+                            <div id='Profile__Img__Update'>
+                                <InsertPhotoIcon id="AvatarProfile__Upadate__Icon"/>
+                                <p className='BodyText3'>Update</p>
+                            </div>
+                            </label>
+                    </>: ''}
+                </div>
+                
 				<div id='Profile__Div__Info__Container'>
-					<h3>
+					<h4>
 						{(user.name?.firstName || user.name?.lastName)?
 							<>
 								{(user.name?.firstName ?? '') + ' '}
@@ -162,13 +170,11 @@ function Profile() {
 								Update Profile Name
 							</>
 						}
-					</h3>
+					</h4>
 					<div id='User__Div_Info'>
 						<a href='/'>
-							<UserPanelInfo
-								Title={user.walletAddress}
-								Image={MetaMaskIcon}
-							/>
+                            <img src={MetaMaskIcon} alt="" />
+                            <h6 className='BodyText3'>{user.walletAddress}</h6>
 						</a>
 					</div>
 				</div>
@@ -229,7 +235,17 @@ function Profile() {
                                         </div>
                                     </div>
                                 }
-									
+                                {(!user.email) ? ' ' :
+                                <div>
+                                    <h6 className='Panel__Title'>Email</h6>
+                                    <div className='Panel__Content__IconText'>
+                                        <EmailIcon />
+                                        <p className='BodyText3'>
+                                            {user.email}
+                                        </p>
+                                    </div>
+                                </div>
+                                }
 								</li>
 							</ul>
 						</div>

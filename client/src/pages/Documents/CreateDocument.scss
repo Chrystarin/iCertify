@@ -4,12 +4,11 @@
         border-radius: 8px;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.084);
         padding: 1em;
+        position: relative;
         #CreateDocument__Image{
             width: 100%;
         }
-
-
-        #uploadDocument__Container{
+        .uploadDocument__Container{
             display: flex;
             align-items: center;
             justify-content: center;
@@ -40,7 +39,41 @@
                 }
             }
         }
-        
+        #uploadDocument__ViewUploaded__Container{
+            max-height: 800px;
+            overflow-y: scroll;
+            #uploadDocument__ViewUploaded__Container__Footer{
+                width: 100%;
+                #uploadDocument__ViewUploaded__Container__Footer__Image{
+                    width: 100%;
+                }
+            }
+        }
+        /* width */
+        #uploadDocument__ViewUploaded__Container::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .uploadDocument__ViewUploaded__ReUploadButton{
+            opacity: .5;
+            position: absolute;
+            top:1em;
+            right: 1em;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.176);
+            transition: opacity .3s ease-in-out;
+            div{
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                padding: 1em;
+                cursor: pointer;
+                }
+        }
+        .uploadDocument__ViewUploaded__ReUploadButton:hover{
+            opacity: 1;
+        }
     }
     
 }
@@ -84,11 +117,11 @@
                 margin-top: 15px;
             }
         }
-        #SidePanel__Date{
+        .SidePanel__Date{
             padding: 2em .5em;
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 15px;
             border-top: 1.5px solid rgba(128, 128, 128, 0.299);
             border-bottom: 1.5px solid rgba(128, 128, 128, 0.299);
         }
@@ -103,7 +136,12 @@
                 }
             }
         }
+        #ProofofPaymentButton{
+            background-color: white;
+            color: black;
+        }
         #SidePanel__Buttons{
+            margin-top: 25px;
             display: grid;
             grid-template-columns: .4fr .6fr;
             gap: 15px;
