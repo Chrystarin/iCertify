@@ -1,7 +1,9 @@
-import React,{useEffect, useState} from 'react';
+import React,{useRef, useEffect, useState} from 'react';
 import { useParams } from "react-router-dom";
 import { saveAs } from 'file-saver'
 import {ethers} from 'ethers';
+import QRCode from 'react-qr-code';
+import html2canvas from 'html2canvas';
 
 import './DocumentView.scss';
 import Button from '@mui/material/Button';
@@ -26,6 +28,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
+
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
@@ -33,6 +36,7 @@ import { useAuth } from "../../utils/AuthContext";
 function DocumentView() {
 
     // Constant Declarations
+    const docRef = useRef();
     const { id } = useParams()
     const { isAuth, fetchContract, getContract, ConnectWallet, contractAddress, baseUrl } = useAuth();
 
@@ -46,6 +50,7 @@ function DocumentView() {
     const [tokenURI, setTokenURI] = useState(null)
     const [switchChecked, setSwitchChecked] = useState(false);
     const [accessCodes, setAccessCodes] = useState(false);
+    const [qrCode, setQRCode] = useState();
 
     // Executes on load
     useEffect(() => {
@@ -175,6 +180,10 @@ function DocumentView() {
         fetchDocument();
     }
 
+    const generateQrCode = (accessCode) => {
+        setQRCode(baseUrl + "/documents/" + accessCode);
+    }
+
     // Finds Specific Value based on Key Value Pair
     function findValue(obj, val) {
         for (let key in obj) {
@@ -190,10 +199,52 @@ function DocumentView() {
         return undefined;
     }
 
+
     const handleTogglePrivacy = () => {
         setSwitchChecked(!switchChecked)
         updateDocumentPrivacy();
     }
+
+    // Download Document as Image
+    const DownloadDocument = (filename) => {
+        const element = docRef.current;
+      
+        // Get all images inside the element
+        const images = Array.from(element.getElementsByTagName("img"));
+      
+        // Create an array of promises that resolve when each image has loaded or failed to load
+        const imageLoadPromises = images.map((img) => {
+          return new Promise((resolve) => {
+            if (img.complete && img.naturalWidth !== 0) {
+              resolve();
+            } else {
+                img.addEventListener("load", () => {
+                    resolve();
+                });
+                img.addEventListener("error", () => {
+                    resolve();
+                });
+            }
+          });
+        });
+      
+        // Wait for all image loading promises to resolve
+        Promise.all(imageLoadPromises).then(() => {
+            // Create the canvas when all images are loaded
+            html2canvas(element, { logging: true, letterRendering: 1, allowTaint: false,  useCORS: true })
+            
+            .then(function(canvas) {
+                const createImage = canvas.toDataURL("image/png");
+                console.log(createImage)
+                var anchor = window.document.createElement('a');
+                anchor.setAttribute("href", createImage);
+                anchor.setAttribute("download", filename);
+                anchor.click();
+                anchor.remove();
+            });
+        });
+    };
+
 
     const handleClose = () => {
         setOpen(false);
@@ -215,7 +266,22 @@ function DocumentView() {
         <section id='CredentialViewPage_Wrapper'>
             <div id='CredentialView_Container'>
                 <div id='CredentialViewingPanel__Container' className='Panel__Container'>
-                    <img className='CredentialViewingPanel__Image' src={`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`} alt=""/>
+                    <div id="DocumentFile" ref={docRef}>
+                        <img className='CredentialViewingPanel__Image' src={`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`} alt="" />
+                        <div>
+                            {qrCode && (
+                                <QRCode
+                                    title="iCertify QR Code"
+                                    value={qrCode}
+                                    bgColor={'#FFFFFF'}
+                                    fgColor={'#000000'}
+                                    size={100}
+                                    className="qrcode"
+                                    id="qrcode"
+                                />
+                            )}
+                        </div>
+                    </div>
                     <div id='FullView__Container'>
                         <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={handleToggleFull}>
                             <FullscreenIcon />
@@ -266,7 +332,7 @@ function DocumentView() {
                     
                         <div id='Button__Wrapper'> 
                             <Button variant="outlined" startIcon={<ShareIcon/>} onClick={handleToggleShare}> Share</Button>
-                            <Button variant="contained" startIcon={<DownloadIcon/>} onClick={()=>saveAs(`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`, 'image.jpg')}>Download</Button>
+                            <Button variant="contained" startIcon={<DownloadIcon/>} onClick={()=>DownloadDocument(`iCertify-${owner.walletAddress}-${document.title}-${documentData.nftId}.png`)}>Download</Button>
                         </div>
 
                     : ' ' )}
@@ -407,7 +473,11 @@ function DocumentView() {
                             if(code!=accessCodes[0])
                             return (
                                 <>
-                                    <p>{code}<button onClick={()=>deleteAccessCode(code)}>Delete</button></p>
+                                    <p>
+                                        {code}
+                                        <button onClick={()=>deleteAccessCode(code)}>Delete</button>
+                                        <button onClick={()=>generateQrCode(code)}>Generate</button>
+                                    </p>
                                 </>
                                 
                             );
