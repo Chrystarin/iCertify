@@ -51,22 +51,22 @@ function Profile() {
 	}, []);
 
     const mapDocumentsAsync = async (data) => {
-        console.log(data)
+        // console.log(data)
         const mappedDocs = await Promise.all(
             data.map(async (document) => {
-            const docData = await getDocumentData(document.nftId)
-            const image = `https://icertify.infura-ipfs.io/ipfs/${await getTokenURI(document.nftId)}`;
-            return (
-                <Card
-                    key={isAuth(id) ? document.codes[0] : document.code}
-                    id={document.certificateId}
-                    title={docData._type}
-                    date={document.createdAt}
-                    accessCode={isAuth(id) ? document.codes[0] : document.code}
-                    image={image}
-                />
-            );
-          })
+                const docData = await getDocumentData(document.nftId)
+                const image = `https://icertify.infura-ipfs.io/ipfs/${await getTokenURI(document.nftId)}`;
+                return (
+                    <Card
+                        key={isAuth(id) ? document.codes[0] : document.code}
+                        id={document.certificateId}
+                        title={docData._type}
+                        date={document.createdAt}
+                        accessCode={isAuth(id) ? document.codes[0] : document.code}
+                        image={image}
+                    />
+                );
+            })
         );
         setMappedDocuments(mappedDocs);
       };
@@ -84,7 +84,7 @@ function Profile() {
                 setUser(response.data);
                 setInstitutions(response.data.institutions)
                 setDocuments(response.data.documents)
-                console.log(response.data)
+                // console.log(response.data)
                 mapDocumentsAsync(response.data.documents);
             });
     };

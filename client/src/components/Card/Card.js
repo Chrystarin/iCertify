@@ -1,84 +1,39 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
+
+import moment from 'moment'
 import './Card.scss';
 import { Avatar } from '@mui/material';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import ImagePlaceHolder from './../../images/placeholder/image_placeholder.jpg';
-
 const Card = (props) => {
 
     const {
-        id, 
         image,
         title,
         date,
-        role,
-        type,
-        link,
         accessCode
     } = props;
     return (
         <Link to={`/documents/${accessCode}`}>
             <div className='Card'>
                 <div className='Card__Image___Container'>
-                    <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
+                    <img src={image ? image : ImagePlaceHolder} alt=""/>
                 </div>
-                    {/* <img className='EventName' src={ImagePlaceHolder} alt=""/> */}
-
-                <h6 className="EventTitle">{title}</h6>
-                <div id='Card__Institution'>
-                    {/* <Avatar id="Card__Avatar"/> */}
-                    <p className='BodyText3'>{props.date}</p>
+                <h6 className="BodyText2 Card__Title">{title}</h6>
+                <div className=' Card__Date'>
+                    <CalendarMonthIcon/>
+                    <p className='BodyText3'><moment>{moment(date).format('LL')}</moment></p>
+                </div>
+                <div className='Card__InstitutionInfo'>
+                    <Avatar className='Card__InstitutionInfo__Avatar'></Avatar>
+                    <p className='BodyText3'>STI College Marikina</p>
                 </div>
             </div>
         </Link>
 
     )
-    // switch (type) {
-    //     case 'institution':
-    //         return (
-    //             <div className='EventCardContainer'>
-    //                 <Link to={`/m/institution/${id}`}>
-    //                     <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
-    //                     <div>
-    //                         <h6 className="EventTitle">{title}</h6>
-    //                     </div>
-    //                 </Link>
-    //             </div>
-    //         )
-    //     case 'event_admin':
-    //         return (
-    //             <div className='EventCardContainer'>
-    //                 <Link to={`/a/events/${id}`}>
-    //                     <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
-    //                     <div>
-    //                         <h6 className="EventTitle">{title}</h6>
-    //                     </div>
-    //                 </Link>
-    //             </div>
-    //         )
-    //     case 'certificate':
-            
-    //     case 'event_mint':
-    //         return (
-    //             <div className='EventCardContainer' onClick={()=>(window.location.reload())}>
-    //                 <Link to={`/a/certificates/event/${id}`}>
-    //                     <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
-    //                     <div>
-    //                         <h6 className="EventTitle">{title}</h6>
-    //                     </div>
-    //                 </Link>
-    //             </div>
-    //         )
-    //     default:
-    //         return (
-    //             <div className='EventCardContainer'>
-    //                 <Link to={`/empty`}>
-    //                     <img className='EventName' src={image ? image : ImagePlaceHolder} alt=""/>
-    //                 </Link>
-    //             </div>
-    //         )
-    // }
 }
 
 export default Card

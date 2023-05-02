@@ -2,39 +2,53 @@
     background-color: white;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.077);
     border-radius: 10px;
-    padding: .5em;
+    padding: 1em .5em;
     opacity: 1;
     border: 1px solid rgba(128, 128, 128, 0.122);
-    max-width: 280px;
+    width: 280px;
+    transition: all .3s ease-in-out;
     .Card__Image___Container{
+        background-color: rgb(234, 234, 234);
         width: 100%;
         overflow: hidden;
-        height: 290px;
+        width: 100%;
+        height: 190px;
         border-radius: 5px;
         display: flex;
         justify-content: center;
+        position: relative;
         img{
-            width: 100%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            height: 100%;
         }
     }
-    a{
-        text-decoration: none;
+    .Card__Title{
+        margin-top: 15px;
+        margin-bottom: 4px;
     }
-    
-    .EventTitle{
-        margin: 5px 0;
-        color: black;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
+    .Card__Date{
+        margin-bottom: 5px;
+        display: flex;
+        align-items: centers;
+        color: gray;
+        gap: 5px;
     }
-    #Card__Institution{
+    .Card__InstitutionInfo{
+        color: gray;
         display: flex;
         align-items: center;
         gap: 5px;
-        #Card__Avatar{
-            width: 1em;
-            height: 1em;
+        .Card__InstitutionInfo__Avatar{
+            width: 20px;
+            height: 20px;
         }
     }
+}
+.Card:hover{
+    border: 1px solid rgba(134, 133, 133, 0.305);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.121);
+    
 }
