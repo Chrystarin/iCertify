@@ -100,8 +100,8 @@ module.exports = model(
 					},
 					paymentId: {
 						type: String,
-						required: true,
-						unique: true
+						required: [true, 'Payment ID is required'],
+						index: { unique: true, sparse: true }
 					},
 					details: {
 						type: Mixed,

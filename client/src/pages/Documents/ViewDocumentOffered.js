@@ -134,7 +134,7 @@ function DocumentRequestForm() {
                                     type:"success",
                                     note:"Document Request Sent! Wait for the admin to approve your request"
                                 }))
-                            }}
+                                }}
                         >
                             Request Document
                         </Button>

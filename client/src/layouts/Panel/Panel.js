@@ -45,14 +45,14 @@ function Panel() {
                 )
         }
     } else{
-        return (
+        return <>
+            <NavBar />
             <div id='DashboardPublic'>
-                <NavBar />
-                <div>
+                <div id="Content">
                     {window.location.pathname == '/' ? <LandingPage/> : <Outlet />}
                 </div>
             </div>
-        );
+        </>;
     }
     
 }
