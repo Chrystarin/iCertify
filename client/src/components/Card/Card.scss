@@ -9,9 +9,10 @@
     .Card__Image___Container{
         width: 100%;
         overflow: hidden;
-        height: 320px;
+        height: 290px;
         border-radius: 5px;
-
+        display: flex;
+        justify-content: center;
         img{
             width: 100%;
         }
