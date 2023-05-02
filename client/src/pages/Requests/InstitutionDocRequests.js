@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import './GenerateDocuments.scss';
+import './InstitutionDocRequests.scss';
 import './../../styles/Main.scss';
 import Loading from '../../components/Loading/Loading';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SearchInput from '../../components/SearchInput/SearchInput';
-import MintTransferCard from './MintTransferCard';
+import MintTransferCard from './RequestCard';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import Menu from '@mui/material/Menu';
 import { ethers } from 'ethers';
@@ -17,7 +17,7 @@ import SidePanelList from '../../components/SidePanelList/SidePanelList';
 import InstitutionCardDesign from '../../images/Resources/InstitutionCardDesign.png'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 
-function GenerateDocuments() {
+function InstitutionDocRequests() {
     
     // Constants Declaration
     const {tab} = useParams();
@@ -149,6 +149,7 @@ function GenerateDocuments() {
                                             type={keys[3]}
                                             title={request.details.offeredDoc.title}
                                             date={request.createdAt}
+                                            paymentProof={request.details.proof}
                                             action={()=>ProcessRequest(request, 'verified')}
                                             id={request.requestor.walletAddress}
                                             status={request.status}
@@ -287,7 +288,7 @@ function GenerateDocuments() {
 								<p className='BodyText3'>Total Released Documents</p>
 							</div>
 						</div>
-					<Button href='/documents/update/payment' variant='contained' fullWidth>Upadate Payment Method</Button>
+					<Button href={`/institutions/edit/payment`} variant='contained' fullWidth>Update Payment Method</Button>
 
 					</div>
 
@@ -324,4 +325,4 @@ function GenerateDocuments() {
 	);
 }
 
-export default GenerateDocuments;
+export default InstitutionDocRequests;

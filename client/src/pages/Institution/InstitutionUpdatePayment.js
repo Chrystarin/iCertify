@@ -2,16 +2,13 @@ import React,{useState, useEffect} from 'react'
 import { useParams, useNavigate } from "react-router-dom";
 
 import './../../styles/Form.scss';
-import './UpdatePaymentMethod.scss';
+import './InstitutionUpdatePayment.scss';
 
 import StoreIcon from '@mui/icons-material/Store';
 import Loading from '../../components/Loading/Loading';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
-import DocumentIcon from '../../images/icons/DocumentIcon.png';
 import Button from '@mui/material/Button';
-import ThankyouImage from '../../images/Resources/Design/Thankyou.png'
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
@@ -23,18 +20,15 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Modal from '@mui/material/Modal';
 
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
 
-import UploadFileImage from './../../images/Resources/Design/UploadFile.png';
-import Modal from '@mui/material/Modal';
+function InstitutionUpdatePayment() {
 
-function DocumentRequestForm() {
-
-    const { id } = useParams();
-
+    const navigate = useNavigate();
 
     const [openAddModal, setOpenAddModal] = useState(false);
     const [openEditModal, setOpenEditModal] = useState(false);
@@ -65,12 +59,12 @@ function DocumentRequestForm() {
         await axiosInstance
             .get(`institutions`,{
                 params: {
-                    walletAddress: id
+                    walletAddress: JSON.parse(localStorage.getItem("user")).walletAddress
                 }
             })
             .then((response) => {
-                setInstitution(response.data[0])
-                setPayments(response.data[0].payments)
+                setInstitution(response.data)
+                setPayments(response.data.payments)
             });
     };
 	
@@ -126,7 +120,8 @@ function DocumentRequestForm() {
     }
     
   
-    if(!institution || !payments) return <Loading/>
+    if(!institution || !payments) 
+        return <Loading/>
 
     return (
         <section>
@@ -304,7 +299,7 @@ function DocumentRequestForm() {
                 </div>
             </>}
             <div  id='Holder_Button'>
-            <Button variant='contained' onClick={()=>{}}>Go Back</Button>
+            <Button variant='contained' onClick={()=>{navigate(`/documents/requests/verifyrequest`)}}>Go Back</Button>
             </div>
             
         </div>
@@ -619,4 +614,4 @@ function DocumentRequestForm() {
     }
 }
 
-export default DocumentRequestForm
+export default InstitutionUpdatePayment

@@ -5,13 +5,9 @@ import './ViewDocumentOffered.scss';
 
 import DocumentIcon from '../../images/icons/DocumentIcon.png';
 import Button from '@mui/material/Button';
-import ThankyouImage from '../../images/Resources/Design/Thankyou.png'
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import Stepper from '@mui/material/Stepper';
-import Step from '@mui/material/Step';
-import StepLabel from '@mui/material/StepLabel';
-import { TextField } from '@mui/material';
 import Loading from '../../components/Loading/Loading';
+import SnackbarComponent from "../../components/Snackbar/SnackbarComponent";
+
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
@@ -25,6 +21,11 @@ function DocumentRequestForm() {
     // Constants Declarations
     const [institution, setInstitution] = useState();
     const [document, setDocument] = useState();
+    const [openSnackBar, setOpenSnackBar] = useState({
+        open:false,
+        type:"",
+        note:""
+    });
 
     // Excecutes on page load
     useEffect(() => {
@@ -68,11 +69,22 @@ function DocumentRequestForm() {
                     docId: docId
                 }))
                 .then((response) => {
+                    setOpenSnackBar(openSnackBar => ({
+                        ...openSnackBar,
+                        open:true,
+                        type:"success",
+                        note:"Document Request Sent! Wait for the admin to approve your request"
+                    }))
                     alert("Document Request Sent! Wait for the admin to approve your request")
                     navigate(`/institutions/${id}`)
                 });
         } catch (err) {      
-            console.error(err.message);
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:"error",
+                note:err.message
+            })) 
         }
     }
 
@@ -85,11 +97,13 @@ function DocumentRequestForm() {
     return (
         <div className="Container">
             <div className="Container__Content" id='DocumentInformation'>
+            <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/> 
                 <div id='DocumentInformation'>
                     <div id='DocumentInformation__Header'>
                         <div id='DocumentInformation__Header__Triangle'></div>
                         <img src={DocumentIcon} alt="" />
                     </div>
+                    
                     <div id='DocumentInformation__Body'>
                         <h3 id='DocumentInformation__Title'>{document.title}</h3>
                         <div id='DocumentInformation__Details'>
@@ -111,7 +125,19 @@ function DocumentRequestForm() {
                         </ul>
                         </div> 
                         <div id="Holder_Button">
-                        <Button variant="contained" onClick={()=>RequestDocument()}>Request Document</Button>
+                        <Button variant="contained" 
+                            onClick={()=>{
+                                RequestDocument()
+                                setOpenSnackBar(openSnackBar => ({
+                                    ...openSnackBar,
+                                    open:true,
+                                    type:"success",
+                                    note:"Document Request Sent! Wait for the admin to approve your request"
+                                }))
+                            }}
+                        >
+                            Request Document
+                        </Button>
                         </div>
                     </div>
                 </div>

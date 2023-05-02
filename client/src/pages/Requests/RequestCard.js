@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './MintTransferCard.scss';
+import './RequestCard.scss';
 import Avatar from '@mui/material/Avatar';
 import { Button } from '@mui/material';
 import Chip from '@mui/material/Chip';
@@ -8,7 +8,7 @@ import Menu from '@mui/material/Menu';
 import TextField from '@mui/material/TextField';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-function MintTransferCard(props) {
+function RequestCard(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event) => {
@@ -31,8 +31,10 @@ function MintTransferCard(props) {
         type,
 		id,
 		status,
-		key
+		key,
+        paymentProof
 	} = props;
+
 	const ShortingWallet = (data) =>{
         let startString = "";
         let EndString = "";
@@ -58,11 +60,13 @@ function MintTransferCard(props) {
 				</a>
 				<p id='MintTransferCard__Title' className='BodyText3'>{title}</p>
 				<div id='MintTransferCard__ID'>
+                    {(!paymentProof) ? '' :
+                        <Tooltip title="Copy">
+                            <Chip  label={"View Payment"} onClick={()=>{console.log(paymentProof)}} icon={<RemoveRedEyeIcon fontSize="small" />}/>
+                        </Tooltip>
+                    }
 					<Tooltip title="Copy">
-						<Chip  label={"View Payment"} onClick={()=>{}} icon={<RemoveRedEyeIcon fontSize="small" />}/>
-					</Tooltip>
-					<Tooltip title="Copy">
-						<Chip  label={ShortingWallet(id)} onClick={()=>{}} icon={<ContentCopyIcon fontSize="small" />}/>
+						<Chip  label={ShortingWallet(id)} onClick={()=> navigator.clipboard.writeText(id)} icon={<ContentCopyIcon fontSize="small" />}/>
 					</Tooltip>
 				</div>
 				{status==="pending"|| status==="paid"?<>
@@ -105,4 +109,4 @@ function MintTransferCard(props) {
 	);
 }
 
-export default MintTransferCard;
+export default RequestCard;

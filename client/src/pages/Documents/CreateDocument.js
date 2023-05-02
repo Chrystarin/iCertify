@@ -104,10 +104,8 @@ function CreateDocument({manual}) {
     // Mints Document to the Blockchain Network and Sends to Requestor
     const mintDocument = async (wallet, path) => {
 
-        console.log(form)
-        console.log(path)
-       
         let txHash = {}
+
         const contract = new ethers.Contract(
             contractAddress, 
             await fetchContract(), 
@@ -116,14 +114,17 @@ function CreateDocument({manual}) {
 
         try{
             await contract.sendDocument(
-                manual ? form.memberAddress : request.requestor.walletAddress,                    // receiver
+                manual ? form.memberAddress : request.requestor.walletAddress,             // receiver
                 manual ? "Document" : request.details.offeredDoc.title,                   // type
-                path,                                               // uri
+                path,                                                                       // uri
                 manual ? form.docId : request.details.offeredDoc.docId                    // docId
             )
             .then((response)=>{
                 txHash = response.hash
                 console.log("Document Minted")
+            })
+            .catch((error)=>{
+                alert(error.data.message)
             })
             
             return txHash
@@ -151,7 +152,7 @@ function CreateDocument({manual}) {
             });
             
         } catch (error) {
-            console.log(error)
+            alert(error.message)
         }
     }
 

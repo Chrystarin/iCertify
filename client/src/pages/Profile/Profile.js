@@ -51,17 +51,18 @@ function Profile() {
 	}, []);
 
     const mapDocumentsAsync = async (data) => {
+        console.log(data)
         const mappedDocs = await Promise.all(
             data.map(async (document) => {
             const docData = await getDocumentData(document.nftId)
             const image = `https://icertify.infura-ipfs.io/ipfs/${await getTokenURI(document.nftId)}`;
             return (
                 <Card
-                    key={document.codes[0]}
+                    key={isAuth(id) ? document.codes[0] : document.code}
                     id={document.certificateId}
                     title={docData._type}
                     date={document.createdAt}
-                    accessCode={document.codes[0]}
+                    accessCode={isAuth(id) ? document.codes[0] : document.code}
                     image={image}
                 />
             );

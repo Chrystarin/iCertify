@@ -34,6 +34,11 @@ const InstitutionView = () => {
     const { user, isAuth, isJoined } = useAuth();
     const [institution, setInstitution] = useState();
     const [request, setRequest] = useState();
+    const [openSnackBar, setOpenSnackBar] = useState({
+        open:false,
+        type:"",
+        note:""
+    });
 
     // Excecutes on page load
     useEffect(() => {
@@ -41,11 +46,6 @@ const InstitutionView = () => {
         fetchDocumentRequests();
     }, [])
 
-    const [openSnackBar, setOpenSnackBar] = React.useState({
-        open:false,
-        type:"",
-        note:""
-    });
     
     // Retrieves Institution Data
     const fetchInstitution = async () => {
@@ -119,7 +119,7 @@ const InstitutionView = () => {
                     ...openSnackBar,
                     open:true,
                     type:"success",
-                    note:"Your changes has been applied."
+                    note:`Your ${selected} photo has been updated.`
                 }))
             })
         } catch (err) { 
@@ -127,7 +127,7 @@ const InstitutionView = () => {
                 ...openSnackBar,
                 open:true,
                 type:"error",
-                note:"Your changes has failed"
+                note:"Error Occurred: " + err.message
             }))     
             console.error(err.message);
         }
@@ -150,7 +150,7 @@ const InstitutionView = () => {
                                 ...openSnackBar,
                                 open:true,
                                 type:"info",
-                                note:"Kindly wait a few moments for wallpaper update."
+                                note:"Uploading Photo..."
                             }))
                         }}/>
                         <label htmlFor="UpdateCoverPhoto" >
@@ -175,7 +175,7 @@ const InstitutionView = () => {
                                     ...openSnackBar,
                                     open:true,
                                     type:"info",
-                                    note:"Kindly wait a few moments for profile picture update."
+                                    note:"Uploading Photo..."
                                 }))
                                 
                                 

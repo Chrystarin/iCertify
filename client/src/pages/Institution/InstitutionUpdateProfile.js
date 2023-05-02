@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router';
 
 // Import Stylesheets
-import './InstitutionUpdate.scss';
+import './InstitutionUpdateProfile.scss';
 import './../../styles/Form.scss';
 import Loading from '../../components/Loading/Loading';
 // Import Components
@@ -22,7 +22,7 @@ import Switch from '@mui/material/Switch';
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
 
-function InstitutionUpdate() {
+function InstitutionUpdateProfile() {
 
     // Constant Declarations
 	const navigate = useNavigate();
@@ -247,4 +247,4 @@ function InstitutionUpdate() {
 	);
 }
 
-export default InstitutionUpdate;
+export default InstitutionUpdateProfile;

@@ -145,12 +145,12 @@ function DocumentView() {
     };
 
     // Updates Document Privacy Mode
-    const updateDocumentPrivacy = async () =>{
+    const updateDocumentPrivacy = async (data) =>{
         await axiosInstance
         .patch(
             'documents',
             JSON.stringify({
-                mode: (switchChecked ? "private" : "public"),
+                mode: (data ? "public" : "private"),
                 nftId: documentData.nftId
             })
             
@@ -218,8 +218,10 @@ function DocumentView() {
     }
 
 
-    const handleTogglePrivacy = () => {
-        updateDocumentPrivacy();
+    const handleTogglePrivacy = (data) => {
+        console.log(data)
+        updateDocumentPrivacy(data);
+
     }
 
     // Download Document as Image
@@ -339,7 +341,7 @@ function DocumentView() {
                     <br/>
                     <a href={`/users/${owner.walletAddress}`}>
                         <div id='SenderReciever__Container' className='Panel__Container'>
-                            <UserPanel Image={(!owner.photo) ? UserIcon : owner.photo} SubTitle={ShortingWallet(owner.walletAddress)} Title={owner.name.firstName + " (Owner)"}/>
+                            <UserPanel Image={(!owner.photo) ? UserIcon : owner.photo} SubTitle={ShortingWallet(owner.walletAddress)} Title={owner.name.firstName + " " + owner.name.lastName + " (Owner)"}/>
                         </div>
                     </a>
                     <a href={`/institutions/${institution.walletAddress}`}>
@@ -400,7 +402,7 @@ function DocumentView() {
 
     function ShareModal(props){
         const label = { inputProps: { 'aria-label': 'Size switch demo' } };
-        const [checked, setChecked] = React.useState(false);
+        const [checked, setChecked] = useState(documentData.mode === "public" ? true : false);
 
 
         const link = window.location.href;
@@ -478,14 +480,14 @@ function DocumentView() {
                     
                     <div id='MakePublic__Container'>
                         <div id='MakePublic__Title'>
-                            <h6>Make it Public</h6>
-                            <p className='BodyText3'>This certificate can be seen to your User Profile</p>
+                            <h6>Set to Public</h6>
+                            <p className='BodyText3'>This document will be publicly available on your profile.</p>
                         </div>
                         <Switch
                             checked={checked}
                             onChange={(event)=>{
-                                handleTogglePrivacy();
                                 setChecked(event.target.checked);
+                                handleTogglePrivacy(event.target.checked);
                             }}
                             inputProps={{ 'aria-label': 'controlled' }}
                         />

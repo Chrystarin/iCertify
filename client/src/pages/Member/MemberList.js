@@ -36,6 +36,7 @@ function MemberList() {
                 })
 				.then((response) => { 
 					setJoinRequests(response.data)
+                    console.log(response.data)
 				});
 		};
 
@@ -113,7 +114,7 @@ function MemberList() {
                 <div >
                     {(isOpenPanel_Institution === "All")?
                     <>
-                        <div className='NavigationSidetoSide'>
+                        {/* <div className='NavigationSidetoSide'>
                             <SearchInput/>
                             
                             <div className='NavigationSidetoSide__Right__Container'>
@@ -121,7 +122,7 @@ function MemberList() {
                                     <FilterAltIcon />
                                 </IconButton>
                             </div>
-                        </div>
+                        </div> */}
                         <div className='Wrapper__Card'>
                         {(members.length === 0 )?
                             <p>No Requests found!</p>
@@ -146,7 +147,7 @@ function MemberList() {
                     }
                     {(isOpenPanel_Institution === "Join Requests")?
                     <>
-                        <div className='NavigationSidetoSide'>
+                        {/* <div className='NavigationSidetoSide'>
                             <SearchInput/>
                             
                             <div className='NavigationSidetoSide__Right__Container'>
@@ -154,7 +155,7 @@ function MemberList() {
                                     <FilterAltIcon />
                                 </IconButton>
                             </div>
-                        </div>
+                        </div> */}
                         <div className='Wrapper__Card'>
                         {(joinRequests.length === 0 )?
                             <p>No Requests found!</p>
@@ -167,9 +168,9 @@ function MemberList() {
                                             key={request.requestor.walletAddress} 
                                             name={`${request.requestor.name.firstName}`+" "+`${request.requestor.name.lastName}`}
                                             walletAddress={request.requestor.walletAddress} 
-                                            institutionID={request.details.idNumber}
+                                            institutionID={(!request.details?.idNumber) ? request.details?.idNumber : ''}
                                             member={false}
-                                            membershipProof={request.details.membership}
+                                            membershipProof={(!request.details?.membership) ? request.details?.membership : ''}
                                             image={request.requestor.photo} 
                                             onClick={()=>AcceptRequest(request)}
                                         />

@@ -125,7 +125,7 @@ function Institutions(props) {
         return<>
             <div id='Container_Featuredinstitutions'>
                 <div className='InstitutionList'>
-                    <h5>Newest Institutions</h5>
+                    <h5>Featured Institutions</h5>
                     <div  className='Wrapper__Card'> 
                         {(institutions.length === 0 )?
                             <p>No Institutions found!</p>
@@ -141,8 +141,8 @@ function Institutions(props) {
                                         address={institution.instType} 
                                         totalDocuments={institution.docOffers.length} 
                                         totalMembers={institution.members.length} 
-                                        joinStatus={false}
-                                        actions={true}
+                                        joinStatus={true}
+                                        actions={false}
                                     />
                                 );
                                 })}

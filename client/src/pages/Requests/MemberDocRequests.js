@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import './Documents.scss'
+import './MemberDocRequests.scss'
 
 import SearchInput from '../../components/SearchInput/SearchInput';
 
@@ -16,7 +16,7 @@ import TextField from '@mui/material/TextField';
 import Loading from '../../components/Loading/Loading';
 import axiosInstance from '../../utils/axios';
 
-function Documents(){
+function MemberDocRequests(){
 
     const {tab} = useParams();
     const navigate = useNavigate();
@@ -154,7 +154,7 @@ function Documents(){
                     </Button>
                 </div>
                 <div className='Container__Section'>
-                    <div  className='Container__Navigation'>
+                    {/* <div  className='Container__Navigation'>
                         <div className='Container__Navigation__left'>
                             <SearchInput />
                         </div>
@@ -182,7 +182,7 @@ function Documents(){
                                 </div>
                             </Menu>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             
                 
@@ -300,13 +300,24 @@ function Documents(){
                     <>
                         <div className='RequestCardUser__Footer'>
                             <div className='RequestCardUser__Footer__Buttons'>
-                                <Button 
-                                    className='RequestCardUser__Footer__Cancel' 
+                                {(data.status === "paid")?
+                                    <Button 
+                                    
                                     variant='contained' 
-                                    onClick={()=>ProcessRequest(data, 'cancelled')}
-                                >
-                                    Cancel
-                                </Button>
+                                    disabled
+                                    >
+                                        Cancel
+                                    </Button>
+                                :
+                                    <Button 
+                                        className='RequestCardUser__Footer__Cancel' 
+                                        variant='contained' 
+                                        onClick={()=>ProcessRequest(data, 'cancelled')} 
+                                    >
+                                        Cancel
+                                    </Button>
+                                }
+                                
                                 {(status === "Payment")?<Button variant='contained' onClick={()=>navigate(`/requests/pay/${data.requestId}`)}>Pay</Button>:<></>}
                                 {(status === "Pending")?<Button variant='contained' disabled>Pay</Button>:<></>}
                             </div>
@@ -320,6 +331,6 @@ function Documents(){
 }
 
 
-export default Documents
+export default MemberDocRequests
 
 

@@ -3,13 +3,13 @@ import Error404Image from '../../images/Resources/Design/Error404.png';
 import UnautherizePage from '../../images/Resources/Design/unautherize.png'
 
 
-function Error404({unautherize}) {
+function Error404({unauthorized}) {
   return (
     <div className='Errors'>
-      {unautherize?<>
+      {unauthorized?<>
         <img className='Errors__Img' src={UnautherizePage} alt="" />
         <div className='Errors__Message'>
-          <h3>Unautherize Page</h3>
+          <h3>unauthorized</h3>
           <h5>You don't have an access to this page</h5>
         </div>
       </>:<>
