@@ -1,5 +1,4 @@
-import React, {useState,useRef}from 'react';
-
+import React, {useState,useRef,useParams}from 'react';
 
 import './Header.scss';
 
@@ -13,13 +12,12 @@ import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
-
+import MetaMaskIcon from './../../images/icons/fox.png';
 import axios from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
 
 function Header() {
     const { user } = useAuth();
-
     // For closing the dropdown when clicking outside of
     let menuRef = useRef();
 
@@ -36,6 +34,18 @@ function Header() {
     // Hook for Notification dropdown
     const [anchorElNotification, setAnchorElNotification] = useState(null);
     const openNotification = Boolean(anchorElNotification);
+
+    const ShortingWallet = (data) =>{
+        let startString = "";
+        let EndString = "";
+        for (let i= 0; i < 6; i++) {
+            startString = startString + data.charAt(i)
+        }
+        for (let i = data.length-4; i < data.length; i++) {
+            EndString = EndString + data.charAt(i);
+        }
+        return startString + "..." + EndString
+    }
     const handleClickNotification = (event) => {
         setAnchorElNotification(event.currentTarget);
     };
@@ -191,20 +201,21 @@ function Header() {
                         <div id="ProfileDropdown__Container">
                             <a href={`/${user.type}s/${user.walletAddress}`}>
                                 <MenuItem  id='ProfileDropdown__Header'>
-                                    <Avatar src={user.type =='user' ? ((!user.user.photo) ? '' : user.user.photo) : ((!user.user.photos?.profile) ? '' : user.user.photos.profile)} alt=""></Avatar>
+                                    <Avatar id="ProfileDropdown__Header__Avatar" src={user.type =='user' ? ((!user.user.photo) ? '' : user.user.photo) : ((!user.user.photos?.profile) ? '' : user.user.photos.profile)} alt=""></Avatar>
                                     <div>
                                     <h6>{user.type =='user' ? user.user.name.firstName + ' ' + user.user.name.lastName : user.user.name}</h6>
                                     <div id='ProfileDropdown__Header__Metamask'>
-                                        <p className='BodyText3'>{user.walletAddress}</p>
+                                        <img src={MetaMaskIcon}/>
+                                        <p className='BodyText3'>{ShortingWallet(user.walletAddress)}</p>
                                     </div>
                                     </div>
                                 </MenuItem>
+                            </a>
                                 
                                 <div id='ProfileDropdown__Buttons'>
-                                    <Button variant=''>Update</Button>
+                                    <Button href={`${user.walletAddress}/edit`} onClick={()=>{console.log()}} variant=''>Update</Button>
                                     <Logout/>
                                 </div>
-                            </a>
                         </div>
                     </Menu>
                 </div>

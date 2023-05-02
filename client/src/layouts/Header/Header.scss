@@ -125,12 +125,24 @@
     #ProfileDropdown__Header{
         background-color: rgb(238, 238, 238);
         padding: 2em 1em;
+        display: flex;
+        gap: 10px;
+        #ProfileDropdown__Header__Avatar{
+            height: 50px;
+            width: 50px;
+        }
         #ProfileDropdown__Header__Metamask{
-            
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            img{
+                width: 20px;
+                height: 20px;
+            }
             p{
                 text-overflow: ellipsis;
-            overflow: hidden;
-            max-width: 200px;
+                overflow: hidden;
+                max-width: 200px;
             }
 
         }

@@ -5,6 +5,7 @@ import './Institutions.scss';
 
 import ImagePosterSample from './../../images/placeholder/PosterSample.jpg';
 import ImageAds from '../../images/Resources/Ads.png'
+import FileNotFound from '../../images/icons/empty-folder.png'
 
 import Button from '@mui/material/Button';
 import InstitutionCard from '../../components/Card/InstitutionCard.js'
@@ -128,7 +129,12 @@ function Institutions(props) {
                     <h5>Featured Institutions</h5>
                     <div  className='Wrapper__Card'> 
                         {(institutions.length === 0 )?
-                            <p>No Institutions found!</p>
+                            <div className="EmtpyCard">
+                                <div>
+                                    <img src={FileNotFound} alt="" />
+                                    <p>No Institutions found!</p>
+                                </div>
+                            </div>
                             :
                             <>
                                 {institutions.length > 0 &&
@@ -141,8 +147,8 @@ function Institutions(props) {
                                         address={institution.instType} 
                                         totalDocuments={institution.docOffers.length} 
                                         totalMembers={institution.members.length} 
-                                        joinStatus={true}
-                                        actions={false}
+                                        joinStatus={false}
+                                        actions={true}
                                     />
                                 );
                                 })}
@@ -160,9 +166,12 @@ function Institutions(props) {
             <div id='Container_JoinedInstitutions' className='Wrapper__Card'>
                 {(joinedInstitutions.length === 0 )?
                     <>
-                        <div id="ErrorInstitutionJoined">
-                            <p>No Institutions found!</p>
-                        </div>
+                        <div className="EmtpyCard">
+                                <div>
+                                    <img src={FileNotFound} alt="" />
+                                    <p>No Institutions found!</p>
+                                </div>
+                            </div>
                     </>
                     :
                     <>

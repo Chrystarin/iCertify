@@ -17,7 +17,7 @@ import MuiAlert from '@mui/material/Alert';
 
 // Step 2 
 //  Place this anywhere inside of the page
-{/* <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/> */}
+// {/* <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/> */}
 
 // Step 3
 // Update value usestate to call Snackbar

@@ -31,7 +31,7 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 
 // Import Utilities
 import axiosInstance from '../../utils/axios';
@@ -263,6 +263,14 @@ function DocumentView() {
         });
     };
 
+
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
+
+
     const handleClose = () => {
         setOpen(false);
     };
@@ -369,6 +377,7 @@ function DocumentView() {
             <div className='Modal'>
                 {(open)? <SetBackrop/>:""}
             </div>
+            <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
         </section>
     )
 
@@ -401,6 +410,7 @@ function DocumentView() {
     }
 
     function ShareModal(props){
+        
         const label = { inputProps: { 'aria-label': 'Size switch demo' } };
         const [checked, setChecked] = useState(documentData.mode === "public" ? true : false);
 
@@ -410,7 +420,13 @@ function DocumentView() {
 
         const handleClickCopyLink = (event) => {
             navigator.clipboard.writeText(`${baseUrl}/documents/${documentData.codes[0]}`)
-            alert("Link copied : "+ link)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:"info",
+                note:"link Copied"
+            }))
+            
         };
 
 
