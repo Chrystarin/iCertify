@@ -28,6 +28,12 @@ const { JWT_REFRESH_SECRET } = process.env;
 
 const verifySignature = require('../miscellaneous/verifySignature');
 
+const checkEmail = async (model, walletAddress, message) => {
+	if (await model.findOne({ walletAddress })) {
+		throw new DuplicateEntry(message);
+	}
+};
+
 const register = async (req, res, next) => {
 	const { email, userType } = req.body;
 	let { walletAddress } = req.body;
@@ -41,18 +47,20 @@ const register = async (req, res, next) => {
 	walletAddress = getAddress(walletAddress);
 
 	if (userType === USER) {
-		// Check if email is used as institution
-		if (await Institution.findOne({ walletAddress }))
-			throw new DuplicateEntry('Email already registered as Institution');
-
+		await checkEmail(
+			Institution,
+			walletAddress,
+			'Email already registered as Institution'
+		);
 		return registerUser(req, res, next);
 	}
 
 	if (userType === INSTITUTION) {
-		// Check if email is used as institution
-		if (await User.findOne({ walletAddress }))
-			throw new DuplicateEntry('Email already registered as User');
-
+		await checkEmail(
+			User,
+			walletAddress,
+			'Email already registered as User'
+		);
 		return registerInstitution(req, res, next);
 	}
 
@@ -70,34 +78,30 @@ const login = async (req, res, next) => {
 	// Verify the signature
 	await verifySignature(signature, walletAddress);
 
-	// Create payload holder
+	// Check if existing
+	const [user, institution] = await Promise.all([
+		User.findOne({ walletAddress }),
+		Institution.findOne({ walletAddress })
+	]);
+
+	let type;
 	let payload;
-
-    // Create type
-    let type;
-
-    // Check if existing
-    const user = await User.findOne({ walletAddress })
-    const institution = await Institution.findOne({ walletAddress })
-
-	// Assign Payload for User
-	if (user) {
-        type = 'user'
-		payload = { id: user._id, type: USER, walletAddress };
+	switch (true) {
+		case !!user:
+			type = 'user';
+			payload = { id: user._id, type: USER, walletAddress };
+			break;
+		case !!institution:
+			type = 'institution';
+			payload = {
+				id: institution._id,
+				type: INSTITUTION,
+				walletAddress
+			};
+			break;
+		default:
+			throw new UserNotFound();
 	}
-	// Assign Payload for Institution
-	else if (institution) {
-        type = 'institution'
-		payload = {
-			id: institution._id,
-			type: INSTITUTION,
-			walletAddress
-		};
-	}
-    else {
-        throw new UserNotFound();
-    }
-
 	res.status(200)
 		.cookie('access-token', signAccess(payload), {
 			...cookieOptions,
@@ -107,7 +111,11 @@ const login = async (req, res, next) => {
 			...cookieOptions,
 			maxAge: duration.refresh
 		})
-		.json({ walletAddress: walletAddress, type: type, user: user ? user: institution });
+		.json({
+			walletAddress,
+			type,
+			user: user || institution
+		});
 };
 
 const refresh = async (req, res, next) => {
@@ -148,9 +156,8 @@ const logout = async (req, res, next) => {
 	if (!refreshToken)
 		throw new Unauthorized('This action requires logging in first');
 
-	res.status(200)
-		.cookie('access-token', '', { ...cookieOptions, maxAge: 0 })
-		.cookie('refresh-token', '', { ...cookieOptions, maxAge: 0 })
+	res.clearCookie('access-token', cookieOptions)
+		.clearCookie('refresh-token', cookieOptions)
 		.json({ message: `Logged out` });
 };
 

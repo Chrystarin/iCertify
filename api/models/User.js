@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const { genAccessCode } = require('../miscellaneous/generateId');
 
 module.exports = model(
 	'User',
@@ -49,7 +48,7 @@ module.exports = model(
 					},
 					hash: {
 						type: String,
-                        unique: true,
+                        index: { unique: true, sparse: true },
 						requried: [true, 'Transaction Hash is required']
 					},
 					createdAt: { type: Date, default: new Date() }
