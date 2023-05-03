@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useCallback, useEffect} from 'react'
 
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -24,28 +24,35 @@ import MuiAlert from '@mui/material/Alert';
 // setOpenSnackBar(openSnackBar => ({
 //     ...openSnackBar,
 //     open:true,
-//     type:"",
-//     note:"Successfully Update Institution Information"
-// }))
+//     type:'success',
+//     note:"Profile Updated!",
+//     action: ()=>{
+//         alert();
+//     }
+// }));
 
 // Severity types = error,warning,info,success
 
 
 function SnackbarComponent(props) {
-
+    
     const Alert = React.forwardRef(function Alert(props, ref) {
         return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
     });
-    const onclose = ()=>{
+    
+    const onclose = useCallback(() => {
         props.setter(openSnackBar => ({
             // Retain the existing values
             ...openSnackBar,
             // update the firstName
             open:false,
-            type:"",
-            note:""
-        }))
-    }
+            type:'',
+            note:"",
+            action:null
+        }));
+        props.open.action()
+    });
+
     // console.log(props.open);
     return <>
         <Snackbar open={props.open.open} autoHideDuration={6000} onClose={onclose}>

@@ -117,17 +117,23 @@
                     gap: 25px;
                 }
                 #Submit{
-                    margin-top: 25px;
                     display: block;
                     text-align: center;
                     width: 100%;
                     padding: .7em 1em ;
                     background-color: var(--accent);
+                    border: 1px solid rgba(128, 128, 128, 0.168);
                     border: none;
                     border-radius: .5em;
                     color: white;
                     font-size: 20px;
                     cursor: pointer;
+                    transition: all .3s ease-in-out;
+                    box-shadow: 0 0 15px rgba(0, 0, 0, 0.027);
+                }
+                #Submit:hover{
+                    box-shadow: 0 0 15px rgba(0, 0, 0, 0.079);
+                    border: 1px solid gray;
                 }
                 form{
                     display: flex;
@@ -161,4 +167,20 @@
         }
     }
 }
+#MetamaskNote{
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+    color: rgb(72, 72, 72);
+    opacity: .7;
+    img{
+        width: 20px;
+        height: 20px;
+    }
+}
 
+#MetamaskNote:hover{
+    opacity: 1;
+}

@@ -15,6 +15,7 @@ import SellIcon from '@mui/icons-material/Sell';
 import TextField from '@mui/material/TextField';
 import Loading from '../../components/Loading/Loading';
 import axiosInstance from '../../utils/axios';
+import moment from 'moment';
 
 function MemberDocRequests(){
 
@@ -88,7 +89,7 @@ function MemberDocRequests(){
                 `requests`,
                 formData,
                 {headers: {
-                      'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data'
                 }}
             )
             .then((response)=>{
@@ -119,7 +120,7 @@ function MemberDocRequests(){
                         }
                         onClick={() => setStepper('myrequests')}
                     >
-                        My Requests
+                        My Requests ({(typeof myRequest.lenght ==="undefined") ?"0":myRequest.length})
                     </Button>
                     <Button 
                         variant={
@@ -129,7 +130,7 @@ function MemberDocRequests(){
                     }
                     onClick={() => setStepper('topay')}
                     >
-                        To Pay 
+                        To Pay  ({(typeof toPay.length ==="undefined") ?"0":toPay.length})
                     </Button>
                     <Button 
                         variant={
@@ -139,7 +140,7 @@ function MemberDocRequests(){
                     }
                     onClick={() => setStepper('torecieve')}
                     >
-                        To Recieve 
+                        To Recieve ({(typeof toRecieve.length ==="undefined") ?"0":toRecieve.length})
                     </Button>
                     <div className='Stepper__Cut'></div>
                     <Button 
@@ -150,7 +151,7 @@ function MemberDocRequests(){
                     }
                     onClick={() => setStepper('failedtransactions')}
                     >
-                        Failed Transactions
+                        Failed Transactions ({(typeof failedtransactions.length ==="undefined") ?"0":failedtransactions.length})
                     </Button>
                 </div>
                 <div className='Container__Section'>
@@ -260,7 +261,7 @@ function MemberDocRequests(){
                     <ul className='RequestCardUser__Body__MoreInfo'>
                         <li>
                             <EventIcon/>
-                            <p><span>{data.createdAt}</span> <span>Requested</span></p>
+                            <p><span>{moment(data.createdAt).format('lll')}</span></p>
                         </li>
                         <li>
                             <SellIcon/>

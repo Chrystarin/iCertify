@@ -6,7 +6,6 @@ import './../../styles/Form.scss';
 import './DocumentRequestPayment.scss';
 
 
-
 // Import Components
 import Button from '@mui/material/Button';
 import Stepper from '@mui/material/Stepper';
@@ -16,6 +15,7 @@ import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import WalletIcon from '@mui/icons-material/Wallet';
 import DownloadIcon from '@mui/icons-material/Download';
 import Loading from '../../components/Loading/Loading';
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
@@ -31,7 +31,11 @@ function DocumentRequestForm() {
     const [document, setDocument] = useState();
     const [request, setRequest] = useState();
     const [proofOfPayment, setProofOfPayment] = useState();
-
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
     // Excecutes on page load
     useEffect(() => {
         fetchDocumentRequests();
@@ -64,13 +68,22 @@ function DocumentRequestForm() {
                 `requests`,
                 formData,
                 {headers: {
-                      'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'multipart/form-data'
                 }}
             )
             .then((response)=>{
-                alert(`Document Paid!`)
+                // setOpenSnackBar(openSnackBar => ({
+                //     ...openSnackBar,
+                //     open:true,
+                //     type:'success',
+                //     note:`Document Paid!`,
+                //     action: ()=>{
+                //         navigate("/requests")
+
+                //     }
+                // }));
+                navigate("/requests");
                 console.log(response.data)
-                navigate("/requests")
             })
         } catch (err) {      
             console.error(err.message);
@@ -89,27 +102,6 @@ function DocumentRequestForm() {
         setActiveStep(activeStep-1);
         }
     }
-  
-    if(!request) return <Loading/>
-
-    return (
-        <section>
-        <div id="Stepper">
-            <div id="Holder_Stepper">
-                <Stepper activeStep={activeStep}>
-                    <Step>
-                        <StepLabel>Payment Method</StepLabel>
-                    </Step>
-                    <Step>
-                        <StepLabel>Confirmation</StepLabel>
-                    </Step>
-                </Stepper>
-            </div>
-        </div>
-        <VIEWFORM institution={institution} document={document} payments={request.institution.payments}/>
-    </section>
-    )
-
     function VIEWFORM({payments}){
 
         const [paymentValue,setPaymentValue] = useState({
@@ -273,7 +265,7 @@ function DocumentRequestForm() {
                         </div>
                     </>}
                     <div  id='Holder_Button'>
-                    <Button variant='contained' onClick={nextStep}>Next</Button>
+                        <Button variant='contained' onClick={nextStep}>Next</Button>
                     </div>
                     
                 </form>
@@ -319,7 +311,19 @@ function DocumentRequestForm() {
                 </div>
                 <div  id='Holder_Button'>
                 <Button variant='' onClick={backStep}>Back</Button>
-                <Button variant='contained' onClick={()=>PayDocument()}>Send Request</Button>
+                <Button variant='contained' onClick={()=>{
+                    setOpenSnackBar(openSnackBar => ({
+                        ...openSnackBar,
+                        open:true,
+                        type:'info',
+                        note:`Payment is sending...!`,
+                        action: ()=>{
+                            // navigate("/requests")
+                        }
+                    }));
+                    PayDocument();
+                    
+                    }}>Send Request</Button>
                 </div>
             </form>
             </>
@@ -327,6 +331,29 @@ function DocumentRequestForm() {
             break;
         }
     }
+  
+    if(!request) return <Loading/>
+
+    return (
+        <section>
+        <div id="Stepper">
+            <div id="Holder_Stepper">
+                <Stepper activeStep={activeStep}>
+                    <Step>
+                        <StepLabel>Payment Method</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel>Confirmation</StepLabel>
+                    </Step>
+                </Stepper>
+            </div>
+        </div>
+        <VIEWFORM institution={institution} document={document} payments={request.institution.payments}/>
+        <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
+    </section>
+    )
+
+    
 }
 
 export default DocumentRequestForm

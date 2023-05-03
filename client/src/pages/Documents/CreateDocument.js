@@ -16,8 +16,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import Loading from '../../components/Loading/Loading';
-
-
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 // Icons or images
 import GetAppIcon from '@mui/icons-material/GetApp';
 import UploadFileImage from './../../images/Resources/Design/UploadFile.png'
@@ -43,6 +42,12 @@ function CreateDocument({manual}) {
         docId: '',
         docTitle: ''
     });
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
+    
 
     // Excecutes on page load
     useEffect(() => {
@@ -211,7 +216,23 @@ function CreateDocument({manual}) {
                 <div id='CreateDocument__Container'> 
                     { (!file)?
                         <div className='uploadDocument__Container'>
-                            <input type="file" name='uploadDocument' id='uploadDocument' className='hidden'  onChange={(e)=>setFile(e.target.files[0])} /> 
+                            <input type="file"
+                            
+                                name='uploadDocument' 
+                                id='uploadDocument' 
+                                className='hidden'  
+                                onChange={(e)=>{
+                                    setFile(e.target.files[0])
+                                    setOpenSnackBar(openSnackBar => ({
+                                        ...openSnackBar,
+                                        open:true,
+                                        type:'success',
+                                        note:"File Uploaded",
+                                        action: ()=>{
+                                        }
+                                    }));
+                                }}
+                            /> 
                             <label htmlFor="uploadDocument" id='uploadDocument__Click'>
                                 <img src={UploadFileImage} alt="" />
                                 <div>
@@ -227,7 +248,19 @@ function CreateDocument({manual}) {
                                 
                             </div>
                             <div className='uploadDocument__ViewUploaded__ReUploadButton'>
-                                <input id='reupload' type="file" onChange={(e)=>setFile(e.target.files[0])}  className='hidden' /> 
+                                <input id='reupload' type="file" 
+                                onChange={(e)=>{
+                                    setFile(e.target.files[0])
+                                    setOpenSnackBar(openSnackBar => ({
+                                        ...openSnackBar,
+                                        open:true,
+                                        type:'success',
+                                        note:"File Uploaded",
+                                        action: ()=>{
+                                        }
+                                    }));
+                                }}
+                                className='hidden' /> 
                                 <label htmlFor="reupload">
                                     <div>
                                         <GetAppIcon/>
@@ -346,6 +379,7 @@ function CreateDocument({manual}) {
                 </div>
             </div>
         </form>
+        <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/> 
     </>
 }
 

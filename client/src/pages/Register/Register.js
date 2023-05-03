@@ -9,9 +9,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
 import './Register.scss'
-
+import MetamaskImg from '../../images/Resources/Metamask.png'
 import {useAuth} from "../../utils/AuthContext";
 
 function Register() {
@@ -108,41 +107,46 @@ function Register() {
                                 <h3>Get Started</h3>
                                 <h5><span>Setup</span> your profile and <span>Connect</span> your wallet </h5>
                                 <form onSubmit={Register}>
-                                    <TextField 
-                                        id="outlined-search" 
-                                        label="First Name" 
-                                        type="text" 
-                                        required
-                                        onChange={(e)=>updateForm({ firstName: e.target.value })}
-                                    />
-                                    <TextField 
-                                        id="outlined-search" 
-                                        label="Middle Name" 
-                                        type="text" 
-                                        onChange={(e)=>updateForm({ middleName: e.target.value })}
-                                    />
-                                    <TextField 
-                                        id="outlined-search" 
-                                        label="Last Name" 
-                                        type="text" 
-                                        required
-                                        onChange={(e)=>updateForm({ lastName: e.target.value })}
-                                    />
-                                    <TextField 
-                                        InputLabelProps={{ shrink: true }}
-                                        id="outlined-search" 
-                                        label="Birthday"
-                                        type="date"
-                                        required 
-                                        onChange={(e)=>updateForm({ birthDate: e.target.value })}
-                                    />
-                                    <TextField 
-                                        id="outlined-search" 
-                                        label="Email"
-                                        type="email"
-                                        required 
-                                        onChange={(e)=>updateForm({ email: e.target.value })}
-                                    />
+                                    <div className='Wrapper_3_1_3'>
+                                        <TextField 
+                                            id="outlined-search" 
+                                            label="First Name" 
+                                            type="text" 
+                                            required
+                                            onChange={(e)=>updateForm({ firstName: e.target.value })}
+                                        />
+                                        <TextField 
+                                            id="outlined-search" 
+                                            label="Middle Name" 
+                                            type="text" 
+                                            onChange={(e)=>updateForm({ middleName: e.target.value })}
+                                        />
+                                        <TextField 
+                                            id="outlined-search" 
+                                            label="Last Name" 
+                                            type="text" 
+                                            required
+                                            onChange={(e)=>updateForm({ lastName: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className='Wrapper_2_Inputs'>
+                                        <TextField 
+                                            InputLabelProps={{ shrink: true }}
+                                            id="outlined-search" 
+                                            label="Birthday"
+                                            type="date"
+                                            required 
+                                            onChange={(e)=>updateForm({ birthDate: e.target.value })}
+                                        />
+                                        <TextField 
+                                            id="outlined-search" 
+                                            label="Email"
+                                            type="email"
+                                            required 
+                                            onChange={(e)=>updateForm({ email: e.target.value })}
+                                        />
+                                    </div>
+                                    
                                     {/* <div className='Form__2__Inputs'>
                                         <FormControl fullWidth>
                                             <InputLabel id="demo-simple-select-label">Gender</InputLabel>
@@ -168,7 +172,14 @@ function Register() {
                                             onChange={(e)=>updateForm({ lastName: e.target.value })}
                                         />
                                     </div> */}
-                                    <input id='Submit' type="submit" value="Connect" />
+                                    <div>
+                                        <input id='Submit' type="submit" value="Connect with Metamask"/>
+                                        <a href="https://metamask.io/download/" id='MetamaskNote'>
+                                            <p className='BodyText2'>Learn more about Metamask</p>
+                                            <img src={MetamaskImg} alt="" />
+                                        </a>
+                                    </div>
+                                    
                                 </form>            
                             </div>
                         </>:<></>}
@@ -185,7 +196,8 @@ function Register() {
                                         required
                                         onChange={(e)=>updateForm({ name: e.target.value })}
                                     />
-                                    <FormControl fullWidth>
+                                    <div className='Wrapper_2_Inputs'>
+                                    <FormControl fullWidth required>
                                         <InputLabel id="demo-simple-select-label">Institution Type</InputLabel>
                                         <Select
                                             labelId="demo-simple-select-label"
@@ -200,13 +212,20 @@ function Register() {
                                         </Select>
                                     </FormControl>
                                     <TextField 
-                                            id="outlined-search" 
-                                            label="Email" 
-                                            type="email"
-                                            required 
-                                            onChange={(e)=>updateForm({ email: e.target.value })}
-                                        />
-                                    <input id='Submit' type="submit" value="Connect" />
+                                        id="outlined-search" 
+                                        label="Email" 
+                                        type="email"
+                                        required 
+                                        onChange={(e)=>updateForm({ email: e.target.value })}
+                                    />
+                                    </div>
+                                    <div>
+                                        <input id='Submit' type="submit" value="Connect with Metamask"/>
+                                        <a href="https://metamask.io/download/" id='MetamaskNote'>
+                                            <p className='BodyText2'>Learn more about Metamask</p>
+                                            <img src={MetamaskImg} alt="" />
+                                        </a>
+                                    </div>
                                 </form>            
                             </div>
                         </>:<></>}

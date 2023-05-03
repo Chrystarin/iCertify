@@ -175,7 +175,7 @@ function Profile() {
                 </div>
                 
 				<div id='Profile__Div__Info__Container'>
-					<h4>
+					<h4 >
 						{(user.name?.firstName || user.name?.lastName)?
 							<>
 								{(user.name?.firstName ?? '') + ' '}
@@ -211,6 +211,7 @@ function Profile() {
 				</div>
 			</div>
 			<div id='Main_Div'>
+                
 				<div id='SideBar__Div'>
 					<div id='sticky'>
                         {(!user.about) ? ' ' :

@@ -90,10 +90,12 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 25px;
 }
+.Wrapper_3_1_3{
+    display: grid;
+    grid-template-columns: 1fr .5fr 1fr ;
+    gap: 25px;
+}
 
 .StepperLabel{
     cursor: pointer;
-}
-.hidden{
-    display: none;
 }

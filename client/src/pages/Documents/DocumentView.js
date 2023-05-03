@@ -198,7 +198,12 @@ function DocumentView() {
     const generateQrCode = (accessCode) => {
         setQRCode(baseUrl + "/documents/" + accessCode);
         navigator.clipboard.writeText(`${baseUrl}/documents/${accessCode}`)
-        alert("Link Copied and QR Code Updated!");
+        setOpenSnackBar(openSnackBar => ({
+            ...openSnackBar,
+            open:true,
+            type:"success",
+            note:"Link Copied and QR Code Updated!"
+        }))
         handleToggleShare();
     }
 
@@ -259,6 +264,12 @@ function DocumentView() {
                 anchor.setAttribute("download", filename);
                 anchor.click();
                 anchor.remove();
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'info',
+                    note:"File Downloading",
+                }));
             });
         });
     };
@@ -423,10 +434,9 @@ function DocumentView() {
             setOpenSnackBar(openSnackBar => ({
                 ...openSnackBar,
                 open:true,
-                type:"info",
+                type:"success",
                 note:"link Copied"
             }))
-            
         };
 
 
@@ -477,7 +487,16 @@ function DocumentView() {
                                                     <li>
                                                         <p>{code}</p>
                                                         <IconButton
-                                                            onClick={()=>deleteAccessCode(code)}
+                                                            onClick={()=>{
+                                                                setOpenSnackBar(openSnackBar => ({
+                                                                    ...openSnackBar,
+                                                                    open:true,
+                                                                    type:"warning",
+                                                                    note:"Access code deleted"
+                                                                }))
+                                                                deleteAccessCode(code)
+
+                                                            }}
                                                         >
                                                             <CloseIcon/>
                                                         </IconButton>
