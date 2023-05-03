@@ -129,6 +129,7 @@ function Register() {
                                         onChange={(e)=>updateForm({ lastName: e.target.value })}
                                     />
                                     <TextField 
+                                        InputLabelProps={{ shrink: true }}
                                         id="outlined-search" 
                                         label="Birthday"
                                         type="date"

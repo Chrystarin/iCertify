@@ -16,7 +16,7 @@ import axiosInstance from '../../utils/axios';
 import SidePanelList from '../../components/SidePanelList/SidePanelList';
 import InstitutionCardDesign from '../../images/Resources/InstitutionCardDesign.png'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 function InstitutionDocRequests() {
     
     // Constants Declaration
@@ -52,7 +52,6 @@ function InstitutionDocRequests() {
             })
             .then((response) => { 
                 setRequests(response.data)
-                console.log(response.data)
                 filterData(response.data)
             });
     };
@@ -85,6 +84,11 @@ function InstitutionDocRequests() {
 		setRequestFailed(data.filter((item)=>[keys[2],keys[6]].some((key)=> item.status?.toString().toLowerCase().includes(key))));
 	}
 
+	const [openSnackBar, setOpenSnackBar] = React.useState({
+		open:false,
+		type:"",
+		note:""
+	});
     const ProcessRequest = async (request, action, note) => {
         try {
             const formData = new FormData();
@@ -99,12 +103,23 @@ function InstitutionDocRequests() {
                 formData
             )
             .then((response)=>{
-                alert(`Document ${action}!`)
+				setOpenSnackBar(openSnackBar => ({
+					...openSnackBar,
+					open:true,
+					type:"info",
+					note:`Document ${action}!`
+				}))
                 console.log(response.data)
                 fetchDocumentRequests();
             })
         } catch (err) {      
-            console.error(err.message);
+			const errmsg = err.message;
+			setOpenSnackBar(openSnackBar => ({
+				...openSnackBar,
+				open:true,
+				type:"error",
+				note:errmsg
+			}))
         }
     }
 
@@ -321,6 +336,7 @@ function InstitutionDocRequests() {
 					</>:<></>}
 				</div>
 			</div>
+			<SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
 		</>	
 	);
 }

@@ -1,10 +1,17 @@
 #Signup{
     background-color: var(--dark2);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 90vh;
+    overflow: hidden;
+    max-width: 1920px;
     #Container_Signup{
         width: 100%;
         margin: auto;
-        padding: 1% .8%;
-
+        padding: 1% .8%;;
         #Container_Signup_Content{
             background:url('../../images//Resources/pattern.png') center;
             background-size: Cover;

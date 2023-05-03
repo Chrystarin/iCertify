@@ -26,10 +26,10 @@ const Card = (props) => {
                     <CalendarMonthIcon/>
                     <p className='BodyText3'><moment>{moment(date).format('LL')}</moment></p>
                 </div>
-                <div className='Card__InstitutionInfo'>
+                {/* <div className='Card__InstitutionInfo'>
                     <Avatar className='Card__InstitutionInfo__Avatar'></Avatar>
                     <p className='BodyText3'>STI College Marikina</p>
-                </div>
+                </div> */}
             </div>
         </Link>
 

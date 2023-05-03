@@ -30,8 +30,8 @@ import CreateDocument from './pages/Documents/CreateDocument';
 import InstitutionUpdatePayment from './pages/Institution/InstitutionUpdatePayment.js'
 
 function App() {
-	return (
-		<Routes>
+	return <>
+        <Routes>
             {/* Error Routes */}
             <Route path='*' element={<Error />}/>
             {/* For Unautherize  */}
@@ -73,9 +73,8 @@ function App() {
                     
                 </Route>
             </Route>
-
 		</Routes>
-	);
+    </>;
 }
 
 export default App;

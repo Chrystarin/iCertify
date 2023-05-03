@@ -1,4 +1,4 @@
-import React,{useState, useEffect} from 'react'
+import React,{useState, useEffect, useCallback} from 'react'
 import Button from '@mui/material/Button';
 import MemberCard from '../../components/Card/MemberCard.js';
 import SearchInput from '../../components/SearchInput/SearchInput.js';
@@ -7,14 +7,18 @@ import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Analytics from '../../layouts/Analytics/Analytics.js';
 import Loading from '../../components/Loading/Loading.js';
 import axiosInstance from '../../utils/axios';
-
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent.js';
 function MemberList() {
 
     // Constant Declarations
     const [members, setMembers] = useState();
     const [joinRequests, setJoinRequests] = useState();
     const [isOpenPanel_Institution, seOpenPanel_Institution] = useState('All');
-
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
     // Excecutes on page load
     useEffect(() => {
         // Retrieves Institutions' Members
@@ -57,15 +61,25 @@ function MemberList() {
                 formData
             )
             .then((res)=>{
-                alert("Member Added!")
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:"success",
+                    note:"Member Added"
+                }))
                 console.log(res.data)
-                window.location.reload(true); 
+                ReloadPage();
+                
             })
         } catch (err) {      
             console.error(err.message);
         }
     }
-
+    const ReloadPage = useCallback(()=>{
+        if(!openSnackBar.open){
+            window.location.reload(true); 
+        }
+    },[openSnackBar.open])
     if(!members || !joinRequests) return <Loading/>
 
     return (
@@ -186,6 +200,7 @@ function MemberList() {
             {/* <div className='AdminPanelContainer__SideContent'>
                 <Analytics/>
             </div> */}
+            <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
         </div>
     )
 }

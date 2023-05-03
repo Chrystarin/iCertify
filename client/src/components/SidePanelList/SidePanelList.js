@@ -4,24 +4,24 @@ import './SidePanelList.scss';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import EditIcon from '@mui/icons-material/Edit';
-function SidePanelList({data,failedtransaction}) {
+import moment from 'moment'
 
+function SidePanelList({data,failedtransaction}) {
     return <>
-    <div className='SidePanelList__Container'>
-        <ul className='SidePanelList'>
-            {data.length>0?<>
-                {data.map((item) => {
-                return <>
-                    <Item data={item} note={failedtransaction} key={item.requestId}/>
-                </>
-                ;
-                })}
-            </>:<>
-                <p>No record</p>
-            </>}
-        </ul>
-    </div>
-        
+        <div className='SidePanelList__Container'>
+            <ul className='SidePanelList'>
+                {data.length>0?<>
+                    {data.map((item) => {
+                    return <>
+                        <Item data={item} note={failedtransaction} key={item.requestId}/>
+                    </>
+                    ;
+                    })}
+                </>:<>
+                    <p>No record</p>
+                </>}
+            </ul>
+        </div>
     </>
 }
 const Item = (props) =>{
@@ -32,7 +32,6 @@ const Item = (props) =>{
                 <Avatar className='SidePanelList__Avatar' src={(!props.data.requestor.photo) ? '' : props.data.requestor.photo }/>
                 <p className='BodyText3'>{props.data.requestor.name.firstName + " " + props.data.requestor.name.lastName}</p>
             </div>
-            
             {active?
                 <ul className='SidePanelList__MoreItem'>
                     <li className='SidePanelList__MoreItem__items'>
@@ -41,12 +40,13 @@ const Item = (props) =>{
                     </li>
                     <li className='SidePanelList__MoreItem__items'>
                         <AccessTimeFilledIcon/>
-                        <p>{props.data.updatedAt}</p>
+                        <p><moment>{moment(props.data.updatedAt).format('LL')}</moment></p>
                     </li>
                     {props.note?<>
                         <li className='SidePanelList__MoreItem__items'>
                             <EditIcon/>
-                            <p>{props.data.note}</p>
+                            
+                            <p>{typeof props.data.note}</p>
                         </li>
                     
                     </>:<></>}

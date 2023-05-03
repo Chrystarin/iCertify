@@ -30,34 +30,33 @@ function DocumentRequestForm() {
     // Excecutes on page load
     useEffect(() => {
       // Retrieves Institution Data
-      const fetchInstitution = async () => {
+    const fetchInstitution = async () => {
         await axiosInstance
-          .get(`institutions`,{
-                      params: {
-                          walletAddress: `${id}`
-                      }
-                  })
-          .then((response) => {
-            setInstitution(response.data)
-                      function findValue(obj, val) {
-                          for (let key in obj) {
-                              if (typeof obj[key] === 'object') {
-                                  const result = findValue(obj[key], val);
-                                  if (result !== undefined) {
-                                  return result;
-                                  }
-                              } else if (obj[key] === val) {
-                                  return obj;
-                              }
-                          }
-                          return undefined;
-                      }
-                      setDocument(findValue(response.data.docOffers, docId))
-          });
-      };
+        .get(`institutions`,{
+            params: {
+                    walletAddress: `${id}`
+                }
+            })
+        .then((response) => {
+        setInstitution(response.data)
+            function findValue(obj, val) {
+                for (let key in obj) {
+                    if (typeof obj[key] === 'object') {
+                        const result = findValue(obj[key], val);
+                        if (result !== undefined) {
+                        return result;
+                        }
+                    } else if (obj[key] === val) {
+                        return obj;
+                    }
+                }
+                return undefined;
+            }
+            setDocument(findValue(response.data.docOffers, docId))
+        });
+    };
 		fetchInstitution();
     }, [])
-
 
     // A function to request selected document
     const RequestDocument = async () => {
@@ -75,8 +74,9 @@ function DocumentRequestForm() {
                         type:"success",
                         note:"Document Request Sent! Wait for the admin to approve your request"
                     }))
-                    alert("Document Request Sent! Wait for the admin to approve your request")
-                    navigate(`/institutions/${id}`)
+                    // navigate(`/institutions/${id}`)
+                    navigate(`/requests`)
+                    
                 });
         } catch (err) {      
             setOpenSnackBar(openSnackBar => ({

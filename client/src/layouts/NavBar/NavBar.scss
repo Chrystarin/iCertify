@@ -7,6 +7,7 @@ header {
 	left: 0;
 	position: sticky;
 	z-index: 99;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.134);
 	#Wrapper_Header {
 		max-width: $Maxwidth1;
 		padding: 1.2em 2em;
