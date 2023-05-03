@@ -12,7 +12,7 @@ function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
     // Smart Contract Address
-    const contractAddress = '0x0560e37d8633eC4CB50De82222551e7E5d9Ab879'
+    const contractAddress = '0x32791fA5279E4865691B07a95179A2Ac5190966A'
     const baseUrl = 'http://localhost:3000'
 
     let globalWallet = {}

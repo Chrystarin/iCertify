@@ -57,38 +57,49 @@ const registerUser = async (req, res, next) => {
 };
 
 const getUser = async (req, res, next) => {
-	const {
-		query: { walletAddress },
-		cookies: { 'access-token': token }
-	} = req;
+    // Destructure the walletAddress and access-token cookie from the request object
+    const {
+        query: { walletAddress },
+        cookies: { 'access-token': token }
+    } = req;
 
-	// Validate input
-	isString(walletAddress, 'Wallet Address');
+    // Validate that the walletAddress is a string
+    isString(walletAddress, 'Wallet Address');
 
-	// Find user
-	const user = await User.findOne({ walletAddress }).lean().exec();
+    // Find the user in the database based on their wallet address
+    const user = await User.findOne({ walletAddress }).lean().exec();
 
-	let id;
+    // If user not found, return a 404 status and message
+    if (!user) return res.status(404).json({ message: 'User not found' });
 
-	// Check if request hast access-token cookie
-	// If so, extract the id
-	if (token) ({ id } = verify(token, JWT_ACCESS_SECRET));
+    let id;
 
-	// Remove the private documents if user is not itself
-	if (id && !user._id.equals(id))
-		user.documents = user.documents
-			// Filter only the public documents
-			.filter(({ mode }) => mode === 'public')
-			// Return only the default access code
-			.map(({ codes: [code], ...rest }) => ({ ...rest, code }));
+    try {
+        // Check if the request has an access-token cookie
+        if (token) {
+            // If so, verify the token and extract the user ID
+            ({ id } = verify(token, JWT_ACCESS_SECRET));
+        }
+    } finally {
+        // Do nothing if there's an error in the try block
+    }
 
-	// Get joined institutions
-	const institutions = await Institution.find({ 'members.user': user._id })
-		.lean()
-		.select('-members')
-		.exec();
+    // If the user ID is not present or does not match the retrieved user's ID
+    if (!id || !user._id.equals(id)) {
+        // Remove the user's private documents from the response
+        user.documents = user.documents
+            .filter(({ mode }) => mode === 'public') // Filter only the public documents
+            .map(({ codes: [code], ...rest }) => ({ ...rest, code })); // Map to only the default access code
+    }
 
-	res.json({ ...user, institutions });
+    // Retrieve the institutions that the user is a member of
+    const institutions = await Institution.find({ 'members.user': user._id })
+        .lean()
+        .select('-members') // Exclude the members field from the response
+        .exec();
+
+    // Return the user's data and institutions in the response
+    res.json({ ...user, institutions });
 };
 
 const updateUser = async (req, res, next) => {

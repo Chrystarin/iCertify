@@ -62,7 +62,7 @@ function RequestCard(props) {
 				<div id='MintTransferCard__ID'>
                     {(!paymentProof) ? '' :
                         <Tooltip title="Copy">
-                            <Chip  label={"View Payment"} onClick={()=>{console.log(paymentProof)}} icon={<RemoveRedEyeIcon fontSize="small" />}/>
+                            <Chip  label={"View Payment"} onClick={()=>{window.open(paymentProof, '_blank', 'noreferrer')}} icon={<RemoveRedEyeIcon fontSize="small" />}/>
                         </Tooltip>
                     }
 					<Tooltip title="Copy">

@@ -256,8 +256,10 @@ function MemberDocRequests(){
                     <h6 className='RequestCardUser__Header__InstitutionName'>{data.institution.name}</h6>
                 </div>
                 <div className='RequestCardUser__Body'>
-                    <h5>Transcript of Record</h5>
-                    <p className='BodyText3 RequestCardUser__Body__Status' id={status}>{(data.status).toUpperCase()}</p>
+                    <h5>{data.details.offeredDoc.title}</h5>
+                    <p className='BodyText3 RequestCardUser__Body__Status' id={status}>
+                        {(data.status==='paid') ? "FOR VERIFICATION": (data.status).toUpperCase()}
+                    </p>
                     <ul className='RequestCardUser__Body__MoreInfo'>
                         <li>
                             <EventIcon/>

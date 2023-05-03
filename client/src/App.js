@@ -34,7 +34,7 @@ function App() {
         <Routes>
             {/* Error Routes */}
             <Route path='*' element={<Error />}/>
-            {/* For Unautherize  */}
+            {/* For Unauthorized  */}
             <Route path='/unauthorized' element={<Error unauthorized="true"/>}/>
 			{/* Public Routes */}
             <Route path='/' element={<Panel/>}>

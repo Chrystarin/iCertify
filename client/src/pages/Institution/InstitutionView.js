@@ -43,7 +43,7 @@ const InstitutionView = () => {
     // Excecutes on page load
     useEffect(() => {
 		fetchInstitution();
-        fetchDocumentRequests();
+        // fetchDocumentRequests();
     }, [])
 
     
@@ -60,18 +60,18 @@ const InstitutionView = () => {
             });
     };
 
-    // Retrieves Document Requests
-    const fetchDocumentRequests = async () => {
-        await axiosInstance
-            .get(`requests`,{
-                params: {
-                    requestType: 'join'
-                }
-            })
-            .then((response) => { 
-                setRequest(findValue(response.data, "dfgndf"))
-            });
-    };
+    // // Retrieves Document Requests
+    // const fetchDocumentRequests = async () => {
+    //     await axiosInstance
+    //         .get(`requests`,{
+    //             params: {
+    //                 requestType: 'join'
+    //             }
+    //         })
+    //         .then((response) => { 
+    //             setRequest(findValue(response.data, "dfgndf"))
+    //         });
+    // };
 
     // Finds Specific Value based on Key Value Pair
     function findValue(obj, val) {
@@ -212,7 +212,7 @@ const InstitutionView = () => {
                             {(isAuth(id))?<>
                                 <Button variant="contained" href={`/institutions/${id}/edit`}>Update</Button>
                             </>:<>
-                                {(user.type!='institution') ? 
+                                {(user?.type!='institution') ? 
                                     (isJoined(institution)) ? '' :
 
                                     (!request) 
