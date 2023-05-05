@@ -28,17 +28,12 @@ const { JWT_REFRESH_SECRET } = process.env;
 
 const verifySignature = require('../miscellaneous/verifySignature');
 
-const checkEmail = async (model, walletAddress, message) => {
-	if (await model.findOne({ walletAddress })) {
-		throw new DuplicateEntry(message);
-	}
-};
-
 const register = async (req, res, next) => {
+	// Extract relevant fields from incoming request object
 	const { email, userType } = req.body;
 	let { walletAddress } = req.body;
 
-	// Validate inputs
+	// Validate inputs using helper functions
 	isString(walletAddress, 'Wallet Address');
 	isString(userType, 'User Type');
 	isEmail(email);
@@ -46,25 +41,36 @@ const register = async (req, res, next) => {
 	// Check if walletAddress is a valid address
 	walletAddress = getAddress(walletAddress);
 
+	// Handle registration for user type
 	if (userType === USER) {
-		await checkEmail(
-			Institution,
-			walletAddress,
-			'Email already registered as Institution'
-		);
+		// Check if user with given walletAddress already exists
+		if (await User.findOne({ walletAddress }, { walletAddress: 1 })) {
+			throw new DuplicateEntry('Email already registered as User');
+		}
+
+		// If user does not exist, proceed with user registration
 		return registerUser(req, res, next);
 	}
 
+	// Handle registration for institution type
 	if (userType === INSTITUTION) {
-		await checkEmail(
-			User,
-			walletAddress,
-			'Email already registered as User'
-		);
+		// Check if institution with given walletAddress exists and has a successful or pending registration transaction
+		if (
+			await Institution.findOne(
+				{ walletAddress, 'transaction.status': { $ne: 'failed' } },
+				{ 'transaction.status': 1 }
+			)
+		) {
+			throw new DuplicateEntry(
+				'There is a pending or succeeded registration of institution'
+			);
+		}
+
+		// If institution does not exist or has a failed registration transaction, proceed with institution registration
 		return registerInstitution(req, res, next);
 	}
 
-	// Invalid type
+	// If user type is invalid, throw an error
 	throw new InvalidInput('Invalid user type');
 };
 
@@ -79,19 +85,19 @@ const login = async (req, res, next) => {
 	await verifySignature(signature, walletAddress);
 
 	// Check if existing
-	const [user, institution] = await Promise.all([
+	const [user, institution] = await Promise.allSettled([
 		User.findOne({ walletAddress }),
-		Institution.findOne({ walletAddress })
+		Institution.findOne({ walletAddress, 'transaction.status': 'success' })
 	]);
 
 	let type;
 	let payload;
 	switch (true) {
-		case !!user:
+		case user.status === 'fulfilled':
 			type = 'user';
 			payload = { id: user._id, type: USER, walletAddress };
 			break;
-		case !!institution:
+		case institution.status === 'fulfilled':
 			type = 'institution';
 			payload = {
 				id: institution._id,

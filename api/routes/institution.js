@@ -8,13 +8,15 @@ const authenticate = require('../middlewares/authenticate');
 
 const {
 	addOfferedDoc,
+	addPayment,
+	deletePayment,
+	editOfferedDoc,
+	editPayment,
 	getInstitutions,
 	getMembers,
 	getOfferedDocs,
 	updateInstitution,
-	addPayment,
-	deletePayment,
-	editPayment
+	updateOfferedDocStatus
 } = asyncHandler(require('../controllers/institutionController'));
 
 /**
@@ -58,6 +60,25 @@ router.get('/members', getMembers);
  * requirements
  */
 router.post('/offers', addOfferedDoc);
+
+/**
+ * Edit an offered doc
+ *
+ * docId
+ * title
+ * description
+ * price
+ * requirements
+ */
+router.patch('/offers', editOfferedDoc);
+
+/**
+ * Update offered doc status
+ * 
+ * docId
+ * status
+ */
+router.patch('/offers/status', updateOfferedDocStatus);
 
 /**
  * Add payment details

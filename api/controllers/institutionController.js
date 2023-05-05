@@ -35,7 +35,7 @@ const registerInstitution = async (req, res, next) => {
 	// and if it is not already existing in the database
 	const [isRegistered, isExisting] = await Promise.all([
 		contract.checkInstitution(walletAddress),
-		Institution.exists({ walletAddress })
+		Institution.exists({ walletAddress, 'transaction.hash': txHash })
 	]);
 
 	// If the institution is already registered on the blockchain
@@ -45,29 +45,34 @@ const registerInstitution = async (req, res, next) => {
 			walletAddress,
 			name,
 			email,
-			instType: type
+			instType: type,
+			transaction: { hash: txHash, status: 'success' }
 		});
 
 		return res.status(201).json({ message: 'Institution registered' });
 	}
 
 	// Create new institution document
-	const institution = new Institution({
+	const institution = Institution.create({
 		walletAddress,
 		name,
 		email,
-		instType: type
+		instType: type,
+		transaction: { hash: txHash }
 	});
-
-	// Validate details of the institution
-	await institution.validate();
 
 	// Wait for the transaction to be mined
 	await waitTx(
 		txHash,
-		() => institution.save(), // Save the institution document to the database
-		(error) => {
-			// Notify user of failed registration
+		// If the transaction is successfully mined, update the institution's transaction status to 'success' and save it to the database
+		async () => {
+			institution.transaction.status = 'success';
+			await institution.save();
+		},
+		// If the transaction fails to be mined, update the institution's transaction status to 'failed', save it to the database, and log the error
+		async (error) => {
+			institution.transaction.status = 'failed';
+			await institution.save();
 			console.log(error);
 		}
 	);
@@ -78,14 +83,6 @@ const registerInstitution = async (req, res, next) => {
 	});
 };
 
-/**
- * This function updates an institution's information based on the request body,
- * user id, and files provided in the request object.
- *
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @param {Function} next - The next middleware function.
- */
 const updateInstitution = async (req, res, next) => {
 	// Extract necessary data from request object
 	const {
@@ -166,10 +163,12 @@ const getInstitutions = async (req, res, next) => {
 	// Validate the wallet address (checks if it's a non-empty string)
 	isString(walletAddress, 'Wallet Address', true);
 
+	const institutionQuery = { 'transaction.status': 'success' };
+
 	// Query the database for the institutions
 	const query = walletAddress
-		? Institution.findOne({ walletAddress })
-		: Institution.find();
+		? Institution.findOne({ walletAddress, ...institutionQuery })
+		: Institution.find(institutionQuery);
 
 	// Populate the members.user field with user information for each member of the institution
 	const institutions = await query.populate('members.user').exec();
@@ -275,18 +274,84 @@ const getOfferedDocs = async (req, res, next) => {
 
 		// Find the institution with the given wallet address.
 		const institution = await Institution.findOne(
-			{ walletAddress },
+			{ walletAddress, 'transaction.status': 'success' },
 			'docOffers'
 		);
 		// If no institution is found, throw an error.
 		if (!institution) throw new InstitutionNotFound();
 
 		// Retrieve the institution's doc offers.
-		({ docOffers } = institution);
+		docOffers = institution.docOffers.filter(
+			({ status }) => status === 'active'
+		);
 	}
 
 	// Return the retrieved doc offers as JSON.
 	res.json(docOffers);
+};
+
+const editOfferedDoc = async (req, res, next) => {
+	// Extract relevant data from the request body and user object.
+	const {
+		body: { docId, title, description, price, requirements },
+		user: { id }
+	} = req;
+
+	// Validate that each parameter extracted above is a string or number.
+	isString(docId, 'Document ID');
+	isString(title, 'Title');
+	isString(description, 'Description');
+	isNumber(price, 'Price');
+	isString(requirements, 'Requirements');
+
+	// Update the institution where the user ID matches and the docOffers array contains the given docId.
+	// Set the docOffers array element that matches the given docId to the new values passed in.
+	const result = await Institution.updateOne(
+		{ _id: id, 'docOffers.docId': docId },
+		{
+			$set: {
+				'docOffers.$': {
+					docId,
+					title,
+					description,
+					price,
+					requirements
+				}
+			}
+		},
+		{ runValidators: true }
+	);
+
+	// If no documents were modified, throw a DocumentNotFound error.
+	if (result.modifiedCount === 0) throw new DocumentNotFound();
+
+	// Send a JSON response with a success message.
+	res.json({ message: 'Offered document updated' });
+};
+
+const updateOfferedDocStatus = async (req, res, next) => {
+	// Extract the necessary data from the request body and user object
+	const {
+		body: { docId, status },
+		user: { id }
+	} = req;
+
+	// Update the status of the document in the institution's docOffers array
+	const result = await Institution.updateOne(
+		{
+			_id: id,
+			'docOffers.docId': docId,
+			'docOffers.status': { $ne: { status } }
+		},
+		{ $set: { 'docOffers.$.status': status } },
+		{ runValidators: true }
+	);
+
+	// If no documents were modified, throw an error
+	if (result.modifiedCount === 0) throw new DocumentNotFound();
+
+	// Return a success message
+	res.json({ message: 'Offered document status updated' });
 };
 
 const addPayment = async (req, res, next) => {
@@ -460,12 +525,14 @@ const deletePayment = async (req, res, next) => {
 
 module.exports = {
 	addOfferedDoc,
+	addPayment,
+	deletePayment,
+	editOfferedDoc,
+	editPayment,
 	getInstitutions,
 	getMembers,
 	getOfferedDocs,
 	registerInstitution,
 	updateInstitution,
-	addPayment,
-	deletePayment,
-	editPayment
+	updateOfferedDocStatus
 };

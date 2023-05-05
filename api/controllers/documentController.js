@@ -1,9 +1,5 @@
 const { isString, isNumber } = require('../miscellaneous/checkInput');
-const {
-	NotFound,
-	UserNotFound,
-	InvalidInput
-} = require('../miscellaneous/errors');
+const { NotFound, UserNotFound } = require('../miscellaneous/errors');
 const { genAccessCode } = require('../miscellaneous/generateId');
 const User = require('../models/User');
 

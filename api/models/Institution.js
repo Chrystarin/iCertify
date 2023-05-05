@@ -7,8 +7,7 @@ module.exports = model(
 		{
 			walletAddress: {
 				type: String,
-				required: [true, 'Wallet address is required'],
-				unique: true
+				required: [true, 'Wallet address is required']
 			},
 			name: { type: String, required: [true, 'Name is required'] },
 			instType: {
@@ -24,6 +23,21 @@ module.exports = model(
 				required: [true, 'Email is required'],
 				unique: true
 			},
+            transaction: {
+                hash: {
+                    type: String,
+                    required: [true, 'Transaction hash is required'],
+                    unique: true
+                },
+                status: {
+                    type: String,
+                    enum: {
+                        values: ['pending', 'success', 'failed'],
+                        message: "'{VALUE}' is not supported as transaction status"
+                    },
+                    default: 'pending'
+                }
+            },
 			about: String,
 			address: String,
 			website: String,
@@ -41,7 +55,7 @@ module.exports = model(
 						required: [true, 'User id is required'],
 						validate: {
 							validator: function (value) {
-								return !this.members?.find(({ user }) =>
+								return !this.members?.some(({ user }) =>
 									user.equals(value)
 								);
 							},
@@ -52,8 +66,8 @@ module.exports = model(
 						type: String,
 						validate: {
 							validator: function (value) {
-								return !this.members?.find(
-									({ idNumber }) => idNumber == value
+								return !this.members?.some(
+									({ idNumber }) => idNumber === value
 								);
 							},
 							message:
@@ -85,7 +99,15 @@ module.exports = model(
 					requirements: {
 						type: String,
 						required: [true, 'Requirements is required']
-					}
+					},
+                    status: {
+                        type: String,
+                        enum: {
+                            values: ['active', 'inactive'],
+                            message: "'{VALUE}' is not supported as document offer status"
+                        },
+                        default: 'active'
+                    }
 				}
 			],
 			payments: [

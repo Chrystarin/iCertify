@@ -65,7 +65,7 @@ const createRequest = async (req, res, next) => {
 	isString(walletAddress, 'Institution Wallet Address');
 
 	// Find institution based on wallet address
-	const institution = await Institution.findOne({ walletAddress });
+	const institution = await Institution.findOne({ walletAddress, 'transaction.status': 'success' });
 	if (!institution) throw new InstitutionNotFound();
 
 	// Find member based on user ID in institution's member list
