@@ -12,7 +12,8 @@ import StepLabel from '@mui/material/StepLabel';
 import { TextField,Avatar } from '@mui/material';
 import UploadFileImage from './../../images/Resources/Design/UploadFile.png'
 import Loading from '../../components/Loading/Loading';
-
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
@@ -25,7 +26,11 @@ function InstitutionJoin(props) {
     const [institution, setInstitution] = useState();
     const [memberId, setMemberId] = useState();
     const [memberProof, setMemberProof] = useState();
-
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
     // console.log(user)
 
     // Excecutes on page load
@@ -152,8 +157,8 @@ function InstitutionJoin(props) {
                             </div>
                         </div>
                     : ' '}
-                   
-                   {institution.needs.ID ? 
+            
+                {institution.needs.ID ? 
                     <>
                         <div className="Category__Seperator">
                             <div className="Category__Title">
@@ -162,9 +167,21 @@ function InstitutionJoin(props) {
                             </div>
                             <div className="Category__Content">
                                 <div id='Category__Content__File'>
-                                    <input type="file" id="files" className="hidden" onChange={(e)=>setMemberProof(e.target.files[0])}/>
+                                    <input type="file" id="files" className="hidden" 
+                                        onChange={
+                                            (e)=>{
+                                                setOpenSnackBar(openSnackBar => ({
+                                                    ...openSnackBar,
+                                                    open:true,
+                                                    type:'success',
+                                                    note:"Image Change",
+                                                    action: ()=>{}
+                                                }));
+                                                setMemberProof(e.target.files[0]);
+                                            }
+                                    }/>
                                     {(!memberProof) ?
-                                     <label htmlFor="files" id='Category__Content__Button'>
+                                    <label className='MemberProofImage' htmlFor="files" id='Category__Content__Button'>
                                         <img src={UploadFileImage} alt="" />
                                         <div>
                                             <p className='BodyText3'>Upload any proof of membership</p>
@@ -172,18 +189,25 @@ function InstitutionJoin(props) {
                                         </div>
                                     </label>
                                     :
-                                        <img src={URL.createObjectURL(memberProof)} alt="" />
+                                        <>
+                                            
+                                            <label className='MemberProofImage__2' htmlFor="files">
+                                                <FileUploadIcon/>
+                                                <h6>Change Uploaded Photo</h6>
+                                            </label>
+                                            <img className='MemberProofImage__View' src={URL.createObjectURL(memberProof)} alt="" />
+                                        </>
                                     }
-                                   
                                 </div>
                             </div>
                         </div>
                     </>
-                   : ' '}
+                : ' '}
                 <div id="Holder_Button">
                     <Button variant="contained" size="large" onClick={Join}>Submit</Button>
                 </div>
             </form>
+            <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
         </section>
     )
 }
