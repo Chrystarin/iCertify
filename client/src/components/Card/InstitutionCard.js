@@ -14,10 +14,10 @@ function EventCard(props) {
         <a id='EventCard__Container' href={`/institutions/${props.walletAddress}`}>
             <img id='EventResourcesDesign' src={EventResourcesDesign} alt="" />
             <div id='Avatar__Container'>
-                <Avatar id="Avatar"/>
+                <Avatar id="Avatar" src={props.image ? props.image : null}/>
             </div>
             <h6>{props.name}</h6>
-            <p id='EventCard__Address' className='BodyText3'>{props.address}</p>
+            <p id='EventCard__Address' className='BodyText3'>{(props.address).toUpperCase()}</p>
         </a>
         <div id='EventCard__Footer'>
             <div>

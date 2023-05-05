@@ -158,7 +158,7 @@ function Profile() {
                 <div id='Profile__Img'>
                     <img src={(!user.photo) ? UserIcon : user.photo }/>
                     {(isAuth(id)) ? <>
-                        <input id='UpdateProfile' type="file" className='hidden' 
+                        <input id='UpdateProfile' type="file" accept="image/png, image/jpeg" className='hidden' 
                         onChange={(e) => {
                             setOpenSnackBar(openSnackBar => ({
                                 ...openSnackBar,
@@ -320,6 +320,7 @@ function Profile() {
                                             name={institution.name} 
                                             address={institution.instType} 
                                             totalDocuments={institution.docOffers.length} 
+                                            image={institution.photos?.profile ? institution.photos?.profile : null}
                                             // totalMembers={institution.members.length} 
                                             joinStatus={true}
                                             actions={false}

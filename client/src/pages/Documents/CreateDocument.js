@@ -217,7 +217,7 @@ function CreateDocument({manual}) {
                     { (!file)?
                         <div className='uploadDocument__Container'>
                             <input type="file"
-                            
+                                accept="image/png, image/jpeg" 
                                 name='uploadDocument' 
                                 id='uploadDocument' 
                                 className='hidden'  
@@ -248,7 +248,7 @@ function CreateDocument({manual}) {
                                 
                             </div>
                             <div className='uploadDocument__ViewUploaded__ReUploadButton'>
-                                <input id='reupload' type="file" 
+                                <input id='reupload' type="file"  accept="image/png, image/jpeg" 
                                 onChange={(e)=>{
                                     setFile(e.target.files[0])
                                     setOpenSnackBar(openSnackBar => ({

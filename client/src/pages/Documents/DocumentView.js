@@ -300,7 +300,7 @@ function DocumentView() {
 
     return (
         <section id='CredentialViewPage_Wrapper'>
-            <div id='CredentialView_Container'>
+            <div id='CredentialView_Container' onContextMenu={(e) => e.preventDefault()}>
                 <div id='CredentialViewingPanel__Container' className='Panel__Container'>
                     <div id="DocumentFile" ref={docRef}>
                         <img className='CredentialViewingPanel__Image' src={`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`} alt="" />
@@ -397,18 +397,18 @@ function DocumentView() {
             case "full":
                 return <>
                 
-                    <div id='FullViewModal' >
-                    <div id='FullView__Container' className='Panel__Container'>
-                    <img id='FullView__Img' className='CredentialViewingPanel__FullImage' src={`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`} alt=""/>
-                    </div>
-                    <div id='FullView__Buttons'>
-                        <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={handleToggleFull}>
-                        <FullscreenExitIcon />
-                        </Fab> 
-                        <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }}>
-                        <DownloadIcon onClick={()=>saveAs(`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`, 'image.jpg')}/>
-                        </Fab> 
-                    </div>
+                    <div id='FullViewModal' onContextMenu={(e) => e.preventDefault()}>
+                        <div id='FullView__Container' className='Panel__Container'>
+                        <img id='FullView__Img' className='CredentialViewingPanel__FullImage' src={`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`} alt=""/>
+                        </div>
+                        <div id='FullView__Buttons'>
+                            <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }} onClick={handleToggleFull}>
+                            <FullscreenExitIcon />
+                            </Fab> 
+                            <Fab size='small' color="white" aria-label="full" sx={{zIndex: 97 }}>
+                            <DownloadIcon onClick={()=>saveAs(`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`, 'image.jpg')}/>
+                            </Fab> 
+                        </div>
                     </div>
                 </>
                 break;

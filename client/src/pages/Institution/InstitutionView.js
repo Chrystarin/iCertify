@@ -44,6 +44,10 @@ const InstitutionView = () => {
     useEffect(() => {
 		fetchInstitution();
         // fetchDocumentRequests();
+        
+        if(localStorage.getItem('user')){
+            fetchDocumentRequests();
+        }
     }, [])
 
     
@@ -60,18 +64,20 @@ const InstitutionView = () => {
             });
     };
 
-    // // Retrieves Document Requests
-    // const fetchDocumentRequests = async () => {
-    //     await axiosInstance
-    //         .get(`requests`,{
-    //             params: {
-    //                 requestType: 'join'
-    //             }
-    //         })
-    //         .then((response) => { 
-    //             setRequest(findValue(response.data, "dfgndf"))
-    //         });
-    // };
+    // Retrieves Document Requests
+    const fetchDocumentRequests = async () => {
+        await axiosInstance
+            .get(`requests`,{
+                params: {
+                    requestType: 'join'
+                }
+            })
+            .then((response) => { 
+                console.log(response.data)
+                setRequest(findValue(response.data, id))
+                console.log(findValue(response.data, id))
+            });
+    };
 
     // Finds Specific Value based on Key Value Pair
     function findValue(obj, val) {
@@ -143,7 +149,7 @@ const InstitutionView = () => {
                 <div id="Institution__Wallpaper__Container">
                     <img src={(!institution.photos?.cover) ? Wallpaper : institution.photos.cover } alt="" />
                     {isAuth(id)?<>
-                        <input id="UpdateCoverPhoto" className="hidden" type="file" 
+                        <input id="UpdateCoverPhoto" className="hidden"  accept="image/png, image/jpeg" type="file" 
                         onChange={(e) => {
                             EditInstitution({selected:'cover', file:e.target.files[0]})
                             setOpenSnackBar(openSnackBar => ({
@@ -168,7 +174,7 @@ const InstitutionView = () => {
                     <div id="AvatarProfile__Holder">
                         <Avatar src={(!institution.photos?.profile) ? Logo : institution.photos.profile } id="AvatarProfile__Avatar"/>
                         {isAuth(id)?<>
-                            <input id="ProfilePicture" className="hide" type="file" 
+                            <input id="ProfilePicture" className="hide"  accept="image/png, image/jpeg"  type="file" 
                             onChange={(e) => {
                                 EditInstitution({selected:'profile', file:e.target.files[0]})
                                 setOpenSnackBar(openSnackBar => ({

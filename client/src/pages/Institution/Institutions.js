@@ -126,7 +126,7 @@ function Institutions(props) {
         return<>
             <div id='Container_Featuredinstitutions'>
                 <div className='InstitutionList'>
-                    <h5>Featured Institutions</h5>
+                    {/* <h5>Featured Institutions</h5> */}
                     <div  className='Wrapper__Card'> 
                         {(institutions.length === 0 )?
                             <div className="EmtpyCard">
@@ -145,10 +145,11 @@ function Institutions(props) {
                                         walletAddress={institution.walletAddress}
                                         name={institution.name} 
                                         address={institution.instType} 
+                                        image={institution.photos?.profile ? institution.photos?.profile : null}
                                         totalDocuments={institution.docOffers.length} 
                                         totalMembers={institution.members.length} 
                                         joinStatus={false}
-                                        actions={true}
+                                        actions={false}
                                     />
                                 );
                                 })}
@@ -184,6 +185,7 @@ function Institutions(props) {
                                 name={institution.name} 
                                 address={institution.instType} 
                                 totalDocuments={institution.docOffers.length} 
+                                image={institution.photos?.profile ? institution.photos?.profile : null}
                                 // totalMembers={institution.members.length} 
                                 joinStatus={true}
                                 actions={false}
