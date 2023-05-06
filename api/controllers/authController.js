@@ -29,10 +29,11 @@ const { JWT_REFRESH_SECRET } = process.env;
 const verifySignature = require('../miscellaneous/verifySignature');
 
 const register = async (req, res, next) => {
+	// Extract relevant fields from incoming request object
 	const { email, userType } = req.body;
 	let { walletAddress } = req.body;
 
-	// Validate inputs
+	// Validate inputs using helper functions
 	isString(walletAddress, 'Wallet Address');
 	isString(userType, 'User Type');
 	isEmail(email);
@@ -40,23 +41,36 @@ const register = async (req, res, next) => {
 	// Check if walletAddress is a valid address
 	walletAddress = getAddress(walletAddress);
 
+	// Handle registration for user type
 	if (userType === USER) {
-		// Check if email is used as institution
-		if (await Institution.findOne({ walletAddress }))
-			throw new DuplicateEntry('Email already registered as Institution');
+		// Check if user with given walletAddress already exists
+		if (await User.findOne({ walletAddress }, { walletAddress: 1 })) {
+			throw new DuplicateEntry('Email already registered as User');
+		}
 
+		// If user does not exist, proceed with user registration
 		return registerUser(req, res, next);
 	}
 
+	// Handle registration for institution type
 	if (userType === INSTITUTION) {
-		// Check if email is used as institution
-		if (await User.findOne({ walletAddress }))
-			throw new DuplicateEntry('Email already registered as User');
+		// Check if institution with given walletAddress exists and has a successful or pending registration transaction
+		if (
+			await Institution.findOne(
+				{ walletAddress, 'transaction.status': { $ne: 'failed' } },
+				{ 'transaction.status': 1 }
+			)
+		) {
+			throw new DuplicateEntry(
+				'There is a pending or succeeded registration of institution'
+			);
+		}
 
+		// If institution does not exist or has a failed registration transaction, proceed with institution registration
 		return registerInstitution(req, res, next);
 	}
 
-	// Invalid type
+	// If user type is invalid, throw an error
 	throw new InvalidInput('Invalid user type');
 };
 
@@ -70,34 +84,30 @@ const login = async (req, res, next) => {
 	// Verify the signature
 	await verifySignature(signature, walletAddress);
 
-	// Create payload holder
+	// Check if existing
+	const [user, institution] = await Promise.allSettled([
+		User.findOne({ walletAddress }),
+		Institution.findOne({ walletAddress, 'transaction.status': 'success' })
+	]);
+
+	let type;
 	let payload;
-
-    // Create type
-    let type;
-
-    // Check if existing
-    const user = await User.findOne({ walletAddress })
-    const institution = await Institution.findOne({ walletAddress })
-
-	// Assign Payload for User
-	if (user) {
-        type = 'user'
-		payload = { id: user._id, type: USER, walletAddress };
+	switch (true) {
+		case user.status === 'fulfilled':
+			type = 'user';
+			payload = { id: user._id, type: USER, walletAddress };
+			break;
+		case institution.status === 'fulfilled':
+			type = 'institution';
+			payload = {
+				id: institution._id,
+				type: INSTITUTION,
+				walletAddress
+			};
+			break;
+		default:
+			throw new UserNotFound();
 	}
-	// Assign Payload for Institution
-	else if (institution) {
-        type = 'institution'
-		payload = {
-			id: institution._id,
-			type: INSTITUTION,
-			walletAddress
-		};
-	}
-    else {
-        throw new UserNotFound();
-    }
-
 	res.status(200)
 		.cookie('access-token', signAccess(payload), {
 			...cookieOptions,
@@ -107,7 +117,11 @@ const login = async (req, res, next) => {
 			...cookieOptions,
 			maxAge: duration.refresh
 		})
-		.json({ walletAddress: walletAddress, type: type, user: user ? user: institution });
+		.json({
+			walletAddress,
+			type,
+			user: user || institution
+		});
 };
 
 const refresh = async (req, res, next) => {
@@ -148,9 +162,8 @@ const logout = async (req, res, next) => {
 	if (!refreshToken)
 		throw new Unauthorized('This action requires logging in first');
 
-	res.status(200)
-		.cookie('access-token', '', { ...cookieOptions, maxAge: 0 })
-		.cookie('refresh-token', '', { ...cookieOptions, maxAge: 0 })
+	res.clearCookie('access-token', cookieOptions)
+		.clearCookie('refresh-token', cookieOptions)
 		.json({ message: `Logged out` });
 };
 

@@ -7,10 +7,7 @@ const Transaction = require('../models/Transaction');
 const {
 	roles: { INSTITUTION, USER }
 } = require('../miscellaneous/constants');
-const {
-	waitTx,
-	contract
-} = require('../miscellaneous/transactionUtils');
+const { waitTx, contract } = require('../miscellaneous/transactionUtils');
 const {
 	MemberNotFound,
 	DuplicateEntry,
@@ -34,34 +31,44 @@ const ipfsClient = create({
 });
 
 const getTransactions = async (req, res, next) => {
+	// Destructure the request object to get the txHash and user object.
 	const {
 		query: { txHash },
 		user: { id, type }
 	} = req;
 
-	// Validate input
+	// Validate input using the isString function.
 	isString(txHash, 'Transaction Hash', true);
 
-	// Create transaction query (defaults to user)
+	// Create a transaction query object with defaults to the user.
 	const transactionQuery = {};
 
+	// If the user type is USER, set the user property of the transactionQuery object to the user's id.
 	if (type === USER) transactionQuery.user = id;
+
+	// If the user type is INSTITUTION, set the institution property of the transactionQuery object to the user's id.
 	if (type === INSTITUTION) transactionQuery.institution = id;
 
-	// Get transactions
-	let transactions = await Transaction.find(transactionQuery);
+	// Set the query variable to a Transaction model query.
+	// If txHash is provided, search for a single transaction with the matching hash and transactionQuery properties.
+	// Otherwise, search for all transactions with transactionQuery properties.
+	const query = txHash
+		? Transaction.findOne({ ...transactionQuery, hash: txHash })
+		: Transaction.find(transactionQuery);
 
-	// Get specific transaction
-	if (txHash) {
-		transactions = transactions.find(({ hash }) => txHash === hash);
+	// Execute the query and get the transactions.
+	const transactions = await query
+		.lean() // Make the query return plain JavaScript objects instead of Mongoose documents.
+		.populate('institution') // Populate the institution property of each transaction with the corresponding institution document.
+		.populate({ path: 'user', select: '-documents' }) // Populate the user property of each transaction with the corresponding user document, but exclude the documents field.
+		.exec(); // Execute the query.
 
-		if (!transactions) throw new NotFound('Transaction not found');
-	}
-
+	// Send the transactions as a JSON response.
 	res.json(transactions);
 };
 
 const saveIpfs = async (req, res, next) => {
+	// Destructure needed properties from the req object
 	const {
 		files: {
 			document: { mimetype, data }
@@ -70,41 +77,44 @@ const saveIpfs = async (req, res, next) => {
 		user: { id }
 	} = req;
 
-	// Check file extension
-    console.log(req.files)
+	// Check if the 'mimetype' of the image is valid. If not, throw an 'InvalidInput' error.
+	if (!['image/png', 'image/jpeg'].includes(mimetype))
+		throw new InvalidInput('Invalid file type');
 
-	// Upload the document to ipfs but don't pin
-	const { path, cid } = await ipfsClient.add({ content: data }, { pin: false });
+	// Upload the document to IPFS but don't pin it yet
+	const { path, cid } = await ipfsClient.add(
+		{ content: data },
+		{ pin: false }
+	);
 
-	// Check if uri minted
-	if (await contract.checkUri(cid))
+	// Check if the URI is already minted
+	if (await contract.checkUri(path))
 		throw new DuplicateEntry('Document already owned by another user');
 
-    if (requestId) {
-        isString(requestId, 'Request ID');
+	if (requestId) {
+		isString(requestId, 'Request ID');
 
-        // Check if the request is existing and paid for by the user
-        const request = await Request.findOne({
-            requestId,
-            institution: id,
-            status: 'verified'
-        }).select('status details');
-        if (!request) throw new NotFound('Request with paid status not found');
+		// Check if the request is existing and paid for by the user
+		const request = await Request.findOne({
+			requestId,
+			institution: id,
+			status: 'verified'
+		}).select('status details');
+		if (!request) throw new NotFound('Request with paid status not found');
 
-        // Update request status to "processing" and add timestamp
-        request.status = 'processing';
-        request.details.statusTimestamps.processing = new Date();
+		// Update request status to "processing" and add timestamp
+		request.status = 'processing';
+		request.details.statusTimestamps.processing = new Date();
 
-        // Save changes
-        request.markModified('details');
-        await request.save();
-    }
+		// Save changes
+		request.markModified('details');
+		await request.save();
+	}
 
-	// Pin the document
+	// Pin the document to IPFS
 	await ipfsClient.pin.add(cid);
 
-    console.log(path)
-
+	// Return the path to the client
 	res.status(201).json(path);
 };
 
@@ -159,7 +169,6 @@ const updateRecords = (user, hash, request) => {
 	// Return a promise that resolves when all promises in `promises` array are resolved
 	return Promise.all(promises);
 };
-
 
 const saveTransaction = async (req, res, next) => {
 	// Extract relevant data from request body and user

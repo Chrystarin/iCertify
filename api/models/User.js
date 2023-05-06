@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const { genAccessCode } = require('../miscellaneous/generateId');
 
 module.exports = model(
 	'User',

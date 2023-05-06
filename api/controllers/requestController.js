@@ -18,71 +18,74 @@ const { isString } = require('../miscellaneous/checkInput');
 const uploadImage = require('../miscellaneous/uploadImage');
 
 const getRequests = async (req, res, next) => {
+	// Destructure the query and user objects from the request object
 	const {
 		query: { requestId, requestType },
 		user: { id, type }
 	} = req;
 
-	// Validate inputs
+	// Validate that requestType and requestId are both strings
 	isString(requestType, 'Request Type');
+	isString(requestId, 'Request ID');
 
-	// Create request query
-	let requestQuery = { requestType };
+	// Create the request query object
+	const requestQuery = { requestType };
 
-	if (type == USER) requestQuery.requestor = id;
+	// If the user is of type USER, add the user's id to the request query
+	if (type === USER) requestQuery.requestor = id;
 
-	if (type == INSTITUTION) requestQuery.institution = id;
+	// If the user is of type INSTITUTION, add the institution's id to the request query
+	if (type === INSTITUTION) requestQuery.institution = id;
 
-	// Get the requests
-	let requests = await Request.find(requestQuery)
-            .lean()
-            .populate('institution requestor')
-            .exec()
+	// Construct the query based on whether requestId is present or not
+	const query = requestId
+		? Request.findOne({ ...requestQuery, requestId })
+		: Request.find(requestQuery);
 
-	if (requestId) {
-		requests = requests.find(({ requestId: ri }) => ri == requestId);
-		console.log(requests);
+	// Get the requests from the database
+	const requests = await query
+		.lean()
+		.populate({ path: 'requestor', select: '-documents' })
+		.populate('institution')
+		.exec();
 
-		if (!requests) throw new NotFound('Request not found');
-	}
-
+	// Send the requests as a JSON response
 	res.json(requests);
 };
 
+// This function creates a request based on the request type (JOIN or DOCUMENT) and user inputs.
 const createRequest = async (req, res, next) => {
 	const {
-		body: { type, walletAddress },
-		user: { id }
+		body: { type, walletAddress }, // Destructure user inputs from request body
+		user: { id } // Get user ID from request object
 	} = req;
-    
-    console.log(req.body)
-    console.log(req.files)
-    
-	// Validate inputs
+
+	// Validate user inputs
 	isString(type, 'Request Type');
 	isString(walletAddress, 'Institution Wallet Address');
 
-	// Find institution
-	const institution = await Institution.findOne({ walletAddress });
+	// Find institution based on wallet address
+	const institution = await Institution.findOne({ walletAddress, 'transaction.status': 'success' });
 	if (!institution) throw new InstitutionNotFound();
 
-	// Find member
+	// Find member based on user ID in institution's member list
 	const member = institution.members.find(({ user }) => user.equals(id));
 
-	// Create request data
+	// Create request data object with some initial parameters
 	const requestParams = {
-		requestId: genRequestId(),
-		requestor: id,
-		institution: institution._id,
-		details: {}
+		requestId: genRequestId(), // Generate a unique ID for the request
+		requestor: id, // Set the ID of the user who made the request
+		institution: institution._id, // Set the ID of the institution
+		details: {} // Initialize an empty object for request details
 	};
 
+	// If the request type is JOIN, perform additional checks and add more details to the request
 	if (type === JOIN) {
 		// Check if user is already a member of the institution
 		if (member)
 			new DuplicateEntry('User is already a member of the institution');
 
-		// Check if request already done
+		// Check if a join request has already been created by the user
 		const requestExists = await Request.exists({
 			requestor: id,
 			institution: institution._id,
@@ -94,25 +97,26 @@ const createRequest = async (req, res, next) => {
 		// Add requestType to requestParams
 		requestParams.requestType = JOIN;
 
-		// Check if ID number is required
+		// Check if ID number is required for membership
 		if (institution.needs.ID) {
 			const { idNumber } = req.body;
 
-			// Validate input
+			// Validate ID number input
 			isString(idNumber, 'Membership ID');
 
 			// Add idNumber to the request details
 			requestParams.details.idNumber = idNumber;
 		}
 
-		// Check if proof of membership is required
+		// Check if proof of membership is required for membership
 		if (institution.needs.membership) {
 			const { proof } = req.files;
 
+			// Throw an error if proof of membership is not included
 			if (!proof)
-				throw new InvalidInput('Proof of Payment must be included');
+				throw new InvalidInput('Proof of Membership must be included');
 
-			// Add membership to the request details
+			// Add membership to the request details by uploading the proof image and storing the URL
 			requestParams.details.membership = await uploadImage(
 				proof,
 				`requests/${requestParams.requestId}-${Date.now()}}`
@@ -120,190 +124,188 @@ const createRequest = async (req, res, next) => {
 		}
 	}
 
+	// If the request type is DOCUMENT, perform additional checks and add more details to the request
 	if (type === DOCUMENT) {
 		// Check if user is a member of the institution
 		if (!member) throw new MemberNotFound();
 
 		const { docId } = req.body;
 
-		// Validate input
+		// Validate document ID input
 		isString(docId, 'Document Offer ID');
 
-		// Check if document is offered by the institution
+		// Check if the document is offered by the institution
 		const offeredDoc = institution.docOffers.find(
-			({ docId: di }) => docId === di
+			(offer) => offer.docId === docId
 		);
 		if (!offeredDoc)
 			throw new NotFound(
 				'The document is not offered by the institution'
 			);
 
-		// Add requestType to requestParams
+		// Check if a request for the same document has already been created by the user
+		const existingRequest = await Request.findOne({
+			requestor: id,
+			institution: institution._id,
+			status: 'pending',
+			'details.offeredDoc.docId': docId
+		});
+		if (existingRequest)
+			throw new DuplicateEntry('Document request already created');
+
+		// Set requestType to DOCUMENT and create a details object with offeredDoc and statusTimestamps object
 		requestParams.requestType = DOCUMENT;
-		requestParams.details = { offeredDoc, statusTimestamps: {} };
+		requestParams.details = {
+			offeredDoc, // The document being offered
+			statusTimestamps: {
+				pending: new Date() // The timestamp when the request is pending
+			}
+		};
 	}
 
-	// Create request
+	// Create a request using the requestParams object
 	await Request.create(requestParams);
 
+	// Send a response with status 201 and a message including the requestId
 	res.status(201).json({
 		message: 'Request saved',
-		requestId: requestParams.requestId
+		requestId: requestParams.requestId // The ID of the saved request
 	});
 };
 
-const approveJoin = async (request) => {
-	const {
-		institution,
-		requestor: user,
-		details
-	} = request;
-
-	// Add requestor to institution members
-	await Institution.findByIdAndUpdate(
-		institution,
-		{ $push: { members: { user, idNumber: details?.idNumber } } },
-		{ runValidators: true }
-	);
-
-	return request;
-};
-
-const approveDocument = (request) => {
-	const {
-		details: {
-			offeredDoc: { price }
-		}
-	} = request;
-
-	request.details.statusTimestamps.approved = new Date();
-
-	if (price === 0) {
-		request.details.statusTimestamps.paid = new Date();
-		request.details.statusTimestamps.verified = new Date();
-	}
-
-	return request;
-};
-
 const processRequest = async (req, res, next) => {
+	// Destructuring request object to get relevant data
 	const {
-        body: { body },
-		user: { id, type }
+		body: { body }, // request body
+		user: { id, type } // user id and type
 	} = req;
 
-    const {
-		requestId,
-		status,
-	} = JSON.parse(body)
+	// Parsing request body to extract requestId and status
+	const { requestId, status } = JSON.parse(body);
 
-    // console.log(JSON.parse(req.body.body))
-	// console.log(type)
-
-	// Validate inputs
+	// Validating inputs
 	isString(requestId, 'Request ID');
 	isString(status, 'Request Status');
 
-	let request;
+	// Creating query object to find request based on user type
+	const requestQuery = { requestId };
+	if (type === USER) requestQuery.requestor = id;
+	if (type === INSTITUTION) requestQuery.institution = id;
 
-	if (type === USER) {
-		const rqst = await Request.findOne({ requestId, requestor: id });
-		switch (status) {
-			case 'paid':
-				// Check rqst status if approved
-				if (rqst.status !== 'approved') break;
-
-				// Get the proof of payment
-				const { proof } = req.files;
-
-				if (!proof)
-					throw new InvalidInput('Proof of Payment must be included');
-
-				rqst.details.statusTimestamps.paid = new Date();
-				rqst.details.proof = await uploadImage(
-					proof,
-					`requests/${rqst.requestId}-${Date.now()}}`
-				);
-
-				request = rqst;
-
-				break;
-			case 'cancelled':
-				// Check if rqst status if pending or approved
-				if (!['pending', 'approved'].includes(rqst.status)) break;
-
-				if(rqst.details.statusTimestamps === undefined)
-					rqst.details.statusTimestamps = {}
-
-				rqst.details.statusTimestamps.cancelled = new Date();
-
-				request = rqst;
-
-				break;
-			default:
-				throw new Unauthorized('Invalid status for type of user');
-		}
-	}
-
-	if (type === INSTITUTION) {
-		const rqst = await Request.findOne({ requestId, institution: id });
-		switch (status) {
-			case 'approved':
-				// Check if rqst is pending
-				if (rqst.status !== 'pending') break;
-                
-				// Join request
-				if (rqst.requestType === JOIN)
-					request = await approveJoin(rqst);
-
-				// Document request
-				if (rqst.requestType === DOCUMENT) {
-					if(rqst.details.statusTimestamps === undefined)
-						rqst.details.statusTimestamps = {}
-
-					request = approveDocument(rqst);
-				}
-
-				break;
-			case 'declined':
-				// Check if status is pending or paid
-				if (!['pending', 'paid'].includes(rqst.status)) break;
-
-				// Document request
-				if (rqst.requestType === DOCUMENT) {
-					if(rqst.details.statusTimestamps === undefined)
-						rqst.details.statusTimestamps = {}
-
-					rqst.details.statusTimestamps.declined = new Date();
-					rqst.details.note = JSON.parse(req.body.body).note;
-				}
-
-				request = rqst;
-
-				break;
-			case 'verified':
-				// Check if rqst status is paid
-				if (rqst.status !== 'paid') break;
-
-				rqst.details.statusTimestamps.verified = new Date();
-
-				request = rqst;
-
-				break;
-			default:
-				throw new Unauthorized('Invalid status for type of user');
-		}
-	}
-
+	// Finding request based on query
+	const request = await Request.findOne(requestQuery);
 	if (!request) throw new NotFound('Request not found');
 
-	// Update status
+	// Checking if status is valid based on user type
+	if (
+		(type === USER && !['paid', 'cancelled'].includes(status)) ||
+		(type === INSTITUTION &&
+			!['approved', 'declined', 'verified'].includes(status))
+	) {
+		throw new Unauthorized('Invalid status for type of user');
+	}
+
+	// Update request status based on the status received
+	switch (status) {
+		case 'approved':
+			// Check if the request status is pending
+			if (request.status !== 'pending')
+				throw new Unauthorized('Invalid request status');
+
+			// Process the request based on the request type
+			if (request.requestType === JOIN) {
+				const { institution, requestor, details } = request;
+
+				await Institution.findByIdAndUpdate(
+					institution,
+					{
+						$push: {
+							members: {
+								user: requestor,
+								idNumber: details?.idNumber
+							}
+						}
+					},
+					{ runValidators: true }
+				);
+			}
+
+			if (request.requestType === DOCUMENT) {
+				const {
+					details: {
+						offeredDoc: { price }
+					}
+				} = request;
+
+				request.details.statusTimestamps.approved = new Date();
+
+				if (price === 0) {
+					request.details.statusTimestamps.paid = new Date();
+					request.details.statusTimestamps.verified = new Date();
+				}
+			}
+
+			break;
+		case 'cancelled':
+			// Throw an error if the request status is not pending or approved
+			if (!['pending', 'approved'].includes(request.status))
+				throw new Unauthorized('Invalid request status');
+
+			// Update the statusTimestamps object with the current time
+			request.details.statusTimestamps.cancelled = new Date();
+			break;
+		case 'declined':
+			// Throw an error if the request status is not pending or paid
+			if (!['pending', 'paid'].includes(rqst.status))
+				throw new Unauthorized('Invalid request status');
+
+			// If the request type is DOCUMENT, update the statusTimestamps object and note
+			if (request.requestType === DOCUMENT) {
+				request.details.statusTimestamps.declined = new Date();
+				request.details.note = JSON.parse(req.body.body).note;
+			}
+
+			break;
+		case 'paid':
+			// Throw an error if the request status is not approved
+			if (request.status !== 'approved')
+				throw new Unauthorized('Invalid request status');
+
+			// Get the proof of payment file from the request object
+			const { proof } = req.files;
+
+			// Throw an error if proof of payment is not included
+			if (!proof)
+				throw new InvalidInput('Proof of Payment must be included');
+
+			// Update the statusTimestamps object with the current time and upload the proof of payment file
+			request.details.statusTimestamps.paid = new Date();
+			request.details.proof = await uploadImage(
+				proof,
+				`requests/${request.requestId}-${Date.now()}}`
+			);
+			break;
+		case 'verified':
+			// Throw an error if the request status is not paid
+			if (request.status !== 'paid')
+				throw new Unauthorized('Invalid request status');
+
+			// Update the statusTimestamps object with the current time
+			request.details.statusTimestamps.verified = new Date();
+			break;
+		default:
+			// Throw an error if the status is not valid for the user type
+			throw new Unauthorized('Invalid status for this type of user');
+	}
+
+	// Updating request status
 	request.status = status;
 
-	// Save changes
+	// Marking changes as modified and saving them
 	request.markModified('details');
 	await request.save();
 
+	// Sending response with success message and updated request details
 	res.json({ message: 'Request processed', requestId, status });
 };
 

@@ -1,110 +1,112 @@
 const { isString, isNumber } = require('../miscellaneous/checkInput');
-const {
-	NotFound,
-	UserNotFound,
-	InvalidInput
-} = require('../miscellaneous/errors');
+const { NotFound, UserNotFound } = require('../miscellaneous/errors');
 const { genAccessCode } = require('../miscellaneous/generateId');
 const User = require('../models/User');
 
 const getDocument = async (req, res, next) => {
+	// Get the 'code' parameter from the request query
 	const { code } = req.query;
 
-	// Validate input
+	// Validate that 'code' is a string
 	isString(code, 'Access Code');
 
-	// Find user that owns the access code
-	const user = await User.findOne({
-		// _id: req.user.id,
-		'documents.codes': code
-	});
+	// Find the user that owns the access code
+	// Only return the 'documents' field of the user object
+	const user = await User.findOne({ 'documents.codes': code }, 'documents');
+
+	// If no user was found, throw a NotFound error
 	if (!user) throw new NotFound('Invalid access code');
 
-	// Get the nftId partnered to the code
-	const nftId = user.documents.find(({ codes }) => codes.includes(code));
+	// Get the document associated with the access code
+	// Find the document in the user's 'documents' array that has the access code
+	const document = user.documents.find(({ codes }) => codes.includes(code));
 
-	res.json(nftId);
+	// Send the document as a JSON response
+	res.json(document);
 };
 
 const updateMode = async (req, res, next) => {
-    console.log(req.body)
-	const { mode, nftId } = req.body;
+	// Extract necessary information from the request body and user object
+	const {
+		body: { mode, nftId }, // New access mode and NFT ID to update
+		user: { id } // User ID
+	} = req;
 
-	// Validate input
+	// Validate that the NFT ID is a number and the access mode is a string
 	isNumber(nftId, 'NFT ID');
 	isString(mode, 'Access Mode');
 
-	// Get the user
-	const user = await User.findOne({
-		_id: req.user.id,
-		'documents.nftId': nftId,   
-		// 'documents.mode': { $ne: mode }
-	});
-	if (!user) throw new UserNotFound();
+	// Update the user's access mode for the specified NFT
+	const result = await User.updateOne(
+		{
+			_id: id, // Find the user by their ID
+			'documents.nftId': nftId, // Find the document with matching NFT ID
+			'documents.mode': { $ne: mode } // Ensure the access mode is different from the new value
+		},
+		{ $set: { 'documents.$.mode': mode } } // Set the access mode to the new value for the matching document
+	);
 
-	// Update document mode
-	user.documents.find(({ nftId: n }) => n === nftId).mode = mode;
+	// If no documents were modified, throw an error
+	if (result.modifiedCount === 0) throw new UserNotFound();
 
-	await user.save();
-
-    // console.log(user)
-
+	// Send a response indicating the access mode was successfully updated
 	res.json({ message: `Access mode updated to ${mode}` });
 };
 
 const createAccess = async (req, res, next) => {
-	const { nftId } = req.body;
+	// Destructure nftId and id from req.body and req.user, respectively.
+	const {
+		body: { nftId },
+		user: { id }
+	} = req;
 
-	// Validate input
+	// Check if nftId is a number using the isNumber function.
 	isNumber(nftId, 'NFT ID');
 
-	// Get the user
-	const user = await User.findOne({
-		_id: req.user.id,
-		'documents.nftId': nftId
-	});
-	if (!user) throw new UserNotFound();
+	// Generate a new access code using the genAccessCode function.
+	const code = genAccessCode();
 
-	// Create new access code
-	const code = user.documents
-		.find(({ nftId: n }) => n == nftId)
-		.codes.push(genAccessCode());
-	await user.save();
+	// Update the user's documents with a new access code for the specific nftId.
+	const result = await User.updateOne(
+		{
+			_id: id,
+			'documents.nftId': nftId
+		},
+		{ $push: { 'documents.$.codes': code } },
+		{ runValidators: true }
+	);
 
+	// If the update did not modify any documents, throw a UserNotFound error.
+	if (result.modifiedCount === 0) throw new UserNotFound();
+
+	// Return a success response with the new access code.
 	res.status(201).json({ message: 'New access code generated', code });
 };
 
 const deleteAccess = async (req, res, next) => {
+	// Extract the NFT ID and access code from the request body
 	const { nftId, code } = req.body;
 
-    console.log(req.body)
-
-	// Validate input
+	// Validate that the NFT ID is a number and the access code is a string
 	isNumber(nftId, 'NFT ID');
 	isString(code, 'Access Code');
 
-	// Get the user
-	const user = await User.findOne({
-		_id: req.user.id,
-		'documents.nftId': nftId,
-		'documents.codes': code
-	});
-	if (!user) throw new UserNotFound();
+	// Delete the specified access code from the user's document
+	const result = await User.updateOne(
+		{
+			_id: req.user.id, // find the user by their ID
+			'documents.nftId': nftId, // find the document with the specified NFT ID
+			'documents.codes': code // find the document with the specified access code
+		},
+		{
+			$pull: { 'documents.$.codes': code } // remove the code from the document's codes array
+		}
+	);
 
-	// Get the document
-	const {
-		codes,
-		codes: [first]
-	} = user.documents.find(({ nftId: n }) => n == nftId);
+	// If the document was not modified, the user was not found
+	if (result.modifiedCount === 0) throw new UserNotFound();
 
-	// Check if default code is the input
-	if (first == code)
-		throw new InvalidInput('Can not delete the default access code');
-
-	// Delete access code
-	codes.splice(codes.indexOf(code), 1);
-	await user.save();
-
+	// Respond with a success message
 	res.json({ message: 'Access code deleted' });
 };
 
