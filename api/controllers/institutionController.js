@@ -356,7 +356,7 @@ const updateOfferedDocStatus = async (req, res, next) => {
 		{
 			_id: id,
 			'docOffers.docId': docId,
-			'docOffers.status': { $ne: { status } }
+			'docOffers.status': { $ne: status }
 		},
 		{ $set: { 'docOffers.$.status': status } },
 		{ runValidators: true }
