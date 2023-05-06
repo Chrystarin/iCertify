@@ -55,8 +55,8 @@ function MemberCard(props) {
                     </div>
                 </a>
                 <div id='MemberCardID__Buttons'>
-                    <Button variant='outlined' >Reject</Button>
-                    <Button variant='contained' onClick={props.onClick}>Add</Button>    
+                    <Button variant='outlined' onClick={props.reject}>Reject</Button>
+                    <Button variant='contained' onClick={props.accept}>Add</Button>    
                 </div>
                 
             </div>

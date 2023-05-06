@@ -230,6 +230,7 @@ const InstitutionView = () => {
                                     <Button disabled variant="contained" href={`/institutions/${id}/join`}>
                                         Request Sent
                                     </Button>
+                                        
                                 : ''
                                 }
                             </>

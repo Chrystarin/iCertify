@@ -21,33 +21,33 @@ function MemberList() {
     });
     // Excecutes on page load
     useEffect(() => {
-        // Retrieves Institutions' Members
-		const fetchMembers = async () => {
-			await axiosInstance
-				.get(`institutions/members`)
-				.then((response) => {
-					setMembers(response.data)
-				});
-		};
-
-        // Retrieves Institutions' Join Requests
-		const fetchJoinRequests = async () => {
-			await axiosInstance
-				.get(`requests`,{
-                    params: {
-                        requestType: 'join'
-                    }
-                })
-				.then((response) => { 
-					setJoinRequests(response.data)
-                    console.log(response.data)
-				});
-		};
-
         // Execute Functions
         fetchJoinRequests();
 		fetchMembers();
     }, [])
+
+    // Retrieves Institutions' Members
+    const fetchMembers = async () => {
+        await axiosInstance
+            .get(`institutions/members`)
+            .then((response) => {
+                setMembers(response.data)
+            });
+    };
+
+    // Retrieves Institutions' Join Requests
+    const fetchJoinRequests = async () => {
+        await axiosInstance
+            .get(`requests`,{
+                params: {
+                    requestType: 'join'
+                }
+            })
+            .then((response) => { 
+                setJoinRequests(response.data)
+                console.log(response.data)
+            });
+    };
 
     const AcceptRequest = async (request) => {
         try {
@@ -67,19 +67,42 @@ function MemberList() {
                     type:"success",
                     note:"Member Added"
                 }))
-                console.log(res.data)
-                ReloadPage();
-                
+                // Execute Functions
+                fetchJoinRequests();
+                fetchMembers();
             })
         } catch (err) {      
             console.error(err.message);
         }
     }
-    const ReloadPage = useCallback(()=>{
-        if(!openSnackBar.open){
-            window.location.reload(true); 
+
+    const RejectRequest = async (request) => {
+        try {
+            const formData = new FormData();
+            formData.append('body', JSON.stringify({
+                requestId: request.requestId,
+                status: 'declined',
+            }))
+            await axiosInstance.patch(
+                `requests`,
+                formData
+            )
+            .then((res)=>{
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:"error",
+                    note:"Member Rejected"
+                }))
+                // Execute Functions
+                fetchJoinRequests();
+                fetchMembers();
+            })
+        } catch (err) {      
+            console.error(err.message);
         }
-    },[openSnackBar.open])
+    }
+
     if(!members || !joinRequests) return <Loading/>
 
     return (
@@ -186,7 +209,8 @@ function MemberList() {
                                             member={false}
                                             membershipProof={(!request.details?.membership) ? request.details?.membership : ''}
                                             image={request.requestor.photo} 
-                                            onClick={()=>AcceptRequest(request)}
+                                            accept={()=>AcceptRequest(request)}
+                                            reject={()=>RejectRequest(request)}
                                         />
                                     );
                                 })}
