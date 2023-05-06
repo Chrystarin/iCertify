@@ -200,18 +200,6 @@ function Profile() {
 						</a>
 					</div>
 				</div>
-				<div id='User__Div__Button'>
-                    {(isAuth(id)) ?
-                        <Button
-                            href={`${id}/edit`}
-                            variant='contained'
-                        >
-                            Update
-                        </Button>
-                    : <></>
-                    }
-					
-				</div>
 			</div>
 			<div id='Main_Div'>
                 

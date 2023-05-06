@@ -12,12 +12,24 @@ function Login() {
         type:"",
         note:""
     });
+
+    function LoginClick() {
+        try{
+            login()
+        }
+        catch(err){
+            console.log(err)
+            alert("Error: " + err)
+        }
+        
+    }
+
     return <>
         <Button
             id='Button'
             startIcon={<AccountBalanceWalletIcon />}
             onClick={() => {
-                login()
+                LoginClick();
             }}
         >
             Login Metamask

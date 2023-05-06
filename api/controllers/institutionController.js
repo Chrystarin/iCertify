@@ -26,6 +26,8 @@ const registerInstitution = async (req, res, next) => {
 		details: { name, type, txHash } // Details of the institution
 	} = req.body;
 
+    console.log(req.body)
+
 	// Validate inputs
 	isString(txHash, 'Transaction Hash'); // Check if txHash is a string
 	isString(name, 'Institution Name'); // Check if name is a string

@@ -1,4 +1,4 @@
-import React, {useState,useRef,useParams}from 'react';
+import React, {useState,useRef,useEffect}from 'react';
 
 import './Header.scss';
 
@@ -13,13 +13,53 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Tooltip from '@mui/material/Tooltip';
 import MetaMaskIcon from './../../images/icons/fox.png';
-import axios from '../../utils/axios';
+import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
 
 function Header() {
-    const { user } = useAuth();
+    const [user, setUser] = useState();
+    const [type, setType] = useState(JSON.parse(localStorage.getItem("user")).type);
+
     // For closing the dropdown when clicking outside of
     let menuRef = useRef();
+
+    // Executes on load
+	useEffect(() => {
+        if(localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).type === "user"){
+            fetchUser();
+        }
+        if(localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).type === "institution"){
+            fetchInstitution();
+        }
+	}, []);
+
+    // Retrieves User's Data
+    const fetchUser = async () => {
+        await axiosInstance
+            .get(`users`,{
+                params: {
+                    walletAddress: JSON.parse(localStorage.getItem("user")).walletAddress
+                }
+            })
+            .then((response) => {
+                setUser(response.data);
+                console.log(response.data)
+            });
+    };
+
+    // Retrieves Institution Data
+    const fetchInstitution = async () => {
+        await axiosInstance
+            .get(`institutions`,{
+                params: {
+                    walletAddress: JSON.parse(localStorage.getItem("user")).walletAddress
+                }
+            })
+            .then((response) => {
+                setUser(response.data);
+                console.log(response.data)
+            });
+    };
 
     // Hook for profile dropdown
     const [anchorElProfile, setAnchorElProfile] = useState(null);
@@ -159,7 +199,7 @@ function Header() {
                             aria-haspopup="true"
                             aria-expanded={openProfile ? 'true' : undefined}
                         >
-                            <Avatar src={user.type =='user' ? ((!user.user.photo) ? '' : user.user.photo) : ((!user.user.photos?.profile) ? '' : user.user.photos.profile)} alt=""></Avatar>
+                            <Avatar src={type =='user' ? ((!user.photo) ? '' : user.photo) : ((!user.photos?.profile) ? '' : user.photos.profile)} alt=""></Avatar>
                         </IconButton>
                     </Tooltip>
                     <Menu
@@ -199,11 +239,11 @@ function Header() {
                         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                     >
                         <div id="ProfileDropdown__Container">
-                            <a href={`/${user.type}s/${user.walletAddress}`}>
+                            <a href={`/${type}s/${user.walletAddress}`}>
                                 <MenuItem  id='ProfileDropdown__Header'>
-                                    <Avatar id="ProfileDropdown__Header__Avatar" src={user.type =='user' ? ((!user.user.photo) ? '' : user.user.photo) : ((!user.user.photos?.profile) ? '' : user.user.photos.profile)} alt=""></Avatar>
+                                    <Avatar id="ProfileDropdown__Header__Avatar" src={type =='user' ? ((!user.photo) ? '' : user.photo) : ((!user.photos?.profile) ? '' : user.photos.profile)} alt=""></Avatar>
                                     <div>
-                                    <h6>{user.type =='user' ? user.user.name.firstName + ' ' + user.user.name.lastName : user.user.name}</h6>
+                                    <h6>{type =='user' ? user.name.firstName + ' ' + user.name.lastName : user.name}</h6>
                                     <div id='ProfileDropdown__Header__Metamask'>
                                         <img src={MetaMaskIcon}/>
                                         <p className='BodyText3'>{ShortingWallet(user.walletAddress)}</p>
@@ -213,7 +253,7 @@ function Header() {
                             </a>
                                 
                                 <div id='ProfileDropdown__Buttons'>
-                                    <Button href={`${user.walletAddress}/edit`} onClick={()=>{console.log()}} variant=''>Update</Button>
+                                    <Button href={`${user.walletAddress}/edit`} variant=''>Update</Button>
                                     <Logout/>
                                 </div>
                         </div>

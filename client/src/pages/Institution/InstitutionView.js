@@ -45,7 +45,7 @@ const InstitutionView = () => {
 		fetchInstitution();
         // fetchDocumentRequests();
         
-        if(localStorage.getItem('user')){
+        if(localStorage.getItem('user') && JSON.parse(localStorage.getItem('user')).type === "user"){
             fetchDocumentRequests();
         }
     }, [])

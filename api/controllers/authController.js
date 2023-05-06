@@ -77,6 +77,8 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
 	const { signature, walletAddress } = req.body;
 
+    console.log(req.body)
+
 	// Validate inputs
 	isString(signature, 'Signature');
 	isString(walletAddress, 'Wallet Address');
@@ -85,19 +87,22 @@ const login = async (req, res, next) => {
 	await verifySignature(signature, walletAddress);
 
 	// Check if existing
-	const [user, institution] = await Promise.allSettled([
+	const [user, institution] = await Promise.all([
 		User.findOne({ walletAddress }),
 		Institution.findOne({ walletAddress, 'transaction.status': 'success' })
 	]);
 
+	console.log(user, institution)
+
 	let type;
 	let payload;
+
 	switch (true) {
-		case user.status === 'fulfilled':
+		case user instanceof User:
 			type = 'user';
 			payload = { id: user._id, type: USER, walletAddress };
 			break;
-		case institution.status === 'fulfilled':
+		case institution instanceof Institution:
 			type = 'institution';
 			payload = {
 				id: institution._id,
@@ -108,6 +113,9 @@ const login = async (req, res, next) => {
 		default:
 			throw new UserNotFound();
 	}
+
+    console.log(type)
+
 	res.status(200)
 		.cookie('access-token', signAccess(payload), {
 			...cookieOptions,

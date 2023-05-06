@@ -12,7 +12,7 @@ function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
     // Smart Contract Address
-    const contractAddress = '0x32791fA5279E4865691B07a95179A2Ac5190966A'
+    const contractAddress = '0x9B4061dE1efaC585379629c67F3Ff61a6A593496'
     const baseUrl = 'http://localhost:3000'
 
     let globalWallet = {}
@@ -30,11 +30,11 @@ function AuthProvider({ children }) {
     // Login Function
     const login = async () => {
 
-        // Gets wallet info
-        const wallet = await ConnectWallet('Test message')
-        globalWallet = wallet;
-
         try {
+            // Gets wallet info
+            const wallet = await ConnectWallet('Test message')
+            globalWallet = wallet;
+
             await axiosInstance
                 .post(
                     'auth/login',
@@ -50,7 +50,7 @@ function AuthProvider({ children }) {
                     window.location.reload(true); 
                 });
         } catch (error) {
-        console.log(error);
+            throw new Error(error);
         }
     };
 
@@ -75,7 +75,8 @@ function AuthProvider({ children }) {
     // Register Function
      const register = async ({userType, memberForm, institutionForm}) => {
         // Gets wallet info
-        const wallet = await ConnectWallet()
+        const wallet = await ConnectWallet('Test message')
+        globalWallet = wallet;
 
         try {
             // Checks selected user type then registers user
@@ -97,8 +98,27 @@ function AuthProvider({ children }) {
                         })
                     )
                     .then((response)=>{
-                        alert("Member Registered!")
-                        navigate("/")
+                        const login = async () => {
+                            try {
+                                await axiosInstance
+                                    .post(
+                                        'auth/login',
+                                        JSON.stringify({
+                                            walletAddress: wallet.address,
+                                            signature: wallet.signature
+                                        })
+                                    )
+                                    .then((response) => {
+                                        setUser(response.data)
+                                        localStorage.setItem('user', JSON.stringify(response.data))
+                                        navigate(`${response.data.type}s/${response.data.walletAddress}`)
+                                        window.location.reload(true); 
+                                    });
+                            } catch (error) {
+                            console.log(error);
+                            }
+                        };
+                        login()
                     })
                     break;
                 case 'institution':
@@ -122,8 +142,27 @@ function AuthProvider({ children }) {
                         })
                     )
                     .then((response)=>{
-                        alert("Institution Registered!")
-                        navigate("/")
+                        const login = async () => {
+                            try {
+                                await axiosInstance
+                                    .post(
+                                        'auth/login',
+                                        JSON.stringify({
+                                            walletAddress: wallet.address,
+                                            signature: wallet.signature
+                                        })
+                                    )
+                                    .then((response) => {
+                                        setUser(response.data)
+                                        localStorage.setItem('user', JSON.stringify(response.data))
+                                        navigate(`${response.data.type}s/${response.data.walletAddress}`)
+                                        window.location.reload(true); 
+                                    });
+                            } catch (error) {
+                            console.log(error);
+                            }
+                        };
+                        login()
                     })
                     break;
             }
@@ -178,8 +217,7 @@ function AuthProvider({ children }) {
             return {provider, signer, signature, address}
             
         } catch(err) {
-            console.error(err.message);
-            alert("Cancelled")
+            throw new Error("REJETED: " + err);
         }
     }
     
