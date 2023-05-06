@@ -25,6 +25,7 @@ import DocumentRequestPayment from './pages/Documents/DocumentRequestPayment.js'
 import InstitutionDocRequests from './pages/Requests/InstitutionDocRequests.js';
 import MemberList from './pages/Member/MemberList.js';
 import AddDocumentOffered from './pages/Documents/AddDocumentOffered'
+import EditDocumentOffered from './pages/Documents/EditDocumentOffered'
 import InstitutionUpdateProfile from './pages/Institution/InstitutionUpdateProfile.js';
 import CreateDocument from './pages/Documents/CreateDocument';
 import InstitutionUpdatePayment from './pages/Institution/InstitutionUpdatePayment.js'
@@ -36,18 +37,18 @@ function App() {
 			
                 {/* Error Routes */}
                 <Route path='*' element={<Error />}/>
+
                 {/* For Unauthorized  */}
                 <Route path='/unauthorized' element={<Error unauthorized="true"/>}/>
 
+                {/* Public Routes */}
                 <Route path='' element={<LandingPage/>}/>
                 <Route path='register' element={<Register/>}/>
-                <Route path='users' element={<Institutions/>}/>
                 <Route path='users/:id' element={<Profile />} />
                 <Route path='institutions' element={<Institutions />}/>
                 <Route path='institutions/:id' element={<InstitutionsView owner={false}/>}/>
                 <Route path='documents/:id' element={<DocumentView/>}/>
             
-
             {/* Member Routes */}
                 <Route element={<ProtectedRoute allowedRole={'user'}/>} >
                     <Route path='users/:id/edit' element={<ProfileUpdate />}/>
@@ -64,7 +65,7 @@ function App() {
                     <Route path='institutions/edit/payment' element={<InstitutionUpdatePayment/>}/>
                     <Route path='members' element={<MemberList />} />
                     <Route path='documents/add' element={<AddDocumentOffered />} />
-                    <Route path='documents/:id/edit' element={<AddDocumentOffered />} />
+                    <Route path='documents/:id/edit' element={<EditDocumentOffered />} />
                     <Route path='documents/requests/:tab' element={<InstitutionDocRequests/>} />
                     <Route path='documents/request/:id' element={<CreateDocument manual={false}/>} />
                     <Route path='documents/requests/manual' element={<CreateDocument manual={true}/>} />

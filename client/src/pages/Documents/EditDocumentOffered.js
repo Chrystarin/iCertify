@@ -1,5 +1,6 @@
-import React,{useState} from 'react'
+import React,{useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import './../../styles/Form.scss';
 
 import Button from '@mui/material/Button';
@@ -7,12 +8,22 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { TextField,Avatar } from '@mui/material';
-
+import Switch from '@mui/material/Switch';
 import axiosInstance from '../../utils/axios';
 
 function EditDocumentOffered() {
+
     const navigate = useNavigate();
+    const { id } = useParams();
     const user = JSON.parse(localStorage.getItem("user"));
+    const [docOffer, setDocOffer] = useState();
+
+
+    // Excecutes on page load
+    useEffect(() => {
+        fetchDocumentOffer();
+    }, [])
+
     // Stepper
     const [activeStep,setActiveStep] = useState(0);
     function nextStep(){
@@ -30,8 +41,11 @@ function EditDocumentOffered() {
         name: '',
         description: '',
         requirements: '',
-        price: ''
+        price: '',
+        status: ''
     });
+
+
 
     // Retrieves data from text input then assigns to form
     function updateForm(e) {
@@ -43,13 +57,37 @@ function EditDocumentOffered() {
         });
     }
 
-    // Add Offered Document
-    const AddOfferedDocument = async (e) => {
-        e.preventDefault();
+    // Fetch Offered Document
+    const fetchDocumentOffer = async () => {
         try{
-
             await axiosInstance
-                .post(`institutions/offers`, JSON.stringify({
+                .get(`institutions/offers`,{
+                    params: {
+                        docId: id
+                    }
+                })
+                .then((response) => {
+                    console.log(response.data)
+                    setForm({
+                        name: response.data.title,
+                        description: response.data.description,
+                        requirements: response.data.requirements,
+                        price: response.data.price,
+                        status: response.data.status
+                    })
+                });
+        
+        } catch (err) {      
+            console.error(err.message);
+        }
+    }
+
+    // Fetch Offered Document
+    const editDocumentOffered = async () => {
+        try{
+            await axiosInstance
+                .patch(`institutions/offers`,JSON.stringify({
+                    docId: id,
                     title: form.name,
                     description: form.description,
                     price: parseInt(form.price),
@@ -57,15 +95,14 @@ function EditDocumentOffered() {
                 }))
                 .then((response) => {
                     console.log(response.data)
-                    alert("Document Offer Added!")
-                    navigate(`/`)
                 });
         
         } catch (err) {      
             console.error(err.message);
         }
-        // console.log("test")
     }
+
+
 
     function VIEWFORM(){
         switch (activeStep) {
@@ -82,6 +119,7 @@ function EditDocumentOffered() {
                         id="outlined-basic" 
                         label="Name" 
                         variant="outlined" 
+                        defaultValue={form.name}
                         onChange={(e)=>updateForm({ name: e.target.value })}
                     />
                     <TextField 
@@ -89,6 +127,7 @@ function EditDocumentOffered() {
                         label="Description" 
                         variant="outlined" 
                         multiline
+                        defaultValue={form.description}
                         onChange={(e)=>updateForm({ description: e.target.value })}
                     />
                     <div className='Wrapper_2_Inputs'>
@@ -97,20 +136,31 @@ function EditDocumentOffered() {
                             label="Requirements" 
                             variant="outlined" 
                             multiline
+                            defaultValue={form.requirements}
                             onChange={(e)=>updateForm({ requirements: e.target.value })}
                         />
                         <TextField 
                             id="outlined-basic" 
                             label="Price" 
                             variant="outlined" 
+                            defaultValue={form.price}
                             onChange={(e)=>updateForm({ price: e.target.value })}
                         />
                     </div>
+                    {/* <div className='Wrapper_2_Inputs'>
+                            Active Status
+                            <Switch 
+                                defaultChecked={form.status==="active"?true:false}
+                                onChange={() => {
+                                    updateForm({ status: form.status === "active" ? "inactive" : "active" });
+                                }}
+                            />
+                    </div> */}
                 </div>
                 </div>
                 
                 <div id="Holder_Button">
-                    <Button variant="contained" size="large" onClick={AddOfferedDocument}>Submit</Button>
+                    <Button variant="contained" size="large" onClick={()=>editDocumentOffered()}>Submit</Button>
                 </div>
             </form>
             </>
@@ -119,6 +169,11 @@ function EditDocumentOffered() {
             break;
         }
     }
+
+    if(!form) return <div>Loading...</div>
+
+    console.log(form)
+
     return (
         <section>
         <div id="Stepper">

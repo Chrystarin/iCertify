@@ -9,8 +9,8 @@ function Error404({unauthorized}) {
       {unauthorized?<>
         <img className='Errors__Img' src={UnautherizePage} alt="" />
         <div className='Errors__Message'>
-          <h3>unauthorized</h3>
-          <h5>You don't have an access to this page</h5>
+          <h3>Unauthorized</h3>
+          <h5>You don't have access to this page</h5>
         </div>
       </>:<>
         <img className='Errors__Img' src={Error404Image} alt="" />

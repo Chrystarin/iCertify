@@ -6,7 +6,7 @@ import { Button } from '@mui/material';
 import Menu from '@mui/material/Menu';
 import Tooltip from '@mui/material/Tooltip';
 import DocumentIcon from '../../images/icons/DocumentIcon.png';
-
+import Switch from '@mui/material/Switch';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
@@ -127,8 +127,12 @@ function DocumentRequestCard(props) {
                 </Button>
               </div>
             </Menu>
-          </React.Fragment>
-          <Button id="DocumentRequestCard__Button" variant="outlined">Manage Requests</Button> */}
+          </React.Fragment> */}
+            <Switch 
+                    defaultChecked={props.status === "active" ? true : false} 
+                    onClick={()=>props.changeStatus()}
+            />
+          <Button id="DocumentRequestCard__Button" variant="outlined" href={`/documents/${props.id}/edit`}>Edit Document</Button>
         </>: 
         (props.member) 
             ? <Button id="DocumentRequestCard__Button" variant="outlined" href={props.link}>Request Document</Button>

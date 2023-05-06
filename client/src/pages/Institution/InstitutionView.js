@@ -19,6 +19,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
 import MetaMaskIcon from './../../images/icons/fox.png';
+
 // Import Images
 import Logo from '../../images/placeholder/placeholder_profile.jpg';
 import Wallpaper from '../../images/placeholder/placeholder_cover.jpg'
@@ -135,6 +136,23 @@ const InstitutionView = () => {
                 type:"error",
                 note:"Error Occurred: " + err.message
             }))     
+            console.error(err.message);
+        }
+    }
+
+    // Fetch Offered Document
+    const ChangeStatus = async (docId, status) => {
+        try{
+            await axiosInstance
+                .patch(`institutions/offers/status`,JSON.stringify({
+                    docId: docId,
+                    status: status==="active" ? 'inactive' : 'active'
+                }))
+                .then((response) => {
+                    console.log(response.data)
+                });
+        
+        } catch (err) {      
             console.error(err.message);
         }
     }
@@ -315,19 +333,28 @@ const InstitutionView = () => {
                                 <>
                                     {institution.docOffers.length > 0 &&
                                     institution.docOffers.map((offer) => {
-                                    return (
-                                        <DocumentRequestCard 
-                                            key={offer.docId}
-                                            name={offer.title}
-                                            id={offer.id} 
-                                            description={offer.description} 
-                                            requirements={offer.requirements} 
-                                            // requestStatus={offer.requestStatus} 
-                                            link={`${institution.walletAddress}/${offer.docId}`}
-                                            owner={(isAuth(id))}
-                                            member={(isJoined(institution))}
-                                        />
-                                    );
+                                    if(((!isAuth(id) && offer.status==="inactive")))
+                                    {
+                                        return null
+                                    }
+                                    else{
+                                        return (
+                                            <DocumentRequestCard 
+                                                key={offer.docId}
+                                                name={offer.title}
+                                                id={offer.docId} 
+                                                description={offer.description} 
+                                                requirements={offer.requirements} 
+                                                // requestStatus={offer.requestStatus} 
+                                                status={offer.status}
+                                                link={`${institution.walletAddress}/${offer.docId}`}
+                                                owner={(isAuth(id))}
+                                                member={(isJoined(institution))}
+                                                changeStatus={() => {ChangeStatus(offer.docId, offer.status)}}
+                                            />
+                                        );
+                                    }
+                                    
                                     })}
                                 </>
                             }

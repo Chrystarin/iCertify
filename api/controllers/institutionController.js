@@ -254,42 +254,51 @@ const addOfferedDoc = async (req, res, next) => {
 };
 
 const getOfferedDocs = async (req, res, next) => {
-	// Retrieve the wallet address and user type from the request object.
-	const {
-		query: { walletAddress },
-		user: { id, type }
-	} = req;
+    // Retrieve the wallet address and document ID from the request query and the user ID and type from the request user object.
+    const {
+        query: { walletAddress, docId },
+        user: { id, type }
+    } = req;
 
-	// Declare the variable that will hold the doc offers.
-	let docOffers;
+    console.log(docId)
 
-	// If the user is an institution, retrieve the doc offers associated with that institution.
-	if (type === INSTITUTION) {
-		// Retrieve the institution's doc offers using the institution's ID.
-		({ docOffers } = await Institution.findById(id));
-	}
+    // Check if the document ID is a string and throw an error if it is not.
+    isString(docId, 'Document ID', true);
 
-	// If the user is a regular user, retrieve the doc offers associated with the institution with the given wallet address.
-	if (type === USER) {
-		// Ensure that the wallet address is a string.
-		isString(walletAddress, 'Institution Wallet Address');
+    // Declare the variable that will hold the document offers.
+    let docOffers;
 
-		// Find the institution with the given wallet address.
-		const institution = await Institution.findOne(
-			{ walletAddress, 'transaction.status': 'success' },
-			'docOffers'
-		);
-		// If no institution is found, throw an error.
-		if (!institution) throw new InstitutionNotFound();
+    // If the user is an institution, retrieve the document offers associated with that institution.
+    if (type === INSTITUTION) {
+        // Retrieve the institution's document offers using the institution's ID.
+        ({ docOffers } = await Institution.findById(id));
+    }
 
-		// Retrieve the institution's doc offers.
-		docOffers = institution.docOffers.filter(
-			({ status }) => status === 'active'
-		);
-	}
+    // If the user is a regular user, retrieve the document offers associated with the institution with the given wallet address.
+    if (type === USER) {
+        // Ensure that the wallet address is a string.
+        isString(walletAddress, 'Institution Wallet Address');
 
-	// Return the retrieved doc offers as JSON.
-	res.json(docOffers);
+        // Find the institution with the given wallet address and a successful transaction status and retrieve their document offers.
+        const institution = await Institution.findOne(
+            { walletAddress, 'transaction.status': 'success' },
+            'docOffers'
+        );
+        // If no institution is found, throw an error.
+        if (!institution) throw new InstitutionNotFound();
+
+        // Retrieve the institution's document offers that have an active status.
+        docOffers = institution.docOffers.filter(
+            ({ status }) => status === 'active'
+        );
+    }
+
+    // If document offers and document ID are both present, filter document offers to only include the document with the matching document ID.
+    if (docOffers && docId)
+        docOffers = docOffers.find((docs) => docs.docId === docId);
+
+    // Return the retrieved document offers as JSON.
+    res.json(docOffers);
 };
 
 const editOfferedDoc = async (req, res, next) => {
@@ -298,6 +307,8 @@ const editOfferedDoc = async (req, res, next) => {
 		body: { docId, title, description, price, requirements },
 		user: { id }
 	} = req;
+
+    console.log(req.body)
 
 	// Validate that each parameter extracted above is a string or number.
 	isString(docId, 'Document ID');
@@ -337,6 +348,8 @@ const updateOfferedDocStatus = async (req, res, next) => {
 		body: { docId, status },
 		user: { id }
 	} = req;
+
+    console.log(req.body)
 
 	// Update the status of the document in the institution's docOffers array
 	const result = await Institution.updateOne(
