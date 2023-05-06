@@ -282,7 +282,7 @@ function DocumentRequestForm() {
                 { (!proofOfPayment)?
                     <div className="Category__Content">
                         <div id='Category__Content__File'>
-                            <input type="file" id="files" className="hidden" onChange={(e)=>setProofOfPayment(e.target.files[0])}/>
+                            <input type="file" id="files"  accept="image/png, image/jpeg"  className="hidden" onChange={(e)=>setProofOfPayment(e.target.files[0])}/>
                             <label htmlFor="files" id='Category__Content__Button'>
                                 <img src={UploadFileImage} alt="" />
                                 <div>
@@ -295,7 +295,7 @@ function DocumentRequestForm() {
                 :
                     <div className="Category__Content">
                         <div id='UploadAgain' >
-                            <input type="file" id="files" className="hidden" onChange={(e)=>setProofOfPayment(e.target.files[0])}/>
+                            <input type="file" id="files"  accept="image/png, image/jpeg"  className="hidden" onChange={(e)=>setProofOfPayment(e.target.files[0])}/>
                             <label htmlFor="files" id='file' >
                                 <DownloadIcon/>
                                 <h6>Upload Another</h6>

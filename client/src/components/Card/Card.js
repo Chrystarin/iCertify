@@ -24,7 +24,7 @@ const Card = (props) => {
                 <h6 className="BodyText2 Card__Title">{title}</h6>
                 <div className=' Card__Date'>
                     <CalendarMonthIcon/>
-                    <p className='BodyText3'><moment>{moment(date).format('LL')}</moment></p>
+                    <p className='BodyText3'>{moment(date).format('LL')}</p>
                 </div>
                 {/* <div className='Card__InstitutionInfo'>
                     <Avatar className='Card__InstitutionInfo__Avatar'></Avatar>

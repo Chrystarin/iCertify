@@ -233,12 +233,12 @@ function AuthProvider({ children }) {
 
     // Function to check if user is authorized to access the page
     const isAuth = (id) => {
-        if (!user) {
+        if (!(JSON.parse(localStorage.getItem("user")))) {
             // User is not logged in, so they are not authorized
             return false;
         }
 
-        if (user.walletAddress !== id) {
+        if ((JSON.parse(localStorage.getItem("user"))).walletAddress !== id) {
             // User is logged in, but they are not authorized
             return false;
         }

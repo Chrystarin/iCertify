@@ -190,7 +190,7 @@ const getMembers = async (req, res, next) => {
 	isString(walletAddress, 'Wallet Address', true);
 
 	// Finding the institution with the given id and populating the members
-	const { members } = await Institution.findOne({ _id: id }, 'members')
+	let { members } = await Institution.findOne({ _id: id }, 'members')
 		.populate('members.user') // Populating the user object of each member
 		.lean() // Converting the result to plain JavaScript object
 		.exec(); // Executing the query

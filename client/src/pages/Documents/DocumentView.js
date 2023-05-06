@@ -75,7 +75,6 @@ function DocumentView() {
                 setDocumentData(response.data);
                 getDocumentData(response.data);
                 setAccessCodes(response.data.codes);
-                console.log(response.data)
             });
     };
 
@@ -123,13 +122,11 @@ function DocumentView() {
             })
             .then((response) => {
                 setOwner(response.data);
-                console.log(response.data)
             });
     };
 
     // Retrieves Institution's Data
     const fetchInstitution = async (data) => {
-        console.log(data)
         await axiosInstance
             .get(`institutions`,{
                 params: {
@@ -139,8 +136,6 @@ function DocumentView() {
             .then((response) => {
                 setInstitution(response.data)
                 setDocument(findValue(response.data.docOffers, data.docId))
-                console.log(response.data)
-                console.log(findValue(response.data.docOffers, data.docId))
             });
     };
 

@@ -43,7 +43,6 @@ function Header() {
             })
             .then((response) => {
                 setUser(response.data);
-                console.log(response.data)
             });
     };
 
@@ -57,7 +56,6 @@ function Header() {
             })
             .then((response) => {
                 setUser(response.data);
-                console.log(response.data)
             });
     };
 

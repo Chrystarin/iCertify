@@ -26,7 +26,7 @@ const getRequests = async (req, res, next) => {
 
 	// Validate that requestType and requestId are both strings
 	isString(requestType, 'Request Type');
-	isString(requestId, 'Request ID');
+	isString(requestId, 'Request ID', true);
 
 	// Create the request query object
 	const requestQuery = { requestType };
@@ -256,7 +256,7 @@ const processRequest = async (req, res, next) => {
 			break;
 		case 'declined':
 			// Throw an error if the request status is not pending or paid
-			if (!['pending', 'paid'].includes(rqst.status))
+			if (!['pending', 'paid'].includes(request.status))
 				throw new Unauthorized('Invalid request status');
 
 			// If the request type is DOCUMENT, update the statusTimestamps object and note

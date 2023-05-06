@@ -51,10 +51,8 @@ function Profile() {
 	}, []);
 
     const mapDocumentsAsync = async (data) => {
-        // console.log(data)
         const mappedDocs = await Promise.all(
             data.map(async (document) => {
-                console.log(document)
                 const docData = await getDocumentData(document.nftId)
                 const image = `https://icertify.infura-ipfs.io/ipfs/${await getTokenURI(document.nftId)}`;
                 return (
@@ -85,7 +83,6 @@ function Profile() {
                 setUser(response.data);
                 setInstitutions(response.data.institutions)
                 setDocuments(response.data.documents)
-                // console.log(response.data)
                 mapDocumentsAsync(response.data.documents);
             });
     };
@@ -104,10 +101,8 @@ function Profile() {
     // Retrieves Document's Metadata
     const getDocumentData = async (data) => {
         const contract = await getContract();
-        console.log(contract)
         try{
             const response = await contract.getDocumentData(data);
-            console.log(response)
             return response
         } catch(error) {
             console.log(error)
@@ -150,7 +145,7 @@ function Profile() {
     }
     
 	// Returns if user is null
-	if (!user || !institutions || !documents)return <Loading/>;
+	if (!user || !institutions || !documents || !mappedDocuments)return <Loading/>;
     
 	return (
 		<div id='Profile'>
