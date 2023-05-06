@@ -127,10 +127,23 @@ function CreateDocument({manual}) {
             )
             .then((response)=>{
                 txHash = response.hash
-                console.log("Document Minted")
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'success',
+                    note:"Document Minted",
+                    action: ()=>{}
+                }));
             })
             .catch((error)=>{
-                alert(error.data.message)
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'error',
+                    note:error.data.message,
+                    action: ()=>{}
+                }));
+                
             })
             
             return txHash
@@ -153,12 +166,26 @@ function CreateDocument({manual}) {
             )
             .then((response) => {
                 console.log("Document Processing")
-                alert("Document Processing!")
-                navigate("/documents/requests/toprocess")
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'info',
+                    note:"Document Processing!",
+                    action: ()=>{
+                        navigate("/documents/requests/toprocess")
+                    }
+                }));
             });
             
         } catch (error) {
-            alert(error.message)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note:error.message,
+                action: ()=>{}
+            }));
+            // alert(error.message)
         }
     }
 

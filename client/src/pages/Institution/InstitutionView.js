@@ -35,10 +35,11 @@ const InstitutionView = () => {
     const { user, isAuth, isJoined } = useAuth();
     const [institution, setInstitution] = useState();
     const [request, setRequest] = useState();
-    const [openSnackBar, setOpenSnackBar] = useState({
+    const [openSnackBar, setOpenSnackBar] = React.useState({
         open:false,
         type:"",
-        note:""
+        note:"",
+        action: ()=>{}
     });
 
     // Excecutes on page load
@@ -184,8 +185,6 @@ const InstitutionView = () => {
                                     type:"info",
                                     note:"Uploading Photo..."
                                 }))
-                                
-                                
                             }} />
                             <label htmlFor="ProfilePicture">
                                 <div id="AvatarProfile__Update">

@@ -62,7 +62,7 @@ function InstitutionJoin(props) {
                     {headers: {'Content-Type': 'multipart/form-data'}})
                 .then((response) => {
                     console.log(response.data)
-                    alert("Join Request Sent! Wait for the admin to approve your request")
+                    // alert("Join Request Sent! Wait for the admin to approve your request")
                     navigate(`/institutions/${id}`)
                 });
         
@@ -204,7 +204,19 @@ function InstitutionJoin(props) {
                     </>
                 : ' '}
                 <div id="Holder_Button">
-                    <Button variant="contained" size="large" onClick={Join}>Submit</Button>
+                    <Button variant="contained" size="large" 
+                    onClick={()=>{
+                        Join();
+                        setOpenSnackBar(openSnackBar => ({
+                            ...openSnackBar,
+                            open:true,
+                            type:'info',
+                            note:"Sending your request...",
+                            action: ()=>{
+                                alert();
+                            }
+                        }));
+                    }}>Submit</Button>
                 </div>
             </form>
             <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>

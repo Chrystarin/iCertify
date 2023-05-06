@@ -109,7 +109,7 @@ function ProfileUpdate() {
             )
             .then((response)=>{
                 fetchUser();
-                alert("Profile Updated!")
+                // alert("Profile Updated!")
                 navigate(`/users/${user.walletAddress}`)
             })
         } catch (err) {      

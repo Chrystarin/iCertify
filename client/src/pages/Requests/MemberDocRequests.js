@@ -15,6 +15,7 @@ import SellIcon from '@mui/icons-material/Sell';
 import TextField from '@mui/material/TextField';
 import Loading from '../../components/Loading/Loading';
 import axiosInstance from '../../utils/axios';
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 import moment from 'moment';
 
 function MemberDocRequests(){
@@ -27,7 +28,11 @@ function MemberDocRequests(){
     const [toPay, setToPay] = useState();
     const [toRecieve, setToRecieve] = useState();
     const [failedtransactions, setFailedtransactions] = useState();
-
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
 	
     const [anchorElDropDownDocument, setAnchorElDropDownDocument] = useState(null);
     const open = Boolean(anchorElDropDownDocument);
@@ -93,11 +98,24 @@ function MemberDocRequests(){
                 }}
             )
             .then((response)=>{
-                alert(`Document ${action}!`)
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'info',
+                    note:`Document ${action}!`,
+                    action: ()=>{}
+                }));
                 console.log(response.data)
                 fetchDocumentRequests();
             })
         } catch (err) {      
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'info',
+                note:`Document ${action}!`,
+                action: ()=>{}
+            }));
             console.error(err.message);
         }
     }
@@ -220,14 +238,21 @@ function MemberDocRequests(){
                         
                     </div>
                 </div>
+                <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
                 
             </section>
         </div>
     )
 
     function RequestCard({data,type}){
-        const [anchorElNote, setAnchorElNote] = React.useState(null);
+        const [anchorElNote, setAnchorElNote] = useState(null);
         const openNote = Boolean(anchorElNote);
+
+        const [anchorElCancel, setAnchorElCancel] = useState(null);
+        const openCancel = Boolean(anchorElCancel);
+
+
+        const [cancelNote, setCancelNote] = useState();
         //  myrequests , topay , torecieve ,failedtransactions 
         // const keys = ["pending","approved","declined","paid","verified","processing","cancelled","completed"];
         
@@ -254,7 +279,7 @@ function MemberDocRequests(){
                     </>
                     :""}
                     {data.status === "verified"? <>
-                        <p className='BodyText3 RequestCardUser__Body__Status' id="Processing">Document is processing</p>
+                        <p className='BodyText3 RequestCardUser__Body__Status' id="Processing">Your document is processing</p>
                     </>
                     :""}
                     {data.status === "declined"? <>
@@ -265,12 +290,10 @@ function MemberDocRequests(){
                         <p className='BodyText3 RequestCardUser__Body__Status' id="Failed">Your Request is cancelled</p>
                     </>
                     :""}
-
-
-
-
-
-
+                    {data.status === "processing"? <>
+                        <p className='BodyText3 RequestCardUser__Body__Status' id="Processing">Your document is processing</p>
+                    </>
+                    :""}
                     
                     {/* {type === "topay"? <>
                         
@@ -333,14 +356,63 @@ function MemberDocRequests(){
                                     >
                                         Cancel
                                     </Button>
-                                :
+                                :<>
                                     <Button 
                                         className='RequestCardUser__Footer__Cancel' 
                                         variant='contained' 
-                                        onClick={()=>ProcessRequest(data, 'cancelled')} 
+                                        onClick={(event) => {
+                                            setAnchorElCancel(event.currentTarget);
+                                        }} 
                                     >
                                         Cancel
                                     </Button>
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={anchorElCancel}
+                                        open={openCancel}
+                                        onClose={() => {
+                                            setAnchorElCancel(null);
+                                        }}
+                                        MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                        }}
+                                    >
+                                        <div className='CancelRequestDropdown'>
+                                            <h6>Are you sure you want to cancel your request?</h6>
+                                            <TextField 
+                                                maxRows={6} 
+                                                multiline 
+                                                placeholder='Provide a reason of cancelation '
+                                                id="outlined-basic"  
+                                                variant="standard"
+                                                value={cancelNote} 
+                                                required 
+                                                onChange={(e)=>setCancelNote(e.target.value)}
+                                            />
+                                            <div className='CancelRequestDropdown__Button'>
+                                                <Button variant='contained' onClick={() => {
+                                                    setAnchorElCancel(null);
+                                                }}>Cancel</Button>
+                                                <Button variant='contained' 
+                                                onClick={()=>{
+                                                    cancelNote?
+                                                        ProcessRequest(data, 'cancelled')
+                                                    : setOpenSnackBar(openSnackBar => ({
+                                                        ...openSnackBar,
+                                                        open:true,
+                                                        type:'warning',
+                                                        note: "Provide a reason!",
+                                                        action: ()=>{}
+                                                    }));
+                                                }}>
+                                                    Submit
+                                            </Button>
+                                            </div>
+                                        </div>
+                                    </Menu>
+                                </>
+                                    
+                                    
                                 }
                                 
                                 {(data.status === "approved")?<Button variant='contained' onClick={()=>navigate(`/requests/pay/${data.requestId}`)}>Pay</Button>:<>

@@ -50,7 +50,7 @@ function AuthProvider({ children }) {
                     window.location.reload(true); 
                 });
         } catch (error) {
-        console.log(error);
+            throw new Error("Something went wrong");
         }
     };
 
@@ -73,7 +73,7 @@ function AuthProvider({ children }) {
     };
 
     // Register Function
-     const register = async ({userType, memberForm, institutionForm}) => {
+    const register = async ({userType, memberForm, institutionForm }) => {
         // Gets wallet info
         const wallet = await ConnectWallet()
 
@@ -97,7 +97,8 @@ function AuthProvider({ children }) {
                         })
                     )
                     .then((response)=>{
-                        alert("Member Registered!")
+                        // alert("Member Registered!")
+                        
                         navigate("/")
                     })
                     break;
@@ -122,13 +123,14 @@ function AuthProvider({ children }) {
                         })
                     )
                     .then((response)=>{
-                        alert("Institution Registered!")
+                        // alert("Institution Registered!")
                         navigate("/")
                     })
                     break;
             }
         } catch (err) {      
             console.error(err.message);
+            // return err.message
         }
     }
 
@@ -179,7 +181,7 @@ function AuthProvider({ children }) {
             
         } catch(err) {
             console.error(err.message);
-            alert("Cancelled")
+            // alert("Cancelled")
         }
     }
     
@@ -248,7 +250,7 @@ function AuthProvider({ children }) {
 			// 	});
             return true;
         } catch (error) {
-        console.log(error);
+            console.log(error);
         }
     };
 

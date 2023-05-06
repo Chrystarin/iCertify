@@ -17,7 +17,18 @@ function Login() {
             id='Button'
             startIcon={<AccountBalanceWalletIcon />}
             onClick={() => {
-                login()
+                try {
+                    login()
+                } catch (error) {
+                    // alert("Test");
+                    // setOpenSnackBar(openSnackBar => ({
+                    //     ...openSnackBar,
+                    //     open:true,
+                    //     type:'error',
+                    //     note: "Error" + error,
+                    //     action: ()=>{}
+                    // }));
+                }
             }}
         >
             Login Metamask

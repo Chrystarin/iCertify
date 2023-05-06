@@ -81,3 +81,21 @@
     flex-direction: column;
     gap: 1em;
 }
+.CancelRequestDropdown{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 1em;
+    border-radius: 9px;
+    width: 300px;
+    .CancelRequestDropdown__Button{
+        display: grid;
+        grid-template-columns: .40fr .60fr;
+        gap: 15px;
+        button:nth-child(1){
+            background-color: white;
+            color: black;
+        }
+    }
+
+}

@@ -26,9 +26,6 @@ import MuiAlert from '@mui/material/Alert';
 //     open:true,
 //     type:'success',
 //     note:"Profile Updated!",
-//     action: ()=>{
-//         alert();
-//     }
 // }));
 
 // Severity types = error,warning,info,success
@@ -46,11 +43,11 @@ function SnackbarComponent(props) {
             ...openSnackBar,
             // update the firstName
             open:false,
-            type:'',
+            type:'info',
             note:"",
             action:null
         }));
-        props.open.action()
+        // console.log(typeof props.open.action)
     });
 
     // console.log(props.open);
