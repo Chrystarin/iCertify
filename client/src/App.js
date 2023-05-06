@@ -32,45 +32,42 @@ import InstitutionUpdatePayment from './pages/Institution/InstitutionUpdatePayme
 function App() {
 	return <>
         <Routes>
-            {/* Error Routes */}
-            <Route path='*' element={<Error />}/>
-            {/* For Unauthorized  */}
-            <Route path='/unauthorized' element={<Error unauthorized="true"/>}/>
-			{/* Public Routes */}
-            <Route path='/' element={<Panel/>}>
-                    <Route path='' element={<LandingPage/>}/>
-                    <Route path='register' element={<Register/>}/>
-                    <Route path='users' element={<Institutions/>}/>
-                    <Route path='users/:id' element={<Profile />} />
-                    <Route path='institutions' element={<Institutions />}/>
-                    <Route path='institutions/:id' element={<InstitutionsView owner={false}/>}/>
-                    <Route path='documents/:id' element={<DocumentView/>}/>
-            </Route>
+            <Route element={<Panel />} >
+			
+                {/* Error Routes */}
+                <Route path='*' element={<Error />}/>
+                {/* For Unauthorized  */}
+                <Route path='/unauthorized' element={<Error unauthorized="true"/>}/>
+
+                <Route path='' element={<LandingPage/>}/>
+                <Route path='register' element={<Register/>}/>
+                <Route path='users' element={<Institutions/>}/>
+                <Route path='users/:id' element={<Profile />} />
+                <Route path='institutions' element={<Institutions />}/>
+                <Route path='institutions/:id' element={<InstitutionsView owner={false}/>}/>
+                <Route path='documents/:id' element={<DocumentView/>}/>
+            
 
             {/* Member Routes */}
-            <Route element={<ProtectedRoute/>} >
-                <Route element={<Panel/>}>
+                <Route element={<ProtectedRoute allowedRole={'user'}/>} >
                     <Route path='users/:id/edit' element={<ProfileUpdate />}/>
                     <Route path='requests' element={<MemberDocRequests />} />
                     <Route path='requests/:tab' element={<MemberDocRequests />} />
                     <Route path='requests/pay/:reqId' element={<DocumentRequestPayment />}/>
                     <Route path='institutions/:id/:docId' element={<ViewDocumentOffered />}/>
                     <Route path='institutions/:id/join' element={<JoinInstution/>} />
-                    
                 </Route>
-            </Route>
 
             {/* Institution Routes */}
-            <Route element={<ProtectedRoute/>} >
-                <Route element={<Panel />} >
+                <Route element={<ProtectedRoute allowedRole={'institution'}/>} >
                     <Route path='institutions/:id/edit' element={<InstitutionUpdateProfile/>}/>
                     <Route path='institutions/edit/payment' element={<InstitutionUpdatePayment/>}/>
                     <Route path='members' element={<MemberList />} />
                     <Route path='documents/add' element={<AddDocumentOffered />} />
+                    <Route path='documents/:id/edit' element={<AddDocumentOffered />} />
                     <Route path='documents/requests/:tab' element={<InstitutionDocRequests/>} />
                     <Route path='documents/request/:id' element={<CreateDocument manual={false}/>} />
                     <Route path='documents/requests/manual' element={<CreateDocument manual={true}/>} />
-                    
                 </Route>
             </Route>
 		</Routes>
