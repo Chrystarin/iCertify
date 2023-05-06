@@ -136,8 +136,11 @@ function Register() {
                                             type="date"
                                             required 
                                             
-                                            onChange={(e)=>updateForm({ birthDate: e.target.value })}
+                                            onChange={(e)=>{
+                                                updateForm({ birthDate: e.target.value })
+                                            }}
                                         />
+
                                         <TextField 
                                             id="outlined-search" 
                                             label="Email"

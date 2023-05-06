@@ -317,9 +317,6 @@ function MemberDocRequests(){
                         </li>
                     </ul>
                 </div>
-
-                
-                
                 {type === "torecieve"?<></>:<></>}
                 {type === "failedtransactions"?<>
                     <div className='RequestCardUser__Footer'>

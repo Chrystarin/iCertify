@@ -105,7 +105,7 @@ function InstitutionUpdateProfile() {
                 formData,
                 {headers: {'Content-Type': 'multipart/form-data'}})
             .then((response)=>{
-                alert("Profile Updated")
+                // alert("Profile Updated")
                 navigate(`/institutions/${id}`)
             })
         } catch (err) {      
@@ -138,8 +138,6 @@ function InstitutionUpdateProfile() {
 			</div>
 
             <form onSubmit={(e) => EditInstitution(e)} className="formTemplate">
-
-            
 				<div className='Category__Seperator'>
 					<div className='Category__Title'>
 						<h4>Institution Details</h4>
@@ -181,6 +179,7 @@ function InstitutionUpdateProfile() {
 								id='outlined-search'
 								label='Contact Number'
 								type='number'
+                                inputProps={{ inputMode: 'tel', pattern: '[0-9]{4}-[0-9]{3}-[0-9]{4}' }}
                                 defaultValue={form.contactNo}
 								onChange={(e) => updateForm({contactNo: e.target.value})}
 							/>
@@ -204,7 +203,7 @@ function InstitutionUpdateProfile() {
 							<TextField
 								id='outlined-search'
 								label='Website Link'
-								type='text'
+                                type={"url"}
                                 defaultValue={form.website}
 								onChange={(e) => updateForm({website: e.target.value})}
 							/>
@@ -237,7 +236,6 @@ function InstitutionUpdateProfile() {
 					<Button
 						variant='contained'
 						type="submit"
-                        onClick={(e) => EditInstitution(e)}
 					>
 						Update
 					</Button>
