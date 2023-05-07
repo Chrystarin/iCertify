@@ -1,44 +1,88 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import './SearchInput.scss';
+import SearchIcon from '@mui/icons-material/Search';
+import CloseIcon from '@mui/icons-material/Close';
+import TuneIcon from '@mui/icons-material/Tune';
+import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
+import IconButton from '@mui/material/IconButton';
+import { getAccordionDetailsUtilityClass } from '@mui/material';
 
-function SearchInput() {
+import axiosInstance from '../../utils/axios';
+import SearchSuggested from './SearchSuggested';
+function SearchInput({data,setData}) {
+    
+  const [institutions, setInstitutions] = useState({});
+  const [filteredInstitutions, setFilteredInstitutions] = useState(institutions);
+  const keysInstitution = ["name"];
+
+  const [users, setUsers] = useState({});
+  
+  const [search,setSearch] = useState({
+    value:"",
+    focus:false,
+  })
+
+  useEffect(() => {
+    const fetchInstitutions = async () => {
+			await axiosInstance
+          .get(`/institutions`)
+          .then((response) => {
+          setInstitutions(response.data);
+      });
+		};
+    fetchInstitutions();
+
+    // searchData(institutions,keysInstitution,search.value.toLocaleLowerCase());
+  }, [ search.value]);
+
+
+  
+
+
+  
+  const searchData = (data, keys) => {
+    // return data.filter((item)=>item["name"].toLocaleLowerCase().includes(search));
+    return data.filter((item)=>keys.some((key)=>item[key]?.toString().toLowerCase().includes(search.value.toLowerCase())))
+  }
+
+
+  if (!institutions) return "";
+
+
   return (
-    <div id='SearchInput'>
-      <div id='Container_SearchInput'>
-        <svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24.29 27.45"><path d="M29.18,29.88l-6.6-7.76a10.08,10.08,0,0,0,2.68-6.07,10.24,10.24,0,1,0-5.92,8.43l6.79,8ZM8.91,14.72a6.2,6.2,0,1,1,5.68,6.68A6.22,6.22,0,0,1,8.91,14.72Z" transform="translate(-4.89 -5.02)"/></svg>
-        <input type="text"/>
+    <div className='SearchInput'>
+      <div className='SearchInput__Container'>
+        <IconButton aria-label="delete">
+          <SearchIcon />
+        </IconButton>
+        <input 
+          type="text" 
+          value={search.value} 
+          onChange={(e)=> {
+            setSearch(search => ({...search,value: e.target.value}));
+            setFilteredInstitutions(searchData(institutions, keysInstitution))
+            // console.log(institutions.filter((item)=>item["name"].toLocaleLowerCase().includes("sti")))
+          
+          }}
+          onFocus={()=>setSearch(search => ({...search,focus: !search.focus}))} 
+          onBlur={()=>setSearch(search => ({...search,focus: !search.focus}))} 
+        />
+        <div>
+          <IconButton aria-label="delete" onClick={()=> setSearch(search => ({...search,value:""}))}>
+            <CloseIcon />
+          </IconButton>
+          <IconButton aria-label="delete">
+            <TuneIcon />
+          </IconButton>
+        </div>
       </div>
-      <div id='Container_Dropdown_Search_Result'>
-        <ul>
-          <SearchResut Result={false}/>
-        </ul>
-      </div>
+      {(search.focus && search.value!== "")|| search.value!==""?<>
+        <SearchSuggested institutions={filteredInstitutions}/>
+      </>:<></>}
+      
     </div>
   )
-}
-function SearchResut(){
-  return <>
-    {/* <li>
-      <a href="#">
-        <img src={userImg} alt="img" />
-        <div>
-          <h6>Dianne Chrystalin Brandez</h6>
-          <p className='BodyText2'>Joined Last Year</p>
-        </div>
-      </a>
-    </li>
-    <li>
-      <a href="#">
-        <img src={userImg} alt="img" />
-        <div>
-          <h6>Dianne Chrystalin Brandez</h6>
-          <p className='BodyText2'>Joined Last Year</p>
-        </div>
-      </a>
-    </li> */}
-  </>
-  
-  
 }
 
 export default SearchInput

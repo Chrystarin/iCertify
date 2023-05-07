@@ -30,8 +30,8 @@ function Institutions(props) {
 			await axiosInstance
                 .get(`/institutions`)
                 .then((response) => {
-				    setInstitutions(response.data);
-			    });
+                setInstitutions(response.data);
+            });
 		};
 
         // Retrieves User's Data
