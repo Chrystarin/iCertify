@@ -98,6 +98,12 @@ function CreateDocument({manual}) {
             .then((response) => {
                 path = response.data
                 console.log("Document Uploaded")
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'info',
+                    note:"Document Uploading..."
+                }));
             });
 
             return path;
@@ -166,14 +172,12 @@ function CreateDocument({manual}) {
             )
             .then((response) => {
                 console.log("Document Processing")
+                navigate("/documents/requests/toprocess")
                 setOpenSnackBar(openSnackBar => ({
                     ...openSnackBar,
                     open:true,
                     type:'info',
-                    note:"Document Processing!",
-                    action: ()=>{
-                        navigate("/documents/requests/toprocess")
-                    }
+                    note:"Document Processing..."
                 }));
             });
             

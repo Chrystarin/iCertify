@@ -91,10 +91,12 @@ function EditDocumentOffered() {
                     title: form.name,
                     description: form.description,
                     price: parseInt(form.price),
-                    requirements: form.requirements
+                    requirements: form.requirements,
+                    status: form.status
                 }))
                 .then((response) => {
                     console.log(response.data)
+                    navigate(`/`)
                 });
         
         } catch (err) {      
@@ -147,7 +149,7 @@ function EditDocumentOffered() {
                             onChange={(e)=>updateForm({ price: e.target.value })}
                         />
                     </div>
-                    {/* <div className='Wrapper_2_Inputs'>
+                    <div className='Wrapper_2_Inputs'>
                             Active Status
                             <Switch 
                                 defaultChecked={form.status==="active"?true:false}
@@ -155,7 +157,7 @@ function EditDocumentOffered() {
                                     updateForm({ status: form.status === "active" ? "inactive" : "active" });
                                 }}
                             />
-                    </div> */}
+                    </div>
                 </div>
                 </div>
                 

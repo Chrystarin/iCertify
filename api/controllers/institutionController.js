@@ -93,6 +93,8 @@ const updateInstitution = async (req, res, next) => {
 		files // any files included in the update, such as profile or cover photos
 	} = req;
 
+    console.log(req.body)
+
 	// Extract updated institution data from request body
 	const {
 		name, // name of the institution

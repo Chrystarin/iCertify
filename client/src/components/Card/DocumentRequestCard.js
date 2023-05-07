@@ -128,10 +128,6 @@ function DocumentRequestCard(props) {
               </div>
             </Menu>
           </React.Fragment> */}
-            <Switch 
-                    defaultChecked={props.status === "active" ? true : false} 
-                    onClick={()=>props.changeStatus()}
-            />
           <Button id="DocumentRequestCard__Button" variant="outlined" href={`/documents/${props.id}/edit`}>Edit Document</Button>
         </>: 
         (props.member) 

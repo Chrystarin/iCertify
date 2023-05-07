@@ -39,8 +39,7 @@ function InstitutionJoin(props) {
     }, [])
 
     // Join Institution
-    const Join = async (e) => {
-        e.preventDefault();
+    const Join = async () => {
         try{
             const formData = new FormData();
             console.log(memberProof)

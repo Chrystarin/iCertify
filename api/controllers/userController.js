@@ -113,6 +113,8 @@ const updateUser = async (req, res, next) => {
 		files // Uploaded files
 	} = req;
 
+    console.log(req.body)
+
 	// Destructure user data from request body
 	const {
 		firstName,

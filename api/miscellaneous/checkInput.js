@@ -43,7 +43,7 @@ const isNumber = (n, property, canbeUndefined = false) => {
 		throw new InvalidInput(`'${property}' is not a number`);
 };
 
-const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 /**
  * Checks if the given email string is in a valid format.
  * @param {string} email - The email address to check.
@@ -56,7 +56,8 @@ const isEmail = (email) => {
 
 	// We use a regular expression to check if the email is in a valid format.
 	// If it's not, we throw an error.
-	if (!emailRegex.test(email)) throw new InvalidInput('Invalid email format');
+	if (!emailRegex.test(email))
+		throw new InvalidInput('Invalid email format');
 };
 
 /**

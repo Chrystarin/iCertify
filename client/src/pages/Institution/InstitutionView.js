@@ -141,24 +141,6 @@ const InstitutionView = () => {
         }
     }
 
-    // Fetch Offered Document
-    const ChangeStatus = async (docId, status) => {
-        try{
-            await axiosInstance
-                .patch(`institutions/offers/status`,JSON.stringify({
-                    docId: docId,
-                    status: status==="active" ? 'inactive' : 'active'
-                }))
-                .then((response) => {
-                    console.log(response.data)
-                    fetchInstitution()
-                });
-        
-        } catch (err) {      
-            console.error(err.message);
-        }
-    }
-
     // Returns if no data retrieved
     if(!institution) return <Loading/>
     
@@ -350,7 +332,6 @@ const InstitutionView = () => {
                                                 link={`${institution.walletAddress}/${offer.docId}`}
                                                 owner={(isAuth(id))}
                                                 member={(isJoined(institution))}
-                                                changeStatus={() => {ChangeStatus(offer.docId, offer.status)}}
                                             />
                                         );
                                     }
