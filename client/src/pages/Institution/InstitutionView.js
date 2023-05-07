@@ -150,6 +150,7 @@ const InstitutionView = () => {
                 }))
                 .then((response) => {
                     console.log(response.data)
+                    fetchInstitution()
                 });
         
         } catch (err) {      
