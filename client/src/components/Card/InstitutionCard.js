@@ -19,7 +19,7 @@ function EventCard(props) {
             <h6>{props.name}</h6>
             <p id='EventCard__Address' className='BodyText3'>{(props.address).toUpperCase()}</p>
         </a>
-        <div id='EventCard__Footer'>
+        {/* <div id='EventCard__Footer'>
             <div>
                 <PeopleAltIcon/>
                 <p className='BodyText3'>{props.totalMembers}</p>
@@ -33,7 +33,7 @@ function EventCard(props) {
                 <TaskIcon/>
                 <p className='BodyText3'>{props.totalDocuments}</p>
             </div>
-        </div>
+        </div> */}
     </div>
   )
 }

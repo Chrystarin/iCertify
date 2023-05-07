@@ -198,7 +198,9 @@ function ProfileUpdate() {
 									InputLabelProps={{ shrink: true }}
 									label="Birthday"
 									inputFormat="MM/DD/YYYY"
-									value={dateValue}
+                                    // defaultValue={form.birthDate}
+									defaultValue={dateValue}
+                                    value={dateValue}
 									maxDate={new Date()}
                                     onChange={(newValue) => {
 										setdateValue(new Date(newValue));

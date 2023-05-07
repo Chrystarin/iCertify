@@ -251,7 +251,7 @@ function Header() {
                             </a>
                                 
                                 <div id='ProfileDropdown__Buttons'>
-                                    <Button href={`${user.walletAddress}/edit`} variant=''>Update</Button>
+                                    <Button href={`/${type}s/${user.walletAddress}/edit`} variant=''>Update</Button>
                                     <Logout/>
                                 </div>
                         </div>
