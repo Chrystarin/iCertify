@@ -7,6 +7,7 @@ import './CreateDocument.scss';
 
 // Import Components
 import { Avatar } from '@mui/material';
+import moment from 'moment';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import SearchInput from '../../components/SearchInput/SearchInput';
@@ -126,10 +127,23 @@ function CreateDocument({manual}) {
             )
             .then((response)=>{
                 txHash = response.hash
-                console.log("Document Minted")
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'success',
+                    note:"Document Minted",
+                    action: ()=>{}
+                }));
             })
             .catch((error)=>{
-                alert(error.data.message)
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'error',
+                    note:error.data.message,
+                    action: ()=>{}
+                }));
+                
             })
             
             return txHash
@@ -152,12 +166,26 @@ function CreateDocument({manual}) {
             )
             .then((response) => {
                 console.log("Document Processing")
-                alert("Document Processing!")
-                navigate("/documents/requests/toprocess")
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'info',
+                    note:"Document Processing!",
+                    action: ()=>{
+                        navigate("/documents/requests/toprocess")
+                    }
+                }));
             });
             
         } catch (error) {
-            alert(error.message)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note:error.message,
+                action: ()=>{}
+            }));
+            // alert(error.message)
         }
     }
 
@@ -355,23 +383,23 @@ function CreateDocument({manual}) {
                             <div className='SidePanel__Date'>
                                 <div>
                                     <h6>Requested:</h6>
-                                    <p>{request.createdAt}</p>
+                                    <p>{moment(request.createdAt).format('LLL') }</p>
                                 </div>
                                 <div>
-                                    <h6>Approved:</h6>
-                                    <p>{request.details.statusTimestamps.approved}</p>
+                                    <h6>Approved Request:</h6>
+                                    <p>{ moment(request.details.statusTimestamps.approved).format('LLL') }</p>
                                 </div>
                                 <div>
                                     <h6>Paid:</h6>
-                                    <p>{request.details.statusTimestamps.paid}</p>
+                                    <p>{ moment( request.details.statusTimestamps.paid).format('LLL')}</p>
                                 </div>
                                 <div>
-                                    <h6>Verified:</h6>
-                                    <p>{request.details.statusTimestamps.verified}</p>
+                                    <h6>Verified Payment:</h6>
+                                    <p>{ moment(request.details.statusTimestamps.verified).format('LLL') }</p>
                                 </div>
                             </div>
                             <div id='SidePanel__Buttons'>
-                                {/* <Button variant='outlined'>Decline</Button> */}
+                                <Button variant='outlined' onClick={()=> navigate("/documents/requests/toprocess")}>Cancel</Button>
                                 <Button variant='contained' onClick={()=>ProcessDocument(file)}>Process</Button>
                             </div>
                         </>

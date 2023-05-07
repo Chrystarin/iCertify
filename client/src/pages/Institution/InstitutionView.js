@@ -19,7 +19,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import EmailIcon from '@mui/icons-material/Email';
 import MetaMaskIcon from './../../images/icons/fox.png';
-
+import LanguageIcon from '@mui/icons-material/Language';
 // Import Images
 import Logo from '../../images/placeholder/placeholder_profile.jpg';
 import Wallpaper from '../../images/placeholder/placeholder_cover.jpg'
@@ -35,10 +35,11 @@ const InstitutionView = () => {
     const { user, isAuth, isJoined } = useAuth();
     const [institution, setInstitution] = useState();
     const [request, setRequest] = useState();
-    const [openSnackBar, setOpenSnackBar] = useState({
+    const [openSnackBar, setOpenSnackBar] = React.useState({
         open:false,
         type:"",
-        note:""
+        note:"",
+        action: ()=>{}
     });
 
     // Excecutes on page load
@@ -202,8 +203,6 @@ const InstitutionView = () => {
                                     type:"info",
                                     note:"Uploading Photo..."
                                 }))
-                                
-                                
                             }} />
                             <label htmlFor="ProfilePicture">
                                 <div id="AvatarProfile__Update">
@@ -264,7 +263,7 @@ const InstitutionView = () => {
                         {institution.about?<>
                             <div className="Panel__Container">
                                 <h6 className="Panel__Title">About Us</h6>
-                                <p className="BodyText3">{institution.about}</p>
+                                <p className="BodyText3 InfoOverFlow">{institution.about}</p>
                             </div>
                         </>:<></>}
                         
@@ -273,7 +272,7 @@ const InstitutionView = () => {
                                 {institution.address?
                                     <li>
                                         <h6 className="Panel__Title">Location</h6>
-                                        <div className="Panel__Content__IconText">
+                                        <div className="Panel__Content__IconText InfoOverFlow">
                                             <LocationOnIcon/>
                                             <p className="BodyText3">{institution.address}</p>
                                         </div>
@@ -283,7 +282,7 @@ const InstitutionView = () => {
                                 {institution.contactNo?
                                     <li>
                                         <h6 className="Panel__Title">Contact Number</h6>
-                                        <div className="Panel__Content__IconText">
+                                        <div className="Panel__Content__IconText InfoOverFlow">
                                             <CallIcon/>
                                             <p className="BodyText3">{institution.contactNo}</p>
                                         </div>
@@ -294,7 +293,7 @@ const InstitutionView = () => {
                                 {institution.email?
                                     <li>
                                         <h6 className="Panel__Title">Email</h6>
-                                        <div className="Panel__Content__IconText">
+                                        <div className="Panel__Content__IconText InfoOverFlow">
                                             <EmailIcon/>
                                             <p className="BodyText3">{institution.email}</p>
                                         </div>
@@ -305,8 +304,8 @@ const InstitutionView = () => {
                                 {institution.website?
                                     <li>
                                         <h6 className="Panel__Title">Website</h6>
-                                        <div className="Panel__Content__IconText">
-                                            <EmailIcon/>
+                                        <div className="Panel__Content__IconText InfoOverFlow">
+                                            <LanguageIcon/>
                                             <p className="BodyText3">{institution.website}</p>
                                         </div>
                                     </li>

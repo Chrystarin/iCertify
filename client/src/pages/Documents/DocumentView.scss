@@ -45,8 +45,9 @@
             }
             #Button__Wrapper{
                 margin-top: 15px;
-                display: flex;
+                display: grid;
                 gap: 15px;
+                grid-template-columns: .40fr .60fr;
                 justify-content: start;
             }
         }

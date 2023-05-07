@@ -57,12 +57,11 @@ function Register() {
     // Register an Account
     const Register = async (e) => {
         e.preventDefault();
-
         register({
             userType : userType, 
             memberForm : memberForm, 
             institutionForm : institutionForm
-        });
+        })
     }
 
     const handleChangeGender = (event) => {
@@ -136,8 +135,12 @@ function Register() {
                                             label="Birthday"
                                             type="date"
                                             required 
-                                            onChange={(e)=>updateForm({ birthDate: e.target.value })}
+                                            
+                                            onChange={(e)=>{
+                                                updateForm({ birthDate: e.target.value })
+                                            }}
                                         />
+
                                         <TextField 
                                             id="outlined-search" 
                                             label="Email"

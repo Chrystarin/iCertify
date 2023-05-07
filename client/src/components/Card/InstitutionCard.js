@@ -24,14 +24,11 @@ function EventCard(props) {
                 <PeopleAltIcon/>
                 <p className='BodyText3'>{props.totalMembers}</p>
             </div>
-            {props.actions ? 
-                (props.joinStatus ?
+                {(props.joinStatus ?
                     <Button variant='contained'>Request</Button>
                     :
                     <Button variant='contained'>Join</Button>
-                )
-            : ''}
-           
+                )}
             <div>
                 <TaskIcon/>
                 <p className='BodyText3'>{props.totalDocuments}</p>

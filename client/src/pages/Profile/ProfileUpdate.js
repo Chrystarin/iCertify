@@ -20,7 +20,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Loading from '../../components/Loading/Loading';
 import axios from '../../utils/axios';
-
+import dayjs from 'dayjs';
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
@@ -53,24 +53,24 @@ function ProfileUpdate() {
     // Retrieves User's Data
     const fetchUser = async () => {
         await axiosInstance
-            .get(`users`,{
-                params: {
-                    walletAddress: id
-                }
-            })
-            .then((response) => {
-                setUser(response.data);
-                setForm({
-                    firstName: response.data.name.firstName,
-                    middleName: response.data.name.middleName,
-                    lastName: response.data.name.lastName,
-                    email: response.data.email,
-                    birthDate: response.data.birthDate,
-                    address: response.data.address,
-                    contactNo: response.data.contactNo,
-                    about: response.data.about,
-                })
-            });
+		.get(`users`,{
+			params: {
+				walletAddress: id
+			}
+		})
+		.then((response) => {
+			setUser(response.data);
+			setForm({
+				firstName: response.data.name.firstName,
+				middleName: response.data.name.middleName,
+				lastName: response.data.name.lastName,
+				email: response.data.email,
+				birthDate: response.data.birthDate,
+				address: response.data.address,
+				contactNo: response.data.contactNo,
+				about: response.data.about,
+			})
+		});
     };
 
     
@@ -109,7 +109,7 @@ function ProfileUpdate() {
             )
             .then((response)=>{
                 fetchUser();
-                alert("Profile Updated!")
+                // alert("Profile Updated!")
                 navigate(`/users/${user.walletAddress}`)
             })
         } catch (err) {      
@@ -118,14 +118,10 @@ function ProfileUpdate() {
 	}
 
 	// Update Visual Value
-	const [dateValue, setdateValue] = useState(user ? user.birthDate:null);
-	// const [genderValue, setgenderValue] = useState(null);
+	const [dateValue, setdateValue] = useState(form.birthDate);
 	
 	// Returns if member is null
 	if (!user) return <Loading/>;
-
-    console.log(form)
-    
 	return (
 		<section id='Create_Event'>
 			<div id='Stepper'>
@@ -149,7 +145,7 @@ function ProfileUpdate() {
 						<p>Basic details of the user</p>
 					</div>
 					<div className='Category__Content'>
-						<div className='Wrapper_Name_Inputs'>
+						<div className='Wrapper_3_1_3'>
 							<TextField
 								id='outlined-search'
 								label='First Name'
@@ -182,7 +178,7 @@ function ProfileUpdate() {
 							defaultValue={form.about}
 							onChange={(e) =>updateForm({about: e.target.value})}
 						/>
-						<div className='Wrapper_1_2_Inputs'>
+						<div className='Wrapper_2_Inputs'>
 							<TextField
 								id='outlined-search'
 								label='Address'
@@ -190,34 +186,28 @@ function ProfileUpdate() {
 								defaultValue={form.address}
 								onChange={(e) =>updateForm({address: e.target.value})}
 							/>
-							{/* <FormControl fullWidth>
-								<InputLabel id="demo-simple-select-label">Gender</InputLabel>
-								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									value={genderValue}
-									label="Gender"
-									onChange={(event)=>{
-										setgenderValue(event.target.value);
-									}}
-									>
-									<MenuItem value={"Male"}>Male</MenuItem>
-									<MenuItem value={"Female"}>Female</MenuItem>
-									<MenuItem value={"Other"}>Other</MenuItem>
-								</Select>
-							</FormControl> */}
+							{/* <TextField
+								id='outlined-search'
+								label='Address'
+								type='date'
+								defaultValue={form.birthDate}
+								onChange={(e) =>updateForm({address: e.target.value})}
+							/> */}
 							<LocalizationProvider dateAdapter={AdapterDayjs}>
 								<DesktopDatePicker
+									InputLabelProps={{ shrink: true }}
 									label="Birthday"
 									inputFormat="MM/DD/YYYY"
-									value={form.birthDate}
-									// onChange={(newValue)=>{
-									// 	setdateValue(newValue)
-									// }}
-                                    onChange={(e) =>updateForm({birthDate: e.target.value})}
-									renderInput={(params) => <TextField {...params} />}
+									value={dateValue}
+									maxDate={new Date()}
+                                    onChange={(newValue) => {
+										setdateValue(new Date(newValue));
+										updateForm({birthDate: new Date(newValue)})
+									}}
+									renderInput={(params) => <TextField InputLabelProps={{ shrink: true }} {...params} />}
 								/>
 							</LocalizationProvider>
+		
 						</div>
 						<div className='Wrapper_2_Inputs'>
 							<TextField
@@ -231,9 +221,12 @@ function ProfileUpdate() {
 							<TextField
 								id='outlined-search'
 								label='Contact Number'
-								type='text'
+								type='number'
+								inputProps={{ inputMode: 'tel', pattern: '[0-9]{4}-[0-9]{3}-[0-9]{4}' }}
 								defaultValue={form.contactNo}
-								onChange={(e) =>updateForm({contactNo: e.target.value})}
+								onChange={(e) =>{
+									updateForm({contactNo: e.target.value})
+								}}
 							/>
 							
 						</div>

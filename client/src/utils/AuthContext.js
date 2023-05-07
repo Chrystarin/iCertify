@@ -73,7 +73,7 @@ function AuthProvider({ children }) {
     };
 
     // Register Function
-     const register = async ({userType, memberForm, institutionForm}) => {
+    const register = async ({userType, memberForm, institutionForm }) => {
         // Gets wallet info
         const wallet = await ConnectWallet('Test message')
         globalWallet = wallet;
@@ -168,6 +168,7 @@ function AuthProvider({ children }) {
             }
         } catch (err) {      
             console.error(err.message);
+            // return err.message
         }
     }
 
@@ -286,7 +287,7 @@ function AuthProvider({ children }) {
 			// 	});
             return true;
         } catch (error) {
-        console.log(error);
+            console.log(error);
         }
     };
 

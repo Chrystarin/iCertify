@@ -27,6 +27,7 @@ import Empty from '../../images/icons/empty-folder.png'
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
+import moment from 'moment';
 
 function Profile() {
 
@@ -237,6 +238,17 @@ function Profile() {
                                             <LocationOnIcon />
                                             <p className='BodyText3'>
                                                 {user.address}
+                                            </p>
+                                        </div>
+                                    </div>
+                                }
+                                {(!user.birthDate) ? ' ' :
+                                    <div>
+                                        <h6 className='Panel__Title'>Birthday</h6>
+                                        <div className='Panel__Content__IconText'>
+                                            <LocationOnIcon />
+                                            <p className='BodyText3'>
+                                                {moment(user.birthDate).format('LL')}
                                             </p>
                                         </div>
                                     </div>

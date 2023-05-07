@@ -15,6 +15,7 @@ import SellIcon from '@mui/icons-material/Sell';
 import TextField from '@mui/material/TextField';
 import Loading from '../../components/Loading/Loading';
 import axiosInstance from '../../utils/axios';
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 import moment from 'moment';
 
 function MemberDocRequests(){
@@ -27,7 +28,11 @@ function MemberDocRequests(){
     const [toPay, setToPay] = useState();
     const [toRecieve, setToRecieve] = useState();
     const [failedtransactions, setFailedtransactions] = useState();
-
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
 	
     const [anchorElDropDownDocument, setAnchorElDropDownDocument] = useState(null);
     const open = Boolean(anchorElDropDownDocument);
@@ -55,8 +60,8 @@ function MemberDocRequests(){
     const keys = ["pending","approved","declined","paid","verified","processing","cancelled","completed"];
 
     const filterData = (data) => {
-        setMyRequests(data.filter((item)=> [keys[0],keys[3]].some((key)=> item.status?.toString().toLowerCase().includes(key))))
-        setToPay(data.filter((item)=> item.status?.toString().toLowerCase().includes(keys[1])));
+        setMyRequests(data.filter((item)=> [keys[0]].some((key)=> item.status?.toString().toLowerCase().includes(key))))
+        setToPay(data.filter((item)=> [keys[1],keys[3]].some((key)=> item.status?.toString().toLowerCase().includes(key))));
         setToRecieve(data.filter((item)=> [keys[4],keys[5]].some((key)=> item.status?.toString().toLowerCase().includes(key))));
         setFailedtransactions(data.filter((item)=> [keys[2],keys[6]].some((key)=> item.status?.toString().toLowerCase().includes(key))))
     }
@@ -93,11 +98,24 @@ function MemberDocRequests(){
                 }}
             )
             .then((response)=>{
-                alert(`Document ${action}!`)
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'info',
+                    note:`Document ${action}!`,
+                    action: ()=>{}
+                }));
                 console.log(response.data)
                 fetchDocumentRequests();
             })
         } catch (err) {      
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'info',
+                note:`Document ${action}!`,
+                action: ()=>{}
+            }));
             console.error(err.message);
         }
     }
@@ -120,7 +138,7 @@ function MemberDocRequests(){
                         }
                         onClick={() => setStepper('myrequests')}
                     >
-                        My Requests ({(typeof myRequest.lenght ==="undefined") ?"0":myRequest.length})
+                        My Requests ({myRequest.length})
                     </Button>
                     <Button 
                         variant={
@@ -130,7 +148,7 @@ function MemberDocRequests(){
                     }
                     onClick={() => setStepper('topay')}
                     >
-                        To Pay  ({(typeof toPay.length ==="undefined") ?"0":toPay.length})
+                        To Pay  ({toPay.length})
                     </Button>
                     <Button 
                         variant={
@@ -140,7 +158,7 @@ function MemberDocRequests(){
                     }
                     onClick={() => setStepper('torecieve')}
                     >
-                        To Recieve ({(typeof toRecieve.length ==="undefined") ?"0":toRecieve.length})
+                        To Recieve ({toRecieve.length})
                     </Button>
                     <div className='Stepper__Cut'></div>
                     <Button 
@@ -151,7 +169,7 @@ function MemberDocRequests(){
                     }
                     onClick={() => setStepper('failedtransactions')}
                     >
-                        Failed Transactions ({(typeof failedtransactions.length ==="undefined") ?"0":failedtransactions.length})
+                        Failed Transactions ({failedtransactions.length})
                     </Button>
                 </div>
                 <div className='Container__Section'>
@@ -220,34 +238,24 @@ function MemberDocRequests(){
                         
                     </div>
                 </div>
+                <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
                 
             </section>
         </div>
     )
 
     function RequestCard({data,type}){
-        const [status,setStatus] = useState("Failed");
-        const [anchorElNote, setAnchorElNote] = React.useState(null);
+        const [anchorElNote, setAnchorElNote] = useState(null);
         const openNote = Boolean(anchorElNote);
-        useEffect(()=> {
-            switch (type) {
-                case "myrequests"  :
-                    setStatus("Pending")
-                    break;
-                case "topay"  :
-                    setStatus("Payment")
-                    break;
-                case "torecieve"  :
-                    setStatus("Processing")
-                    break;
-                case "failedtransactions" :
-                    setStatus("Failed")
-                    break;
-                default:
-                    break;
-            }
-        },[])
-    
+
+        const [anchorElCancel, setAnchorElCancel] = useState(null);
+        const openCancel = Boolean(anchorElCancel);
+
+
+        const [cancelNote, setCancelNote] = useState();
+        //  myrequests , topay , torecieve ,failedtransactions 
+        // const keys = ["pending","approved","declined","paid","verified","processing","cancelled","completed"];
+        
     
         return <>
             <div className='RequestCardUser'>
@@ -257,9 +265,47 @@ function MemberDocRequests(){
                 </div>
                 <div className='RequestCardUser__Body'>
                     <h5>{data.details.offeredDoc.title}</h5>
-                    <p className='BodyText3 RequestCardUser__Body__Status' id={status}>
+
+                    {data.status === "pending"? <>
+                        <p className='BodyText3 RequestCardUser__Body__Status' id="Pending">Verifying your request</p>
+                    </>
+                    :""}
+                    {data.status === "approved"? <>
+                        <p className='BodyText3 RequestCardUser__Body__Status' id="Payment">Ready for payment</p>
+                    </>
+                    :""}
+                    {data.status === "paid"? <>
+                        <p className='BodyText3 RequestCardUser__Body__Status' id="Verifying">Verifying your payment</p>
+                    </>
+                    :""}
+                    {data.status === "verified"? <>
+                        <p className='BodyText3 RequestCardUser__Body__Status' id="Processing">Your document is processing</p>
+                    </>
+                    :""}
+                    {data.status === "declined"? <>
+                        <p className='BodyText3 RequestCardUser__Body__Status' id="Failed">Your request is declined</p>
+                    </>
+                    :""}
+                    {data.status === "cancelled"? <>
+                        <p className='BodyText3 RequestCardUser__Body__Status' id="Failed">Your Request is cancelled</p>
+                    </>
+                    :""}
+                    {data.status === "processing"? <>
+                        <p className='BodyText3 RequestCardUser__Body__Status' id="Processing">Your document is processing</p>
+                    </>
+                    :""}
+                    
+                    {/* {type === "topay"? <>
+                        
+                    </>
+                    :""} */}
+                    
+
+                    {/* <p className='BodyText3 RequestCardUser__Body__Status' id={status}>
                         {(data.status==='paid') ? "FOR VERIFICATION": (data.status).toUpperCase()}
-                    </p>
+                    </p> */}
+
+
                     <ul className='RequestCardUser__Body__MoreInfo'>
                         <li>
                             <EventIcon/>
@@ -271,63 +317,112 @@ function MemberDocRequests(){
                         </li>
                     </ul>
                 </div>
-                {status==="Processing"?<>
-                
+                {type === "torecieve"?<></>:<></>}
+                {type === "failedtransactions"?<>
+                    <div className='RequestCardUser__Footer'>
+                        <Button 
+                            className='RequestCardUser__Footer__Note' 
+                            variant='contained' 
+                            onClick={(event) => {
+                                setAnchorElNote(event.currentTarget);
+                            }}
+                        >View Note
+                        </Button>
+                        <Menu
+                            id="basic-menu"
+                            anchorEl={anchorElNote}
+                            open={openNote}
+                            onClose={() => {
+                                setAnchorElNote(null);
+                            }}
+                        >
+                            <div id='SelectDocumentDropdown'>
+                                <h5 id='SelectDocumentDropdown__Title'>Note:</h5>
+                                <p>{(!data.details?.note) ? 'None' : data.details.note}</p>
+                            </div>
+                        </Menu>
+                    </div>
                 </>:<>
-                    {(status === "Failed")?<>
-                        <div className='RequestCardUser__Footer'>
-                            <Button 
-                                className='RequestCardUser__Footer__Note' 
-                                variant='contained' 
-                                onClick={(event) => {
-                                    setAnchorElNote(event.currentTarget);
-                                }}
-                            >View Note
-                            </Button>
-                            <Menu
-                                id="basic-menu"
-                                anchorEl={anchorElNote}
-                                open={openNote}
-                                onClose={() => {
-                                    setAnchorElNote(null);
-                                }}
-                            >
-                                <div id='SelectDocumentDropdown'>
-                                    <h5 id='SelectDocumentDropdown__Title'>Note:</h5>
-                                    <p>{(!data.details?.note) ? 'None' : data.details.note}</p>
-                                </div>
-                            </Menu>
-                        </div>
-                    </>
-                    :
-                    <>
+                    {data.status === "pending" || data.status === "approved" || data.status === "paid"?<>
                         <div className='RequestCardUser__Footer'>
                             <div className='RequestCardUser__Footer__Buttons'>
                                 {(data.status === "paid")?
                                     <Button 
-                                    
-                                    variant='contained' 
-                                    disabled
+                                        variant='contained' 
+                                        disabled
                                     >
                                         Cancel
                                     </Button>
-                                :
+                                :<>
                                     <Button 
                                         className='RequestCardUser__Footer__Cancel' 
                                         variant='contained' 
-                                        onClick={()=>ProcessRequest(data, 'cancelled')} 
+                                        onClick={(event) => {
+                                            setAnchorElCancel(event.currentTarget);
+                                        }} 
                                     >
                                         Cancel
                                     </Button>
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={anchorElCancel}
+                                        open={openCancel}
+                                        onClose={() => {
+                                            setAnchorElCancel(null);
+                                        }}
+                                        MenuListProps={{
+                                        'aria-labelledby': 'basic-button',
+                                        }}
+                                    >
+                                        <div className='CancelRequestDropdown'>
+                                            <h6>Are you sure you want to cancel your request?</h6>
+                                            <TextField 
+                                                maxRows={6} 
+                                                multiline 
+                                                placeholder='Provide a reason of cancelation '
+                                                id="outlined-basic"  
+                                                variant="standard"
+                                                value={cancelNote} 
+                                                required 
+                                                onChange={(e)=>setCancelNote(e.target.value)}
+                                            />
+                                            <div className='CancelRequestDropdown__Button'>
+                                                <Button variant='contained' onClick={() => {
+                                                    setAnchorElCancel(null);
+                                                }}>Cancel</Button>
+                                                <Button variant='contained' 
+                                                onClick={()=>{
+                                                    cancelNote?
+                                                        ProcessRequest(data, 'cancelled')
+                                                    : setOpenSnackBar(openSnackBar => ({
+                                                        ...openSnackBar,
+                                                        open:true,
+                                                        type:'warning',
+                                                        note: "Provide a reason!",
+                                                        action: ()=>{}
+                                                    }));
+                                                }}>
+                                                    Submit
+                                            </Button>
+                                            </div>
+                                        </div>
+                                    </Menu>
+                                </>
+                                    
+                                    
                                 }
                                 
-                                {(status === "Payment")?<Button variant='contained' onClick={()=>navigate(`/requests/pay/${data.requestId}`)}>Pay</Button>:<></>}
-                                {(status === "Pending")?<Button variant='contained' disabled>Pay</Button>:<></>}
+                                {(data.status === "approved")?<Button variant='contained' onClick={()=>navigate(`/requests/pay/${data.requestId}`)}>Pay</Button>:<>
+                                    <Button variant='contained' disabled>Pay</Button>
+                                </>}
                             </div>
                         </div>
-                    </>
-                    }
-                </>}
+                    </>:<></>}
+                
+                
+                
+                </>
+                }
             </div>
         </>
     }

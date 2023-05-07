@@ -13,6 +13,7 @@ import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 import Backdrop from '@mui/material/Backdrop';
 import ShareCredentialModal from '../../layouts/Documents/ShareDocumentModal';
+import moment from 'moment';
 
 import ShareIcon from '@mui/icons-material/Share';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -337,19 +338,19 @@ function DocumentView() {
                     <ul id='ListofDetails'>
                         <li>
                             <h6 className="Details__Title">Name</h6>
-                            <p className='BodyText1 Details__Content'>{document.title}</p>
+                            <p className='BodyText3 Details__Content'>{document.title}</p>
                         </li>
                         <li>
                             <h6 className="Details__Title">Description</h6>
-                            <p className='BodyText1 Details__Content'>{document.description}</p>
+                            <p className='BodyText3 Details__Content'>{document.description}</p>
                         </li>
                         <li>
                             <h6 className="Details__Title">Transaction Hash</h6>
-                            <p className='BodyText1 Details__Content'>{documentData.hash}</p>
+                            <p className='BodyText3 Details__Content'>{documentData.hash}</p>
                         </li>
                         <li>
                             <h6 className="Details__Title">Date Created</h6>
-                            <p className='BodyText1 Details__Content'>{documentData.createdAt}</p>
+                            <p className='BodyText3 Details__Content'>{moment(documentData.createdAt).format('LL')}</p>
                         </li>
                     </ul>
                     <br/>

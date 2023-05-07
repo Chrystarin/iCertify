@@ -13,6 +13,31 @@
         }
     }
     #Category__Content__File{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        gap: 15px;
+        .MemberProofImage__View{
+            width: 100%;
+            max-height: 600px;
+            overflow-y: scroll;
+        }
+        .MemberProofImage__2{
+            cursor: pointer;
+            color: gray;
+            background-color: white;
+            border-radius: 8px;
+            display: flex;
+            padding: 1em;
+            gap: 5px;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 10px;
+            transition: all .3s ease-in-out;
+        }
+        .MemberProofImage__2:hover{
+            color: rgb(52, 52, 52);
+        }
         input{
             display: none;
         }
