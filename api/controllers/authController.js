@@ -85,19 +85,20 @@ const login = async (req, res, next) => {
 	await verifySignature(signature, walletAddress);
 
 	// Check if existing
-	const [user, institution] = await Promise.allSettled([
+	const [user, institution] = await Promise.all([
 		User.findOne({ walletAddress }),
 		Institution.findOne({ walletAddress, 'transaction.status': 'success' })
 	]);
 
 	let type;
 	let payload;
+
 	switch (true) {
-		case user.status === 'fulfilled':
+		case user instanceof User:
 			type = 'user';
 			payload = { id: user._id, type: USER, walletAddress };
 			break;
-		case institution.status === 'fulfilled':
+		case institution instanceof Institution:
 			type = 'institution';
 			payload = {
 				id: institution._id,

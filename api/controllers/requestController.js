@@ -26,7 +26,7 @@ const getRequests = async (req, res, next) => {
 
 	// Validate that requestType and requestId are both strings
 	isString(requestType, 'Request Type');
-	isString(requestId, 'Request ID');
+	isString(requestId, 'Request ID', true);
 
 	// Create the request query object
 	const requestQuery = { requestType };
