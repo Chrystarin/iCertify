@@ -15,8 +15,7 @@ const {
 	getInstitutions,
 	getMembers,
 	getOfferedDocs,
-	updateInstitution,
-	updateOfferedDocStatus
+	updateInstitution
 } = asyncHandler(require('../controllers/institutionController'));
 
 /**
@@ -69,16 +68,9 @@ router.post('/offers', addOfferedDoc);
  * description
  * price
  * requirements
- */
-router.patch('/offers', editOfferedDoc);
-
-/**
- * Update offered doc status
- * 
- * docId
  * status
  */
-router.patch('/offers/status', updateOfferedDocStatus);
+router.patch('/offers', editOfferedDoc);
 
 /**
  * Add payment details

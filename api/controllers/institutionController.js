@@ -252,48 +252,55 @@ const addOfferedDoc = async (req, res, next) => {
 };
 
 const getOfferedDocs = async (req, res, next) => {
-	// Retrieve the wallet address and user type from the request object.
-	const {
-		query: { walletAddress },
-		user: { id, type }
-	} = req;
+    // Retrieve the wallet address and document ID from the request query and the user ID and type from the request user object.
+    const {
+        query: { walletAddress, docId },
+        user: { id, type }
+    } = req;
 
-	// Declare the variable that will hold the doc offers.
-	let docOffers;
+    // Check if the document ID is a string and throw an error if it is not.
+    isString(docId, 'Document ID', true);
 
-	// If the user is an institution, retrieve the doc offers associated with that institution.
-	if (type === INSTITUTION) {
-		// Retrieve the institution's doc offers using the institution's ID.
-		({ docOffers } = await Institution.findById(id));
-	}
+    // Declare the variable that will hold the document offers.
+    let docOffers;
 
-	// If the user is a regular user, retrieve the doc offers associated with the institution with the given wallet address.
-	if (type === USER) {
-		// Ensure that the wallet address is a string.
-		isString(walletAddress, 'Institution Wallet Address');
+    // If the user is an institution, retrieve the document offers associated with that institution.
+    if (type === INSTITUTION) {
+        // Retrieve the institution's document offers using the institution's ID.
+        ({ docOffers } = await Institution.findById(id));
+    }
 
-		// Find the institution with the given wallet address.
-		const institution = await Institution.findOne(
-			{ walletAddress, 'transaction.status': 'success' },
-			'docOffers'
-		);
-		// If no institution is found, throw an error.
-		if (!institution) throw new InstitutionNotFound();
+    // If the user is a regular user, retrieve the document offers associated with the institution with the given wallet address.
+    if (type === USER) {
+        // Ensure that the wallet address is a string.
+        isString(walletAddress, 'Institution Wallet Address');
 
-		// Retrieve the institution's doc offers.
-		docOffers = institution.docOffers.filter(
-			({ status }) => status === 'active'
-		);
-	}
+        // Find the institution with the given wallet address and a successful transaction status and retrieve their document offers.
+        const institution = await Institution.findOne(
+            { walletAddress, 'transaction.status': 'success' },
+            'docOffers'
+        );
+        // If no institution is found, throw an error.
+        if (!institution) throw new InstitutionNotFound();
 
-	// Return the retrieved doc offers as JSON.
-	res.json(docOffers);
+        // Retrieve the institution's document offers that have an active status.
+        docOffers = institution.docOffers.filter(
+            ({ status }) => status === 'active'
+        );
+    }
+
+    // If document offers and document ID are both present, filter document offers to only include the document with the matching document ID.
+    if (docOffers && docId)
+        docOffers = docOffers.find((docs) => docs.docId === docId);
+
+    // Return the retrieved document offers as JSON.
+    res.json(docOffers);
 };
 
 const editOfferedDoc = async (req, res, next) => {
 	// Extract relevant data from the request body and user object.
 	const {
-		body: { docId, title, description, price, requirements },
+		body: { docId, title, description, price, requirements, status },
 		user: { id }
 	} = req;
 
@@ -303,6 +310,7 @@ const editOfferedDoc = async (req, res, next) => {
 	isString(description, 'Description');
 	isNumber(price, 'Price');
 	isString(requirements, 'Requirements');
+    isString(status, 'Status');
 
 	// Update the institution where the user ID matches and the docOffers array contains the given docId.
 	// Set the docOffers array element that matches the given docId to the new values passed in.
@@ -315,43 +323,19 @@ const editOfferedDoc = async (req, res, next) => {
 					title,
 					description,
 					price,
-					requirements
+					requirements,
+                    status
 				}
 			}
 		},
 		{ runValidators: true }
 	);
 
-	// If no documents were modified, throw a DocumentNotFound error.
-	if (result.modifiedCount === 0) throw new DocumentNotFound();
+	// If no documents were modified, throw a NotFound error.
+	if (result.modifiedCount === 0) throw new NotFound('Document not found');
 
 	// Send a JSON response with a success message.
 	res.json({ message: 'Offered document updated' });
-};
-
-const updateOfferedDocStatus = async (req, res, next) => {
-	// Extract the necessary data from the request body and user object
-	const {
-		body: { docId, status },
-		user: { id }
-	} = req;
-
-	// Update the status of the document in the institution's docOffers array
-	const result = await Institution.updateOne(
-		{
-			_id: id,
-			'docOffers.docId': docId,
-			'docOffers.status': { $ne: { status } }
-		},
-		{ $set: { 'docOffers.$.status': status } },
-		{ runValidators: true }
-	);
-
-	// If no documents were modified, throw an error
-	if (result.modifiedCount === 0) throw new DocumentNotFound();
-
-	// Return a success message
-	res.json({ message: 'Offered document status updated' });
 };
 
 const addPayment = async (req, res, next) => {
