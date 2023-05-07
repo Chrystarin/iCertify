@@ -230,6 +230,9 @@ const saveTransaction = async (req, res, next) => {
 					{ runValidators: true }
 				);
 
+            transaction.status = 'failed';
+            await transaction.save();
+
 			// Notify admin of transaction failure
 		}
 	);

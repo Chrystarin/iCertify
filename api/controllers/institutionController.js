@@ -260,8 +260,6 @@ const getOfferedDocs = async (req, res, next) => {
         user: { id, type }
     } = req;
 
-    console.log(docId)
-
     // Check if the document ID is a string and throw an error if it is not.
     isString(docId, 'Document ID', true);
 
@@ -304,7 +302,7 @@ const getOfferedDocs = async (req, res, next) => {
 const editOfferedDoc = async (req, res, next) => {
 	// Extract relevant data from the request body and user object.
 	const {
-		body: { docId, title, description, price, requirements },
+		body: { docId, title, description, price, requirements, status },
 		user: { id }
 	} = req;
 
@@ -316,6 +314,7 @@ const editOfferedDoc = async (req, res, next) => {
 	isString(description, 'Description');
 	isNumber(price, 'Price');
 	isString(requirements, 'Requirements');
+    isString(status, 'Status');
 
 	// Update the institution where the user ID matches and the docOffers array contains the given docId.
 	// Set the docOffers array element that matches the given docId to the new values passed in.
@@ -328,45 +327,19 @@ const editOfferedDoc = async (req, res, next) => {
 					title,
 					description,
 					price,
-					requirements
+					requirements,
+                    status
 				}
 			}
 		},
 		{ runValidators: true }
 	);
 
-	// If no documents were modified, throw a DocumentNotFound error.
-	if (result.modifiedCount === 0) throw new DocumentNotFound();
+	// If no documents were modified, throw a NotFound error.
+	if (result.modifiedCount === 0) throw new NotFound('Document not found');
 
 	// Send a JSON response with a success message.
 	res.json({ message: 'Offered document updated' });
-};
-
-const updateOfferedDocStatus = async (req, res, next) => {
-	// Extract the necessary data from the request body and user object
-	const {
-		body: { docId, status },
-		user: { id }
-	} = req;
-
-    console.log(req.body)
-
-	// Update the status of the document in the institution's docOffers array
-	const result = await Institution.updateOne(
-		{
-			_id: id,
-			'docOffers.docId': docId,
-			'docOffers.status': { $ne: status }
-		},
-		{ $set: { 'docOffers.$.status': status } },
-		{ runValidators: true }
-	);
-
-	// If no documents were modified, throw an error
-	if (result.modifiedCount === 0) throw new DocumentNotFound();
-
-	// Return a success message
-	res.json({ message: 'Offered document status updated' });
 };
 
 const addPayment = async (req, res, next) => {
@@ -548,6 +521,5 @@ module.exports = {
 	getMembers,
 	getOfferedDocs,
 	registerInstitution,
-	updateInstitution,
-	updateOfferedDocStatus
+	updateInstitution
 };

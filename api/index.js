@@ -20,6 +20,7 @@ const documentRoute = require('./routes/document');
 const institutionRoute = require('./routes/institution');
 const requestRoute = require('./routes/request');
 const transactionRoute = require('./routes/transaction');
+const searchRoute = require('./routes/search');
 const userRoute = require('./routes/user');
 
 const app = express();
@@ -42,6 +43,7 @@ app.get('/abi', (req, res, next) => res.json(abi));
 app.use('/auth', authRoute);
 app.use('/documents', documentRoute);
 app.use('/institutions', institutionRoute);
+app.use('/search', searchRoute)
 app.use('/users', userRoute);
 app.use(authenticate);
 app.use('/requests', requestRoute);

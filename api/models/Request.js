@@ -60,12 +60,12 @@ module.exports = model(
 			 * offeredDoc
 			 * statusTimestamps
 			 *     approved
-			 *     declined
-			 *     paid
-			 *     verified
-			 *     processing
 			 *     cancelled
 			 *     completed
+			 *     declined
+			 *     paid
+			 *     processing
+			 *     verified
 			 * proof
 			 * note
 			 *
