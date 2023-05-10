@@ -96,7 +96,7 @@ function EditDocumentOffered() {
                 }))
                 .then((response) => {
                     console.log(response.data)
-                    navigate(`/`)
+                    navigate(`/institutions/${user.walletAddress}`)
                 });
         
         } catch (err) {      

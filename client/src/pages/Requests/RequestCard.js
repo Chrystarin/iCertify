@@ -55,7 +55,7 @@ function RequestCard(props) {
 					<p className='BodyText3'>{date}</p>
 				</div>
 				<a href='/' id='MintTransferCard__UserInfo'>
-					<Avatar id="MintTransferCard__Avatar" alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+					<Avatar id="MintTransferCard__Avatar" alt="Remy Sharp" src={props.image ? props.image : "/static/images/avatar/1.jpg"} />
 					<p className='BodyText1'>{name}</p>
 				</a>
 				<p id='MintTransferCard__Title' className='BodyText3'>{title}</p>

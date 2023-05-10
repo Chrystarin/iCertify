@@ -17,6 +17,8 @@ import SidePanelList from '../../components/SidePanelList/SidePanelList';
 import InstitutionCardDesign from '../../images/Resources/InstitutionCardDesign.png'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
+import moment from 'moment';
+
 function InstitutionDocRequests() {
     
     // Constants Declaration
@@ -137,7 +139,8 @@ function InstitutionDocRequests() {
                                             name={request.requestor.name.firstName + " " + request.requestor.name.lastName}
                                             type={keys[0]}
                                             title={request.details.offeredDoc.title}
-                                            date={request.createdAt}
+                                            date={moment(request.createdAt).format('LL')}
+                                            image={request.requestor.photo}
                                             decline={(e)=>ProcessRequest(request, 'declined', e)}
                                             action={()=>ProcessRequest(request, 'approved')}
                                             id={request.requestor.walletAddress}
@@ -163,7 +166,8 @@ function InstitutionDocRequests() {
                                             name={request.requestor.name.firstName + " " + request.requestor.name.lastName}
                                             type={keys[3]}
                                             title={request.details.offeredDoc.title}
-                                            date={request.createdAt}
+                                            date={moment(request.createdAt).format('LL')}
+                                            image={request.requestor.photo}
                                             paymentProof={request.details.proof}
                                             action={()=>ProcessRequest(request, 'verified')}
                                             id={request.requestor.walletAddress}
@@ -189,7 +193,8 @@ function InstitutionDocRequests() {
                                             name={request.requestor.name.firstName + " " + request.requestor.name.lastName}
                                             type={keys[4]}
                                             title={request.details.offeredDoc.title}
-                                            date={request.createdAt}
+                                            date={moment(request.createdAt).format('LL')}
+                                            image={request.requestor.photo}
                                             action={()=>navigate(`/documents/request/${request.requestId}`)}
                                             id={request.requestor.walletAddress}
                                             status={request.status}
@@ -272,34 +277,34 @@ function InstitutionDocRequests() {
 						<h5 id='DocumentsAnalytics__Title'>Documents Analytics</h5>
 						<div className="parent">
 							<div className="div1">
-								<h5>{requestPending.length}</h5>
+								<h5>{requestPending.length + requestPaid.length}</h5>
 								<p className='BodyText2'>To Verify</p>
 							</div>
 							<div className="div2">
-								<h5>{requestPaid.length}</h5>
+								<h5>{requestVerified.length}</h5>
 								<p className='BodyText2'>To Process</p>
 							</div>
 							<div className="div3">
-								<h6>{requestCompleted.length}</h6>
+								<h6>{requests.length}</h6>
 								<p className='BodyText3'>Requests</p>
 							</div>
 							<div className="div4"> 
-								<h6>{requestFailed.length}</h6>
+								<h6>{requestPaid.length}</h6>
 								<p className='BodyText3'>Payments</p>
 							</div>
 							<div className="div5"> 
-								<h6>{requestProcessing.length}</h6>
-								<p className='BodyText3'>Document</p>
+								<h6>{requestFailed.length}</h6>
+								<p className='BodyText3'>Failed</p>
 							</div>
 							<div className="div6"> 
-								<h6>{requests.length}</h6>
+								<h6>{requestProcessing.length}</h6>
 								<p className='BodyText3'>Processing</p>
 							</div>
 						</div>
 						<div id='DocumentsAnalytics__Member' >
 							<FileOpenIcon id="DocumentsAnalytics__Member__Avatar"/>
 							<div>
-								<h5>300</h5>
+								<h5>{requestCompleted.length}</h5>
 								<p className='BodyText3'>Total Released Documents</p>
 							</div>
 						</div>

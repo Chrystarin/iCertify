@@ -73,14 +73,11 @@ function ProfileUpdate() {
 		});
     };
 
-    
-
 	// Updates form from input
 	function updateForm(e) {
         return setForm((prev) => {
             const [key, value] = Object.entries(e)[0];
             prev[key] = value;
-            console.log(form)
             return prev;
         });
     }
@@ -89,7 +86,6 @@ function ProfileUpdate() {
 	async function Submit(e) {
 		e.preventDefault();
 
-        
 		try {
             const formData = new FormData();
             formData.append('body', JSON.stringify({

@@ -343,7 +343,8 @@ function CreateDocument({manual}) {
                                 </FormControl>
 
                                 <div id='SidePanel__Buttons'>
-                                    <Button variant='contained' onClick={()=>ProcessDocument(file)}>Process Document</Button>
+                                    <Button variant='outlined' onClick={()=> navigate("/documents/requests/toprocess")}>Cancel</Button>
+                                    <Button variant='contained' onClick={()=>ProcessDocument(file)}>Process</Button>
                                 </div>
                             </div>
                         </>

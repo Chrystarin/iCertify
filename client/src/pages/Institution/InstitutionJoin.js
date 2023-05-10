@@ -157,7 +157,7 @@ function InstitutionJoin(props) {
                         </div>
                     : ' '}
             
-                {institution.needs.ID ? 
+                {institution.needs.membership ? 
                     <>
                         <div className="Category__Seperator">
                             <div className="Category__Title">

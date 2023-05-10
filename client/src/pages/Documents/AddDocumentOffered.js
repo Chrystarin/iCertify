@@ -58,7 +58,7 @@ function AddDocumentOffered() {
                 .then((response) => {
                     console.log(response.data)
                     // alert("Document Offer Added!")
-                    navigate(`/`)
+                    navigate(`/institutions/${user.walletAddress}`)
                 });
         
         } catch (err) {      
