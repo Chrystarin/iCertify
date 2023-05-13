@@ -75,9 +75,8 @@ const InstitutionView = () => {
                 }
             })
             .then((response) => { 
-                console.log(response.data)
-                setRequest(findValue(response.data, id))
-                console.log(findValue(response.data, id))
+                setRequest((response.data).filter(obj => obj.institution.walletAddress === id))
+                console.log((response.data).filter(obj => obj.institution.walletAddress === id))
             });
     };
 
@@ -221,16 +220,21 @@ const InstitutionView = () => {
                                 {(user?.type!='institution') ? 
                                     (isJoined(institution)) ? '' :
 
-                                    (!request) 
+                                    (!request || request.length === 0) 
                                     ? 
-                                    <Button variant="contained" href={`/institutions/${id}/join`}>
-                                        Join
-                                    </Button>
+                                        <Button variant="contained" href={`/institutions/${id}/join`}>
+                                            Join
+                                        </Button>
                                     :
-                                    <Button disabled variant="contained" href={`/institutions/${id}/join`}>
-                                        Request Sent
-                                    </Button>
-                                        
+                                        (request[request.length-1]?.status === "declined") 
+                                        ? 
+                                            <Button variant="contained" href={`/institutions/${id}/join`}>
+                                                Join
+                                            </Button>
+                                        :
+                                            <Button disabled variant="contained">
+                                                Request Sent
+                                            </Button>
                                 : ''
                                 }
                             </>

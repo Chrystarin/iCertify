@@ -117,7 +117,7 @@ function DocumentRequestForm() {
                 <form className='formTemplate'>
                     <div className="Category__Seperator">
                     <div className="Category__Title">
-                        <h4>Mode of Payement</h4>
+                        <h4>Mode of Payment</h4>
                         <p className='BodyText3'>Select mode of payment you want to use</p>
                     </div>
                     <div className="Category__Content">
