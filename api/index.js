@@ -30,9 +30,8 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: CORS_ORIGIN,
-		credentials: true,
-        allowedHeaders: ['Content-Type', 'Authorization'],
+		origin: '*',
+		credentials: true
 	})
 );
 
