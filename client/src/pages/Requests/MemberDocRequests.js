@@ -74,9 +74,9 @@ function MemberDocRequests(){
                     requestType: 'document'
                 }
             },
-            {
-                credentials: 'include'
-            }
+            // {
+            //     credentials: 'include'
+            // }
             
             )
             .then((response) => { 
