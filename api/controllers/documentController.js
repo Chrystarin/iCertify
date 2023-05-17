@@ -32,9 +32,6 @@ const updateMode = async (req, res, next) => {
 		user: { id } // User ID
 	} = req;
 
-    console.log(req.body)
-    console.log(req.user.id)
-
 	// Validate that the NFT ID is a number and the access mode is a string
 	isNumber(nftId, 'NFT ID');
 	isString(mode, 'Access Mode');

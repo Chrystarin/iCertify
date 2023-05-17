@@ -77,8 +77,6 @@ const register = async (req, res, next) => {
 const login = async (req, res, next) => {
 	const { signature, walletAddress } = req.body;
 
-    console.log(req.body)
-
 	// Validate inputs
 	isString(signature, 'Signature');
 	isString(walletAddress, 'Wallet Address');
@@ -91,8 +89,6 @@ const login = async (req, res, next) => {
 		User.findOne({ walletAddress }),
 		Institution.findOne({ walletAddress, 'transaction.status': 'success' })
 	]);
-
-	console.log(user, institution)
 
 	let type;
 	let payload;
@@ -113,8 +109,6 @@ const login = async (req, res, next) => {
 		default:
 			throw new UserNotFound();
 	}
-
-    console.log(type)
 
 	res.status(200)
 		.cookie('access-token', signAccess(payload), {

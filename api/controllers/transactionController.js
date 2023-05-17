@@ -177,8 +177,6 @@ const saveTransaction = async (req, res, next) => {
 		user: { id }
 	} = req;
 
-    console.log(req.body)
-
 	// Validate inputs
 	// Ensure txHash and walletAddress are strings
 	isString(txHash, 'Transaction Hash');

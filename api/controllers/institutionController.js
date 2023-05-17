@@ -26,8 +26,6 @@ const registerInstitution = async (req, res, next) => {
 		details: { name, type, txHash } // Details of the institution
 	} = req.body;
 
-    console.log(req.body)
-
 	// Validate inputs
 	isString(txHash, 'Transaction Hash'); // Check if txHash is a string
 	isString(name, 'Institution Name'); // Check if name is a string
@@ -75,7 +73,7 @@ const registerInstitution = async (req, res, next) => {
 		async (error) => {
 			institution.transaction.status = 'failed';
 			await institution.save();
-			console.log(error);
+			
 		}
 	);
 
@@ -93,7 +91,7 @@ const updateInstitution = async (req, res, next) => {
 		files // any files included in the update, such as profile or cover photos
 	} = req;
 
-    console.log(req.body)
+    
 
 	// Extract updated institution data from request body
 	const {
@@ -307,8 +305,6 @@ const editOfferedDoc = async (req, res, next) => {
 		body: { docId, title, description, price, requirements, status },
 		user: { id }
 	} = req;
-
-    console.log(req.body)
 
 	// Validate that each parameter extracted above is a string or number.
 	isString(docId, 'Document ID');
