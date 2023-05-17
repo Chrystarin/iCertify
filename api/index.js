@@ -41,7 +41,7 @@ var whitelist = [CORS_ORIGIN, "https://onrender.com"]
 
 var corsOptions = {
   origin: function (origin, callback) {
-    console.log(origin)
+    console.log('cors', origin)
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true)
     } else {
