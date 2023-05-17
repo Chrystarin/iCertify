@@ -66,6 +66,7 @@ const registerInstitution = async (req, res, next) => {
 		txHash,
 		// If the transaction is successfully mined, update the institution's transaction status to 'success' and save it to the database
 		async () => {
+            console.log(institution);
 			institution.transaction.status = 'success';
 			await institution.save();
 		},
@@ -73,7 +74,6 @@ const registerInstitution = async (req, res, next) => {
 		async (error) => {
 			institution.transaction.status = 'failed';
 			await institution.save();
-			
 		}
 	);
 

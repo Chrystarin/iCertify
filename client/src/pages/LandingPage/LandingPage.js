@@ -20,6 +20,11 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 function LandingPage() {
 	const [openTab, setopenTab] = useState('');
+
+    const array = []
+
+
+
 	return (
 		<>
 			<div id='LandingPage'>

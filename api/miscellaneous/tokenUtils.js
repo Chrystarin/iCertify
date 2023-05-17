@@ -8,7 +8,7 @@ const duration = {
 };
 
 const cookieOptions = {
-	httpOnly: true,
+	// httpOnly: true,
 	sameSite: 'strict',
 	secure: true
 };

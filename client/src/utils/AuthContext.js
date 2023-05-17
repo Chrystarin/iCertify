@@ -146,27 +146,8 @@ function AuthProvider({ children }) {
                         })
                     )
                     .then((response)=>{
-                        const login = async () => {
-                            try {
-                                await axiosInstance
-                                    .post(
-                                        'auth/login',
-                                        JSON.stringify({
-                                            walletAddress: wallet.address,
-                                            signature: wallet.signature
-                                        })
-                                    )
-                                    .then((response) => {
-                                        setUser(response.data)
-                                        localStorage.setItem('user', JSON.stringify(response.data))
-                                        navigate(`${response.data.type}s/${response.data.walletAddress}`)
-                                        window.location.reload(true); 
-                                    });
-                            } catch (error) {
-                            console.log(error);
-                            }
-                        };
-                        login()
+                        alert("Processing registration. Wait for transaction to complete.")
+                        navigate('/')
                     })
                     break;
             }
