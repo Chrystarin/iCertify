@@ -173,7 +173,7 @@ const getInstitutions = async (req, res, next) => {
 		: Institution.find(institutionQuery);
 
 	// Populate the members.user field with user information for each member of the institution
-	const institutions = await query.populate('members.user').exec();
+	const institutions = await query.populate('members.user').lean().exec();
 
     console.log(institutions)
 
