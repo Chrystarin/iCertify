@@ -31,6 +31,7 @@ app.use(cookieParser());
 app.use(
 	cors({
 		origin: CORS_ORIGIN,
+        // origin: "http://localhost:3000",
 		credentials: true
 	})
 );
@@ -48,15 +49,6 @@ app.use('/requests', requestRoute);
 app.use('/transactions', transactionRoute);
 
 // app.use((req, res, next) => next(new NotFound('Route not found')));
-
-app.use((err, req, res, next) => {
-	console.log(err);
-
-	res.status(err.status || 500).json({
-		name: err.name,
-		message: err.message
-	});
-});
 
 app.use(errorHandler);
 

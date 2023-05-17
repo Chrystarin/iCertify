@@ -164,6 +164,8 @@ const getInstitutions = async (req, res, next) => {
 	// Extract the wallet address from the query parameters
 	const { walletAddress } = req.query;
 
+    console.log(req.query)
+
 	// Validate the wallet address (checks if it's a non-empty string)
 	isString(walletAddress, 'Wallet Address', true);
 
@@ -174,8 +176,12 @@ const getInstitutions = async (req, res, next) => {
 		? Institution.findOne({ walletAddress, ...institutionQuery })
 		: Institution.find(institutionQuery);
 
+    console.log(query);
+
 	// Populate the members.user field with user information for each member of the institution
 	const institutions = await query.populate('members.user').exec();
+
+    console.log(institutions)
 
 	// Send the list of institutions as a JSON response
 	res.json(institutions);
