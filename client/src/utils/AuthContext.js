@@ -12,13 +12,15 @@ function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
     // Smart Contract Address
-    const contractAddress = '0xb894c86cCd3033FE5955cEAa6D766D0e4242d709'
+    // const contractAddress = '0xb894c86cCd3033FE5955cEAa6D766D0e4242d709'
     // const baseUrl = 'http://localhost:3000'
-    
-    const baseUrl = 'https://icertify-api.onrender.com/'
+    // const RPC = "HTTP://127.0.0.1:7545";
 
     let globalWallet = {}
-    const RPC = "HTTP://127.0.0.1:7545";
+    
+    const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS
+    const baseUrl = process.env.REACT_APP_API_URL
+    const RPC = process.env.REACT_APP_RPC
     
     // Executes onLoad
     useEffect(() => {
