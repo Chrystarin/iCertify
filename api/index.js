@@ -28,14 +28,28 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-	cors({
-		origin: CORS_ORIGIN,
-        // origin: "http://localhost:3000",
-		credentials: true,
-        // allowedHeaders: ['Content-Type', 'Authorization'],
-	})
-);
+// app.use(
+// 	cors({
+// 		origin: CORS_ORIGIN,
+//         // origin: "http://localhost:3000",
+// 		credentials: true,
+//         allowedHeaders: ['Content-Type', 'Authorization'],
+// 	})
+// );
+
+var whitelist = [CORS_ORIGIN, "https://onrender.com"]
+
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+}
+
+
 app.use(helmet());
 
 // Routes

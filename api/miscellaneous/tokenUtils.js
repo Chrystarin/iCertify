@@ -9,7 +9,7 @@ const duration = {
 
 const cookieOptions = {
 	httpOnly: true, 
-	sameSite: 'lax',
+	sameSite: 'none',
 	secure: true
 };      
 
