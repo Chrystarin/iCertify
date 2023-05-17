@@ -8,10 +8,10 @@ const duration = {
 };
 
 const cookieOptions = {
-	// httpOnly: true,
-	sameSite: 'strict',
+	httpOnly: true, 
+	sameSite: 'lax',
 	secure: true
-};
+};      
 
 // JWT signer
 const sign = (payload, secret, expiresIn) =>
