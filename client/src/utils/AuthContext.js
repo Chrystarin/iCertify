@@ -13,7 +13,9 @@ function AuthProvider({ children }) {
 
     // Smart Contract Address
     const contractAddress = '0xb894c86cCd3033FE5955cEAa6D766D0e4242d709'
-    const baseUrl = 'http://localhost:3000'
+    // const baseUrl = 'http://localhost:3000'
+    
+    const baseUrl = 'https://icertify-api.onrender.com/'
 
     let globalWallet = {}
     const RPC = "HTTP://127.0.0.1:7545";

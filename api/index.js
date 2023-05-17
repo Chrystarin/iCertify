@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 require('dotenv/config');
 
 const { abi } = require('./build/contracts/DocumentNFT.json');
-const { NODE_ENV, TEST_MONGO, PORT, MONGO_URI } = process.env;
+const { PORT, MONGO_URI } = process.env;
 
 const { NotFound } = require('./miscellaneous/errors');
 const authenticate = require('./middlewares/authenticate');
@@ -64,27 +64,11 @@ app.use(errorHandler);
 
 // Connect to database
 mongoose
-	.connect(NODE_ENV === 'development' ? TEST_MONGO : MONGO_URI)
+	.connect(MONGO_URI)
 	.then(() => {
-		// if (NODE_ENV === 'development')
-		// 	return createServer(
-		// 		{
-		// 			key: readFileSync('./test/localhost.key'),
-		// 			cert: readFileSync('./test/localhost.crt')
-		// 		},
-		// 		app
-		// 	);
-
-		// return app;
-
 		app.listen(PORT, (err) => {
 			if (err) return console.log('Error', err);
 			console.log('Listening on port', PORT);
 		});
 	})
-	// .then((server) =>
-	// 	server.listen(PORT, () =>
-	// 		console.log('Connected to database\nListening on port', PORT)
-	// 	)
-	// )
 	.catch((error) => console.log(error.message));

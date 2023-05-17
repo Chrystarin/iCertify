@@ -5,11 +5,9 @@ const {
 
 const { abi } = require('../build/contracts/DocumentNFT.json');
 const { NotFound } = require('./errors');
-const { NODE_ENV, TESTNET, TEST_PROVIDER, CONTRACT_ADDRESS } = process.env;
+const { TESTNET, CONTRACT_ADDRESS } = process.env;
 
-const provider = new JsonRpcProvider(
-	NODE_ENV === 'development' ? TEST_PROVIDER : TESTNET
-);
+const provider = new JsonRpcProvider(TESTNET);
 const contract = new Contract(CONTRACT_ADDRESS, abi, provider);
 
 /**
