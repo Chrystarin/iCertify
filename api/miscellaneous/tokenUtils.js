@@ -8,6 +8,8 @@ const duration = {
 };
 
 const cookieOptions = {
+    domain: process.env.CORS_ORIGIN,
+    path: '/',
 	httpOnly: true, 
 	sameSite: 'lax',
 	secure: true
