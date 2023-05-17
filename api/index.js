@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 require('dotenv/config');
 
 const { abi } = require('./build/contracts/DocumentNFT.json');
-const { PORT, MONGO_URI } = process.env;
+const { PORT, MONGO_URI, CORS_ORIGIN } = process.env;
 
 const { NotFound } = require('./miscellaneous/errors');
 const authenticate = require('./middlewares/authenticate');
@@ -30,9 +30,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		methods: ['POST', 'PUT', 'GET', 'PATCH', 'OPTIONS', 'HEAD', 'DELETE'],
-		origin: ['http://localhost:3000'],
-		// origin: 'http://127.0.0.1:8080',
+		origin: CORS_ORIGIN,
 		credentials: true
 	})
 );
