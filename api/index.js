@@ -32,7 +32,8 @@ app.use(
 	cors({
 		origin: CORS_ORIGIN,
         // origin: "http://localhost:3000",
-		credentials: true
+		credentials: true,
+        allowedHeaders: ['Content-Type', 'Authorization'],
 	})
 );
 app.use(helmet());
