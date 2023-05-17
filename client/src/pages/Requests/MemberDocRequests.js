@@ -73,7 +73,12 @@ function MemberDocRequests(){
                 params: {
                     requestType: 'document'
                 }
-            })
+            },
+            {
+                credentials: 'include'
+            }
+            
+            )
             .then((response) => { 
                 setRequests(response.data)
                 filterData(response.data);
