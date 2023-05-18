@@ -58,7 +58,8 @@ function AuthProvider({ children }) {
                     window.location.reload(true); 
                 });
         } catch (error) {
-            throw new Error(error);
+            // throw new Error(error);
+            console.log(error)
         }
     };
 
