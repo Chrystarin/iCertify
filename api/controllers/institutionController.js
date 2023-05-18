@@ -174,8 +174,6 @@ const getInstitutions = async (req, res, next) => {
 	// Populate the members.user field with user information for each member of the institution
 	const institutions = await query.populate('members.user').lean().exec();
 
-    console.log(institutions)
-
 	// Send the list of institutions as a JSON response
 	res.json(institutions);
 };

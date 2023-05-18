@@ -77,19 +77,19 @@ const saveIpfs = async (req, res, next) => {
 		user: { id }
 	} = req;
 
-    console.log(requestId)
-
 	// Check if the 'mimetype' of the image is valid. If not, throw an 'InvalidInput' error.
 	if (!['image/png', 'image/jpeg'].includes(mimetype))
 		throw new InvalidInput('Invalid file type');
+
+    console.log(data);
+    console.log(ipfsClient);
+    console.log(req.files);
 
 	// Upload the document to IPFS but don't pin it yet
 	const { path, cid } = await ipfsClient.add(
 		{ content: data },
 		{ pin: false }
 	);
-
-    console.log("AFter")
 
 	// Check if the URI is already minted
 	if (await contract.checkUri(path))

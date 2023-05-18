@@ -6,8 +6,6 @@ const { JWT_ACCESS_SECRET } = process.env;
 module.exports = async (req, res, next) => {
 	const { 'access-token': accessToken } = req.cookies;
 
-    console.log(req.cookies)
-
 	try {
 		// Check if there is access-token included in the cookies (logged in)
 		if (!accessToken)
