@@ -192,8 +192,8 @@ function DocumentView() {
     }
 
     const generateQrCode = (accessCode) => {
-        setQRCode(baseUrl + "/documents/" + accessCode);
-        navigator.clipboard.writeText(`${baseUrl}/documents/${accessCode}`)
+        setQRCode(process.env.REACT_APP_APP_URL + "/documents/" + accessCode);
+        navigator.clipboard.writeText(`${process.env.REACT_APP_APP_URL}/documents/${accessCode}`)
         setOpenSnackBar(openSnackBar => ({
             ...openSnackBar,
             open:true,
