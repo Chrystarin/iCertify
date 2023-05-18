@@ -190,9 +190,9 @@ function Profile() {
 						}
 					</h4>
 					<div id='User__Div_Info'>
-						<a href='/'>
+                        <a href={`${process.env.REACT_APP_BLOCK_EXPLORER}/address/${user.walletAddress}`} target="_blank">
                             <img src={MetaMaskIcon} alt="" />
-                            <h6 className='BodyText3'><a href={`${process.env.REACT_APP_BLOCK_EXPLORER}/address/${user.walletAddress}`} target="_blank"></a>{user.walletAddress}</h6>
+                            <h6 className='BodyText3'>{user.walletAddress}</h6>
 						</a>
 					</div>
 				</div>
