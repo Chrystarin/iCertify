@@ -24,7 +24,7 @@
     "express-fileupload": "^1.4.0",
     "formidable": "^2.1.1",
     "helmet": "^6.0.0",
-    "ipfs-http-client": "^56.0.2",
+    "ipfs-http-client": "^52.0.4-rc.4",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^6.6.5"
   }

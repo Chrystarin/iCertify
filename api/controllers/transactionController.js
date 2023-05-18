@@ -81,10 +81,6 @@ const saveIpfs = async (req, res, next) => {
 	if (!['image/png', 'image/jpeg'].includes(mimetype))
 		throw new InvalidInput('Invalid file type');
 
-    console.log(data);
-    console.log(ipfsClient);
-    console.log(req.files);
-
 	// Upload the document to IPFS but don't pin it yet
 	const { path, cid } = await ipfsClient.add(
 		{ content: data },
