@@ -45,11 +45,7 @@ function AuthProvider({ children }) {
                     JSON.stringify({
                         walletAddress: wallet.address,
                         signature: wallet.signature
-                    }),
-                    {
-                        withCredentials: true,
-                        credentials: 'include'
-                    }
+                    })
                 )
                 .then((response) => {
                     setUser(response.data)
