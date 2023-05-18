@@ -110,6 +110,8 @@ const login = async (req, res, next) => {
 			throw new UserNotFound();
 	}
 
+    console.log(payload);
+
 	res.status(200)
 		.cookie('access-token', signAccess(payload), {
 			...cookieOptions,

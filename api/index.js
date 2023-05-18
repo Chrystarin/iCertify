@@ -28,9 +28,6 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
-app.use((req, res, next) => {
-    console.log(req)
-})
 app.use(
 	cors({
         origin: CORS_ORIGIN,
