@@ -34,7 +34,7 @@ app.use(
 		credentials: true
 	})
 );
-app.use(helmet());
+app.use(helmet());      
 
 // Routes
 app.get('/abi', (req, res, next) => res.json(abi));
