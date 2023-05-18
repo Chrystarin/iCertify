@@ -33,30 +33,10 @@ app.use((req, res, next) => {
 })
 app.use(
 	cors({
-		origin: function(origin, callback) {
-            console.log('cors', origin);
-            callback(null, true);
-        },
+        origin: CORS_ORIGIN,
 		credentials: true
 	})
 );
-
-// var whitelist = [CORS_ORIGIN, "https://onrender.com"]
-
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     console.log('cors', origin)
-//     if (whitelist.indexOf(origin) !== -1) {
-//       callback(null, true)
-//     } else {
-//       callback(new Error('Not allowed by CORS'))
-//     }
-//   }
-// }
-
-// app.use(cors(corsOptions)); 
-
-
 app.use(helmet());
 
 // Routes
