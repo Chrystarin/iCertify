@@ -346,7 +346,9 @@ function DocumentView() {
                         </li>
                         <li>
                             <h6 className="Details__Title">Transaction Hash</h6>
-                            <p className='BodyText3 Details__Content'>{documentData.hash}</p>
+                            <a href={`${process.env.REACT_APP_BLOCK_EXPLORER}/tx/${documentData.hash}`} target="_blank">
+                                <p className='BodyText3 Details__Content'>{documentData.hash}</p>
+                            </a>
                         </li>
                         <li>
                             <h6 className="Details__Title">Date Created</h6>
