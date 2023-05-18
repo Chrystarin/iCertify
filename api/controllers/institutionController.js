@@ -26,9 +26,6 @@ const registerInstitution = async (req, res, next) => {
 		details: { name, type, txHash } // Details of the institution
 	} = req.body;
 
-    console.log("Request Content: ")
-    console.log(req.body)
-
 	// Validate inputs
 	isString(txHash, 'Transaction Hash'); // Check if txHash is a string
 	isString(name, 'Institution Name'); // Check if name is a string
@@ -64,23 +61,16 @@ const registerInstitution = async (req, res, next) => {
 		transaction: { hash: txHash }
 	});
 
-    console.log("Newly Created Institution: ")
-    console.log(institution)
-
 	// Wait for the transaction to be mined
 	await waitTx(
 		txHash,
 		// If the transaction is successfully mined, update the institution's transaction status to 'success' and save it to the database
 		async () => {
-            console.log("Institution Transaction Mined: ")
-            console.log(institution)
 			institution.transaction.status = 'success';
 			await institution.save();
 		},
 		// If the transaction fails to be mined, update the institution's transaction status to 'failed', save it to the database, and log the error
 		async (error) => {
-            console.log("Institution Transaction Failed: ")
-            console.log(institution)
 			institution.transaction.status = 'failed';
 			await institution.save();
 		}

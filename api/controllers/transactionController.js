@@ -77,6 +77,8 @@ const saveIpfs = async (req, res, next) => {
 		user: { id }
 	} = req;
 
+    console.log(requestId)
+
 	// Check if the 'mimetype' of the image is valid. If not, throw an 'InvalidInput' error.
 	if (!['image/png', 'image/jpeg'].includes(mimetype))
 		throw new InvalidInput('Invalid file type');
@@ -86,6 +88,8 @@ const saveIpfs = async (req, res, next) => {
 		{ content: data },
 		{ pin: false }
 	);
+
+    console.log("AFter")
 
 	// Check if the URI is already minted
 	if (await contract.checkUri(path))
