@@ -36,7 +36,7 @@ function AuthProvider({ children }) {
 
         try {
             // Gets wallet info
-            const wallet = await ConnectWallet('Test message')
+            const wallet = await ConnectWallet('Connect your wallet to iCertify')
             globalWallet = wallet;
 
             await axiosInstance
@@ -80,7 +80,7 @@ function AuthProvider({ children }) {
     // Register Function
     const register = async ({userType, memberForm, institutionForm }) => {
         // Gets wallet info
-        const wallet = await ConnectWallet('Test message')
+        const wallet = await ConnectWallet('Connect your wallet to iCertify')
         globalWallet = wallet;
 
         try {
