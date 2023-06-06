@@ -53,7 +53,7 @@ function SearchInput({data,setData}) {
   return (
     <div className='SearchInput'>
       <div className='SearchInput__Container'>
-        <IconButton aria-label="delete">
+        <IconButton aria-label="delete" disabled>
           <SearchIcon />
         </IconButton>
         <input 
@@ -63,7 +63,6 @@ function SearchInput({data,setData}) {
             setSearch(search => ({...search,value: e.target.value}));
             setFilteredInstitutions(searchData(institutions, keysInstitution))
             // console.log(institutions.filter((item)=>item["name"].toLocaleLowerCase().includes("sti")))
-          
           }}
           onFocus={()=>setSearch(search => ({...search,focus: !search.focus}))} 
           onBlur={()=>setSearch(search => ({...search,focus: !search.focus}))} 
@@ -72,14 +71,14 @@ function SearchInput({data,setData}) {
           <IconButton aria-label="delete" onClick={()=> setSearch(search => ({...search,value:""}))}>
             <CloseIcon />
           </IconButton>
-          <IconButton aria-label="delete">
+          {/* <IconButton aria-label="delete">
             <TuneIcon />
-          </IconButton>
+          </IconButton> */}
         </div>
       </div>
-      {(search.focus && search.value!== "")|| search.value!==""?<>
+      {/* {(search.focus && search.value!== "")|| search.value!==""?<>
         <SearchSuggested institutions={filteredInstitutions}/>
-      </>:<></>}
+      </>:<></>} */}
       
     </div>
   )

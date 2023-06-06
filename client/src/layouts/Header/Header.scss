@@ -123,9 +123,11 @@
 #ProfileDropdown__Container{
     transform: translate(0,-8px);
     #ProfileDropdown__Header{
+        min-width: 250px;
         background-color: rgb(238, 238, 238);
         padding: 2em 1em;
         display: flex;
+        justify-content: center ;
         gap: 10px;
         #ProfileDropdown__Header__Avatar{
             height: 50px;
