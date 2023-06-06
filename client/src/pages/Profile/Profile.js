@@ -49,7 +49,7 @@ function Profile() {
 	// Executes on load
 	useEffect(() => {
 		fetchUser();
-	}, []);
+	}, );
 
     const mapDocumentsAsync = async (data) => {
         const mappedDocs = await Promise.all(
@@ -71,7 +71,6 @@ function Profile() {
         setMappedDocuments(mappedDocs);
     };
 
-
     // Retrieves User's Data
     const fetchUser = async () => {
         await axiosInstance
@@ -85,6 +84,9 @@ function Profile() {
                 setInstitutions(response.data.institutions)
                 setDocuments(response.data.documents)
                 mapDocumentsAsync(response.data.documents);
+                // documents.filter((item)=>item.toString().toLowerCase().includes('completed'))
+                console.log(documents)
+
             });
     };
 

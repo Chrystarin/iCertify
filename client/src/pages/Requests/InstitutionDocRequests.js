@@ -237,13 +237,13 @@ function InstitutionDocRequests() {
 								<div id='SearchInputHolder'>
 									<SearchInput />
 								</div>
-								<IconButton aria-expanded={open ? 'true' : undefined} 
+								{/* <IconButton aria-expanded={open ? 'true' : undefined} 
 									onClick={(event) => {
 									setAnchorElDropDownDocument(event.currentTarget);
 									}
 								}>
 									<FilterAltIcon />
-								</IconButton>
+								</IconButton> */}
 								<Menu
 									id="basic-menu"
 									anchorEl={anchorElDropDownDocument}
