@@ -4,7 +4,7 @@ const {
 
 const { Unauthorized } = require('./errors');
 
-const message = 'Connect your wallet to iCertify';
+const message = 'Test message';
 
 /**
  * Verifies if the message signature corresponds to the given wallet address.
