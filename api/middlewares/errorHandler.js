@@ -5,6 +5,8 @@ module.exports = (error, req, res, next) => {
 	let message = error.message || 'Something went wrong';
 	let status = error.status || 500;
 
+	console.log(error)
+
 	switch (error.code) {
 		// If the error is a MongoDB duplicate key error, customize the name, message, and status accordingly.
 		case 11000:
