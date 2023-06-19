@@ -10,7 +10,8 @@ function MemberCard(props) {
         institutionID,
         image,
         member,
-        membershipProof
+        membershipProof,
+        memberId
     } = props;
     const [openModal, setOpenModal] = React.useState(false);
 
@@ -33,6 +34,9 @@ function MemberCard(props) {
                     <Avatar id="MemberCard__Avatar" src={image}/>
                     <div id='MemberCard__Text'>
                         <h6 className='BodyText2' id='MemberCard__Name'>{name}</h6>
+                        {!memberId ? '' :
+                            <p className='BodyText3' id='MemberCardID__InstitutionID'>{memberId}</p>
+                        }
                         <p className='BodyText3' id='MemberCardID__InstitutionID'>{ShortingWallet(institutionID)}</p>
                     </div>
                 </a>

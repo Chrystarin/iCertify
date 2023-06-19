@@ -174,6 +174,8 @@ function MemberList() {
                                             institutionID={member.user.walletAddress}
                                             image={member.user.photo} 
                                             member={true}
+                                            memberId={member.details.idNumber}
+                                            membershipProof={member.details.membership}
                                         />
                                     );
                                 })}

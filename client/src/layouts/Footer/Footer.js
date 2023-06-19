@@ -25,21 +25,14 @@ function Footer() {
             <div id="Container_Right_Footer">
                 <div id="Wrapper_Right_Footer">
                     <div>
+                        
+                    </div>
+                    <div>
                         <h5>Menu</h5>
                         <ul>
                             
                             <li><a href="#Login">Login to metamask</a></li>
                             <li><a href="#Getstarted">Get Started</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h5>Learn More!</h5>
-                        <ul>
-                            <li><a href="#Blockchain">Blockchain </a></li>
-                            <li><a href="#FAQ's">Bicol IT</a></li>
-                            <li><a href="#Metamask">Metamask</a></li>
-                            <li><a href="#Developer">Developers</a></li>
-                            <li><a href="#Terms & Condition">Terms & Condition</a></li>
                         </ul>
                     </div>
                     <div>
