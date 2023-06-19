@@ -32,6 +32,7 @@ const register = async (req, res, next) => {
 	// Extract relevant fields from incoming request object
 	const { email, userType } = req.body;
 	let { walletAddress } = req.body;
+	console.log(req.body);
 
 	// Validate inputs using helper functions
 	isString(walletAddress, 'Wallet Address');
@@ -76,6 +77,7 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
 	const { signature, walletAddress } = req.body;
+	console.log(req.body);
 
 	// Validate inputs
 	isString(signature, 'Signature');
