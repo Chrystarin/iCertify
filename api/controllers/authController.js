@@ -92,15 +92,20 @@ const login = async (req, res, next) => {
 		Institution.findOne({ walletAddress, 'transaction.status': 'success' })
 	]);
 
+	console.log(user)
+	console.log(institution)
+
 	let type;
 	let payload;
 
 	switch (true) {
 		case user instanceof User:
+			console.log("detected user")
 			type = 'user';
 			payload = { id: user._id, type: USER, walletAddress };
 			break;
 		case institution instanceof Institution:
+			console.log("detected institution")
 			type = 'institution';
 			payload = {
 				id: institution._id,
@@ -109,6 +114,7 @@ const login = async (req, res, next) => {
 			};
 			break;
 		default:
+			console.log("nothing found")
 			throw new UserNotFound();
 	}
 
