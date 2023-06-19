@@ -323,14 +323,14 @@ function CreateDocument({manual}) {
                                     label='Member Wallet Address'
                                     type='text'
                                     required
-                                    onChange={(e) => setForm({memberAddress: e.target.value})}
+                                    onChange={(e) => setForm({...form, memberAddress: e.target.value})}
                                 />
                                 <TextField
                                     id='outlined-search'
                                     label='Document Title'
                                     type='text'
                                     required
-                                    onChange={(e) => setForm({docTitle: e.target.value})}
+                                    onChange={(e) => setForm({...form, docTitle: e.target.value})}
                                 />
                                 <FormControl fullWidth variant='standard'>
                                     <InputLabel id="demo-simple-select-label">Select Document</InputLabel>
