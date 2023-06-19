@@ -142,8 +142,8 @@ function Profile() {
                     note:"Profile Updated!"
                 }));
             })
-        } catch (err) {      
-            console.error(err.message);
+        } catch (error) {      
+            alert(error.response.data.message);
         }
     }
     

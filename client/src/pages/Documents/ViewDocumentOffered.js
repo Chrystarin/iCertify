@@ -52,6 +52,7 @@ function DocumentRequestForm() {
                 }
                 return undefined;
             }
+            console.log(findValue(response.data.docOffers, docId))
             setDocument(findValue(response.data.docOffers, docId))
         });
     };
@@ -120,7 +121,7 @@ function DocumentRequestForm() {
                         <ul>
                             <li>
                             <h6 className='DocumentInformation__Details__Title'>Price</h6>
-                            <h5 className='DocumentInformation__Details__Value__Price'>{document.price}</h5>
+                            <h5 className='DocumentInformation__Details__Value__Price'>{document.price.$numberDecimal}</h5>
                             </li>
                         </ul>
                         </div> 

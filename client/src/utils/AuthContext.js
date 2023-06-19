@@ -11,11 +11,6 @@ function AuthProvider({ children }) {
     const navigate = useNavigate()
     const [user, setUser] = useState(null);
 
-    // Smart Contract Address
-    // const contractAddress = '0xb894c86cCd3033FE5955cEAa6D766D0e4242d709'
-    // const baseUrl = 'http://localhost:3000'
-    // const RPC = "HTTP://127.0.0.1:7545";
-
     let globalWallet = {}
     
     const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS
@@ -54,8 +49,7 @@ function AuthProvider({ children }) {
                     window.location.reload(true); 
                 });
         } catch (error) {
-            // throw new Error(error);
-            console.log(error)
+            alert(error.response.data.message)
         }
     };
 
@@ -120,7 +114,7 @@ function AuthProvider({ children }) {
                                         window.location.reload(true); 
                                     });
                             } catch (error) {
-                            console.log(error);
+                                alert(error.response.data.message);
                             }
                         };
                         login()
@@ -152,9 +146,8 @@ function AuthProvider({ children }) {
                     })
                     break;
             }
-        } catch (err) {      
-            console.error(err.message);
-            // return err.message
+        } catch (error) {      
+            alert(error.response.data.message)
         }
     }
 
@@ -165,7 +158,7 @@ function AuthProvider({ children }) {
             return response.data;
         } 
         catch (error) {
-            console.error(error);
+            alert(error.response.data.message)
         }
     }
 
@@ -176,7 +169,7 @@ function AuthProvider({ children }) {
             return contract;
         } 
         catch (error) {
-            console.error(error);
+            alert(error.response.data.message)
         }
     }
 
@@ -203,8 +196,8 @@ function AuthProvider({ children }) {
 
             return {provider, signer, signature, address}
             
-        } catch(err) {
-            throw new Error("REJETED: " + err);
+        } catch(error) {
+            alert(error.response.data.message)
         }
     }
     
@@ -252,28 +245,8 @@ function AuthProvider({ children }) {
             }
             return containsValue(list.members, JSON.parse(localStorage.getItem("user")).walletAddress);
         }
-        catch(err){
-            console.log(err)
-        }
-    };
-
-    // Function to check if user is owns the document
-    const isOwned = async (id) => {
-        try {
-            // await axiosInstance
-			// 	.get(`documents`,{
-            //         params: {
-            //             code: id
-            //         }
-            //     })
-			// 	.then((response) => {
-			// 		console.log(response.data)
-            //         let data = response.data
-            //         console.log(data.some((obj) => obj['walletAddress'] === user.walletAddress))
-			// 	});
-            return true;
-        } catch (error) {
-            console.log(error);
+        catch(error){
+            alert(error.response.data.message)
         }
     };
 
@@ -290,8 +263,7 @@ function AuthProvider({ children }) {
         ConnectWallet, 
         isLoggedIn, 
         isAuth, 
-        isJoined, 
-        isOwned 
+        isJoined
     };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -318,7 +318,7 @@ function MemberDocRequests(){
                         </li>
                         <li>
                             <SellIcon/>
-                            <p>{data.details.offeredDoc.price} PHP</p>
+                            <p>{data.details.offeredDoc.price.$numberDecimal} PHP</p>
                         </li>
                     </ul>
                 </div>
