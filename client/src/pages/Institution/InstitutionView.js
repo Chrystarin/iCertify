@@ -313,7 +313,7 @@ const InstitutionView = () => {
                             </>
                             }
                         </div>
-                        <div className='grid'>
+                        <div className='Mansory__List'>
                             {(institution.docOffers.length === 0 )?
                                 <p>No Offers found!</p>
                                 :
