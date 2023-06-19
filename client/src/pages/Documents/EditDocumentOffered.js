@@ -181,6 +181,7 @@ function EditDocumentOffered() {
                                 id="outlined-adornment-amount"
                                 startAdornment={<InputAdornment position="start">₱</InputAdornment>}
                                 label="Amount"
+                                type="number"
                                 defaultValue={form.price.$numberDecimal}
                                 onChange={(e)=>updateForm({ price: e.target.value})}
                             />

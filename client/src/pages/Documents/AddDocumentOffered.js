@@ -126,7 +126,9 @@ function AddDocumentOffered() {
                                 id="outlined-adornment-amount"
                                 startAdornment={<InputAdornment position="start">₱</InputAdornment>}
                                 label="Amount"
+                                type="number"
                                 onChange={(e)=>updateForm({ price: e.target.value})}
+                                
                             />
                         </FormControl>
                         {/* <TextField 
