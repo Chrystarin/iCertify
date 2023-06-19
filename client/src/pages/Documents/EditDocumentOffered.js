@@ -105,7 +105,7 @@ function EditDocumentOffered() {
                     docId: id,
                     title: form.name,
                     description: form.description,
-                    price: parseInt(form.price),
+                    price: parseFloat(form.price),
                     requirements: form.requirements,
                     status: form.status
                 }))
@@ -181,7 +181,7 @@ function EditDocumentOffered() {
                                 id="outlined-adornment-amount"
                                 startAdornment={<InputAdornment position="start">₱</InputAdornment>}
                                 label="Amount"
-                                defaultValue={(console.log(form.price), form.price)}
+                                defaultValue={form.price.$numberDecimal}
                                 onChange={(e)=>updateForm({ price: e.target.price})}
                             />
                         </FormControl>
