@@ -119,7 +119,7 @@ function Header() {
     return (
         <div id="header_Content">
             <div id='Navigation_Left'>
-                <SearchInput/>
+                <SearchInput SearchSuggested/>
             </div>
             
             <div id='Navigation_Content'> 
