@@ -181,7 +181,9 @@ const processRequest = async (req, res, next) => {
 	} = req;
 
 	// Parsing request body to extract requestId and status
-	const { requestId, status } = JSON.parse(body);
+    const parsedBody = JSON.parse(body);
+	const { requestId } = parsedBody;
+    let { status } = parsedBody;
 
 	// Validating inputs
 	isString(requestId, 'Request ID');
@@ -242,6 +244,7 @@ const processRequest = async (req, res, next) => {
 				if (price === 0) {
 					request.details.statusTimestamps.paid = new Date();
 					request.details.statusTimestamps.verified = new Date();
+                    status = 'verified';
 				}
 			}
 
