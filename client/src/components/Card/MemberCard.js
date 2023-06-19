@@ -75,7 +75,7 @@ function MemberCard(props) {
         aria-describedby="modal-modal-description"
         >
             <div id='MemberCardModal'>
-                <img src={(membershipProof==='null' || !membershipProof) ? membershipProof : membershipProof} alt="" />
+                <img src={(!membershipProof) ? '' : membershipProof} alt="" />
             </div>
         </Modal>
     </>
