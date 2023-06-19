@@ -246,7 +246,7 @@ const processRequest = async (req, res, next) => {
 
 				request.details.statusTimestamps.approved = new Date();
 
-				if (price === 0) {
+				if (Number(price.toString()) === 0) {
 					request.details.statusTimestamps.paid = new Date();
 					request.details.statusTimestamps.verified = new Date();
                     status = 'verified';
