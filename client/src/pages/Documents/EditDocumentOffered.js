@@ -181,7 +181,7 @@ function EditDocumentOffered() {
                                 id="outlined-adornment-amount"
                                 startAdornment={<InputAdornment position="start">₱</InputAdornment>}
                                 label="Amount"
-                                defaultValue={Number(form.price.toString())}
+                                defaultValue={form.price}
                                 onChange={(e)=>updateForm({ price: e.target.price})}
                             />
                         </FormControl>
