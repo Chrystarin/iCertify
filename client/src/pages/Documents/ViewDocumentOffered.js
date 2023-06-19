@@ -120,7 +120,7 @@ function DocumentRequestForm() {
                         <ul>
                             <li>
                             <h6 className='DocumentInformation__Details__Title'>Price</h6>
-                            <h5 className='DocumentInformation__Details__Value__Price'>{document.price}</h5>
+                            <h5 className='DocumentInformation__Details__Value__Price'>{document.price.toString()}</h5>
                             </li>
                         </ul>
                         </div> 

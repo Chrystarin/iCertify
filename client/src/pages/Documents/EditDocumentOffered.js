@@ -77,8 +77,8 @@ function EditDocumentOffered() {
                     })
                 });
         
-        } catch (err) {      
-            console.error(err.message);
+        } catch (error) {      
+            alert(error.response.data.message)
         }
     }
 
@@ -96,11 +96,12 @@ function EditDocumentOffered() {
                 }))
                 .then((response) => {
                     console.log(response.data)
+                    alert("Document Updated!")
                     navigate(`/institutions/${user.walletAddress}`)
                 });
         
-        } catch (err) {      
-            console.error(err.message);
+        } catch (error) {      
+            alert(error.response.data.message)
         }
     }
 

@@ -105,11 +105,11 @@ function ProfileUpdate() {
             )
             .then((response)=>{
                 fetchUser();
-                // alert("Profile Updated!")
+                alert("Profile Updated!")
                 navigate(`/users/${user.walletAddress}`)
             })
-        } catch (err) {      
-            console.error(err.message);
+        } catch (error) {      
+            alert(error.response.data.message);
         }
 	}
 
