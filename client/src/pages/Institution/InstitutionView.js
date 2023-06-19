@@ -208,8 +208,9 @@ const InstitutionView = () => {
                                     <p>{institution.docOffers.length}</p>
                                 </li> 
                                 <li>
+                                    <img className="InstitutionInformation__Container__Icon" src={MetaMaskIcon}></img>
                                     <a href={`${process.env.REACT_APP_BLOCK_EXPLORER}/address/${institution.walletAddress}`} target="_blank">
-                                        <img className="InstitutionInformation__Container__Icon" src={MetaMaskIcon}></img><p>{institution.walletAddress}</p>
+                                        <p>{institution.walletAddress}</p>
                                     </a>
                                 </li>  
                             </ul>
