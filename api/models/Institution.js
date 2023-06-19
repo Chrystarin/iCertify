@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-const { ObjectId, Mixed } = Schema.Types;
+const { ObjectId, Mixed, Decimal128 } = Schema.Types;
 
 module.exports = model(
 	'Institution',
@@ -93,7 +93,7 @@ module.exports = model(
 						required: [true, 'Description is required']
 					},
 					price: {
-						type: Number,
+						type: Decimal128,
 						required: [true, 'Price is required']
 					},
 					requirements: {
