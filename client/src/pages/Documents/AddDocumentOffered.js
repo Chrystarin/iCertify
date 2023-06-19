@@ -56,15 +56,13 @@ function AddDocumentOffered() {
                     requirements: form.requirements
                 }))
                 .then((response) => {
-                    console.log(response.data)
-                    // alert("Document Offer Added!")
+                    alert("Document Offer Added!")
                     navigate(`/institutions/${user.walletAddress}`)
                 });
         
-        } catch (err) {      
-            console.error(err.message);
+        } catch (error) {      
+            alert(error.response.data.message);
         }
-        // console.log("test")
     }
 
     function VIEWFORM(){
@@ -82,6 +80,7 @@ function AddDocumentOffered() {
                         id="outlined-basic" 
                         label="Name" 
                         variant="outlined" 
+                        required
                         onChange={(e)=>updateForm({ name: e.target.value })}
                     />
                     <TextField 
@@ -89,6 +88,7 @@ function AddDocumentOffered() {
                         label="Description" 
                         variant="outlined" 
                         multiline
+                        required
                         onChange={(e)=>updateForm({ description: e.target.value })}
                     />
                     <div className='Wrapper_2_Inputs'>
@@ -97,12 +97,14 @@ function AddDocumentOffered() {
                             label="Requirements" 
                             variant="outlined" 
                             multiline
+                            required
                             onChange={(e)=>updateForm({ requirements: e.target.value })}
                         />
                         <TextField 
                             id="outlined-basic" 
                             label="Price" 
                             variant="outlined" 
+                            required
                             onChange={(e)=>updateForm({ price: e.target.value })}
                         />
                     </div>

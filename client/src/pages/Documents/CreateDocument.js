@@ -110,6 +110,13 @@ function CreateDocument({manual}) {
 
         } catch(error){
             console.log(error)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note:error.response.data.message,
+                action: ()=>{}
+            }));
         }
     }
 
@@ -127,7 +134,7 @@ function CreateDocument({manual}) {
         try{
             await contract.sendDocument(
                 manual ? form.memberAddress : request.requestor.walletAddress,             // receiver
-                manual ? "Document" : request.details.offeredDoc.title,                   // type
+                manual ? form.docTitle : request.details.offeredDoc.title,                  // type
                 path,                                                                       // uri
                 manual ? form.docId : request.details.offeredDoc.docId                    // docId
             )
@@ -137,25 +144,22 @@ function CreateDocument({manual}) {
                     ...openSnackBar,
                     open:true,
                     type:'success',
-                    note:"Document Minted",
+                    note:"Document Minting...",
                     action: ()=>{}
                 }));
-            })
-            .catch((error)=>{
-                setOpenSnackBar(openSnackBar => ({
-                    ...openSnackBar,
-                    open:true,
-                    type:'error',
-                    note:error.data.message,
-                    action: ()=>{}
-                }));
-                
             })
             
             return txHash
 
         } catch(error) {
             console.log(error)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note: error.response.data.message,
+                action: ()=>{}
+            }));
         }
     }
 
@@ -182,20 +186,21 @@ function CreateDocument({manual}) {
             });
             
         } catch (error) {
+            console.log(error)
             setOpenSnackBar(openSnackBar => ({
                 ...openSnackBar,
                 open:true,
                 type:'error',
-                note:error.message,
+                note: error.response.data.message,
                 action: ()=>{}
             }));
-            // alert(error.message)
         }
     }
 
     // Process the Uploaded Document
     const ProcessDocument = async (file) => {
         console.log(form)
+        let path, txHash = {}
 
         // Creates Form Data to store Data
         const formData = new FormData();
@@ -210,9 +215,9 @@ function CreateDocument({manual}) {
 
         // Calls functions to process document if user confirms transaction 
         if (wallet){
-            const path = await uploadToIpfs(formData)
-            const txHash = await mintDocument(wallet, path)
-            const transaction = await saveTransaction(txHash)
+            path = await uploadToIpfs(formData)
+            if(path) txHash = await mintDocument(wallet, path)
+            if(txHash) await saveTransaction(txHash)
         }
     }
     const ShortingWallet = (data) =>{
@@ -318,7 +323,14 @@ function CreateDocument({manual}) {
                                     label='Member Wallet Address'
                                     type='text'
                                     required
-                                    onChange={(e) => setForm({memberAddress: e.target.value})}
+                                    onChange={(e) => setForm({...form, memberAddress: e.target.value})}
+                                />
+                                <TextField
+                                    id='outlined-search'
+                                    label='Document Title'
+                                    type='text'
+                                    required
+                                    onChange={(e) => setForm({...form, docTitle: e.target.value})}
                                 />
                                 <FormControl fullWidth variant='standard'>
                                     <InputLabel id="demo-simple-select-label">Select Document</InputLabel>
