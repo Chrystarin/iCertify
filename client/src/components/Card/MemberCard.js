@@ -15,10 +15,6 @@ function MemberCard(props) {
     } = props;
     const [openModal, setOpenModal] = React.useState(false);
 
-    console.log(name)
-    console.log(membershipProof)
-    console.log(institutionID)
-
     const ShortingWallet = (data) =>{
         let startString = "";
         let EndString = "";

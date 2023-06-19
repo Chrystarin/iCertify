@@ -362,38 +362,6 @@ function LandingPage() {
 									</ul>
 								</div>
 							</div>
-							{/* <div className='Accordion__Container'>
-								<Accordion>
-									<AccordionSummary
-									expandIcon={<ExpandMoreIcon />}
-									aria-controls="panel1a-content"
-									id="panel1a-header"
-									>
-									<h5>What is iCertify?</h5>
-									</AccordionSummary>
-									<AccordionDetails>
-									<Typography>
-									iCertify is a web application dedicated to providing a legitimate and authentic digital certification which can benefit both employees and employers.
-									</Typography>
-									</AccordionDetails>
-								</Accordion>
-								<Accordion>
-									<AccordionSummary
-									expandIcon={<ExpandMoreIcon />}
-									aria-controls="panel2a-content"
-									id="panel2a-header"
-									>
-									<Typography>Accordion 2</Typography>
-									</AccordionSummary>
-									<AccordionDetails>
-									<Typography>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-										malesuada lacus ex, sit amet blandit leo lobortis eget.
-									</Typography>
-									</AccordionDetails>
-								</Accordion>
-							</div> */}
-							
 						</section>
 					</div>
 				</div>
