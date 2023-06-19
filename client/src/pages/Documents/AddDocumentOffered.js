@@ -55,6 +55,7 @@ function AddDocumentOffered() {
     // Add Offered Document
     const AddOfferedDocument = async (e) => {
         e.preventDefault();
+        console.log(form)
         try{
 
             await axiosInstance
