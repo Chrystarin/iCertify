@@ -214,6 +214,8 @@ const processRequest = async (req, res, next) => {
 			if (request.status !== 'pending')
 				throw new Unauthorized('Invalid request status');
 
+			console.log(request.requestType);
+
 			// Process the request based on the request type
 			if (request.requestType === JOIN) {
 				const { institution, requestor, details } = request;
