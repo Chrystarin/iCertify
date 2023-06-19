@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import { getAccordionDetailsUtilityClass } from '@mui/material';
 
 import axiosInstance from '../../utils/axios';
-import SearchSuggested from './SearchSuggested';
+import SearchSuggesteds from './SearchSuggested';
 function SearchInput({data,setData, SearchSuggested}) {
     
   const [institutions, setInstitutions] = useState({});
@@ -78,7 +78,7 @@ function SearchInput({data,setData, SearchSuggested}) {
       </div>
       {SearchSuggested ? <>
         {(search.focus && search.value!== "")|| search.value!==""?<>
-          <SearchSuggested institutions={filteredInstitutions}/>
+          <SearchSuggesteds institutions={filteredInstitutions}/>
         </>:<></>}
       </>:""}
       
