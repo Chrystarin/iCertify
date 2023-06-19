@@ -53,7 +53,7 @@ const registerInstitution = async (req, res, next) => {
 	}
 
 	// Create new institution document
-	const institution = Institution.create({
+	const institution = await Institution.create({
 		walletAddress,
 		name,
 		email,
