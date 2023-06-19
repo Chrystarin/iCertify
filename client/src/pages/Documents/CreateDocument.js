@@ -200,6 +200,7 @@ function CreateDocument({manual}) {
     // Process the Uploaded Document
     const ProcessDocument = async (file) => {
         console.log(form)
+        let path, txHash = {}
 
         // Creates Form Data to store Data
         const formData = new FormData();
@@ -214,8 +215,8 @@ function CreateDocument({manual}) {
 
         // Calls functions to process document if user confirms transaction 
         if (wallet){
-            const path = await uploadToIpfs(formData)
-            const txHash = await mintDocument(wallet, path)
+            path = await uploadToIpfs(formData)
+            if(path) txHash = await mintDocument(wallet, path)
             if(txHash) await saveTransaction(txHash)
         }
     }
