@@ -68,11 +68,14 @@ const registerInstitution = async (req, res, next) => {
 		async () => {
 			institution.transaction.status = 'success';
 			await institution.save();
+			console.log(institution);
+			console.log('success weeeee');
 		},
 		// If the transaction fails to be mined, update the institution's transaction status to 'failed', save it to the database, and log the error
 		async (error) => {
 			institution.transaction.status = 'failed';
 			await institution.save();
+			console.log('failed weeeee');
 		}
 	);
 
