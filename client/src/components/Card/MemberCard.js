@@ -53,10 +53,10 @@ function MemberCard(props) {
                     <div id='MemberCard__Text'>
                         <h6 id='MemberCard__Name'>{name}</h6>
                         
-                        { (institutionID==="null" || !institutionID)
-                            ? <p className='BodyText3' id='MemberCardID__InstitutionID'>{ShortingWallet(walletAddress)}</p>
-                            : <p className='BodyText3' id='MemberCardID__InstitutionID'>{institutionID}</p>
+                        {!memberId ? '' :
+                            <p className='BodyText3' id='MemberCardID__InstitutionID'>{memberId}</p>
                         }
+                        <p className='BodyText3' id='MemberCardID__InstitutionID'>{ShortingWallet(institutionID)}</p>
 
                         
                     </div>
@@ -75,7 +75,7 @@ function MemberCard(props) {
         aria-describedby="modal-modal-description"
         >
             <div id='MemberCardModal'>
-                <img src={(membershipProof==='null' || !membershipProof) ? membershipProof : ''} alt="" />
+                <img src={(membershipProof==='null' || !membershipProof) ? '' : membershipProof} alt="" />
             </div>
         </Modal>
     </>
