@@ -313,7 +313,7 @@ const InstitutionView = () => {
                             </>
                             }
                         </div>
-                        <div className='Mansory__List'>
+                        <div className='Wrapper__Card'>
                             {(institution.docOffers.length === 0 )?
                                 <p>No Offers found!</p>
                                 :
