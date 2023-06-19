@@ -61,21 +61,24 @@ const registerInstitution = async (req, res, next) => {
 		transaction: { hash: txHash }
 	});
 
+	console.log('institutionController: 64', institution);
+
 	// Wait for the transaction to be mined
 	await waitTx(
 		txHash,
 		// If the transaction is successfully mined, update the institution's transaction status to 'success' and save it to the database
 		async () => {
+			console.log('institutionController: 71', institution);
 			institution.transaction.status = 'success';
+			console.log('institutionController: 73', institution);
 			await institution.save();
-			console.log(institution);
-			console.log('success weeeee');
 		},
 		// If the transaction fails to be mined, update the institution's transaction status to 'failed', save it to the database, and log the error
 		async (error) => {
+			console.log('institutionController: 78', institution);
 			institution.transaction.status = 'failed';
+			console.log('institutionController: 80', institution);
 			await institution.save();
-			console.log('failed weeeee');
 		}
 	);
 
