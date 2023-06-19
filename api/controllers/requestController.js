@@ -239,6 +239,9 @@ const processRequest = async (req, res, next) => {
 					}
 				} = request;
 
+				console.log(price)
+				console.log(price===0)
+
 				request.details.statusTimestamps.approved = new Date();
 
 				if (price === 0) {
