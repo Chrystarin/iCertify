@@ -7,7 +7,10 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { TextField,Avatar } from '@mui/material';
-
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+import FormControl from '@mui/material/FormControl';
 import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 import axiosInstance from '../../utils/axios';
 
@@ -116,13 +119,22 @@ function AddDocumentOffered() {
                             required
                             onChange={(e)=>updateForm({ requirements: e.target.value })}
                         />
-                        <TextField 
+                        <FormControl fullWidth sx={{ m: 1 }}>
+                            <InputLabel htmlFor="outlined-adornment-amount">Price</InputLabel>
+                            <OutlinedInput
+                                id="outlined-adornment-amount"
+                                startAdornment={<InputAdornment position="start">₱</InputAdornment>}
+                                label="Amount"
+                                onChange={(e)=>updateForm({ price: e.target.price})}
+                            />
+                        </FormControl>
+                        {/* <TextField 
                             id="outlined-basic" 
                             label="Price in PHP" 
                             variant="outlined" 
                             required
                             onChange={(e)=>updateForm({ price: e.target.value })}
-                        />
+                        /> */}
                     </div>
                 </div>
                 </div>
