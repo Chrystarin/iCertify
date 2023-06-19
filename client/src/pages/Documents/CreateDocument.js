@@ -144,26 +144,22 @@ function CreateDocument({manual}) {
                     ...openSnackBar,
                     open:true,
                     type:'success',
-                    note:"Document Minted",
+                    note:"Document Minting...",
                     action: ()=>{}
                 }));
-            })
-            .catch((error)=>{
-                console.log(error)
-                setOpenSnackBar(openSnackBar => ({
-                    ...openSnackBar,
-                    open:true,
-                    type:'error',
-                    note: error.response.data.message,
-                    action: ()=>{}
-                }));
-                
             })
             
             return txHash
 
         } catch(error) {
             console.log(error)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note: error.response.data.message,
+                action: ()=>{}
+            }));
         }
     }
 
