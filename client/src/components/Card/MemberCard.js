@@ -16,17 +16,15 @@ function MemberCard(props) {
     const [openModal, setOpenModal] = React.useState(false);
 
     const ShortingWallet = (data) =>{
-        if(data){
-            let startString = "";
-            let EndString = "";
-            for (let i= 0; i < 6; i++) {
-                startString = startString + data.charAt(i)
-            }
-            for (let i = data.length-4; i < data.length; i++) {
-                EndString = EndString + data.charAt(i);
-            }
-            return startString + "..." + EndString
+        let startString = "";
+        let EndString = "";
+        for (let i= 0; i < 6; i++) {
+            startString = startString + data.charAt(i)
         }
+        for (let i = data.length-4; i < data.length; i++) {
+            EndString = EndString + data.charAt(i);
+        }
+        return startString + "..." + EndString
     }
     return <>
         {member?<>
