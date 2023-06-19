@@ -150,13 +150,13 @@ function CreateDocument({manual}) {
             })
             .catch((error)=>{
                 console.log(error)
-                // setOpenSnackBar(openSnackBar => ({
-                //     ...openSnackBar,
-                //     open:true,
-                //     type:'error',
-                //     note:error.data.message,
-                //     action: ()=>{}
-                // }));
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'error',
+                    note: error.response.data.message,
+                    action: ()=>{}
+                }));
                 
             })
             
@@ -181,23 +181,23 @@ function CreateDocument({manual}) {
             .then((response) => {
                 console.log("Document Processing")
                 navigate("/documents/requests/toprocess")
-                // setOpenSnackBar(openSnackBar => ({
-                //     ...openSnackBar,
-                //     open:true,
-                //     type:'info',
-                //     note:"Document Processing..."
-                // }));
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:'info',
+                    note:"Document Processing..."
+                }));
             });
             
         } catch (error) {
             console.log(error)
-            // setOpenSnackBar(openSnackBar => ({
-            //     ...openSnackBar,
-            //     open:true,
-            //     type:'error',
-            //     note:error.message,
-            //     action: ()=>{}
-            // }));
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note: error.response.data.message,
+                action: ()=>{}
+            }));
         }
     }
 
@@ -220,7 +220,7 @@ function CreateDocument({manual}) {
         if (wallet){
             const path = await uploadToIpfs(formData)
             const txHash = await mintDocument(wallet, path)
-            const transaction = await saveTransaction(txHash)
+            if(txHash) await saveTransaction(txHash)
         }
     }
     const ShortingWallet = (data) =>{
