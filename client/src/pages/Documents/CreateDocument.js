@@ -109,6 +109,7 @@ function CreateDocument({manual}) {
             return path;
 
         } catch(error){
+            console.log(error)
             setOpenSnackBar(openSnackBar => ({
                 ...openSnackBar,
                 open:true,
@@ -133,7 +134,7 @@ function CreateDocument({manual}) {
         try{
             await contract.sendDocument(
                 manual ? form.memberAddress : request.requestor.walletAddress,             // receiver
-                manual ? "Document" : request.details.offeredDoc.title,                   // type
+                manual ? form.docTitle : request.details.offeredDoc.title,                  // type
                 path,                                                                       // uri
                 manual ? form.docId : request.details.offeredDoc.docId                    // docId
             )
@@ -148,6 +149,7 @@ function CreateDocument({manual}) {
                 }));
             })
             .catch((error)=>{
+                console.log(error)
                 setOpenSnackBar(openSnackBar => ({
                     ...openSnackBar,
                     open:true,
@@ -188,6 +190,7 @@ function CreateDocument({manual}) {
             });
             
         } catch (error) {
+            console.log(error)
             setOpenSnackBar(openSnackBar => ({
                 ...openSnackBar,
                 open:true,
@@ -195,7 +198,6 @@ function CreateDocument({manual}) {
                 note:error.message,
                 action: ()=>{}
             }));
-            // alert(error.message)
         }
     }
 
@@ -325,6 +327,13 @@ function CreateDocument({manual}) {
                                     type='text'
                                     required
                                     onChange={(e) => setForm({memberAddress: e.target.value})}
+                                />
+                                <TextField
+                                    id='outlined-search'
+                                    label='Document Title'
+                                    type='text'
+                                    required
+                                    onChange={(e) => setForm({docTitle: e.target.value})}
                                 />
                                 <FormControl fullWidth variant='standard'>
                                     <InputLabel id="demo-simple-select-label">Select Document</InputLabel>
