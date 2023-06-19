@@ -11,10 +11,7 @@ import { TextField,Avatar } from '@mui/material';
 import Switch from '@mui/material/Switch';
 import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 import axiosInstance from '../../utils/axios';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import InputAdornment from '@mui/material/InputAdornment';
-import FormControl from '@mui/material/FormControl';
+
 function EditDocumentOffered() {
 
     const navigate = useNavigate();
@@ -168,23 +165,13 @@ function EditDocumentOffered() {
                             defaultValue={form.requirements}
                             onChange={(e)=>updateForm({ requirements: e.target.value })}
                         />
-                         <FormControl fullWidth sx={{ m: 1 }}>
-                            <InputLabel htmlFor="outlined-adornment-amount">Price</InputLabel>
-                            <OutlinedInput
-                                id="outlined-adornment-amount"
-                                startAdornment={<InputAdornment position="start">₱</InputAdornment>}
-                                label="Amount"
-                                defaultValue={form.price}
-                                onChange={(e)=>updateForm({ price: e.target.value })}
-                            />
-                        </FormControl>
-                        {/* <TextField 
+                        <TextField 
                             id="outlined-basic" 
-                            label="Price" 
+                            label="Price in PHP" 
                             variant="outlined" 
                             defaultValue={form.price}
                             onChange={(e)=>updateForm({ price: e.target.value })}
-                        /> */}
+                        />
                     </div>
                     <div className='Wrapper_2_Inputs'>
                             Active Status

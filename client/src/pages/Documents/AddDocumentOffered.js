@@ -118,7 +118,7 @@ function AddDocumentOffered() {
                         />
                         <TextField 
                             id="outlined-basic" 
-                            label="Price" 
+                            label="Price in PHP" 
                             variant="outlined" 
                             required
                             onChange={(e)=>updateForm({ price: e.target.value })}
