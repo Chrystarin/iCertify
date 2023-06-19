@@ -3,6 +3,7 @@ import './SearchInput.scss';
 import Chip from '@mui/material/Chip';
 import Avatar from '@mui/material/Avatar';
 function SearchSuggested({institutions}) {
+    console.log(institutions)
     const [stepper, setStepper] = useState("institutions");
     console.log(institutions.length)
     return <>
