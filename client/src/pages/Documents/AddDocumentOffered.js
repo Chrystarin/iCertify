@@ -8,10 +8,16 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { TextField,Avatar } from '@mui/material';
 
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 import axiosInstance from '../../utils/axios';
 
 function AddDocumentOffered() {
     const navigate = useNavigate();
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
     const user = JSON.parse(localStorage.getItem("user"));
     // Stepper
     const [activeStep,setActiveStep] = useState(0);
@@ -56,12 +62,22 @@ function AddDocumentOffered() {
                     requirements: form.requirements
                 }))
                 .then((response) => {
-                    alert("Document Offer Added!")
+                    setOpenSnackBar(openSnackBar => ({
+                        ...openSnackBar,
+                        open:true,
+                        type:'success',
+                        note:"Document Offer Added!",
+                    }));
                     navigate(`/institutions/${user.walletAddress}`)
                 });
         
-        } catch (error) {      
-            alert(error.response.data.message);
+        } catch (error) {     
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note: error.response.data.message,
+            }));
         }
     }
 
@@ -133,6 +149,7 @@ function AddDocumentOffered() {
             </div>
         </div>
         <VIEWFORM />
+        <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
     </section>
     )
 }

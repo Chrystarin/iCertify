@@ -143,7 +143,13 @@ function Profile() {
                 }));
             })
         } catch (error) {      
-            alert(error.response.data.message);
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:"error",
+                note:error.response.data.message
+            }));
+            
         }
     }
     

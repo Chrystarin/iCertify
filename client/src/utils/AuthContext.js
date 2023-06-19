@@ -3,14 +3,18 @@ import {useNavigate} from 'react-router-dom';
 import {ethers} from 'ethers';
 
 import axiosInstance from './axios';
-
+import SnackbarComponent from "../components/Snackbar/SnackbarComponent";
 const AuthContext = createContext();
 
 function AuthProvider({ children }) {
     // Constants Declaration
     const navigate = useNavigate()
     const [user, setUser] = useState(null);
-
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
     let globalWallet = {}
     
     const contractAddress = process.env.REACT_APP_CONTRACT_ADDRESS
@@ -49,7 +53,12 @@ function AuthProvider({ children }) {
                     window.location.reload(true); 
                 });
         } catch (error) {
-            alert(error.response.data.message)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note:error.response.data.message,
+            }));
         }
     };
 
@@ -114,7 +123,13 @@ function AuthProvider({ children }) {
                                         window.location.reload(true); 
                                     });
                             } catch (error) {
-                                alert(error.response.data.message);
+                                setOpenSnackBar(openSnackBar => ({
+                                    ...openSnackBar,
+                                    open:true,
+                                    type:'error',
+                                    note:error.response.data.message,
+                                }));
+                                
                             }
                         };
                         login()
@@ -141,13 +156,23 @@ function AuthProvider({ children }) {
                         })
                     )
                     .then((response)=>{
-                        alert("Processing registration. Wait for transaction to complete.")
+                        setOpenSnackBar(openSnackBar => ({
+                            ...openSnackBar,
+                            open:true,
+                            type:'info',
+                            note:"Processing registration. Wait for transaction to complete.",
+                        }));
                         navigate('/')
                     })
                     break;
             }
-        } catch (error) {      
-            alert(error.response.data.message)
+        } catch (error) {  
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note: error?.response?.data?.message ?? error.toString(),
+            }));
         }
     }
 
@@ -158,7 +183,12 @@ function AuthProvider({ children }) {
             return response.data;
         } 
         catch (error) {
-            alert(error.response.data.message)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note:error.response.data.message,
+            }));
         }
     }
 
@@ -169,7 +199,12 @@ function AuthProvider({ children }) {
             return contract;
         } 
         catch (error) {
-            alert(error.response.data.message)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note:error.response.data.message,
+            }));
         }
     }
 
@@ -197,7 +232,12 @@ function AuthProvider({ children }) {
             return {provider, signer, signature, address}
             
         } catch(error) {
-            alert(error.response.data.message)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note: error?.response?.data?.message ?? error.toString(),
+            }));
         }
     }
     
@@ -246,7 +286,12 @@ function AuthProvider({ children }) {
             return containsValue(list.members, JSON.parse(localStorage.getItem("user")).walletAddress);
         }
         catch(error){
-            alert(error.response.data.message)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note:error.response.data.message,
+            }));
         }
     };
 
@@ -266,7 +311,15 @@ function AuthProvider({ children }) {
         isJoined
     };
 
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    return (
+        <AuthContext.Provider value={value}>
+            {children}
+            <>
+                <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
+            </>
+        </AuthContext.Provider>
+    )
+        
 }
 
 function useAuth() {

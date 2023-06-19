@@ -9,6 +9,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { TextField,Avatar } from '@mui/material';
 import Switch from '@mui/material/Switch';
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 import axiosInstance from '../../utils/axios';
 
 function EditDocumentOffered() {
@@ -18,7 +19,12 @@ function EditDocumentOffered() {
     const user = JSON.parse(localStorage.getItem("user"));
     const [docOffer, setDocOffer] = useState();
 
-
+    const [openSnackBar, setOpenSnackBar] = React.useState({
+        open:false,
+        type:"",
+        note:""
+    });
+    
     // Excecutes on page load
     useEffect(() => {
         fetchDocumentOffer();
@@ -77,8 +83,14 @@ function EditDocumentOffered() {
                     })
                 });
         
-        } catch (error) {      
-            alert(error.response.data.message)
+        } catch (error) {  
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note: error.response.data.message,
+            }));    
+           
         }
     }
 
@@ -96,12 +108,23 @@ function EditDocumentOffered() {
                 }))
                 .then((response) => {
                     console.log(response.data)
-                    alert("Document Updated!")
+                    setOpenSnackBar(openSnackBar => ({
+                        ...openSnackBar,
+                        open:true,
+                        type:'success',
+                        note:"Document Updated!",
+                    }));
                     navigate(`/institutions/${user.walletAddress}`)
                 });
         
-        } catch (error) {      
-            alert(error.response.data.message)
+        } catch (error) { 
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note:error.response.data.message,
+            }));     
+            
         }
     }
 
@@ -189,6 +212,7 @@ function EditDocumentOffered() {
             </div>
         </div>
         <VIEWFORM />
+        <SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
     </section>
     )
 }

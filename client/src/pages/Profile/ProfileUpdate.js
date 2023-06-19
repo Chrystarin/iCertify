@@ -14,19 +14,19 @@ import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 import Loading from '../../components/Loading/Loading';
 import axios from '../../utils/axios';
-import dayjs from 'dayjs';
 // Import Utilities
 import axiosInstance from '../../utils/axios';
 import { useAuth } from "../../utils/AuthContext";
 
 function ProfileUpdate() {
-	
+	const [openSnackBar, setOpenSnackBar] = React.useState({
+		open:false,
+		type:"",
+		note:""
+	});
     // Constant Declarations
     const { id } = useParams();
 	const navigate = useNavigate();
@@ -105,11 +105,21 @@ function ProfileUpdate() {
             )
             .then((response)=>{
                 fetchUser();
-                alert("Profile Updated!")
+				setOpenSnackBar(openSnackBar => ({
+					...openSnackBar,
+					open:true,
+					type:'success',
+					note:"Profile Updated!",
+				}));
                 navigate(`/users/${user.walletAddress}`)
             })
-        } catch (error) {      
-            alert(error.response.data.message);
+        } catch (error) {  
+			setOpenSnackBar(openSnackBar => ({
+				...openSnackBar,
+				open:true,
+				type:'error',
+				note:error.response.data.message,
+			}));
         }
 	}
 
@@ -241,6 +251,7 @@ function ProfileUpdate() {
 					</Button>
 				</div>
 			</form>
+			<SnackbarComponent open={openSnackBar} setter={setOpenSnackBar}/>
 		</section>
 	);
 }
