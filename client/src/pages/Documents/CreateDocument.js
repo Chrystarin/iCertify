@@ -109,7 +109,13 @@ function CreateDocument({manual}) {
             return path;
 
         } catch(error){
-            console.log(error)
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note:error.response.data.message,
+                action: ()=>{}
+            }));
         }
     }
 
