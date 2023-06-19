@@ -109,13 +109,7 @@ function CreateDocument({manual}) {
             return path;
 
         } catch(error){
-            setOpenSnackBar(openSnackBar => ({
-                ...openSnackBar,
-                open:true,
-                type:'error',
-                note:error.response.data.message,
-                action: ()=>{}
-            }));
+            console.log(error)
         }
     }
 
@@ -133,7 +127,7 @@ function CreateDocument({manual}) {
         try{
             await contract.sendDocument(
                 manual ? form.memberAddress : request.requestor.walletAddress,             // receiver
-                manual ? form.docTitle : request.details.offeredDoc.title,                   // type
+                manual ? "Document" : request.details.offeredDoc.title,                   // type
                 path,                                                                       // uri
                 manual ? form.docId : request.details.offeredDoc.docId                    // docId
             )
@@ -152,7 +146,7 @@ function CreateDocument({manual}) {
                     ...openSnackBar,
                     open:true,
                     type:'error',
-                    note: error.response.data.message,
+                    note:error.data.message,
                     action: ()=>{}
                 }));
                 
@@ -161,13 +155,7 @@ function CreateDocument({manual}) {
             return txHash
 
         } catch(error) {
-            setOpenSnackBar(openSnackBar => ({
-                ...openSnackBar,
-                open:true,
-                type:'error',
-                note:error.response.data.message,
-                action: ()=>{}
-            }));
+            console.log(error)
         }
     }
 
@@ -198,9 +186,10 @@ function CreateDocument({manual}) {
                 ...openSnackBar,
                 open:true,
                 type:'error',
-                note:error.response.data.message,
+                note:error.message,
                 action: ()=>{}
             }));
+            // alert(error.message)
         }
     }
 
@@ -330,13 +319,6 @@ function CreateDocument({manual}) {
                                     type='text'
                                     required
                                     onChange={(e) => setForm({memberAddress: e.target.value})}
-                                />
-                                <TextField
-                                    id='outlined-search'
-                                    label='Document Title'
-                                    type='text'
-                                    required
-                                    onChange={(e) => setForm({docTitle: e.target.value})}
                                 />
                                 <FormControl fullWidth variant='standard'>
                                     <InputLabel id="demo-simple-select-label">Select Document</InputLabel>
