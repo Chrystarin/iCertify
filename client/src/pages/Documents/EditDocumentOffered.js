@@ -169,8 +169,8 @@ function EditDocumentOffered() {
                             id="outlined-basic" 
                             label="Price in PHP" 
                             variant="outlined" 
-                            defaultValue={form.price}
-                            onChange={(e)=>updateForm({ price: e.target.value })}
+                            defaultValue={form.price.$numberDecimal}
+                            onChange={(e)=>updateForm({ price: e.target.number})}
                         />
                     </div>
                     <div className='Wrapper_2_Inputs'>
