@@ -52,7 +52,7 @@ function AddDocumentOffered() {
                 .post(`institutions/offers`, JSON.stringify({
                     title: form.name,
                     description: form.description,
-                    price: form.price,
+                    price: Number(form.price),
                     requirements: form.requirements
                 }))
                 .then((response) => {
