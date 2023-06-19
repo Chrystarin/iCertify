@@ -52,6 +52,7 @@ function DocumentRequestForm() {
                 }
                 return undefined;
             }
+            console.log(findValue(response.data.docOffers, docId))
             setDocument(findValue(response.data.docOffers, docId))
         });
     };
