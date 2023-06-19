@@ -207,9 +207,9 @@ function MemberList() {
                                             key={request.requestor.walletAddress} 
                                             name={`${request.requestor.name.firstName}`+" "+`${request.requestor.name.lastName}`}
                                             walletAddress={request.requestor.walletAddress} 
-                                            institutionID={(!request.details?.idNumber) ? request.details?.idNumber : ''}
+                                            institutionID={(!request.details?.idNumber) ? '' : request.details?.idNumber}
                                             member={false}
-                                            membershipProof={(!request.details?.membership) ? request.details?.membership : ''}
+                                            membershipProof={(!request.details?.membership) ? '' : request.details?.membership}
                                             image={request.requestor.photo} 
                                             accept={()=>AcceptRequest(request)}
                                             reject={()=>RejectRequest(request)}
