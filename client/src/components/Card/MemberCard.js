@@ -15,7 +15,8 @@ function MemberCard(props) {
     } = props;
     const [openModal, setOpenModal] = React.useState(false);
 
-    console.log(image)
+    console.log(props)
+
     const ShortingWallet = (data) =>{
         let startString = "";
         let EndString = "";
