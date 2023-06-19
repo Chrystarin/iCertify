@@ -153,13 +153,13 @@ function CreateDocument({manual}) {
 
         } catch(error) {
             console.log(error)
-            // setOpenSnackBar(openSnackBar => ({
-            //     ...openSnackBar,
-            //     open:true,
-            //     type:'error',
-            //     note: error.response.data.message,
-            //     action: ()=>{}
-            // }));
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note: error.response.data.message,
+                action: ()=>{}
+            }));
         }
     }
 
@@ -187,13 +187,13 @@ function CreateDocument({manual}) {
             
         } catch (error) {
             console.log(error)
-            // setOpenSnackBar(openSnackBar => ({
-            //     ...openSnackBar,
-            //     open:true,
-            //     type:'error',
-            //     note: error.response.data.message,
-            //     action: ()=>{}
-            // }));
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note: error.response.data.message,
+                action: ()=>{}
+            }));
         }
     }
 
