@@ -261,7 +261,7 @@ function LandingPage() {
 												/>
 											</svg>
 											<p>
-												Simply signup on our page then join an event hosted by Bicol IT. Once your attendance to the event has been confirmed you can claim your certificate which will then be stored in your crypto wallet.
+												Simply register on our site using your metamask wallet. If you are a member, join an institution and request a document to receive your NFT document while if you are in institution, manage member join and document requests then you'll be able to upload and create an NFT document to be sent to your members in just a click away!
 											</p>
 										</li>
 										<li
