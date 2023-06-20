@@ -290,7 +290,7 @@ function AuthProvider({ children }) {
                 ...openSnackBar,
                 open:true,
                 type:'error',
-                note:error.response.data.message,
+                note:error?.response?.data?.message ?? error.toString(),
             }));
         }
     };
