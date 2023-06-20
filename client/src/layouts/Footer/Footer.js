@@ -15,14 +15,14 @@ function Footer() {
         <div id="wrapper_Footer">
             <div id="Container_Left_Footer">
                 <img src={icertify_footer} alt=""/>
-                <h6>Follow us through news letter : </h6>
+                {/* <h6>Follow us through news letter : </h6>
                 <form action="get">
                     <input type="text" name="Email" id="" placeholder="YourEmail@email.com"/>
                     <button>></button>
-                </form>
+                </form> */}
                 <h6>© 2023 iCertify</h6>
             </div>
-            <div id="Container_Right_Footer">
+            {/* <div id="Container_Right_Footer">
                 <div id="Wrapper_Right_Footer">
                     <div>
                         
@@ -42,7 +42,7 @@ function Footer() {
                         <a href="#link"><img src={instagramicon} alt=""/></a>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </div>
     </footer>
  );
