@@ -380,7 +380,7 @@ function CreateDocument({manual}) {
                                 </div>
                                 <div>
                                     <h6>Price:</h6>
-                                    <p>{request.details.offeredDoc.price}</p>
+                                    <p>{request.details.offeredDoc.price.$numberDecimal}</p>
                                 </div>
                                 <div>
                                     <h6>Description:</h6>
