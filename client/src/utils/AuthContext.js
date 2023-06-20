@@ -283,7 +283,13 @@ function AuthProvider({ children }) {
                 }
                 return false;
             }
-            return containsValue(list.members, JSON.parse(localStorage.getItem("user")).walletAddress);
+            if (!(JSON.parse(localStorage.getItem("user")))) {
+                // User is not logged in, so they are not authorized
+                return false;
+            }
+            else {
+                return containsValue(list.members, JSON.parse(localStorage.getItem("user")).walletAddress);
+            }
         }
         catch(error){
             setOpenSnackBar(openSnackBar => ({
