@@ -39,7 +39,7 @@ function LandingPage() {
 								<h5>
 									Integrates NFT and Blockchain Technology
 								</h5>
-								<a href='#home' onClick={()=>alert()}>Learn More!</a>
+								{/* <a href='#home' onClick={()=>alert()}>Learn More!</a> */}
 							</div>
 						</div>
 					</div>
