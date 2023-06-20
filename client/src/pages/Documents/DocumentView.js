@@ -1,5 +1,5 @@
 import React,{useRef, useEffect, useState} from 'react';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { saveAs } from 'file-saver'
 import {ethers} from 'ethers';
 import QRCode from 'react-qr-code';
@@ -43,6 +43,7 @@ function DocumentView() {
     // Constant Declarations
     const docRef = useRef();
     const { id } = useParams()
+    const navigate = useNavigate();
     const { isAuth, fetchContract, getContract, ConnectWallet, contractAddress, baseUrl } = useAuth();
 
     // State Declarations
@@ -66,17 +67,27 @@ function DocumentView() {
 
     // Retrieves Document's Data
     const fetchDocument = async () => {
-        await axiosInstance
-            .get(`documents`,{
-                params: {
-                    code: id
-                }
-            })
-            .then((response) => {
-                setDocumentData(response.data);
-                getDocumentData(response.data);
-                setAccessCodes(response.data.codes);
-            });
+        try{
+            await axiosInstance
+                .get(`documents`,{
+                    params: {
+                        code: id
+                    }
+                })
+                .then((response) => {
+                    setDocumentData(response.data);
+                    getDocumentData(response.data);
+                    setAccessCodes(response.data.codes);
+                });
+        } catch(error) {
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note:error.response.data.message,
+            }));
+            navigate("/error404")
+        }
     };
 
     const ShortingWallet = (data) =>{
