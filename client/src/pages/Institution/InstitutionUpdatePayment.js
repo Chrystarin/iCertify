@@ -86,7 +86,7 @@ function InstitutionUpdatePayment() {
             )
             .then((response) => {
                 fetchInstitution();
-                alert("Payment Method Added")
+                // alert("Payment Method Added")
                 console.log(response.data)
             });
     };
