@@ -29,7 +29,7 @@ function MemberCard(props) {
     return <>
         {member?<>
             <div id='MemberCard'>
-                <a href={`/users/${props.institutionID}`} id='MemberCard__Container'>
+                <a href={`/users/${props.walletAddress}`} id='MemberCard__Container'>
                     <Avatar id="MemberCard__Avatar" src={image}/>
                     <div id='MemberCard__Text'>
                         <h6 className='BodyText2' id='MemberCard__Name'>{name}</h6>
