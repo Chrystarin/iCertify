@@ -170,11 +170,11 @@ function MemberList() {
                                     return (
                                         <MemberCard 
                                             key={member.user.walletAddress} 
+                                            walletAddress={member.user.walletAddress} 
                                             name={member.user.name.firstName + ' ' + member.user.name.lastName } 
-                                            institutionID={member.user.walletAddress}
+                                            institutionID={(member.details?.idNumber) ? member.details?.idNumber : ''}
                                             image={member.user.photo} 
                                             member={true}
-                                            memberId={(member.details?.idNumber) ? member.details?.idNumber : ''}
                                             membershipProof={(member.details?.membership) ? member.details?.membership : ''}
                                         />
                                     );
