@@ -158,6 +158,9 @@ function DocumentView() {
 
     // Updates Document Privacy Mode
     const updateDocumentPrivacy = async (data) =>{
+        console.log(data)
+        console.log((data ? "public" : "private"))
+        console.log(documentData.nftId)
         await axiosInstance
         .patch(
             'documents',
@@ -236,9 +239,7 @@ function DocumentView() {
 
 
     const handleTogglePrivacy = (data) => {
-        console.log(data)
         updateDocumentPrivacy(data);
-
     }
 
     // Download Document as Image
