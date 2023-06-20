@@ -41,13 +41,12 @@ const updateMode = async (req, res, next) => {
 		{
 			_id: id, // Find the user by their ID
 			'documents.nftId': nftId, // Find the document with matching NFT ID
-			'documents.mode': { $ne: mode } // Ensure the access mode is different from the new value
 		},
 		{ $set: { 'documents.$.mode': mode } } // Set the access mode to the new value for the matching document
 	);
 
 	// If no documents were modified, throw an error
-	if (result.modifiedCount === 0) throw new UserNotFound();
+	if (result.modifiedCount === 0) throw new NotFound('Document not found');
 
 	// Send a response indicating the access mode was successfully updated
 	res.json({ message: `Access mode updated to ${mode}` });
