@@ -56,13 +56,22 @@ class DuplicateEntry extends Error {
 	}
 }
 
+class UserBlocked extends Error {
+    constructor() {
+        super('User is blocked');
+        this.name = 'UserBlocked';
+        this.status = 403;
+    }
+}
+
 module.exports = {
-	NotFound,
-	Forbidden,
-	Unauthorized,
-	InvalidInput,
 	DuplicateEntry,
+	Forbidden,
 	InstitutionNotFound,
+	InvalidInput,
+	MemberNotFound,
+	NotFound,
+	Unauthorized,
 	UserNotFound,
-	MemberNotFound
+    UserBlocked
 };

@@ -1,4 +1,5 @@
 const Institution = require('../models/Institution');
+const User = require('../models/User');
 
 const {
 	isString,
@@ -214,6 +215,27 @@ const getMembers = async (req, res, next) => {
 	// Sending the filtered members as the response
 	res.json(members);
 };
+
+const blockMember = async (req, res, next) => {
+    const {
+        query: { walletAddress },
+        user: { id }
+    } = req;
+
+    const institution = await Institution.findById(id);
+
+    const memberIndex = institution.members.findIndex(({ user }) => user.walletAddress === walletAddress);
+    let blockedMember;
+
+    if(memberIndex !== -1)
+        [blockedMember] = institution.members.splice(memberIndex, 1);
+    else
+        blockedMember = await User.findOne({ walletAddress }).exec();
+
+    institution.blocked.push(blockedMember._id);
+
+    res.json({ message: 'Member successfully blocked in the institution' });
+}
 
 const addOfferedDoc = async (req, res, next) => {
 	// Destructure the request object to get required data
@@ -511,6 +533,7 @@ const deletePayment = async (req, res, next) => {
 module.exports = {
 	addOfferedDoc,
 	addPayment,
+    blockMember,
 	deletePayment,
 	editOfferedDoc,
 	editPayment,

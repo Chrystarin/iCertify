@@ -6,12 +6,13 @@ const {
 	roles: { USER, INSTITUTION }
 } = require('../miscellaneous/constants');
 const {
+	DuplicateEntry,
+	InstitutionNotFound,
+	InvalidInput,
 	MemberNotFound,
 	NotFound,
-	InstitutionNotFound,
-	DuplicateEntry,
 	Unauthorized,
-	InvalidInput
+    UserBlocked
 } = require('../miscellaneous/errors');
 const { genRequestId } = require('../miscellaneous/generateId');
 const { isString } = require('../miscellaneous/checkInput');
@@ -93,6 +94,10 @@ const createRequest = async (req, res, next) => {
 		});
 		if (requestExists)
 			throw new DuplicateEntry('Join request already created');
+
+        // Check if user is blocked in the institution
+        if (institution.blocked.includes(id))
+            throw new UserBlocked();
 
 		// Add requestType to requestParams
 		requestParams.requestType = JOIN;

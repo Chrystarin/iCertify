@@ -9,6 +9,7 @@ const authenticate = require('../middlewares/authenticate');
 const {
 	addOfferedDoc,
 	addPayment,
+    blockMember,
 	deletePayment,
 	editOfferedDoc,
 	editPayment,
@@ -49,6 +50,13 @@ router.patch('/', fileUpload(), updateInstitution);
  * walletAddress - optional [many | one]
  */
 router.get('/members', getMembers);
+
+/**
+ * Block a member of an institution
+ * 
+ * walletAddress
+ */
+router.patch('/members', blockMember);
 
 /**
  * Add an offered doc
