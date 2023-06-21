@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
+pragma solidity 0.8.19;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -10,6 +10,8 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
 {
     using Counters for Counters.Counter;
 	Counters.Counter documentIds;
+
+    address owner;
 
 	struct Document
 	{
@@ -23,7 +25,16 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
 	mapping(address => bool) institutions;
     mapping(string => bool) uris;
 
-	constructor() ERC721("DocumentNFT", "DOC") {}
+	constructor() ERC721("DocumentNFT", "DOC") {
+        owner = msg.sender;
+    }
+
+    function withdraw() public {
+        require(msg.sender == owner, "Only the owner of this contract can initiate this");
+
+        (bool success, ) = payable(owner).call{value: address(this).balance}("");
+        require(success, "Failed to withdraw accumulated fees");
+    }
 
 	// Handles the minting and transferring of the document to its owner
 	function sendDocument(
@@ -31,12 +42,14 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
 		string memory type_,
 		string memory uri,
         string memory docId
-	) public
+	) public payable
 	{
 		// Check if sender is admin of institution
+        require(msg.sender != owner, "Invalid action");
 		require(institutions[msg.sender], "Sender is not an admin of institution");
         require(!institutions[receiver], "Receiver must not be an institution");
         require(!uris[uri], "Document already owned by another address");
+        require(msg.value >= 3333333333 gwei, "Insufficient transaction fee");
 
 		// Generate a unique, new documentd id
 		uint256 newDocumentId = documentIds.current();
@@ -97,7 +110,7 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
 		super._beforeTokenTransfer(from, to, batchSize, tokenId);
 	}
 
-	function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable) returns(bool)
+	function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721URIStorage, ERC721Enumerable) returns(bool)
 	{
 		return super.supportsInterface(interfaceId);
 	}
