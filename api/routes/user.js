@@ -30,6 +30,6 @@ router.get('/', getUser);
  * about - optional
  * photo - optional
  */
-router.patch('/', authenticate, fileUpload(), onlyUser, updateUser);
+router.patch('/', authenticate, fileUpload({ limits: { fileSize: 5 * 1024 * 1024 }, abortOnLimit: true }), onlyUser, updateUser);
 
 module.exports = router;
