@@ -105,7 +105,7 @@ function RequestCard(props) {
 				</>:<>
                     <div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_1'>
                         {MultipleSelectValue.includes(requestId)?<>
-                            <Button variant='text' onClick={()=>{
+                            <Button variant='' onClick={()=>{
                                 setMultipleSelectValue(MultipleSelectValue.filter((item)=>item !== requestId))
                             }}>
                                 unselect
