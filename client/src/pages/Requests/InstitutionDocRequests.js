@@ -246,7 +246,7 @@ function InstitutionDocRequests() {
                                     onClick={()=>{
                                         console.log(selectMultipleValue); 
                                         if(selectMultiple){
-                                            setSelectMultipleValue({});
+                                            setSelectMultipleValue([]);
                                             console.log(selectMultipleValue)
                                             setSelectMultiple(false)
                                         }
