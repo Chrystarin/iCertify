@@ -264,9 +264,9 @@ function InstitutionDocRequests() {
 								<Button variant='contained' href='/documents/requests/manual'>Generate Document</Button>
 							</div>
                             <div>
-                                {selectMultipleValue.map((value)=>{
+                                {/* {selectMultipleValue.map((value)=>{
                                     return <p>{value}</p>
-                                })}
+                                })} */}
                             </div>
 							<TabView requests={requests}/>
 						</div>
