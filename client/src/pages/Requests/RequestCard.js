@@ -104,14 +104,20 @@ function RequestCard(props) {
 					</div>
 				</>:<>
                     <div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_1'>
-						<Button variant='contained' onClick={()=>{
-                            setMultipleSelectValue([...MultipleSelectValue,requestId])
-                            console.log(MultipleSelectValue);
-                        }}
-                        disabled={MultipleSelectValue.includes(requestId)?true:false}
-                        >
-                            select
-                        </Button>
+                        {MultipleSelectValue.includes(requestId)?<>
+                            <Button variant='text' onClick={()=>{
+                                setMultipleSelectValue(MultipleSelectValue.filter((item)=>item !== requestId))
+                            }}>
+                                unselect
+                            </Button>
+                        </>:<>
+                            <Button variant='contained' onClick={()=>{
+                                setMultipleSelectValue([...MultipleSelectValue,requestId])
+                            }}>
+                                select
+                            </Button>
+                        </>}
+						
 					</div>
                 </>}
 				{status==="verified"?<>
