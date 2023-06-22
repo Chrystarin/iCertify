@@ -53,22 +53,19 @@ function MemberCard(props) {
                             <p className='BodyText3' id='MemberCardID__InstitutionID'>{institutionID}</p>
                         }
                         <p className='BodyText3' id='MemberCardID__InstitutionID'>{ShortingWallet(walletAddress)}</p>
-
-                        
                     </div>
                 </a>
                 <div id='MemberCardID__Buttons'>
                     <Button variant='outlined' onClick={props.reject}>Decline</Button>
                     <Button variant='contained' onClick={props.accept}>Accept</Button>    
                 </div>
-                
             </div>
         </>}
         <Modal
-        open={openModal}
-        onClose={()=>{setOpenModal(false)}}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+            open={openModal}
+            onClose={()=>{setOpenModal(false)}}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
         >
             <div id='MemberCardModal'>
                 <img src={(!membershipProof) ? '' : membershipProof} alt="" />

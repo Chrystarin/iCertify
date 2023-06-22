@@ -5,17 +5,13 @@ import './InstitutionDocRequests.scss';
 import './../../styles/Main.scss';
 import Loading from '../../components/Loading/Loading';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SearchInput from '../../components/SearchInput/SearchInput';
 import MintTransferCard from './RequestCard';
 import FileOpenIcon from '@mui/icons-material/FileOpen';
 import Menu from '@mui/material/Menu';
-import { ethers } from 'ethers';
 import axiosInstance from '../../utils/axios';
 import SidePanelList from '../../components/SidePanelList/SidePanelList';
 import InstitutionCardDesign from '../../images/Resources/InstitutionCardDesign.png'
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 import moment from 'moment';
 
@@ -231,7 +227,7 @@ function InstitutionDocRequests() {
 
 
 					<div id='Body'>
-						<div id='TabsNav'>
+						<div id='TabsNav'>wew
 							<Button variant={TabActive === 'verifyrequest' ? 'contained':''}onClick={() => setTabActive('verifyrequest')}>Verify Requests [{requestPending.length}]</Button>
 							<Button variant={TabActive === 'verifypayment' ? 'contained':''}onClick={() => setTabActive('verifypayment')}>Verify Payment [{requestPaid.length}]</Button>
 							<Button variant={TabActive === 'toprocess'? 'contained': ''} onClick={() => setTabActive('toprocess')}>To Process [{requestVerified.length}]</Button>

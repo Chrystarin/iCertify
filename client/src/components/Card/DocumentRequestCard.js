@@ -14,129 +14,47 @@ import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 
 function DocumentRequestCard(props) {
 
-  const [anchorElMenu, setAnchorElMenu] = React.useState(null);
-  const openMenu = Boolean(anchorElMenu);
-  const handleClickMenu = (event) => {
-    setAnchorElMenu(event.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setAnchorElMenu(null);
-  };
+    const [anchorElMenu, setAnchorElMenu] = React.useState(null);
+    const openMenu = Boolean(anchorElMenu);
+    const handleClickMenu = (event) => {
+        setAnchorElMenu(event.currentTarget);
+    };
+    const handleCloseMenu = () => {
+        setAnchorElMenu(null);
+    };
 
-  return (
-    <div id='DocumentRequestCard' className='item'>
-      <img id='DocumentRequestCard__imageResource' src={ResourcesDesign} alt="" />
-      <img id="DocumentRequestCard__DocumentIcon" src={DocumentIcon} alt="" />
-      <h5 id='DocumentRequestCard__Name'>{props.name}</h5>
-      <div id='DocumentRequestCard__Contents'>
-        <div>
-          <h6 className='DocumentRequestCard__Contents__Title'>Description:</h6>
-          <p className='BodyText3'>
-            {props.description}
-          </p>
+    return (
+        <div id='DocumentRequestCard' className='item'>
+            <img id='DocumentRequestCard__imageResource' src={ResourcesDesign} alt="" />
+            <img id="DocumentRequestCard__DocumentIcon" src={DocumentIcon} alt="" />
+            <h5 id='DocumentRequestCard__Name'>{props.name}</h5>
+            <div id='DocumentRequestCard__Contents'>
+                <div>
+                <h6 className='DocumentRequestCard__Contents__Title'>Description:</h6>
+                <p className='BodyText3'>
+                    {props.description}
+                </p>
+                </div>
+                <div>
+                <h6 className='DocumentRequestCard__Contents__Title'>Requirements:</h6>
+                <ul>
+                    <li>
+                        <p className='BodyText3'>{props.requirements}</p>
+                    </li>
+                </ul>
+                </div>
+            </div>
+            <div id='DocumentRequestCard__Navigation'>
+                {props.owner?<>
+                <Button id="DocumentRequestCard__Button" variant="outlined" href={`/documents/${props.id}/edit`}>Edit Document</Button>
+                </>: 
+                (props.member) 
+                    ? <Button id="DocumentRequestCard__Button" variant="outlined" href={props.link}>Request Document</Button>
+                    : ''
+                }
+            </div>
         </div>
-        <div>
-          <h6 className='DocumentRequestCard__Contents__Title'>Requirements:</h6>
-          <ul>
-              <li>
-                <p className='BodyText3'>{props.requirements}</p>
-              </li>
-          </ul>
-        </div>
-      </div>
-      <div id='DocumentRequestCard__Navigation'>
-        {props.owner?<>
-          {/* <React.Fragment>
-            <Tooltip title="Menu">
-              <IconButton
-                onClick={handleClickMenu}
-                size="small"
-                sx={{ ml: 2 }}
-                aria-controls={openMenu ? 'account-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={openMenu ? 'true' : undefined}
-              >
-              <MoreVertIcon color="action" sx={{ fontSize: 30 ,cursor:"pointer"}}/>
-              </IconButton>
-            </Tooltip>
-          
-            <Menu
-              anchorEl={anchorElMenu}
-              id="account-menu"
-              open={openMenu}
-              onClose={handleCloseMenu}
-              
-              PaperProps={{
-                elevation: 0,
-                sx: {
-                  padding:0,
-                  overflow: 'visible',
-                  filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                  mt: 1.5,
-                  '& .MuiAvatar-root': {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 9,
-                  },
-                  '&:before': {
-                    content: '""',
-                    display: 'block',
-                    position: 'absolute',
-                    top: 0,
-                    left: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: 'white',
-                    transform: 'translateY(-50%) rotate(45deg)',
-                    zIndex: 0,
-                  },
-                },
-              }}
-              transformOrigin={{ horizontal: 'left', vertical: 'top' }}
-              anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-            >
-              <div id='DocumentRequestCard__Navigation__Menu'>
-                <Button
-                  id="demo-customized-button"
-                  aria-haspopup="true"
-                  variant=""
-                  disableElevation
-                  startIcon={<NoteAddIcon/>}
-                >
-                  Update Document
-                </Button>
-                <Button
-                  id="demo-customized-button"
-                  aria-haspopup="true"
-                  variant=""
-                  disableElevation
-                  startIcon={<ToggleOnIcon color="primary" sx={{ fontSize: 70}} />}
-                  
-                >
-                  Active
-                </Button>
-                <Button
-                  id="demo-customized-button"
-                  aria-haspopup="true"
-                  variant=""
-                  disableElevation
-                  startIcon={<MoreVertIcon/>}
-                >
-                  Remove Document
-                </Button>
-              </div>
-            </Menu>
-          </React.Fragment> */}
-          <Button id="DocumentRequestCard__Button" variant="outlined" href={`/documents/${props.id}/edit`}>Edit Document</Button>
-        </>: 
-        (props.member) 
-            ? <Button id="DocumentRequestCard__Button" variant="outlined" href={props.link}>Request Document</Button>
-            : ''
-        }
-      </div>
-    </div>
-  )
+    )
 }
 
 export default DocumentRequestCard
