@@ -245,9 +245,9 @@ function InstitutionDocRequests() {
 								<Button variant={selectMultiple?"text":""} endIcon={selectMultiple?<CheckBoxIcon/>:<CheckBoxOutlineBlankIcon/>} 
                                     onClick={()=>{
                                         console.log(selectMultipleValue); 
-                                        selectMultiple === true ? setSelectMultipleValue({}):"";
-                                        console.log(selectMultipleValue); 
-                                        setSelectMultiple(!selectMultiple);
+                                        // selectMultiple === true ? setSelectMultipleValue({}):"";
+                                        // console.log(selectMultipleValue); 
+                                        // setSelectMultiple(!selectMultiple);
                                     }}
                                 >
                                     Select Multiple
