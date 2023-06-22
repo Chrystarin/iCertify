@@ -88,7 +88,7 @@ function MemberDocRequests(){
 
     const ProcessRequest = async (request, action) => {
         try {
-            console.log(request)
+
             const formData = new FormData();
             formData.append('body', JSON.stringify({
                 requestId: request.requestId,
@@ -229,14 +229,14 @@ function MemberDocRequests(){
                         {stepper==="torecieve"?<>
                             {toRecieve.map((request) => {
                                 return <>
-                                    <RequestCard data={request}  type={stepper}/>
+                                    <RequestCard data={request} type={stepper}/>
                                 </>
                             })}
                         </>:""}
                         {stepper==="failedtransactions"?<>
                             {failedtransactions.map((request) => {
                                 return <>
-                                    <RequestCard data={request}  type={stepper}/>
+                                    <RequestCard data={request} type={stepper}/>
                                 </>
                             })}
                         </>:""}
@@ -258,9 +258,6 @@ function MemberDocRequests(){
 
 
         const [cancelNote, setCancelNote] = useState();
-        //  myrequests , topay , torecieve ,failedtransactions 
-        // const keys = ["pending","approved","declined","paid","verified","processing","cancelled","completed"];
-        
     
         return <>
             <div className='RequestCardUser'>

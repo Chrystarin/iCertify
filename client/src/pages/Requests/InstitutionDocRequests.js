@@ -29,6 +29,12 @@ function InstitutionDocRequests() {
 	const [requests, setRequests] = useState();
 	const [TabActive, setTabActive] = useState("verifyrequest");
 
+    const [selectedRequests, setSelectedRequests] = useState([]);
+    const addSelectedRequest = (data) => {
+        setSelectedRequests(prevArray => [...prevArray, data]);
+        console.log(selectedRequests);
+    };
+
 	// Excecutes on page load
     useEffect(() => {
         // Execute Functions
@@ -145,6 +151,7 @@ function InstitutionDocRequests() {
                                             action={()=>ProcessRequest(request, 'approved')}
                                             id={request.requestor.walletAddress}
                                             status={request.status}
+                                            onClick={()=>addSelectedRequest(request)}
 										/>
 									</li>
 								</> : ""}
