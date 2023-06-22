@@ -244,30 +244,15 @@ function InstitutionDocRequests() {
 								</div>
 								<Button variant={selectMultiple?"text":""} endIcon={selectMultiple?<CheckBoxIcon/>:<CheckBoxOutlineBlankIcon/>} 
                                     onClick={()=>{
+                                        console.log(selectMultipleValue); 
                                         selectMultiple === true ? setSelectMultipleValue({}):"";
                                         console.log(selectMultipleValue); 
-                                        setSelectMultiple(!selectMultiple)
+                                        setSelectMultiple(!selectMultiple);
                                     }}
                                 >
                                     Select Multiple
 								</Button>
-								<Menu
-									id="basic-menu"
-									anchorEl={anchorElDropDownDocument}
-									open={open}
-									onClose={handleClose}
-								>
-									<div id='SelectDocumentDropdown'>
-										<h5 id='SelectDocumentDropdown__Title'>Select Document</h5>
-										<div className='Wrapper__Card'>
-										{/* {DocumentSelection.map((document) => {
-											return<>
-												<Chip id="SelectDocumentDropdown__Chip" label={document.name} onClick={()=>{}} />
-											</>
-										})} */}
-										</div>
-									</div>
-								</Menu>
+								
 								<Button variant='contained' href='/documents/requests/manual'>Generate Document</Button>
 							</div>
                             <div>
