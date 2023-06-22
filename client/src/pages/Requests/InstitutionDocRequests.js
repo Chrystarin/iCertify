@@ -26,7 +26,7 @@ function InstitutionDocRequests() {
 	const [requests, setRequests] = useState();
 	const [TabActive, setTabActive] = useState("verifyrequest");
     const [selectMultiple, setSelectMultiple] = useState(false);
-    const [selectMultipleValue,setSelectMultipleValue]= useState({})
+    const [selectMultipleValue,setSelectMultipleValue]= useState([])
 
 	// Excecutes on page load
     useEffect(() => {
@@ -148,7 +148,8 @@ function InstitutionDocRequests() {
                                             status={request.status}
                                             multipleSelectStatus={selectMultiple}
                                             requestId={request.requestId}
-                                            setMultipleSelect={setSelectMultipleValue}
+                                            setMultipleSelectValue={setSelectMultipleValue}
+                                            MultipleSelectValue={selectMultipleValue}
 										/>
 									</li>
 								</> : ""}

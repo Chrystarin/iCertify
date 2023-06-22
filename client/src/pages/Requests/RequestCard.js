@@ -34,7 +34,8 @@ function RequestCard(props) {
 		key,
         paymentProof,
         multipleSelectStatus,
-        setMultipleSelect
+        setMultipleSelectValue,
+        MultipleSelectValue
         
 	} = props;
 
@@ -103,7 +104,10 @@ function RequestCard(props) {
 					</div>
 				</>:<>
                     <div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_1'>
-						<Button variant='contained' onClick={()=>{setMultipleSelect(requestId)}}>select</Button>
+						<Button variant='contained' onClick={()=>{
+                            setMultipleSelectValue([...MultipleSelectValue,requestId])
+                            console.log(MultipleSelectValue);
+                            }}>select</Button>
 					</div>
                 </>}
 				{status==="verified"?<>
