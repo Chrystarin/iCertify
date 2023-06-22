@@ -445,7 +445,7 @@ function DocumentView() {
 
 
         const handleClickCopyLink = (event) => {
-            navigator.clipboard.writeText(`${baseUrl}/documents/${documentData.codes[0]}`)
+            navigator.clipboard.writeText(`https://${REACT_APP_APP_URL}/documents/${documentData.codes[0]}`)
             setOpenSnackBar(openSnackBar => ({
                 ...openSnackBar,
                 open:true,
