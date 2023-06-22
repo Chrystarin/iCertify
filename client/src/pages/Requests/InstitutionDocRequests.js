@@ -258,7 +258,7 @@ function InstitutionDocRequests() {
                                     Select Multiple
 								</Button>
 								{selectMultiple?
-                                    <Button variant='contained' onClick={()=>{alert(MultipleSelectValue)}}>Validate All</Button>:
+                                    <Button variant='contained' onClick={()=>{alert(selectMultipleValue)}}>Validate All</Button>:
 								    <Button variant='contained' href='/documents/requests/manual'>Generate Document</Button>
                                 }
 							</div>
