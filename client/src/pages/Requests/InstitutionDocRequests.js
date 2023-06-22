@@ -31,6 +31,7 @@ function InstitutionDocRequests() {
 
     const [selectedRequests, setSelectedRequests] = useState([]);
     const addSelectedRequest = (data) => {
+        console.log("clicked");
         setSelectedRequests(prevArray => [...prevArray, data]);
         console.log(selectedRequests);
     };
@@ -140,7 +141,10 @@ function InstitutionDocRequests() {
 						{requestPending.map((request) => {
 							return <>
 								{request.status==keys[0] ? <>
-									<li key={request.requestId}>
+									<li 
+                                        key={request.requestId}
+                                        onClick={()=>addSelectedRequest(request)}
+                                    >
 										<MintTransferCard
                                             name={request.requestor.name.firstName + " " + request.requestor.name.lastName}
                                             type={keys[0]}
@@ -151,7 +155,7 @@ function InstitutionDocRequests() {
                                             action={()=>ProcessRequest(request, 'approved')}
                                             id={request.requestor.walletAddress}
                                             status={request.status}
-                                            onClick={()=>addSelectedRequest(request)}
+                                            
 										/>
 									</li>
 								</> : ""}
