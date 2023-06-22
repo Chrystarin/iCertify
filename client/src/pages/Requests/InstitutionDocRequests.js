@@ -145,7 +145,7 @@ function InstitutionDocRequests() {
                                             action={()=>ProcessRequest(request, 'approved')}
                                             id={request.requestor.walletAddress}
                                             status={request.status}
-                                            
+                                            multipleSelectStatus={selectMultiple}
 										/>
 									</li>
 								</> : ""}
@@ -238,7 +238,7 @@ function InstitutionDocRequests() {
 								<div id='SearchInputHolder'>
 									<SearchInput />
 								</div>
-								<Button variant='text' endIcon={selectMultiple?<CheckBoxIcon/>:<CheckBoxOutlineBlankIcon/>} onClick={()=>setSelectMultiple(!selectMultiple)}>
+								<Button variant={selectMultiple?"text":""} endIcon={selectMultiple?<CheckBoxIcon/>:<CheckBoxOutlineBlankIcon/>} onClick={()=>setSelectMultiple(!selectMultiple)}>
                                     Select Multiple
 								</Button>
 								<Menu

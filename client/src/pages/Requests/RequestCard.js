@@ -32,7 +32,9 @@ function RequestCard(props) {
 		id,
 		status,
 		key,
-        paymentProof
+        paymentProof,
+        multipleSelectStatus
+        
 	} = props;
 
 	const ShortingWallet = (data) =>{
@@ -69,7 +71,7 @@ function RequestCard(props) {
 						<Chip  label={ShortingWallet(id)} onClick={()=> navigator.clipboard.writeText(id)} icon={<ContentCopyIcon fontSize="small" />}/>
 					</Tooltip>
 				</div>
-				{status==="pending"|| status==="paid"?<>
+				{status==="pending"|| status==="paid" && multipleSelectStatus?<>
 					<div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_2'>
 						<Button variant='outlined' onClick={handleClick}>Decline</Button>
 						<Menu
