@@ -78,3 +78,7 @@
         justify-content: end;
     }
 }
+.activeRequestCard{
+    border: 1px solid var(--accent);
+    box-shadow: 0 0 15px #017cc91a;
+}

@@ -53,7 +53,7 @@ function RequestCard(props) {
 
 	return (
 		<>
-			<div className='MintTransferCard Panel__Container' key={key}>
+			<div className={MultipleSelectValue.includes(requestId)?"MintTransferCard Panel__Container activeRequestCard":"MintTransferCard Panel__Container"} key={key}>
 				<div id='MintTransferCard__Date'>
 					<h6>Date Requested</h6>
 					<p className='BodyText3'>{date}</p>
