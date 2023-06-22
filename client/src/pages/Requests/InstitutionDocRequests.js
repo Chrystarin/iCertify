@@ -242,7 +242,12 @@ function InstitutionDocRequests() {
 								<div id='SearchInputHolder'>
 									<SearchInput />
 								</div>
-								<Button variant={selectMultiple?"text":""} endIcon={selectMultiple?<CheckBoxIcon/>:<CheckBoxOutlineBlankIcon/>} onClick={()=>setSelectMultiple(!selectMultiple)}>
+								<Button variant={selectMultiple?"text":""} endIcon={selectMultiple?<CheckBoxIcon/>:<CheckBoxOutlineBlankIcon/>} 
+                                    onClick={()=>{
+                                        selectMultiple === true ? setSelectMultipleValue({}):""; 
+                                        setSelectMultiple(!selectMultiple)
+                                    }}
+                                >
                                     Select Multiple
 								</Button>
 								<Menu
