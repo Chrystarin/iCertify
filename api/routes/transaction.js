@@ -22,7 +22,7 @@ router.get('/', getTransactions);
  *
  * document (file)
  */
-router.post('/ipfs', fileUpload(), onlyInstitution, saveIpfs);
+router.post('/ipfs', fileUpload({ limits: { fileSize: 5 * 1024 * 1024 }, abortOnLimit: true }), onlyInstitution, saveIpfs);
 
 /**
  * Save the transaction

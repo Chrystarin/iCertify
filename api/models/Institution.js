@@ -77,6 +77,12 @@ module.exports = model(
 					joinedAt: { type: Date, default: new Date() }
 				}
 			],
+            blocked: [
+                {
+                    type: ObjectId,
+                    ref: 'User'
+                }
+            ],
 			docOffers: [
 				{
 					docId: {
