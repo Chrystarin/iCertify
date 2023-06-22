@@ -100,7 +100,11 @@ function RequestCard(props) {
 						</Menu>
 						<Button variant='contained' onClick={props.action}>Accept</Button>
 					</div>
-				</>:<></>}
+				</>:<>
+                    <div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_1'>
+						<Button variant='contained' onClick={()=>{}}>select</Button>
+					</div>
+                </>}
 				{status==="verified"?<>
 					<div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_1'>
 						<Button variant='contained' onClick={props.action}>Process</Button>
