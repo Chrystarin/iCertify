@@ -29,12 +29,6 @@ function InstitutionDocRequests() {
 	const [requests, setRequests] = useState();
 	const [TabActive, setTabActive] = useState("verifyrequest");
 
-    const [selectedRequests, setSelectedRequests] = useState([]);
-    const addSelectedRequest = (data) => {
-        console.log("clicked");
-        setSelectedRequests(prevArray => [...prevArray, data]);
-        console.log(selectedRequests);
-    };
 
 	// Excecutes on page load
     useEffect(() => {
@@ -143,7 +137,6 @@ function InstitutionDocRequests() {
 								{request.status==keys[0] ? <>
 									<li 
                                         key={request.requestId}
-                                        onClick={()=>addSelectedRequest(request)}
                                     >
 										<MintTransferCard
                                             name={request.requestor.name.firstName + " " + request.requestor.name.lastName}
