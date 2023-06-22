@@ -14,7 +14,8 @@ import SidePanelList from '../../components/SidePanelList/SidePanelList';
 import InstitutionCardDesign from '../../images/Resources/InstitutionCardDesign.png'
 import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 import moment from 'moment';
-
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 function InstitutionDocRequests() {
     
     // Constants Declaration
@@ -24,7 +25,7 @@ function InstitutionDocRequests() {
     // States Declaration
 	const [requests, setRequests] = useState();
 	const [TabActive, setTabActive] = useState("verifyrequest");
-
+    const [selectMultiple, setSelectMultiple] = useState(false)
 
 	// Excecutes on page load
     useEffect(() => {
@@ -227,7 +228,7 @@ function InstitutionDocRequests() {
 
 
 					<div id='Body'>
-						<div id='TabsNav'>wew
+						<div id='TabsNav'>  
 							<Button variant={TabActive === 'verifyrequest' ? 'contained':''}onClick={() => setTabActive('verifyrequest')}>Verify Requests [{requestPending.length}]</Button>
 							<Button variant={TabActive === 'verifypayment' ? 'contained':''}onClick={() => setTabActive('verifypayment')}>Verify Payment [{requestPaid.length}]</Button>
 							<Button variant={TabActive === 'toprocess'? 'contained': ''} onClick={() => setTabActive('toprocess')}>To Process [{requestVerified.length}]</Button>
@@ -237,13 +238,9 @@ function InstitutionDocRequests() {
 								<div id='SearchInputHolder'>
 									<SearchInput />
 								</div>
-								{/* <IconButton aria-expanded={open ? 'true' : undefined} 
-									onClick={(event) => {
-									setAnchorElDropDownDocument(event.currentTarget);
-									}
-								}>
-									<FilterAltIcon />
-								</IconButton> */}
+								<Button variant='text' endIcon={selectMultiple?<CheckBoxIcon/>:<CheckBoxOutlineBlankIcon/>} onClick={()=>setSelectMultiple(!selectMultiple)}>
+                                    Select Multiple
+								</Button>
 								<Menu
 									id="basic-menu"
 									anchorEl={anchorElDropDownDocument}
