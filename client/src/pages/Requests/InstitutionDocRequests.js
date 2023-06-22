@@ -147,6 +147,7 @@ function InstitutionDocRequests() {
                                             id={request.requestor.walletAddress}
                                             status={request.status}
                                             multipleSelectStatus={selectMultiple}
+                                            requestId={request.requestId}
                                             setMultipleSelect={setSelectMultipleValue}
 										/>
 									</li>
