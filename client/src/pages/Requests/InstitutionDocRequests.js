@@ -25,7 +25,8 @@ function InstitutionDocRequests() {
     // States Declaration
 	const [requests, setRequests] = useState();
 	const [TabActive, setTabActive] = useState("verifyrequest");
-    const [selectMultiple, setSelectMultiple] = useState(false)
+    const [selectMultiple, setSelectMultiple] = useState(false);
+    const [selectMultipleValue,setSelectMultipleValue]= useState({})
 
 	// Excecutes on page load
     useEffect(() => {
@@ -146,6 +147,7 @@ function InstitutionDocRequests() {
                                             id={request.requestor.walletAddress}
                                             status={request.status}
                                             multipleSelectStatus={selectMultiple}
+                                            setMultipleSelect={setSelectMultipleValue}
 										/>
 									</li>
 								</> : ""}
@@ -260,6 +262,11 @@ function InstitutionDocRequests() {
 								</Menu>
 								<Button variant='contained' href='/documents/requests/manual'>Generate Document</Button>
 							</div>
+                            <div>
+                                {selectMultipleValue.map((value)=>{
+                                    return <p>{value}</p>
+                                })}
+                            </div>
 							<TabView requests={requests}/>
 						</div>
 					</div>
