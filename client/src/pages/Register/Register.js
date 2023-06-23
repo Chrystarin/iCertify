@@ -14,12 +14,16 @@ import MetamaskImg from '../../images/Resources/Metamask.png'
 import {useAuth} from "../../utils/AuthContext";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import Modal from '@mui/material/Modal';
 function Register() {
     // Constant Declarations;
     const { register } = useAuth();
     const [userType, setUserType] = useState();
     const [gender, setGender] = useState();
     const [termsCondition, setTermsCondition] = useState(false);
+
+    const [openTermsNConditionModal, setOpenTermsNConditionModal] = useState(false);
+   
     // Institution Registration Form
     const [institutionForm, setInstitutionForm] = useState({
         email: '',
@@ -209,10 +213,19 @@ function Register() {
                                             </div>
                                             <p>I've read and agree to</p>
                                             <p className='TermsNCondition__Clicker' onClick={()=>{
-                                                alert()
+                                                setOpenTermsNConditionModal(true);
                                             }}>Terms & Condition</p>
                                         </label>
-                                        
+                                        <Modal
+                                            open={openTermsNConditionModal}
+                                            onClose={()=>{setOpenTermsNConditionModal(false)}}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >
+                                            <div className='TermsNCondition__Modal'>
+                                                <h1>Wew</h1>
+                                            </div>
+                                        </Modal>
                                     </div>
                                     <div>
                                         <input id='Submit' type="submit" value="Connect with Metamask"/>
