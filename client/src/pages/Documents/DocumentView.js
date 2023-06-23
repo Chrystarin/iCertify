@@ -144,6 +144,7 @@ function DocumentView() {
 
     // Retrieves Institution's Data
     const fetchInstitution = async (data) => {
+        console.log(data);
         await axiosInstance
             .get(`institutions`,{
                 params: {
@@ -152,7 +153,7 @@ function DocumentView() {
             })
             .then((response) => {
                 setInstitution(response.data);
-                setDocument(findValue(response.data?.docOffers, data.docId));
+                setDocument(findValue(response.data.docOffers, data.docId));
             });
     };
 
