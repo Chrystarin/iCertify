@@ -29,12 +29,15 @@ function MemberCard(props) {
         }
         return startString + "..." + EndString
     }
+    const [blockStatus, setBlockStatus] = useState(false);
     return <>
         {member?<>
             <div id='MemberCard'>
-                <div className='MemberCard__MoreButton'>
+                <div className={blockStatus?"MemberCard__MoreButton active": "MemberCard__MoreButton"}>
                     <Tooltip title="Delete">
-                        <IconButton onClick={()=>{}}>
+                        <IconButton onClick={()=>{
+                            setBlockStatus(!blockStatus);
+                        }}>
                             <ReportGmailerrorredIcon />
                         </IconButton>
                     </Tooltip>

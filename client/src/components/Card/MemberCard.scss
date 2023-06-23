@@ -40,11 +40,15 @@
         position: absolute;
         top: .5em;
         right: .5em;
-        opacity: .7;
+        opacity: .5;
     }
     .MemberCard__MoreButton:hover{
         opacity: 1;
     }
+    .MemberCard__MoreButton .active{
+        color: rgb(203, 39, 39);
+    }
+    
     #MemberCardID__Buttons{
         position: absolute;
         left: 50%;
