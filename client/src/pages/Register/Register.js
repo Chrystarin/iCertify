@@ -223,9 +223,12 @@ function Register() {
                                             aria-describedby="modal-modal-description"
                                         >
                                             <div className='TermsNCondition__Modal Panel__Container'>
-                                                <h2 className='TermsNCondition__Title'>Terms and Conditions for iCertify </h2>
-                                                <h6>Please read these terms and conditions carefully before using iCertify. By accessing or using iCertify, you acknowledge and agree to comply with these terms and conditions. </h6>
+                                                
                                                 <ul className='TermsNCondition__Container'>
+                                                    <li>
+                                                        <h2 className='TermsNCondition__Title'>Terms and Conditions for iCertify </h2>
+                                                        <h6>Please read these terms and conditions carefully before using iCertify. By accessing or using iCertify, you acknowledge and agree to comply with these terms and conditions. </h6>
+                                                    </li>
                                                     <li>
                                                         <h6>1 Acceptance of Terms </h6>
                                                         <p>1.1. By accessing or using iCertify, you agree to be bound by these terms and conditions, as well as any additional terms and conditions, policies, or guidelines referenced herein.</p>
