@@ -151,8 +151,9 @@ function DocumentView() {
                 }
             })
             .then((response) => {
-                setInstitution(response.data)
-                setDocument(( a = findValue(response.data.docOffers, data.docId), console.log(a), a))
+                setInstitution(response.data);
+                console.log(response.data);
+                setDocument(findValue(response.data.docOffers, data.docId));
             });
     };
 
