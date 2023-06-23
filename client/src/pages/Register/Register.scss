@@ -218,6 +218,7 @@
     width: 80vw;
     padding: 1em;
     max-width: 1300px;
+
     .TermsNCondition__Title{
         text-align: center;
         color: var(--accent);
@@ -236,9 +237,10 @@
         overflow-y: scroll;
         display: flex;
         flex-direction: column;
-        gap: 25px;
+        gap: 35px;
         list-style: none;
         padding: 45px 2em;
+
         li{
             .TermsNCondition__TitleList{
                 color: #555;
