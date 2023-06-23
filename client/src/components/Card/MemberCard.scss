@@ -36,13 +36,13 @@
     #MemberCard__Container.Buttons{
         padding: 1.5em 1em 4.5em;
     }
-    #MemberCard__MoreButton{
+    .MemberCard__MoreButton{
         position: absolute;
         top: 1em;
         right: 1em;
         opacity: .7;
     }
-    #MemberCard__MoreButton:hover{
+    .MemberCard__MoreButton:hover{
         opacity: 1;
     }
     #MemberCardID__Buttons{
