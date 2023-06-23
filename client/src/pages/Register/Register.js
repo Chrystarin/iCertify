@@ -197,7 +197,7 @@ function Register() {
                                         />
                                     </div>
                                     <div className='TermsNCondition'>
-                                        <input required id='TermsCondition' type="checkbox"  style={{display:"none"}}/>
+                                        <input required id='TermsCondition' type="checkbox"  />
                                         <label htmlFor='TermsCondition'>
                                             <CheckBoxOutlineBlankIcon/>
                                             <p>I've read and agree to</p>

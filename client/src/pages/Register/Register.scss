@@ -185,10 +185,15 @@
     opacity: 1;
 }
 .TermsNCondition{
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
+    input{
+        position: absolute;
+        opacity: .1;
+    }
     .TermsNCondition__Clicker{
         color: var(--accent);
     }
