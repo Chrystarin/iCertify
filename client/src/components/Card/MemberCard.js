@@ -2,7 +2,10 @@ import React, {useState} from 'react';
 import './MemberCard.scss'
 import { Avatar,Button } from '@mui/material';
 import Modal from '@mui/material/Modal';
-import IDSample from '../../images/placeholder/IDSample.jpg'
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 function MemberCard(props) {
     const {
         name,
@@ -14,7 +17,6 @@ function MemberCard(props) {
         memberId
     } = props;
     const [openModal, setOpenModal] = React.useState(false);
-
     const ShortingWallet = (data) =>{
         let startString = "";
         let EndString = "";
@@ -29,6 +31,9 @@ function MemberCard(props) {
     return <>
         {member?<>
             <div id='MemberCard'>
+                <IconButton className='MemberCard__MoreButton' onClick={()=>{}}>
+                    <ReportGmailerrorredIcon />
+                </IconButton>
                 <a href={`/users/${props.walletAddress}`} id='MemberCard__Container'>
                     <Avatar id="MemberCard__Avatar" src={image}/>
                     <div id='MemberCard__Text'>
@@ -56,7 +61,7 @@ function MemberCard(props) {
                     </div>
                 </a>
                 <div id='MemberCardID__Buttons'>
-                    <Button variant='outlined' onClick={props.reject}>Decline</Button>
+                    <Button variant='' onClick={props.reject}>Decline</Button>
                     <Button variant='contained' onClick={props.accept}>Accept</Button>    
                 </div>
             </div>

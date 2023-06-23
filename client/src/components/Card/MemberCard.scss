@@ -6,7 +6,7 @@
         background-color: white;
         border-radius: 8px;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.075);
-        padding: 2.5em 1em;
+        padding: 2.7em 1em;
         display: flex;
         gap: 20px;
         flex-direction: column;
@@ -46,6 +46,9 @@
         display: grid;
         gap: 15px;
         grid-template-columns: 1fr 1fr;
+        button:nth-child(1){
+            background-color: white;
+        }
     }
 }
 #MemberCardModal{
