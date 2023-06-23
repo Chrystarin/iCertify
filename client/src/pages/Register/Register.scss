@@ -184,3 +184,10 @@
 #MetamaskNote:hover{
     opacity: 1;
 }
+.TermsNCondition{
+    display: flex;
+    gap: 10px;
+    .TermsNCondition__Clicker{
+        color: var(--accent);
+    }
+}

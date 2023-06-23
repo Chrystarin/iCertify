@@ -262,7 +262,7 @@ function InstitutionDocRequests() {
                                         alert(selectMultipleValue);
                                         selectMultipleValue([]);
                                         selectMultiple(false);
-                                    }}>Validate All</Button>:
+                                    }}> Validate All </Button>:
 								    <Button variant='contained' href='/documents/requests/manual'>Generate Document</Button>
                                 }
 							</div>

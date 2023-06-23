@@ -12,7 +12,7 @@ import Select from '@mui/material/Select';
 import './Register.scss'
 import MetamaskImg from '../../images/Resources/Metamask.png'
 import {useAuth} from "../../utils/AuthContext";
-
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 function Register() {
     // Constant Declarations;
     const { register } = useAuth();
@@ -200,27 +200,33 @@ function Register() {
                                         onChange={(e)=>updateForm({ name: e.target.value })}
                                     />
                                     <div className='Wrapper_2_Inputs'>
-                                    <FormControl fullWidth required>
-                                        <InputLabel id="demo-simple-select-label">Institution Type</InputLabel>
-                                        <Select
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={institutionForm.type}
-                                            label="Institution Type"
-                                            onChange={(e)=>setInstitutionForm({...institutionForm, type: e.target.value})}
-                                        >
-                                            <MenuItem value={"organization"}>Organization</MenuItem>
-                                            <MenuItem value={"school"}>School</MenuItem>
-                                            <MenuItem value={"corporation"}>Corporation</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                    <TextField 
-                                        id="outlined-search" 
-                                        label="Email" 
-                                        type="email"
-                                        required 
-                                        onChange={(e)=>updateForm({ email: e.target.value })}
-                                    />
+                                        <FormControl fullWidth required>
+                                            <InputLabel id="demo-simple-select-label">Institution Type</InputLabel>
+                                            <Select
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={institutionForm.type}
+                                                label="Institution Type"
+                                                onChange={(e)=>setInstitutionForm({...institutionForm, type: e.target.value})}
+                                            >
+                                                <MenuItem value={"organization"}>Organization</MenuItem>
+                                                <MenuItem value={"school"}>School</MenuItem>
+                                                <MenuItem value={"corporation"}>Corporation</MenuItem>
+                                            </Select>
+                                        </FormControl>
+                                        <TextField 
+                                            id="outlined-search" 
+                                            label="Email" 
+                                            type="email"
+                                            required 
+                                            onChange={(e)=>updateForm({ email: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className='TermsNCondition'>
+                                        <input type="checkbox"  style={{display:"none"}}/>
+                                        <CheckBoxOutlineBlankIcon/>
+                                        <p>I've read and agree to</p>
+                                        <p className='TermsNCondition__Clicker'>Terms & Condition</p>
                                     </div>
                                     <div>
                                         <input id='Submit' type="submit" value="Connect with Metamask"/>
