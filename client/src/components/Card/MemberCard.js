@@ -6,6 +6,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
+import Tooltip from '@mui/material/Tooltip';
 function MemberCard(props) {
     const {
         name,
@@ -32,9 +33,11 @@ function MemberCard(props) {
         {member?<>
             <div id='MemberCard'>
                 <div className='MemberCard__MoreButton'>
-                    <IconButton onClick={()=>{}}>
-                        <ReportGmailerrorredIcon />
-                    </IconButton>
+                    <Tooltip title="Delete">
+                        <IconButton onClick={()=>{}}>
+                            <ReportGmailerrorredIcon />
+                        </IconButton>
+                    </Tooltip>
                 </div>
                 
                 <a href={`/users/${props.walletAddress}`} id='MemberCard__Container'>
