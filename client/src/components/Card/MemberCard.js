@@ -31,9 +31,12 @@ function MemberCard(props) {
     return <>
         {member?<>
             <div id='MemberCard'>
-                <IconButton className='MemberCard__MoreButton' onClick={()=>{}}>
-                    <ReportGmailerrorredIcon />
-                </IconButton>
+                <div className='MemberCard__MoreButton'>
+                    <IconButton onClick={()=>{}}>
+                        <ReportGmailerrorredIcon />
+                    </IconButton>
+                </div>
+                
                 <a href={`/users/${props.walletAddress}`} id='MemberCard__Container'>
                     <Avatar id="MemberCard__Avatar" src={image}/>
                     <div id='MemberCard__Text'>
