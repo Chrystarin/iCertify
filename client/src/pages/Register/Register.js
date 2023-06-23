@@ -200,18 +200,22 @@ function Register() {
                                     <div className={termsCondition?"TermsNCondition activeTermsNCondition":"TermsNCondition"}>
                                         <input required id='TermsCondition' type="checkbox"  />
                                         <label htmlFor='TermsCondition' onClick={()=>{setTermsCondition(!termsCondition)}}>
+                                            <div>
                                             {termsCondition?<>
                                                 <CheckBoxIcon/>
                                             </>:<>
                                                 <CheckBoxOutlineBlankIcon/> 
                                             </>}
+                                            </div>
                                             <p>I've read and agree to</p>
-                                            <p className='TermsNCondition__Clicker'>Terms & Condition</p>
+                                            <p className='TermsNCondition__Clicker' onClick={()=>{
+                                                alert()
+                                            }}>Terms & Condition</p>
                                         </label>
                                         
                                     </div>
                                     <div>
-                                        <input r id='Submit' type="submit" value="Connect with Metamask"/>
+                                        <input id='Submit' type="submit" value="Connect with Metamask"/>
                                         <a href="https://metamask.io/download/" id='MetamaskNote'>
                                             <p className='BodyText2'>Learn more about Metamask</p>
                                             <img src={MetamaskImg} alt="" />
