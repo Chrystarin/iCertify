@@ -288,10 +288,13 @@ function Register() {
                                     <h6 className='TermsNCondition__TitleList'>7. Privacy and Data Protection    </h6>
                                     <p>7.1. iCertify collects and processes personal information in accordance with its privacy policy, which is accessible on the application. By using iCertify, you consent to the collection, use, and processing. </p>
                                 </li>
+                                <li>
+                                    <div className='TermsNCondition__Buttons'>
+                                        <Button variant='contained' onClick={()=>{setOpenTermsNConditionModal(false)}}>Done</Button>
+                                    </div>
+                                </li>
                             </ul>
-                            <div className='TermsNCondition__Buttons'>
-                                <Button variant='contained' onClick={()=>{setOpenTermsNConditionModal(false)}}>Done</Button>
-                            </div>
+                            
                         </div>
                     </Modal>
                 </div>
