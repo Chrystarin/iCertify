@@ -220,9 +220,45 @@
     .TermsNCondition__Title{
         text-align: center;
         color: var(--accent);
+        margin-bottom: 10px;
+    }
+    .TermsNCondition__SubTitle{
+        text-align: center;
+        width: 70%;
+        color: #555;
+        opacity: .7;
+        margin-bottom: 35px;
     }
     .TermsNCondition__Container{
-        height: 80%;
+        height: 100%;
         overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        li{
+            .TermsNCondition__TitleList{
+                color: #555;
+                opacity: .7; 
+            }
+            p{
+                margin-top: 10px;
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+          /* Track */
+        ::-webkit-scrollbar-track {
+        background: #f1f1f1; 
+        }
+          /* Handle */
+        ::-webkit-scrollbar-thumb {
+        background: #888; 
+        }
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+        }
     }
+
 }
