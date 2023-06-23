@@ -13,6 +13,7 @@ import './Register.scss'
 import MetamaskImg from '../../images/Resources/Metamask.png'
 import {useAuth} from "../../utils/AuthContext";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 function Register() {
     // Constant Declarations;
     const { register } = useAuth();
@@ -196,10 +197,14 @@ function Register() {
                                             onChange={(e)=>updateForm({ email: e.target.value })}
                                         />
                                     </div>
-                                    <div className='TermsNCondition'>
+                                    <div className={termsCondition?"TermsNCondition activeTermsNCondition":"TermsNCondition"}>
                                         <input required id='TermsCondition' type="checkbox"  />
-                                        <label htmlFor='TermsCondition'>
-                                            <CheckBoxOutlineBlankIcon/>
+                                        <label htmlFor='TermsCondition' onClick={()=>{setTermsCondition(!termsCondition)}}>
+                                            {termsCondition?<>
+                                                <CheckBoxIcon/>
+                                            </>:<>
+                                                <CheckBoxOutlineBlankIcon/> 
+                                            </>}
                                             <p>I've read and agree to</p>
                                             <p className='TermsNCondition__Clicker'>Terms & Condition</p>
                                         </label>
