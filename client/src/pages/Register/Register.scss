@@ -208,3 +208,17 @@
         color: var(--accent);
     }
 }
+
+.TermsNCondition__Modal{
+    height: 80vh;
+    width: 80vh;
+    padding: 1em;
+    .TermsNCondition__Title{
+        text-align: center;
+        color: var(--accent);
+    }
+    .TermsNCondition__Container{
+        height: 80%;
+        overflow-y: scroll;
+    }
+}

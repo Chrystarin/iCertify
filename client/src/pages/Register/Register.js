@@ -22,7 +22,7 @@ function Register() {
     const [gender, setGender] = useState();
     const [termsCondition, setTermsCondition] = useState(false);
 
-    const [openTermsNConditionModal, setOpenTermsNConditionModal] = useState(false);
+    const [openTermsNConditionModal, setOpenTermsNConditionModal] = useState(true);
    
     // Institution Registration Form
     const [institutionForm, setInstitutionForm] = useState({
@@ -222,8 +222,21 @@ function Register() {
                                             aria-labelledby="modal-modal-title"
                                             aria-describedby="modal-modal-description"
                                         >
-                                            <div className='TermsNCondition__Modal'>
-                                                <h1>Wew</h1>
+                                            <div className='TermsNCondition__Modal Panel__Container'>
+                                                <h2 className='TermsNCondition__Title'>Terms and Conditions for iCertify </h2>
+                                                <h6>Please read these terms and conditions carefully before using iCertify. By accessing or using iCertify, you acknowledge and agree to comply with these terms and conditions. </h6>
+                                                <ul className='TermsNCondition__Container'>
+                                                    <li>
+                                                        <h6>1 Acceptance of Terms </h6>
+                                                        <p>1.1. By accessing or using iCertify, you agree to be bound by these terms and conditions, as well as any additional terms and conditions, policies, or guidelines referenced herein.</p>
+                                                        <p>1.2. If you do not agree to these terms and conditions, please refrain from accessing or using iCertify. </p>
+                                                    </li>
+                                                    <li>
+                                                        <h6>User Eligibility </h6>
+                                                        <p>2.1. iCertify is intended for use by individuals who are 18 years of age or older. By accessing or using iCertify, you represent and warrant that you are 18 years of age or older. </p>
+                                                        <p>2.2. If you are accessing or using iCertify on behalf of an institution, you represent and warrant that you have the necessary authority to bind the institution to these terms and conditions. </p>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </Modal>
                                     </div>
