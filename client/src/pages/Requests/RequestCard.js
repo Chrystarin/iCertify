@@ -110,14 +110,8 @@ function RequestCard(props) {
                             }}>
                                 unselect
                             </Button>
-                        </>:<>
-                            <Button variant='contained' onClick={()=>{
-                                setMultipleSelectValue([...MultipleSelectValue,requestId])
-                            }}>
-                                select
-                            </Button>
-                        </>}
-						{!MultipleSelectValue?.includes(requestId)?<>
+                        </>:<></>}
+						{!(MultipleSelectValue?.includes(requestId))?<>
                             <Button variant='contained' onClick={()=>{
                                 setMultipleSelectValue([...MultipleSelectValue,requestId])
                             }}>
