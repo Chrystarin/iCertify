@@ -117,7 +117,13 @@ function RequestCard(props) {
                                 select
                             </Button>
                         </>}
-						
+						{!MultipleSelectValue?.includes(requestId)?<>
+                            <Button variant='contained' onClick={()=>{
+                                setMultipleSelectValue([...MultipleSelectValue,requestId])
+                            }}>
+                                select
+                            </Button>
+                        </>:<></>}
 					</div>
                 </>}
 				{status==="verified"?<>
