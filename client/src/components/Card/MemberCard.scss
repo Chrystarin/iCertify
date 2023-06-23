@@ -46,7 +46,9 @@
         opacity: 1;
     }
     .active{
-        color: rgb(203, 39, 39);
+        svg{
+            color: rgb(203, 39, 39);
+        }
     }
     
     #MemberCardID__Buttons{
