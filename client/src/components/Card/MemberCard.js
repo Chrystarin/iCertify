@@ -58,6 +58,15 @@ function MemberCard(props) {
         :
         <>
             <div id='MemberCard'>
+                <div className={blockStatus?"MemberCard__MoreButton active": "MemberCard__MoreButton"}>
+                    <Tooltip title="Delete">
+                        <IconButton onClick={()=>{
+                            setBlockStatus(!blockStatus);
+                        }}>
+                            <ReportGmailerrorredIcon />
+                        </IconButton>
+                    </Tooltip>
+                </div>
                 <a id='MemberCard__Container' onClick={member?"":()=>{setOpenModal(!openModal)}} className={member?"":"Buttons"}>
                     <Avatar id="MemberCard__Avatar" src={image}/>
                     <div id='MemberCard__Text'>
