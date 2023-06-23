@@ -15,6 +15,7 @@ import {useAuth} from "../../utils/AuthContext";
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Modal from '@mui/material/Modal';
+import Button from '@mui/material/Button';
 function Register() {
     // Constant Declarations;
     const { register } = useAuth();
@@ -154,6 +155,22 @@ function Register() {
                                             onChange={(e)=>updateForm({ email: e.target.value })}
                                         />
                                     </div>
+                                    <div className={termsCondition?"TermsNCondition activeTermsNCondition":"TermsNCondition"}>
+                                        <input required id='TermsCondition' type="checkbox"  />
+                                        <label htmlFor='TermsCondition' onClick={()=>{setTermsCondition(!termsCondition)}}>
+                                            <div>
+                                            {termsCondition?<>
+                                                <CheckBoxIcon/>
+                                            </>:<>
+                                                <CheckBoxOutlineBlankIcon/> 
+                                            </>}
+                                            </div>
+                                            <p>I've read and agree to</p>
+                                            <p className='TermsNCondition__Clicker' onClick={()=>{
+                                                setOpenTermsNConditionModal(true);
+                                            }}>Terms & Condition</p>
+                                        </label>
+                                    </div>
                                     <div>
                                         <input id='Submit' type="submit" value="Connect with Metamask"/>
                                         <a href="https://metamask.io/download/" id='MetamaskNote'>
@@ -216,52 +233,6 @@ function Register() {
                                                 setOpenTermsNConditionModal(true);
                                             }}>Terms & Condition</p>
                                         </label>
-                                        <Modal
-                                            open={openTermsNConditionModal}
-                                            onClose={()=>{setOpenTermsNConditionModal(false)}}
-                                            aria-labelledby="modal-modal-title"
-                                            aria-describedby="modal-modal-description"
-                                        >
-                                            <div className='TermsNCondition__Modal Panel__Container'>
-                                                
-                                                <ul className='TermsNCondition__Container'>
-                                                    <li>
-                                                        <h2 className='TermsNCondition__Title'>Terms and Conditions for iCertify </h2>
-                                                        <h6 className='TermsNCondition__SubTitle'>Please read these terms and conditions carefully before using iCertify. By accessing or using iCertify, you acknowledge and agree to comply with these terms and conditions. </h6>
-                                                    </li>
-                                                    <li>
-                                                        <h6 className='TermsNCondition__TitleList'>1. Acceptance of Terms </h6>
-                                                        <p>1.1. By accessing or using iCertify, you agree to be bound by these terms and conditions, as well as any additional terms and conditions, policies, or guidelines referenced herein.</p>
-                                                        <p>1.2. If you do not agree to these terms and conditions, please refrain from accessing or using iCertify. </p>
-                                                    </li>
-                                                    <li>
-                                                        <h6 className='TermsNCondition__TitleList'>2. User Eligibility </h6>
-                                                        <p>2.1. iCertify is intended for use by individuals who are 18 years of age or older. By accessing or using iCertify, you represent and warrant that you are 18 years of age or older. </p>
-                                                        <p>2.2. If you are accessing or using iCertify on behalf of an institution, you represent and warrant that you have the necessary authority to bind the institution to these terms and conditions. </p>
-                                                    </li>
-                                                    <li>
-                                                        <h6 className='TermsNCondition__TitleList'>3. Account Registration and Security  </h6>
-                                                        <p>3.1. To access certain features of iCertify, you may be required to register an account. You agree to provide accurate, current, and complete information during the registration process. </p>
-                                                        <p>3.2. You are solely responsible for maintaining the confidentiality and security of your account information and password. You must promptly notify iCertify of any unauthorized use of your account.</p>
-                                                        <p>3.3. You are solely responsible for all activities that occur under your account. iCertify will not be liable for any loss or damage arising from your failure to comply with these security obligations. </p>
-                                                    </li>
-                                                    <li>
-                                                        <h6 className='TermsNCondition__TitleList'>5. Limitations and Disclaimers   </h6>
-                                                        <p>5.1. iCertify does not provide a system for users to load cryptocurrency into their wallets. Users are responsible for managing their own cryptocurrency holdings. </p>
-                                                        <p>5.2. iCertify does not provide a communications system, such as a chat feature, between members and institutions. Any communication or interaction between users is not the responsibility of iCertify. </p>
-                                                        <p>5.3. iCertify is not liable for any loss of cryptocurrency or damage to crypto wallets that may occur during the use of the application. </p>
-                                                    </li>
-                                                    <li>
-                                                        <h6 className='TermsNCondition__TitleList'>6. Intellectual Property   </h6>
-                                                        <p>6.1. iCertify and its associated logos, trademarks, and content are the intellectual property of the application's owners and licensors. Users are prohibited from using, reproducing, or distributing any intellectual property without prior written permission. </p>
-                                                    </li>
-                                                    <li>
-                                                        <h6 className='TermsNCondition__TitleList'>7. Privacy and Data Protection    </h6>
-                                                        <p>7.1. iCertify collects and processes personal information in accordance with its privacy policy, which is accessible on the application. By using iCertify, you consent to the collection, use, and processing. </p>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </Modal>
                                     </div>
                                     <div>
                                         <input id='Submit' type="submit" value="Connect with Metamask"/>
@@ -274,6 +245,55 @@ function Register() {
                             </div>
                         </>:<></>}
                     </div>
+                    <Modal
+                        open={openTermsNConditionModal}
+                        onClose={()=>{setOpenTermsNConditionModal(false)}}
+                        aria-labelledby="modal-modal-title"
+                        aria-describedby="modal-modal-description"
+                    >
+                        <div className='TermsNCondition__Modal Panel__Container'>
+                            
+                            <ul className='TermsNCondition__Container'>
+                                <li>
+                                    <h2 className='TermsNCondition__Title'>Terms and Conditions for iCertify </h2>
+                                    <h6 className='TermsNCondition__SubTitle'>Please read these terms and conditions carefully before using iCertify. By accessing or using iCertify, you acknowledge and agree to comply with these terms and conditions. </h6>
+                                </li>
+                                <li>
+                                    <h6 className='TermsNCondition__TitleList'>1. Acceptance of Terms </h6>
+                                    <p>1.1. By accessing or using iCertify, you agree to be bound by these terms and conditions, as well as any additional terms and conditions, policies, or guidelines referenced herein.</p>
+                                    <p>1.2. If you do not agree to these terms and conditions, please refrain from accessing or using iCertify. </p>
+                                </li>
+                                <li>
+                                    <h6 className='TermsNCondition__TitleList'>2. User Eligibility </h6>
+                                    <p>2.1. iCertify is intended for use by individuals who are 18 years of age or older. By accessing or using iCertify, you represent and warrant that you are 18 years of age or older. </p>
+                                    <p>2.2. If you are accessing or using iCertify on behalf of an institution, you represent and warrant that you have the necessary authority to bind the institution to these terms and conditions. </p>
+                                </li>
+                                <li>
+                                    <h6 className='TermsNCondition__TitleList'>3. Account Registration and Security  </h6>
+                                    <p>3.1. To access certain features of iCertify, you may be required to register an account. You agree to provide accurate, current, and complete information during the registration process. </p>
+                                    <p>3.2. You are solely responsible for maintaining the confidentiality and security of your account information and password. You must promptly notify iCertify of any unauthorized use of your account.</p>
+                                    <p>3.3. You are solely responsible for all activities that occur under your account. iCertify will not be liable for any loss or damage arising from your failure to comply with these security obligations. </p>
+                                </li>
+                                <li>
+                                    <h6 className='TermsNCondition__TitleList'>5. Limitations and Disclaimers   </h6>
+                                    <p>5.1. iCertify does not provide a system for users to load cryptocurrency into their wallets. Users are responsible for managing their own cryptocurrency holdings. </p>
+                                    <p>5.2. iCertify does not provide a communications system, such as a chat feature, between members and institutions. Any communication or interaction between users is not the responsibility of iCertify. </p>
+                                    <p>5.3. iCertify is not liable for any loss of cryptocurrency or damage to crypto wallets that may occur during the use of the application. </p>
+                                </li>
+                                <li>
+                                    <h6 className='TermsNCondition__TitleList'>6. Intellectual Property   </h6>
+                                    <p>6.1. iCertify and its associated logos, trademarks, and content are the intellectual property of the application's owners and licensors. Users are prohibited from using, reproducing, or distributing any intellectual property without prior written permission. </p>
+                                </li>
+                                <li>
+                                    <h6 className='TermsNCondition__TitleList'>7. Privacy and Data Protection    </h6>
+                                    <p>7.1. iCertify collects and processes personal information in accordance with its privacy policy, which is accessible on the application. By using iCertify, you consent to the collection, use, and processing. </p>
+                                </li>
+                            </ul>
+                            <div className='TermsNCondition__Buttons'>
+                                <Button variant='contained' onClick={()=>{setOpenTermsNConditionModal(false)}}>Done</Button>
+                            </div>
+                        </div>
+                    </Modal>
                 </div>
             </div>
         </div>

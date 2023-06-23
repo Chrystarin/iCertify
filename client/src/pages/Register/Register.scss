@@ -217,7 +217,7 @@
     height: 80vh;
     width: 80vw;
     padding: 1em;
-    max-width: 1000px;
+    max-width: 1300px;
     .TermsNCondition__Title{
         text-align: center;
         color: var(--accent);
@@ -265,5 +265,10 @@
     /* Handle on hover */
     .TermsNCondition__Container::-webkit-scrollbar-thumb:hover {
         background: #555; 
+    }
+    .TermsNCondition__Buttons{
+        display: flex;
+        justify-content: center;
+        margin-top: 25px; 
     }
 }
