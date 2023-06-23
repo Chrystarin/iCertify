@@ -235,7 +235,7 @@ function Register() {
                                                         <p>1.2. If you do not agree to these terms and conditions, please refrain from accessing or using iCertify. </p>
                                                     </li>
                                                     <li>
-                                                        <h6>User Eligibility </h6>
+                                                        <h6 className='TermsNCondition__TitleList'>User Eligibility </h6>
                                                         <p>2.1. iCertify is intended for use by individuals who are 18 years of age or older. By accessing or using iCertify, you represent and warrant that you are 18 years of age or older. </p>
                                                         <p>2.2. If you are accessing or using iCertify on behalf of an institution, you represent and warrant that you have the necessary authority to bind the institution to these terms and conditions. </p>
                                                     </li>
