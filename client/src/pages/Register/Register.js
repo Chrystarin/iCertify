@@ -18,7 +18,7 @@ function Register() {
     const { register } = useAuth();
     const [userType, setUserType] = useState();
     const [gender, setGender] = useState();
-    
+    const [termsCondition, setTermsCondition] = useState(false);
     // Institution Registration Form
     const [institutionForm, setInstitutionForm] = useState({
         email: '',
@@ -149,32 +149,6 @@ function Register() {
                                             onChange={(e)=>updateForm({ email: e.target.value })}
                                         />
                                     </div>
-                                    
-                                    {/* <div className='Form__2__Inputs'>
-                                        <FormControl fullWidth>
-                                            <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-                                            <Select
-                                                labelId="demo-simple-select-label"
-                                                id="demo-simple-select"
-                                                value={gender}
-                                                label="Gender"
-                                                onChange={(event)=>{
-                                                    setGender(event.target.value);
-                                                }}
-                                            >
-                                                <MenuItem value={"Male"}>Male</MenuItem>
-                                                <MenuItem value={"Female"}>Female</MenuItem>
-                                                <MenuItem value={"Others"}>Others</MenuItem>
-                                            </Select>
-                                        </FormControl>
-                                        <TextField 
-                                            id="outlined-search" 
-                                            label="Email" 
-                                            type="email"
-                                            required 
-                                            onChange={(e)=>updateForm({ lastName: e.target.value })}
-                                        />
-                                    </div> */}
                                     <div>
                                         <input id='Submit' type="submit" value="Connect with Metamask"/>
                                         <a href="https://metamask.io/download/" id='MetamaskNote'>
@@ -223,13 +197,16 @@ function Register() {
                                         />
                                     </div>
                                     <div className='TermsNCondition'>
-                                        <input type="checkbox"  style={{display:"none"}}/>
-                                        <CheckBoxOutlineBlankIcon/>
-                                        <p>I've read and agree to</p>
-                                        <p className='TermsNCondition__Clicker'>Terms & Condition</p>
+                                        <input required id='TermsCondition' type="checkbox"  style={{display:"none"}}/>
+                                        <label htmlFor='TermsCondition'>
+                                            <CheckBoxOutlineBlankIcon/>
+                                            <p>I've read and agree to</p>
+                                            <p className='TermsNCondition__Clicker'>Terms & Condition</p>
+                                        </label>
+                                        
                                     </div>
                                     <div>
-                                        <input id='Submit' type="submit" value="Connect with Metamask"/>
+                                        <input r id='Submit' type="submit" value="Connect with Metamask"/>
                                         <a href="https://metamask.io/download/" id='MetamaskNote'>
                                             <p className='BodyText2'>Learn more about Metamask</p>
                                             <img src={MetamaskImg} alt="" />

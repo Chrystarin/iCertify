@@ -186,6 +186,8 @@
 }
 .TermsNCondition{
     display: flex;
+    justify-content: center;
+    align-items: center;
     gap: 10px;
     .TermsNCondition__Clicker{
         color: var(--accent);
