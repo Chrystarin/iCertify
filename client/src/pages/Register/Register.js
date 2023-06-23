@@ -23,7 +23,7 @@ function Register() {
     const [gender, setGender] = useState();
     const [termsCondition, setTermsCondition] = useState(false);
 
-    const [openTermsNConditionModal, setOpenTermsNConditionModal] = useState(true);
+    const [openTermsNConditionModal, setOpenTermsNConditionModal] = useState(false);
    
     // Institution Registration Form
     const [institutionForm, setInstitutionForm] = useState({
