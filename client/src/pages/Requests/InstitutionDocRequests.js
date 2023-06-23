@@ -177,6 +177,9 @@ function InstitutionDocRequests() {
                                             action={()=>ProcessRequest(request, 'verified')}
                                             id={request.requestor.walletAddress}
                                             status={request.status}
+                                            requestId={request.requestId}
+                                            setMultipleSelectValue={setSelectMultipleValue}
+                                            MultipleSelectValue={selectMultipleValue}
 										/>
 									</li>
 								</> : ""}
@@ -203,6 +206,9 @@ function InstitutionDocRequests() {
                                             action={()=>navigate(`/documents/request/${request.requestId}`)}
                                             id={request.requestor.walletAddress}
                                             status={request.status}
+                                            requestId={request.requestId}
+                                            setMultipleSelectValue={setSelectMultipleValue}
+                                            MultipleSelectValue={selectMultipleValue}
 										/>
 									</li>
 								</> : ""}
