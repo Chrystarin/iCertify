@@ -111,6 +111,14 @@ function AddDocumentOffered() {
                         required
                         onChange={(e)=>updateForm({ description: e.target.value })}
                     />
+                    <TextField 
+                        id="outlined-basic" 
+                        label="Purpose" 
+                        variant="outlined" 
+                        multiline
+                        required
+                        // onChange={(e)=>updateForm({ description: e.target.value })}
+                    />
                     <div className='Wrapper_2_Inputs'>
                         <TextField 
                             id="outlined-basic" 
@@ -120,7 +128,7 @@ function AddDocumentOffered() {
                             required
                             onChange={(e)=>updateForm({ requirements: e.target.value })}
                         />
-                        <FormControl fullWidth sx={{ m: 1 }}>
+                        <FormControl fullWidth >
                             <InputLabel htmlFor="outlined-adornment-amount">Price</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-amount"
