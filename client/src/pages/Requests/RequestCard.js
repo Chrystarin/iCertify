@@ -53,7 +53,7 @@ function RequestCard(props) {
 
 	return (
 		<>
-			<div className={MultipleSelectValue.includes(requestId)?"MintTransferCard Panel__Container activeRequestCard":"MintTransferCard Panel__Container"} key={key}>
+			<div className={MultipleSelectValue?.includes(requestId)?"MintTransferCard Panel__Container activeRequestCard":"MintTransferCard Panel__Container"} key={key}>
 				<div id='MintTransferCard__Date'>
 					<h6>Date Requested</h6>
 					<p className='BodyText3'>{date}</p>
@@ -104,7 +104,7 @@ function RequestCard(props) {
 					</div>
 				</>:<>
                     <div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_1'>
-                        {MultipleSelectValue.includes(requestId)?<>
+                        {MultipleSelectValue?.includes(requestId)?<>
                             <Button variant='' onClick={()=>{
                                 setMultipleSelectValue(MultipleSelectValue.filter((item)=>item !== requestId))
                             }}>
