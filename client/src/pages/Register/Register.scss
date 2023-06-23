@@ -250,18 +250,19 @@
         
     }
     .TermsNCondition__Container::-webkit-scrollbar {
-        width: 10px;
+        width: 2px;
+        opacity: .5;
     }
       /* Track */
     .TermsNCondition__Container::-webkit-scrollbar-track {
-    background: #f1f1f1; 
+        background: #f1f1f1; 
     }
       /* Handle */
     .TermsNCondition__Container::-webkit-scrollbar-thumb {
-    background: #888; 
+        background: #888; 
     }
     /* Handle on hover */
     .TermsNCondition__Container::-webkit-scrollbar-thumb:hover {
-    background: #555; 
+        background: #555; 
     }
 }
