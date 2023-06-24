@@ -69,7 +69,7 @@ function RequestCard(props) {
 					<p className='BodyText1'>{name}</p>
                     
 				</a>
-                <div className="MintTransferCard__MultipleSelect" 
+                <div className={MultipleSelectValue?.includes(requestId)?"MintTransferCard__MultipleSelect MintTransferCard__MultipleSelectactive" :"MintTransferCard__MultipleSelect "}
                     onClick={
                         MultipleSelectValue?.includes(requestId)?()=>{
                             setSelectMultipleStatus(false);

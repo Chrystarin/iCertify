@@ -38,6 +38,12 @@
             color: white;
         }
     }
+    .MintTransferCard__MultipleSelectactive{
+        opacity: 1;
+        svg{
+            color: var(--accent);
+        }
+    }
     #MintTransferCard__Title{
         text-align: center;
     }
