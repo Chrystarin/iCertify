@@ -240,8 +240,22 @@ function InstitutionDocRequests() {
 
 					<div id='Body'>
 						<div id='TabsNav'>  
-							<Button variant={TabActive === 'verifyrequest' ? 'contained':''}onClick={() => setTabActive('verifyrequest')}>Verify Requests [{requestPending.length}]</Button>
-							<Button variant={TabActive === 'verifypayment' ? 'contained':''}onClick={() => setTabActive('verifypayment')}>Verify Payment [{requestPaid.length}]</Button>
+							<Button variant={TabActive === 'verifyrequest' ? 'contained':''}
+                                onClick={() => {
+                                    setTabActive('verifyrequest');
+                                    setMultipleSelectValue([]);
+                                    setSelectMultiple(false);
+                                }}
+                            >Verify Requests [{requestPending.length}]</Button>
+
+							<Button variant={TabActive === 'verifypayment' ? 'contained':''}
+                                onClick={() => {
+                                    setMultipleSelectValue([]);
+                                    setSelectMultiple(false);
+                                    setTabActive('verifypayment')}
+                                }
+                            >Verify Payment [{requestPaid.length}]</Button>
+
 							<Button variant={TabActive === 'toprocess'? 'contained': ''} onClick={() => setTabActive('toprocess')}>To Process [{requestVerified.length}]</Button>
 						</div>
 						<div id='TabsView'>
