@@ -72,7 +72,9 @@ function RequestCard(props) {
                 <div className={MultipleSelectValue?.includes(requestId)?"MintTransferCard__MultipleSelect MintTransferCard__MultipleSelectactive" :"MintTransferCard__MultipleSelect "}
                     onClick={
                         MultipleSelectValue?.includes(requestId)?()=>{
-                            setSelectMultipleStatus(false);
+                            if(MultipleSelectValue.length === 1){
+                                setSelectMultipleStatus(false);
+                            }
                             setMultipleSelectValue(MultipleSelectValue.filter((item)=>item !== requestId))
                         }:()=>{
                             setSelectMultipleStatus(true);
