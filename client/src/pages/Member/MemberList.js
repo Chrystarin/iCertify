@@ -106,7 +106,7 @@ function MemberList() {
     const BlockMember = async (request) => {
         console.log(request)
         try {
-            await axiosInstance.patch(`members`,{
+            await axiosInstance.patch(`/institutions/members`,{
                 walletAddress: request.requestor.walletAddress
             })
             .then((res)=>{
