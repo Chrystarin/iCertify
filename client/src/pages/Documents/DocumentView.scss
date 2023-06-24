@@ -101,6 +101,8 @@
     align-items: center;
     #uploadDocument__ViewUploaded__Container__Footer__Image{
         flex-grow: 1;
+        display: flex;
+        background-color: red;
     }
     #uploadDocument__ViewUploaded__Container__Footer__QR{
         border-radius: 8px;
