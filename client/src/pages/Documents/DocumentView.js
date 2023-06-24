@@ -24,7 +24,6 @@ import Placeholder from '../../images/placeholder/QR.PNG';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import Loading from '../../components/Loading/Loading';
-import { styled } from '@mui/material/styles';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -33,6 +32,8 @@ import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
+import Logo from '../../images/iCertifyBranding/icon.png';
+import WordMark from '../../images/iCertifyBranding/wordmark.png';
 
 // Import Utilities
 import axiosInstance from '../../utils/axios';
@@ -317,10 +318,26 @@ function DocumentView() {
                 <div id='CredentialViewingPanel__Container' className='Panel__Container'>
                     <div id="DocumentFile" ref={docRef}>
                         <img className='CredentialViewingPanel__Image' src={`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`} alt="" />
-                        <div>
-                    
-                            <div id='uploadDocument__ViewUploaded__Container__Footer'>
-                                <div id='uploadDocument__ViewUploaded__Container__Footer__Image'>
+                        <div id="uploadDocument__ViewUploaded__Container__Footer">
+                            <div id='uploadDocument__ViewUploaded__Container__Footer__Image'>
+                                <img src={Logo}/>
+                                <div>
+                                    <img src={WordMark}/>
+                                    <h6>TXID: {documentData.hash}</h6>
+                                </div>
+                            </div>
+                            <div id='uploadDocument__ViewUploaded__Container__Footer__QR'>
+                                <QRCode
+                                    title="iCertify QR Code"
+                                    value={qrCode ? qrCode : documentData.codes[0]}
+                                    bgColor={'#FFFFFF'}
+                                    fgColor={'#000000'}
+                                    size={100}
+                                    className="qrcode"
+                                    id="qrcode"
+                                />
+                            </div>
+                                {/* <div id='uploadDocument__ViewUploaded__Container__Footer__Image'>
                                     <img src={DocumentFooterImage} alt="" />
                                 </div>
                                 <div id='uploadDocument__ViewUploaded__Container__Footer__QR'>
@@ -333,8 +350,7 @@ function DocumentView() {
                                         className="qrcode"
                                         id="qrcode"
                                     />
-                                </div>
-                            </div>
+                                </div> */}
                         </div>
                     </div>
                     <div id='FullView__Container'>
@@ -440,9 +456,7 @@ function DocumentView() {
         const label = { inputProps: { 'aria-label': 'Size switch demo' } };
         const [checked, setChecked] = useState(documentData.mode === "public" ? true : false);
 
-
         const link = window.location.href;
-
 
         const handleClickCopyLink = (event) => {
             navigator.clipboard.writeText(`https://${process.env.REACT_APP_APP_URL}/documents/${documentData.codes[0]}`)
@@ -453,7 +467,6 @@ function DocumentView() {
                 note:"link Copied"
             }))
         };
-
 
         return (
             <div id='ShareModal'>
