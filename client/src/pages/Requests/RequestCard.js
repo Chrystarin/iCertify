@@ -63,15 +63,16 @@ function RequestCard(props) {
 					<h6>Date Requested</h6>
 					<p className='BodyText3'>{date}</p>
 				</div>
-				<a href={`/profile/${id}`} id='MintTransferCard__UserInfo'>
+				<a href={`/users/${id}`} id='MintTransferCard__UserInfo'>
 					<Avatar id="MintTransferCard__Avatar" alt="Remy Sharp" src={props.image ? props.image : "/static/images/avatar/1.jpg"} />
 					<p className='BodyText1'>{name}</p>
-                    <div className="MintTransferCard__MultipleSelect">
-                        <IconButton aria-label="delete" size="large">
-                            <AutoAwesomeMotionIcon/>
-                        </IconButton>
-                    </div>
+                    
 				</a>
+                <div className="MintTransferCard__MultipleSelect">
+                    <IconButton size="large">
+                        <AutoAwesomeMotionIcon/>
+                    </IconButton>
+                </div>
 				<p id='MintTransferCard__Title' className='BodyText3'>{title}</p>
 				<div id='MintTransferCard__ID'>
                     {(!paymentProof) ? '' :

@@ -3,6 +3,7 @@
     padding: 0;
     overflow: hidden;
     opacity: .95;
+    position: relative;
     #MintTransferCard__Date{
         padding: 1em 1em .5em;
         background-color: var(--dark1);
@@ -14,7 +15,6 @@
         }
     }
     #MintTransferCard__UserInfo{
-        position: relative;
         display: block;
         padding: 1.5em 1em 0;
         display: flex;
@@ -26,11 +26,12 @@
             width: 60px;
             height: 60px;
         }
-        .MintTransferCard__MultipleSelect{
-            position: absolute;
-            top: .5em;
-            left: .5em;
-        }
+        
+    }
+    .MintTransferCard__MultipleSelect{
+        position: absolute;
+        top: .5em;
+        right: .5em;
     }
     #MintTransferCard__Title{
         text-align: center;
