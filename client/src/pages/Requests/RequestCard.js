@@ -70,10 +70,16 @@ function RequestCard(props) {
                     
 				</a>
                 <div className="MintTransferCard__MultipleSelect" 
-                    onClick={()=>{
-                        setSelectMultipleStatus(true);
-                        setMultipleSelectValue([...MultipleSelectValue,requestId]);
-                    }}
+                    onClick={
+                        MultipleSelectValue?.includes(requestId)?()=>{
+                            setSelectMultipleStatus(false);
+                            setMultipleSelectValue(MultipleSelectValue.filter((item)=>item !== requestId))
+                        }:()=>{
+                            setSelectMultipleStatus(true);
+                            setMultipleSelectValue([...MultipleSelectValue,requestId]);
+                        }
+                        
+                    }
                 >
                     <IconButton size="large">
                         <AutoAwesomeMotionIcon/>
