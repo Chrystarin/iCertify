@@ -103,6 +103,33 @@ function MemberList() {
         }
     }
 
+    const BlockMember = async (request) => {
+        try {
+            
+            await axiosInstance.patch(`members`,{
+                walletAddress: request.requestor.walletAddress
+            })
+            .then((res)=>{
+                setOpenSnackBar(openSnackBar => ({
+                    ...openSnackBar,
+                    open:true,
+                    type:"error",
+                    note:"Member Blocked"
+                }))
+                // Execute Functions
+                fetchJoinRequests();
+                fetchMembers();
+            })
+        } catch (error) {     
+            setOpenSnackBar(openSnackBar => ({
+                ...openSnackBar,
+                open:true,
+                type:'error',
+                note: error.response.data.message,
+            }));
+        }
+    }
+
     if(!members || !joinRequests) return <Loading/>
 
     return (
@@ -213,6 +240,7 @@ function MemberList() {
                                             image={request.requestor.photo} 
                                             accept={()=>AcceptRequest(request)}
                                             reject={()=>RejectRequest(request)}
+                                            block={()=>BlockMember(request)}
                                         />
                                     );
                                 })}
