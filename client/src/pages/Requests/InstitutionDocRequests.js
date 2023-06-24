@@ -256,7 +256,13 @@ function InstitutionDocRequests() {
                                 }
                             >Verify Payment [{requestPaid.length}]</Button>
 
-							<Button variant={TabActive === 'toprocess'? 'contained': ''} onClick={() => setTabActive('toprocess')}>To Process [{requestVerified.length}]</Button>
+							<Button variant={TabActive === 'toprocess'? 'contained': ''} 
+                                onClick={() => {
+                                    setTabActive('toprocess');
+                                    setSelectMultipleValue([]);
+                                    setSelectMultiple(false);
+                                }}
+                            >To Process [{requestVerified.length}]</Button>
 						</div>
 						<div id='TabsView'>
 							<div id='ListTools'>
