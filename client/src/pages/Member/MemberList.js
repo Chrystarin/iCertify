@@ -104,8 +104,8 @@ function MemberList() {
     }
 
     const BlockMember = async (request) => {
+        console.log(request)
         try {
-            
             await axiosInstance.patch(`members`,{
                 walletAddress: request.requestor.walletAddress
             })
@@ -121,6 +121,7 @@ function MemberList() {
                 fetchMembers();
             })
         } catch (error) {     
+            console.log(error)
             setOpenSnackBar(openSnackBar => ({
                 ...openSnackBar,
                 open:true,

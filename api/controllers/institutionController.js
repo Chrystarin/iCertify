@@ -222,6 +222,8 @@ const blockMember = async (req, res, next) => {
         user: { id }
     } = req;
 
+    console.log(req.query);
+
     const institution = await Institution.findById(id);
 
     const memberIndex = institution.members.findIndex(({ user }) => user.walletAddress === walletAddress);
