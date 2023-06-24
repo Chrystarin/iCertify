@@ -86,7 +86,7 @@ function RequestCard(props) {
 				</div>
 				{(status==="pending"|| status==="paid") && !multipleSelectStatus ?<>
 					<div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_2'>
-						<Button variant='outlined' onClick={handleClick}>Decline</Button>
+						<Button disabled={MultipleSelectValue?.includes(requestId)?true:false}  variant='outlined' onClick={handleClick}>Decline</Button>
 						<Menu
 							id="basic-menu"
 							anchorEl={anchorEl}
@@ -111,10 +111,10 @@ function RequestCard(props) {
 								</div>
 							</div>
 						</Menu>
-						<Button variant='contained' onClick={props.action}>Accept</Button>
+						<Button disabled={MultipleSelectValue?.includes(requestId)?true:false} variant='contained' onClick={props.action}>Accept</Button>
 					</div>
 				</>:<>
-                    <div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_1'>
+                    {/* <div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_1'>
                         {MultipleSelectValue?.includes(requestId)?<>
                             <Button variant='' onClick={()=>{
                                 setMultipleSelectValue(MultipleSelectValue.filter((item)=>item !== requestId))
@@ -130,11 +130,11 @@ function RequestCard(props) {
                             </>:<></>}
                         </>:<></>}
 						
-					</div>
+					</div> */}
                 </>}
 				{status==="verified"?<>
 					<div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_1'>
-						<Button variant='contained' onClick={props.action}>Process</Button>
+						<Button variant='contained' onClick={props.action}  disabled={MultipleSelectValue?.includes(requestId)?true:false} >Process</Button>
 					</div>
 				</>:<></>}
 			</div>
