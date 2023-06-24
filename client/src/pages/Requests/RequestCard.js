@@ -39,6 +39,7 @@ function RequestCard(props) {
 		key,
         paymentProof,
         multipleSelectStatus,
+        setSelectMultipleStatus,
         setMultipleSelectValue,
         MultipleSelectValue
         
@@ -68,7 +69,12 @@ function RequestCard(props) {
 					<p className='BodyText1'>{name}</p>
                     
 				</a>
-                <div className="MintTransferCard__MultipleSelect">
+                <div className="MintTransferCard__MultipleSelect" 
+                    onClick={()=>{
+                        setSelectMultipleStatus(true);
+                        setMultipleSelectValue([...MultipleSelectValue,requestId]);
+                    }}
+                >
                     <IconButton size="large">
                         <AutoAwesomeMotionIcon/>
                     </IconButton>
