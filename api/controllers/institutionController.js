@@ -240,13 +240,14 @@ const blockMember = async (req, res, next) => {
 const addOfferedDoc = async (req, res, next) => {
 	// Destructure the request object to get required data
 	const {
-		body: { title, description, price, requirements }, // Document details
+		body: { title, description, purpose, price, requirements }, // Document details
 		user: { id } // Institution ID
 	} = req;
 
 	// Validate input fields using helper functions
 	isString(title, 'Title');
 	isString(description, 'Description');
+    isString(purpose, 'Purpose');
 	isNumber(price, 'Price');
 	isString(requirements, 'Requirements');
 
@@ -263,6 +264,7 @@ const addOfferedDoc = async (req, res, next) => {
 					docId, // Document ID
 					title, // Document title
 					description, // Document description
+                    purpose, // Document purpose
 					price, // Document price
 					requirements // Document requirements
 				}
@@ -323,7 +325,7 @@ const getOfferedDocs = async (req, res, next) => {
 const editOfferedDoc = async (req, res, next) => {
 	// Extract relevant data from the request body and user object.
 	const {
-		body: { docId, title, description, price, requirements, status },
+		body: { docId, title, description, purpose, price, requirements, status },
 		user: { id }
 	} = req;
 
@@ -331,6 +333,7 @@ const editOfferedDoc = async (req, res, next) => {
 	isString(docId, 'Document ID');
 	isString(title, 'Title');
 	isString(description, 'Description');
+    isString(purpose, 'Purpose');
 	isNumber(price, 'Price');
 	isString(requirements, 'Requirements');
     isString(status, 'Status');
@@ -345,6 +348,7 @@ const editOfferedDoc = async (req, res, next) => {
 					docId,
 					title,
 					description,
+                    purpose,
 					price,
 					requirements,
                     status
