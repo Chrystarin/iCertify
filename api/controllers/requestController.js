@@ -181,7 +181,7 @@ const createRequest = async (req, res, next) => {
 const processRequest = async (req, res, next) => {
 	// Destructuring request object to get relevant data
 	const {
-		requestId, // request body
+		body: {requestId}, // request body
 		user: { id, type } // user id and type
 	} = req;
 
