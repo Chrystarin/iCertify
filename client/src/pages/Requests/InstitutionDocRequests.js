@@ -113,13 +113,12 @@ function InstitutionDocRequests() {
                 console.log(response.data)
                 fetchDocumentRequests();
             })
-        } catch (err) {      
-			const errmsg = err.message;
+        } catch (error) {
 			setOpenSnackBar(openSnackBar => ({
 				...openSnackBar,
-				open:true,
-				type:"error",
-				note:errmsg
+				open: true,
+				type: "error",
+				note: error?.response?.data?.message ?? error.toString(),
 			}))
         }
     }
