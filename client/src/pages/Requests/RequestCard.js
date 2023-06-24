@@ -84,7 +84,7 @@ function RequestCard(props) {
 						<Chip  label={ShortingWallet(id)} onClick={()=> navigator.clipboard.writeText(id)} icon={<ContentCopyIcon fontSize="small" />}/>
 					</Tooltip>
 				</div>
-				{(status==="pending"|| status==="paid") && !multipleSelectStatus ?<>
+				{(status==="pending"|| status==="paid")?<>
 					<div className='MintTransferCard__Buttons' id='MintTransferCard__Buttons_2'>
 						<Button disabled={MultipleSelectValue?.includes(requestId)?true:false}  variant='outlined' onClick={handleClick}>Decline</Button>
 						<Menu
