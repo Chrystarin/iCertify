@@ -313,7 +313,7 @@ function InstitutionDocRequests() {
                                         onClick={()=>{
                                             alert(selectMultipleValue);
                                             setSelectMultipleValue([]);
-                                            selectMultiple(false);
+                                            setSelectMultiple(false);
                                             ProcessRequest(selectMultipleValue, 'approved');
                                         }}
                                     > Approve All </Button>
@@ -322,7 +322,7 @@ function InstitutionDocRequests() {
                                         onClick={()=>{
                                             alert(selectMultipleValue);
                                             setSelectMultipleValue([]);
-                                            selectMultiple(false);
+                                            setSelectMultiple(false);
                                             ProcessRequest(selectMultipleValue, 'declined');
                                         }}
                                     > Decline All </Button>
