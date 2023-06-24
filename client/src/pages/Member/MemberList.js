@@ -103,11 +103,10 @@ function MemberList() {
         }
     }
 
-    const BlockMember = async (request) => {
-        console.log(request)
+    const BlockMember = async (data) => {
         try {
             await axiosInstance.patch(`/institutions/members`,{
-                walletAddress: request.requestor.walletAddress
+                walletAddress: data
             })
             .then((res)=>{
                 setOpenSnackBar(openSnackBar => ({
@@ -204,7 +203,7 @@ function MemberList() {
                                             image={member.user.photo} 
                                             member={true}
                                             membershipProof={(member.details?.membership) ? member.details?.membership : ''}
-                                            block={()=>BlockMember(request)}
+                                            block={()=>BlockMember(member.user.walletAddress)}
                                         />
                                     );
                                 })}
@@ -242,7 +241,7 @@ function MemberList() {
                                             image={request.requestor.photo} 
                                             accept={()=>AcceptRequest(request)}
                                             reject={()=>RejectRequest(request)}
-                                            block={()=>BlockMember(request)}
+                                            block={()=>BlockMember(request.requestor.walletAddress)}
                                         />
                                     );
                                 })}
