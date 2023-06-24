@@ -102,7 +102,17 @@
     #uploadDocument__ViewUploaded__Container__Footer__Image{
         flex-grow: 1;
         display: flex;
-        background-color: red;
+        #uploadDocument__ViewUploaded__Container__Footer__Image__Logo{
+            height: 80px;
+            width: 80px;
+        }
+        div{
+            
+            #uploadDocument__ViewUploaded__Container__Footer__Image__Wordmark{
+                height: 40px;
+                margin-bottom: 5px;
+            }
+        }
     }
     #uploadDocument__ViewUploaded__Container__Footer__QR{
         border-radius: 8px;

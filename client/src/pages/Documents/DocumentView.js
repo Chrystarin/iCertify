@@ -320,9 +320,9 @@ function DocumentView() {
                         <img className='CredentialViewingPanel__Image' src={`https://icertify.infura-ipfs.io/ipfs/${tokenURI}`} alt="" />
                         <div id="uploadDocument__ViewUploaded__Container__Footer">
                             <div id='uploadDocument__ViewUploaded__Container__Footer__Image'>
-                                <img src={Logo}/>
+                                <img id='uploadDocument__ViewUploaded__Container__Footer__Image__Logo' src={Logo}/>
                                 <div>
-                                    <img src={WordMark}/>
+                                    <img id='uploadDocument__ViewUploaded__Container__Footer__Image__Wordmark' src={WordMark}/>
                                     <h6>TXID: {documentData.hash}</h6>
                                 </div>
                             </div>
