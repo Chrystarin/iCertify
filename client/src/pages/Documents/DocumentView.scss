@@ -102,6 +102,11 @@
     #uploadDocument__ViewUploaded__Container__Footer__Image{
         flex-grow: 1;
         display: flex;
+        align-items: center;
+        gap: 25px;
+        p{
+            color: rgb(66, 66, 66);
+        }
         #uploadDocument__ViewUploaded__Container__Footer__Image__Logo{
             height: 80px;
             width: 80px;
