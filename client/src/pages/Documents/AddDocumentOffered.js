@@ -38,6 +38,7 @@ function AddDocumentOffered() {
     const [form, setForm] = useState({
         name: '',
         description: '',
+        purpose: '',
         requirements: '',
         price: ''
     });
@@ -62,6 +63,7 @@ function AddDocumentOffered() {
                 .post(`institutions/offers`, JSON.stringify({
                     title: form.name,
                     description: form.description,
+                    purpose: form.purpose,
                     price: parseFloat(form.price),
                     requirements: form.requirements
                 }))
@@ -117,7 +119,7 @@ function AddDocumentOffered() {
                         variant="outlined" 
                         multiline
                         required
-                        // onChange={(e)=>updateForm({ description: e.target.value })}
+                        onChange={(e)=>updateForm({ purpose: e.target.value })}
                     />
                     <div className='Wrapper_2_Inputs'>
                         <TextField 
