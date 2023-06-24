@@ -249,7 +249,7 @@ function InstitutionDocRequests() {
 								<div id='SearchInputHolder'>
 									<SearchInput />
 								</div>
-								<Button variant={selectMultiple?"text":""} endIcon={selectMultiple?<CheckBoxIcon/>:<CheckBoxOutlineBlankIcon/>} 
+								{/* <Button variant={selectMultiple?"text":""} endIcon={selectMultiple?<CheckBoxIcon/>:<CheckBoxOutlineBlankIcon/>} 
                                     onClick={()=>{
                                         console.log(selectMultipleValue); 
                                         if(selectMultiple){
@@ -263,7 +263,7 @@ function InstitutionDocRequests() {
                                     }}
                                 >
                                     Select Multiple
-								</Button>
+								</Button> */}
 								{selectMultiple?
                                     <Button variant='contained' onClick={()=>{
                                         alert(selectMultipleValue);
