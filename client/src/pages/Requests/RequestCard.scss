@@ -29,9 +29,14 @@
         
     }
     .MintTransferCard__MultipleSelect{
+        opacity: 0;
         position: absolute;
         top: .5em;
         right: .5em;
+        transition: all 300ms ease-in-out;
+        svg{
+            color: white;
+        }
     }
     #MintTransferCard__Title{
         text-align: center;
@@ -72,6 +77,9 @@
 }
 .MintTransferCard:hover{
     opacity: 1;
+    .MintTransferCard__MultipleSelect{
+        opacity: 1;
+    }
 }
 #DeclineDropdown{
     padding: .5em 1em;
