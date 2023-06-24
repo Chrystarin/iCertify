@@ -8,6 +8,11 @@ import Menu from '@mui/material/Menu';
 import TextField from '@mui/material/TextField';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
+import IconButton from '@mui/material';
+
+
+
 function RequestCard(props) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const open = Boolean(anchorEl);
@@ -58,9 +63,14 @@ function RequestCard(props) {
 					<h6>Date Requested</h6>
 					<p className='BodyText3'>{date}</p>
 				</div>
-				<a href='/' id='MintTransferCard__UserInfo'>
+				<a href={`/profile/${id}`} id='MintTransferCard__UserInfo'>
 					<Avatar id="MintTransferCard__Avatar" alt="Remy Sharp" src={props.image ? props.image : "/static/images/avatar/1.jpg"} />
 					<p className='BodyText1'>{name}</p>
+                    <div className="MintTransferCard__MultipleSelect">
+                        <IconButton aria-label="delete" size="large">
+                            <AutoAwesomeMotionIcon/>
+                        </IconButton>
+                    </div>
 				</a>
 				<p id='MintTransferCard__Title' className='BodyText3'>{title}</p>
 				<div id='MintTransferCard__ID'>
