@@ -314,7 +314,7 @@ function InstitutionDocRequests() {
                                             alert(selectMultipleValue);
                                             setSelectMultipleValue([]);
                                             selectMultiple(false);
-                                            ProcessRequest(selectMultipleValue, 'approved')
+                                            ProcessRequest(selectMultipleValue, 'approved');
                                         }}
                                     > Approve All </Button>
                                     <Button 
@@ -323,7 +323,7 @@ function InstitutionDocRequests() {
                                             alert(selectMultipleValue);
                                             setSelectMultipleValue([]);
                                             selectMultiple(false);
-                                            ProcessRequest(selectMultipleValue, 'declined')
+                                            ProcessRequest(selectMultipleValue, 'declined');
                                         }}
                                     > Decline All </Button>
                                 </>
