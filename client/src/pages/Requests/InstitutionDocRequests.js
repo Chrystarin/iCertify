@@ -243,14 +243,14 @@ function InstitutionDocRequests() {
 							<Button variant={TabActive === 'verifyrequest' ? 'contained':''}
                                 onClick={() => {
                                     setTabActive('verifyrequest');
-                                    setMultipleSelectValue([]);
                                     setSelectMultiple(false);
-                                }}
+                                    setSelectMultipleValue([]);
+s                                }}
                             >Verify Requests [{requestPending.length}]</Button>
 
 							<Button variant={TabActive === 'verifypayment' ? 'contained':''}
                                 onClick={() => {
-                                    setMultipleSelectValue([]);
+                                    setSelectMultipleValue([]);
                                     setSelectMultiple(false);
                                     setTabActive('verifypayment')}
                                 }
@@ -281,7 +281,7 @@ function InstitutionDocRequests() {
 								{selectMultiple?
                                     <Button variant='contained' onClick={()=>{
                                         alert(selectMultipleValue);
-                                        selectMultipleValue([]);
+                                        setSelectMultipleValue([]);
                                         selectMultiple(false);
                                     }}> Validate All </Button>:
                                 <Button variant='contained' href='/documents/requests/manual'>Generate Document</Button>
