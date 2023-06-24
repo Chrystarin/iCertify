@@ -181,14 +181,12 @@ const createRequest = async (req, res, next) => {
 const processRequest = async (req, res, next) => {
 	// Destructuring request object to get relevant data
 	const {
-		body: { body }, // request body
+		requestId, // request body
 		user: { id, type } // user id and type
 	} = req;
 
 	// Parsing request body to extract requestId and status
-    const parsedBody = JSON.parse(body);
-	const { requestId } = parsedBody;
-    let { status } = parsedBody;
+    let { status } = req.body;
 
 	// Validating inputs
 	isString(requestId, 'Request ID');

@@ -90,29 +90,51 @@ function InstitutionDocRequests() {
 		type:"",
 		note:""
 	});
-    const ProcessRequest = async (request, action, note) => {
-        try {
-            const formData = new FormData();
-            formData.append('body', JSON.stringify({
-                requestId: request.requestId,
-                status: action,
-                note: (!note ? '' : note)
-            }))
 
-            await axiosInstance.patch(
-                `requests`,
-                formData
-            )
-            .then((response)=>{
-				setOpenSnackBar(openSnackBar => ({
-					...openSnackBar,
-					open:true,
-					type:"info",
-					note:`Document ${action}!`
-				}))
-                console.log(response.data)
-                fetchDocumentRequests();
-            })
+    const ProcessRequest = async (request, action, note) => {
+        console.log(request)
+        try {
+            if(Array.isArray(request)){
+                await axiosInstance.patch(`requests`,{
+                    requestId: request,
+                    status: action,
+                    note: (!note ? '' : note)
+                })
+                .then((response)=>{
+                    setOpenSnackBar(openSnackBar => ({
+                        ...openSnackBar,
+                        open:true,
+                        type:"info",
+                        note:`Document ${action}!`
+                    }))
+                    console.log(response.data)
+                    fetchDocumentRequests();
+                })
+            } else {
+                const requests = request.map(item => {
+                    return axiosInstance.patch(`requests`,{
+                        requestId: item,
+                        status: action,
+                        note: (!note ? '' : note)
+                    })
+                });
+
+                console.log(requests)
+                  
+                Promise.all(requests)
+                    .then(responses => {
+                        // Process the responses
+                        responses.forEach(response => {
+                        // Handle each response
+                        console.log(response);
+                        });
+                    })
+                    .catch(error => {
+                        // Handle errors
+                        console.log(error);
+                    });
+            }
+            
         } catch (error) {
 			setOpenSnackBar(openSnackBar => ({
 				...openSnackBar,
@@ -141,8 +163,8 @@ function InstitutionDocRequests() {
                                             title={request.details.offeredDoc.title}
                                             date={moment(request.createdAt).format('LL')}
                                             image={request.requestor.photo}
-                                            decline={(e)=>ProcessRequest(request, 'declined', e)}
-                                            action={()=>ProcessRequest(request, 'approved')}
+                                            decline={(e)=>ProcessRequest(request.requestId, 'declined', e)}
+                                            action={()=>ProcessRequest(request.requestId, 'approved')}
                                             id={request.requestor.walletAddress}
                                             status={request.status}
                                             multipleSelectStatus={selectMultiple}
@@ -174,7 +196,7 @@ function InstitutionDocRequests() {
                                             date={moment(request.createdAt).format('LL')}
                                             image={request.requestor.photo}
                                             paymentProof={request.details.proof}
-                                            action={()=>ProcessRequest(request, 'verified')}
+                                            action={()=>ProcessRequest(request.requestId, 'verified')}
                                             id={request.requestor.walletAddress}
                                             status={request.status}
                                             requestId={request.requestId}
@@ -244,6 +266,7 @@ function InstitutionDocRequests() {
                                     setTabActive('verifyrequest');
                                     setSelectMultiple(false);
                                     setSelectMultipleValue([]);
+                                    console.log(selectMultipleValue)
                                 }}
                             >Verify Requests [{requestPending.length}]</Button>
 
@@ -284,12 +307,30 @@ function InstitutionDocRequests() {
                                     Select Multiple
 								</Button> */}
 								{selectMultiple?
-                                    <Button variant='contained' onClick={()=>{
-                                        alert(selectMultipleValue);
-                                        setSelectMultipleValue([]);
-                                        selectMultiple(false);
-                                    }}> Validate All </Button>:
-                                <Button variant='contained' href='/documents/requests/manual'>Generate Document</Button>
+                                <>
+                                    <Button 
+                                        variant='contained' 
+                                        onClick={()=>{
+                                            alert(selectMultipleValue);
+                                            setSelectMultipleValue([]);
+                                            selectMultiple(false);
+                                            ProcessRequest(selectMultipleValue, 'approved')
+                                        }}
+                                    > Approve All </Button>
+                                    <Button 
+                                        variant='contained' 
+                                        onClick={()=>{
+                                            alert(selectMultipleValue);
+                                            setSelectMultipleValue([]);
+                                            selectMultiple(false);
+                                            ProcessRequest(selectMultipleValue, 'declined')
+                                        }}
+                                    > Decline All </Button>
+                                </>
+                                    
+                                    
+                                    :
+                                    <Button variant='contained' href='/documents/requests/manual'>Generate Document</Button>
                                 }
 							</div>
                             <div>
