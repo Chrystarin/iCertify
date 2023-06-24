@@ -95,22 +95,7 @@ function InstitutionDocRequests() {
         console.log(request)
         try {
             if(Array.isArray(request)){
-                await axiosInstance.patch(`requests`,{
-                    requestId: request,
-                    status: action,
-                    note: (!note ? '' : note)
-                })
-                .then((response)=>{
-                    setOpenSnackBar(openSnackBar => ({
-                        ...openSnackBar,
-                        open:true,
-                        type:"info",
-                        note:`Document ${action}!`
-                    }))
-                    console.log(response.data)
-                    fetchDocumentRequests();
-                })
-            } else {
+
                 const requests = request.map(item => {
                     return axiosInstance.patch(`requests`,{
                         requestId: item,
@@ -126,13 +111,32 @@ function InstitutionDocRequests() {
                         // Process the responses
                         responses.forEach(response => {
                         // Handle each response
-                        console.log(response);
+                        console.log(response.data);
                         });
                     })
                     .catch(error => {
                         // Handle errors
                         console.log(error);
                     });
+                
+            } else {
+                
+
+                    await axiosInstance.patch(`requests`,{
+                        requestId: request,
+                        status: action,
+                        note: (!note ? '' : note)
+                    })
+                    .then((response)=>{
+                        setOpenSnackBar(openSnackBar => ({
+                            ...openSnackBar,
+                            open:true,
+                            type:"info",
+                            note:`Document ${action}!`
+                        }))
+                        console.log(response.data)
+                        fetchDocumentRequests();
+                    })
             }
             
         } catch (error) {
