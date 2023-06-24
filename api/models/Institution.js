@@ -98,6 +98,10 @@ module.exports = model(
 						type: String,
 						required: [true, 'Description is required']
 					},
+                    purpose: {
+                        type: String,
+                        required: [true, 'Purpose is required']
+                    },
 					price: {
 						type: Decimal128,
 						required: [true, 'Price is required']

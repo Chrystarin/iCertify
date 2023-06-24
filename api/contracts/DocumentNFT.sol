@@ -44,12 +44,13 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
         string memory docId
 	) public payable
 	{
-		// Check if sender is admin of institution
+		// Check if sender is valid address
         require(msg.sender != owner, "Invalid action");
+		require(msg.sender != receiver, "Invalid action");
 		require(institutions[msg.sender], "Sender is not an admin of institution");
         require(!institutions[receiver], "Receiver must not be an institution");
         require(!uris[uri], "Document already owned by another address");
-        require(msg.value >= 3333333333 gwei, "Insufficient transaction fee");
+        require(msg.value >= 333333333333333333 wei, "Insufficient transaction fee");
 
 		// Generate a unique, new documentd id
 		uint256 newDocumentId = documentIds.current();
@@ -83,6 +84,7 @@ contract DocumentNFT is ERC721, ERC721Enumerable, ERC721URIStorage
     // Add sender to the institutions mapping
 	function registerInstitution() public
 	{
+		require(msg.sender != owner, "Invalid action");
 		require(!institutions[msg.sender], "Already an admin of institution");
 		
 		institutions[msg.sender] = true;
