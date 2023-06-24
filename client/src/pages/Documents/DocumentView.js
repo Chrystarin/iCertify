@@ -384,6 +384,10 @@ function DocumentView() {
                             </a>
                         </li>
                         <li>
+                            <h6 className="Details__Title">Description</h6>
+                            <p className='BodyText3 Details__Content'>{document.purpose}</p>
+                        </li>
+                        <li>
                             <h6 className="Details__Title">Date Created</h6>
                             <p className='BodyText3 Details__Content'>{moment(documentData.createdAt).format('LL')}</p>
                         </li>

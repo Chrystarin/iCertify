@@ -204,6 +204,7 @@ function MemberList() {
                                             image={member.user.photo} 
                                             member={true}
                                             membershipProof={(member.details?.membership) ? member.details?.membership : ''}
+                                            block={()=>BlockMember(request)}
                                         />
                                     );
                                 })}
