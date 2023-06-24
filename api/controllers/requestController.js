@@ -188,6 +188,8 @@ const processRequest = async (req, res, next) => {
 	// Parsing request body to extract requestId and status
     let { status } = req.body;
 
+    console.log(req.body)
+
 	// Validating inputs
 	isString(requestId, 'Request ID');
 	isString(status, 'Request Status');

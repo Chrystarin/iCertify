@@ -104,7 +104,7 @@ function InstitutionDocRequests() {
                     })
                 });
 
-                console.log(requests)
+                console.log(await requests)
                   
                 Promise.all(requests)
                     .then(responses => {
