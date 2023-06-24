@@ -38,7 +38,10 @@ function MemberCard(props) {
             <div id='MemberCard'>
                 <div className={blockStatus?"MemberCard__MoreButton active": "MemberCard__MoreButton"}>
                     <Tooltip title="Block">
-                        <IconButton onClick={props.block}>
+                        <IconButton onClick={()=>{
+                            props.block();
+                            setBlockStatus(!blockStatus);
+                        }}>
                             <ReportGmailerrorredIcon />
                         </IconButton>
                     </Tooltip>
@@ -61,7 +64,10 @@ function MemberCard(props) {
             <div id='MemberCard'>
                 <div className={blockStatus?"MemberCard__MoreButton active": "MemberCard__MoreButton"}>
                     <Tooltip title="Block">
-                        <IconButton onClick={props.block}>
+                        <IconButton onClick={()=>{
+                            props.block();
+                            setBlockStatus(!blockStatus);
+                        }}>
                             <ReportGmailerrorredIcon />
                         </IconButton>
                     </Tooltip>
