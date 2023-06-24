@@ -245,7 +245,7 @@ function InstitutionDocRequests() {
                                     setTabActive('verifyrequest');
                                     setSelectMultiple(false);
                                     setSelectMultipleValue([]);
-s                                }}
+                                }}
                             >Verify Requests [{requestPending.length}]</Button>
 
 							<Button variant={TabActive === 'verifypayment' ? 'contained':''}
