@@ -233,6 +233,7 @@ const blockMember = async (req, res, next) => {
         blockedMember = await User.findOne({ walletAddress }).exec();
 
     institution.blocked.push(blockedMember._id);
+    await institution.save();
 
     res.json({ message: 'Member successfully blocked in the institution' });
 }
