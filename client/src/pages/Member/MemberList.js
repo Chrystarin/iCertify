@@ -58,7 +58,8 @@ function MemberList() {
             }))
             await axiosInstance.patch(
                 `requests`,
-                formData
+                {requestId: request.requestId,
+                status: 'approved',}
             )
             .then((res)=>{
                 setOpenSnackBar(openSnackBar => ({
