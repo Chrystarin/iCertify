@@ -147,7 +147,7 @@ function Profile() {
                 ...openSnackBar,
                 open:true,
                 type:"error",
-                note:error.response.data.message
+                note: "Error Occurred: " + err.message
             }));
             
         }
