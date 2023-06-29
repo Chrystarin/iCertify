@@ -147,7 +147,7 @@ function Profile() {
                 ...openSnackBar,
                 open:true,
                 type:"error",
-                note: "Error Occurred: File Size reach the maximum size"
+                note: error?.response?.data?.message ?? error.toString()
             }));
             
         }
