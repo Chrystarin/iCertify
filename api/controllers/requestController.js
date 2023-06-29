@@ -124,7 +124,7 @@ const createRequest = async (req, res, next) => {
 			// Add membership to the request details by uploading the proof image and storing the URL
 			requestParams.details.membership = await uploadImage(
 				proof,
-				`requests/${requestParams.requestId}-${Date.now()}}`
+				`requests/${requestParams.requestId}-${Date.now()}`
 			);
 		}
 	}
