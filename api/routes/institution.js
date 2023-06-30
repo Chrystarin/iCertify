@@ -42,7 +42,7 @@ router.use(onlyInstitution);
  *
  * name
  */
-router.patch('/', fileUpload(), updateInstitution);
+router.patch('/', fileUpload({ limits: { fileSize: 5 * 1024 * 1024 }, abortOnLimit: true }), updateInstitution);
 
 /**
  * Get members of institutions
