@@ -136,7 +136,10 @@ function CreateDocument({manual}) {
                 manual ? form.memberAddress : request.requestor.walletAddress,             // receiver
                 manual ? form.docTitle : request.details.offeredDoc.title,                  // type
                 path,                                                                       // uri
-                manual ? form.docId : request.details.offeredDoc.docId                    // docId
+                manual ? form.docId : request.details.offeredDoc.docId,                    // docId
+                {
+                    value: ethers.utils.formatUnits('333333333333333333', 'wei')
+                }
             )
             .then((response)=>{
                 txHash = response.hash
