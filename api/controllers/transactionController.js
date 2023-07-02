@@ -122,9 +122,7 @@ const updateRecords = (user, hash, request) => {
 	// Destructure `member` and `log` properties from `user` object
 	const { member, log } = user;
 	// Parse `tokenId` from `log` using `contract` interface
-	const parsedLog = contract.interface.parseLog(log);
-	console.log(parsedLog);
-	const tokenId = parsedLog.args.tokenId.toNumber();
+	const tokenId = contract.interface.parseLog(log).args._tokenId.toNumber();
 
 	console.log(tokenId)
 
