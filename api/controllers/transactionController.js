@@ -124,6 +124,8 @@ const updateRecords = (user, hash, request) => {
 	// Parse `tokenId` from `log` using `contract` interface
 	const tokenId = contract.interface.parseLog(log).args.tokenId.toNumber();
 
+	console.log(tokenId)
+
 	// Update `User` document by pushing a new document object to its `documents` array
 	const userUpdate = User.findByIdAndUpdate(
 		member,
@@ -214,13 +216,18 @@ const saveTransaction = async (req, res, next) => {
 		// Transaction hash to wait for
 		txHash,
 		// Callback function to execute when transaction is confirmed
-		({ logs: [log] }) =>
+		({ logs: [log] }) => {
+			console.log(log)
+
 			updateRecords({ member: member.user._id, log }, txHash, {
 				requestId,
 				institution: id
-			}),
+			})
+		},
 		// If the transaction fails, update the request status to 'paid' and notify the admin of the failure
 		async (error) => {
+			console.log(error)
+
 			if (requestId)
 				await Request.updateOne(
 					{ requestId, institution: id },
@@ -228,7 +235,7 @@ const saveTransaction = async (req, res, next) => {
 					{ runValidators: true }
 				);
 
-            transaction.status = 'failed';
+            transaction.status = 'failed';0
             await transaction.save();
 
 			// Notify admin of transaction failure

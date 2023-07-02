@@ -25,6 +25,8 @@ const waitTx = async (txHash, success, failed) => {
     const transaction = await provider.getTransaction(txHash);
     if (!transaction) throw new NotFound('Transaction is not existing');
 
+    console.log(transaction)
+
     // If the transaction is valid, start monitoring it (asynchronously)
     transaction
         .wait()
