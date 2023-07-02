@@ -122,7 +122,9 @@ const updateRecords = (user, hash, request) => {
 	// Destructure `member` and `log` properties from `user` object
 	const { member, log } = user;
 	// Parse `tokenId` from `log` using `contract` interface
-	const tokenId = contract.interface.parseLog(log).args.tokenId.toNumber();
+	const parsedLog = contract.interface.parseLog(log);
+	console.log(parsedLog);
+	const tokenId = parsedLog.args.tokenId.toNumber();
 
 	console.log(tokenId)
 
@@ -219,7 +221,7 @@ const saveTransaction = async (req, res, next) => {
 		({ logs }) => {
 			console.log(logs)
 
-			updateRecords({ member: member.user._id, log: logs[0] }, txHash, {
+			updateRecords({ member: member.user._id, log: logs[2] }, txHash, {
 				requestId,
 				institution: id
 			})
