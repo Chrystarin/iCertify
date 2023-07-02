@@ -216,10 +216,10 @@ const saveTransaction = async (req, res, next) => {
 		// Transaction hash to wait for
 		txHash,
 		// Callback function to execute when transaction is confirmed
-		({ logs: [log] }) => {
-			console.log(log)
+		({ logs }) => {
+			console.log(logs)
 
-			updateRecords({ member: member.user._id, log }, txHash, {
+			updateRecords({ member: member.user._id, log: logs[0] }, txHash, {
 				requestId,
 				institution: id
 			})
