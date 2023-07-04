@@ -16,6 +16,7 @@ import SnackbarComponent from '../../components/Snackbar/SnackbarComponent';
 import moment from 'moment';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 function InstitutionDocRequests() {
     
     // Constants Declaration
@@ -367,11 +368,8 @@ function InstitutionDocRequests() {
 							<img src={InstitutionCardDesign} alt="" />
 						</div>
 						<h5 id='DocumentsAnalytics__Title'>Documents Analytics</h5>
+                        
 						<div className="parent">
-                            <div className="div0" style={{textAlign: 'center'}}>
-								<h5>₱ {getTotalIncome(requests).toFixed(2)}</h5>
-								<p className='BodyText2'>Total Income</p>
-							</div>
 							<div className="div1">
 								<h5>{requestPending.length + requestPaid.length}</h5>
 								<p className='BodyText2'>To Verify</p>
@@ -402,6 +400,13 @@ function InstitutionDocRequests() {
 							<div>
 								<h5>{requestCompleted.length}</h5>
 								<p className='BodyText3'>Total Released Documents</p>
+							</div>
+						</div>
+                        <div id='DocumentsAnalytics__Member' >
+							<FileOpenIcon id="DocumentsAnalytics__Member__Avatar"/>
+							<div>
+								<h5>₱ {getTotalIncome(requests).toFixed(2)}</h5>
+								<p className='BodyText3'>Total Income</p>
 							</div>
 						</div>
 					<Button href={`/institutions/edit/payment`} variant='contained' fullWidth>Update Payment Method</Button>
