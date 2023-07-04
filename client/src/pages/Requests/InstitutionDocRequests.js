@@ -403,7 +403,7 @@ function InstitutionDocRequests() {
 							</div>
 						</div>
                         <div id='DocumentsAnalytics__Member' >
-							<FileOpenIcon id="DocumentsAnalytics__Member__Avatar"/>
+							<AccountBalanceWalletIcon style={{justifyContent:"start"}} id="DocumentsAnalytics__Member__Avatar"/>
 							<div>
 								<h5>₱ {getTotalIncome(requests).toFixed(2)}</h5>
 								<p className='BodyText3'>Total Income</p>
