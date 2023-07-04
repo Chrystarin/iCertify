@@ -54,7 +54,6 @@ function InstitutionDocRequests() {
             })
             .then((response) => { 
                 console.log(response.data)
-                console.log(response.data[0].details.offeredDoc.price.$numberDecimal)
                 setRequests(response.data)
                 filterData(response.data)
             });
@@ -65,7 +64,7 @@ function InstitutionDocRequests() {
 
         requests.map((request)=>{
             if(request.status === 'completed')
-            total += parseFloat(request.details.offeredDoc.price.$numberDecimal)
+            total += parseFloat(request?.details?.offeredDoc?.price?.$numberDecimal)
         })
 
         return total;
