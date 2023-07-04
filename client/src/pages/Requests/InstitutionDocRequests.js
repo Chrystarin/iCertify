@@ -402,8 +402,8 @@ function InstitutionDocRequests() {
 								<p className='BodyText3'>Total Released Documents</p>
 							</div>
 						</div>
-                        <div id='DocumentsAnalytics__Member' >
-							<AccountBalanceWalletIcon style={{justifyContent:"start"}} id="DocumentsAnalytics__Member__Avatar"/>
+                        <div id='DocumentsAnalytics__Member' style={{justifyContent:"start"}} >
+							<AccountBalanceWalletIcon id="DocumentsAnalytics__Member__Avatar"/>
 							<div>
 								<h5>₱ {getTotalIncome(requests).toFixed(2)}</h5>
 								<p className='BodyText3'>Total Income</p>
