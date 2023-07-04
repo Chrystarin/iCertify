@@ -368,9 +368,9 @@ function InstitutionDocRequests() {
 						</div>
 						<h5 id='DocumentsAnalytics__Title'>Documents Analytics</h5>
 						<div className="parent">
-                            <div className="div0">
+                            <div className="div0" style={{textAlign: 'center'}}>
 								<h5>₱ {getTotalIncome(requests)}</h5>
-								<p className='BodyText2'>To Verify</p>
+								<p className='BodyText2'>Total Income</p>
 							</div>
 							<div className="div1">
 								<h5>{requestPending.length + requestPaid.length}</h5>
