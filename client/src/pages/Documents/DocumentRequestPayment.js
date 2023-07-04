@@ -64,8 +64,8 @@ function DocumentRequestForm() {
             //     status: 'paid',
             // }))
 
-            formData.append(requestId, reqId)
-            formData.append(status, 'paid')
+            formData.append('requestId', reqId)
+            formData.append('status', 'paid')
                 
             await axiosInstance.patch(
                 `requests`,
