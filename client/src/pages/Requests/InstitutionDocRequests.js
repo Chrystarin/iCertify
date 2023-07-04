@@ -59,6 +59,17 @@ function InstitutionDocRequests() {
             });
     };
 
+    const getTotalIncome = (requests) => {
+        let total = 0.0;
+
+        requests.map((request)=>{
+            if(request.status === 'completed')
+            total += parseFloat(request.details.offeredDoc.price.$numberDecimal)
+        })
+
+        return total;
+    }
+
 	const [anchorElDropDownDocument, setAnchorElDropDownDocument] = React.useState(null);
 	const open = Boolean(anchorElDropDownDocument);
 	
@@ -357,6 +368,10 @@ function InstitutionDocRequests() {
 						</div>
 						<h5 id='DocumentsAnalytics__Title'>Documents Analytics</h5>
 						<div className="parent">
+                            <div className="div0">
+								<h5>₱ {getTotalIncome(requests)}</h5>
+								<p className='BodyText2'>To Verify</p>
+							</div>
 							<div className="div1">
 								<h5>{requestPending.length + requestPaid.length}</h5>
 								<p className='BodyText2'>To Verify</p>
