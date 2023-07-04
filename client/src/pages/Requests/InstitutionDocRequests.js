@@ -52,6 +52,7 @@ function InstitutionDocRequests() {
                 }
             })
             .then((response) => { 
+                console.log(response.data)
                 setRequests(response.data)
                 filterData(response.data)
             });
