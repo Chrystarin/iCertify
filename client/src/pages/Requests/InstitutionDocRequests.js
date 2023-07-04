@@ -53,6 +53,7 @@ function InstitutionDocRequests() {
             })
             .then((response) => { 
                 console.log(response.data)
+                console.log(response.data[0].details.offeredDoc.price.$numberDecimal)
                 setRequests(response.data)
                 filterData(response.data)
             });
