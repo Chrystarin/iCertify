@@ -190,6 +190,8 @@ const processRequest = async (req, res, next) => {
 
     console.log(req.body)
 
+    console.log(requestId)
+
 	// Validating inputs
 	isString(requestId, 'Request ID');
 	isString(status, 'Request Status');

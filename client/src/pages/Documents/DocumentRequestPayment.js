@@ -59,10 +59,13 @@ function DocumentRequestForm() {
         try {
             const formData = new FormData();
             formData.append('proof', proofOfPayment);
-            formData.append('body', JSON.stringify({
-                requestId: reqId,
-                status: 'paid',
-            }))
+            // formData.append('body', JSON.stringify({
+            //     requestId: reqId,
+            //     status: 'paid',
+            // }))
+
+            formData.append(requestId, reqId)
+            formData.append(status, 'paid')
                 
             await axiosInstance.patch(
                 `requests`,
