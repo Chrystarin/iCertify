@@ -123,7 +123,8 @@ function CreateDocument({ manual }) {
             const _type = manual ? form.docTitle : request.details.offeredDoc.title;
             const _uri = path;
             const _docId = manual ? form.docId : request.details.offeredDoc.docId;
-            const opts = { value: ethers.BigNumber.from('333333333333333333') };
+            // const opts = { value: ethers.BigNumber.from('333333333333333333') };
+            const opts = { value: ethers.BigNumber.from('111111111111111111') };
 
             // await contract.estimateGas
             //     .sendDocument(_receiver, _type, _uri, _docId, opts)
